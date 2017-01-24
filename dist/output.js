@@ -45,20 +45,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Stack = __webpack_require__(1);
-	__webpack_require__(2);
+	Machine = __webpack_require__(2);
+	foo = __webpack_require__(4);
 
-	var stack = new Stack();
-	stack.push(1);
-	console.log(stack.peek());
-	stack.push(2);
-	console.log(stack.peek());
-	stack.command("+");
-	console.log(stack.peek());
-	stack.push(3);
-	stack.command("*");
-	console.log(stack.peek());
+	var machine = new Machine(foo);
 
-	console.log("it works");
 
 /***/ },
 /* 1 */
@@ -156,8 +147,78 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	
+	var Machine = function Machine(f){
+	    var mode = {
+	        stack : null,
+	        tag : "go",
+	        data : f
+	    }
 
+	    while (mode.tag === "go"){
+	        mode = mode.data(mode.stack);
+	            while(mode.tag != "go" && mode.stack != null){
+	                switch(mode.tag) {
+	                    case ("num"):
+	                        switch(mode.stack.tag) {
+	                            case "left":
+	                                mode = {
+	                                    stack :  {
+	                                        prev : mode.stack.prev,
+	                                        tag : "right",
+	                                        data : mode.data
+	                                    },
+	                                    tag : "go",
+	                                    data : mode.stack.data 
+	                                }
+	                            break;
+	                            case "right":
+	                                mode = {
+	                                    stack : mode.stack.prev,
+	                                    tag : "num",
+	                                    data : mode.stack.data + mode.data
+	                                }
+	                            break;
+	                        }
+	                    break;
+	                }
+	            }
+	        }
+
+	        console.log(mode.data);
+	    }
+
+
+	module.exports = Machine;
+
+/***/ },
+/* 3 */,
+/* 4 */
+/***/ function(module, exports) {
+
+	// 2 + 3
+	var ProgramFoo = function (s){
+
+	    this.foo0 = function (s) {
+	        return {
+	            stack : s,
+	            tag:  "num",
+	            data: 3 
+	        }
+	    }
+
+	    return {
+	            stack : {
+	                prev : s,
+	                tag : "left",
+	                data : this.foo0 //function
+	            },
+	            tag : "num",
+	            data : 2
+	    }
+	    
+	}
+
+	module.exports = ProgramFoo; 
 
 /***/ }
 /******/ ]);
