@@ -50,7 +50,6 @@
 
 	var machine = new Machine(foo);
 
-
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
@@ -147,45 +146,53 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	var Machine = function Machine(f){
+	var Machine = function Machine(f) {
 	    var mode = {
-	        stack : null,
-	        tag : "go",
-	        data : f
+	        stack: null,
+	        tag: "go",
+	        data: f
 	    }
 
-	    while (mode.tag === "go"){
+	var i = 0;
+	    while (mode.tag === "go") {
+	        console.log(mode);
 	        mode = mode.data(mode.stack);
-	            while(mode.tag != "go" && mode.stack != null){
-	                switch(mode.tag) {
-	                    case ("num"):
-	                        switch(mode.stack.tag) {
-	                            case "left":
-	                                mode = {
-	                                    stack :  {
-	                                        prev : mode.stack.prev,
-	                                        tag : "right",
-	                                        data : mode.data
-	                                    },
-	                                    tag : "go",
-	                                    data : mode.stack.data 
-	                                }
+	        console.log(mode);
+	        while (mode.tag != "go" && mode.stack != null) {
+	            switch (mode.tag) {
+	                case ("num"):
+	                    switch (mode.stack.tag) {
+	                        case "left":
+	                            mode = {
+	                                stack: {
+	                                    prev: mode.stack.prev,
+	                                    tag: "right",
+	                                    data: mode.data
+	                                },
+	                                tag: "go",
+	                                data: mode.stack.data
+	                            }
+	                            
 	                            break;
-	                            case "right":
-	                                mode = {
-	                                    stack : mode.stack.prev,
-	                                    tag : "num",
-	                                    data : mode.stack.data + mode.data
-	                                }
+	                        case "right":
+	                            mode = {
+	                                stack: mode.stack.prev,
+	                                tag: "num",
+	                                data: mode.stack.data + mode.data
+	                            }
 	                            break;
-	                        }
+	                    }
 	                    break;
-	                }
 	            }
 	        }
-
-	        console.log(mode.data);
 	    }
+
+	    console.log(mode.data);
+
+	    this.printStack = function() {
+	        // TODO
+	    }
+	}
 
 
 	module.exports = Machine;
@@ -195,30 +202,42 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	// 2 + 3
-	var ProgramFoo = function (s){
+	// 2 + 3 + 5
+	var ProgramFoo2 = function (s) {
 
 	    this.foo0 = function (s) {
 	        return {
-	            stack : s,
-	            tag:  "num",
-	            data: 3 
+	            stack:  {
+	                prev: s,
+	                tag: "right",
+	                data: this.foo1
+	            },
+	            tag: "num",
+	            data: 3
+	        }
+	    }
+
+	    this.foo1 = function (s) {
+	        return {
+	            stack: s,
+	            tag: "num",
+	            data: 5
 	        }
 	    }
 
 	    return {
-	            stack : {
-	                prev : s,
-	                tag : "left",
-	                data : this.foo0 //function
-	            },
-	            tag : "num",
-	            data : 2
+	        stack: {
+	            prev: s,
+	            tag: "left",
+	            data: this.foo0 //function
+	        },
+	        tag: "num",
+	        data: 2
 	    }
-	    
+
 	}
 
-	module.exports = ProgramFoo; 
+	module.exports = ProgramFoo2;
 
 /***/ }
 /******/ ]);
