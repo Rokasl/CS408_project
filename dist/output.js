@@ -46,7 +46,7 @@
 
 	Stack = __webpack_require__(1);
 	Machine = __webpack_require__(2);
-	foo = __webpack_require__(4);
+	foo = __webpack_require__(3);
 
 	var machine = new Machine(foo);
 
@@ -147,16 +147,16 @@
 /***/ function(module, exports) {
 
 	var Machine = function Machine(f) {
+
 	    var mode = {
 	        stack: null,
 	        tag: "go",
-	        data: f
+	        data: 0
 	    }
 
-	var i = 0;
 	    while (mode.tag === "go") {
 	        console.log(mode);
-	        mode = mode.data(mode.stack);
+	        mode = f[mode.data](mode.stack);
 	        console.log(mode);
 	        while (mode.tag != "go" && mode.stack != null) {
 	            switch (mode.tag) {
@@ -198,44 +198,42 @@
 	module.exports = Machine;
 
 /***/ },
-/* 3 */,
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
-	// 2 + 3 + 5
-	var ProgramFoo2 = function (s) {
+	var ProgramFoo2 = [];
 
-	    this.foo0 = function (s) {
-	        return {
-	            stack:  {
-	                prev: s,
-	                tag: "right",
-	                data: this.foo1
-	            },
-	            tag: "num",
-	            data: 3
-	        }
-	    }
-
-	    this.foo1 = function (s) {
-	        return {
-	            stack: s,
-	            tag: "num",
-	            data: 5
-	        }
-	    }
-
+	ProgramFoo2[1] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
 	            tag: "left",
-	            data: this.foo0 //function
+	            data: 2
+	        },
+	        tag: "num",
+	        data: 3
+	    }
+	};
+	ProgramFoo2[2] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "num",
+	        data: 5
+	    }
+	};
+	ProgramFoo2[0] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "left",
+	            data: 1
 	        },
 	        tag: "num",
 	        data: 2
 	    }
+	};
 
-	}
+
 
 	module.exports = ProgramFoo2;
 

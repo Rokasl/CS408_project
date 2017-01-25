@@ -1,14 +1,14 @@
 var Machine = function Machine(f) {
+
     var mode = {
         stack: null,
         tag: "go",
-        data: f
+        data: 0
     }
 
-var i = 0;
     while (mode.tag === "go") {
         console.log(mode);
-        mode = mode.data(mode.stack);
+        mode = f[mode.data](mode.stack);
         console.log(mode);
         while (mode.tag != "go" && mode.stack != null) {
             switch (mode.tag) {

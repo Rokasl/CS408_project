@@ -19,6 +19,7 @@ var ProgramFoo = function (s) {
         data: 2
     }
 
+
 }
 
 module.exports = ProgramFoo;

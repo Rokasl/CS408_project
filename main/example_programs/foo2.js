@@ -1,36 +1,35 @@
-// 2 + 3 + 5
-var ProgramFoo2 = function (s) {
+var ProgramFoo2 = [];
 
-    this.foo0 = function (s) {
-        return {
-            stack:  {
-                prev: s,
-                tag: "right",
-                data: this.foo1
-            },
-            tag: "num",
-            data: 3
-        }
-    }
-
-    this.foo1 = function (s) {
-        return {
-            stack: s,
-            tag: "num",
-            data: 5
-        }
-    }
-
+ProgramFoo2[1] = function (s) {
     return {
         stack: {
             prev: s,
             tag: "left",
-            data: this.foo0 //function
+            data: 2
+        },
+        tag: "num",
+        data: 3
+    }
+};
+ProgramFoo2[2] = function (s) {
+    return {
+        stack: s,
+        tag: "num",
+        data: 5
+    }
+};
+ProgramFoo2[0] = function (s) {
+    return {
+        stack: {
+            prev: s,
+            tag: "left",
+            data: 1
         },
         tag: "num",
         data: 2
     }
+};
 
-}
+
 
 module.exports = ProgramFoo2;
