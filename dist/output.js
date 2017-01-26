@@ -44,106 +44,13 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	Stack = __webpack_require__(1);
-	Machine = __webpack_require__(2);
-	foo = __webpack_require__(3);
+	Machine = __webpack_require__(1);
+	foo = __webpack_require__(2);
 
 	var machine = new Machine(foo);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	var Stack = function Stack() {
-	    var n = 0;       // size of the stack
-	    var first = null;   // top of stack
-
-	    var Node = function Node() {
-	        var item;
-	        var next;
-
-	        this.getNext = function() {
-	            return next;
-	        }
-	        this.setNext = function(n) {
-	            next = n;
-	        }
-	        this.getItem = function() {
-	            return item;
-	        }
-	        this.setItem = function(i) {
-	            item = i;
-	        }
-	    }
-
-	    this.isEmpty = function() {
-	        return first === null;
-	    }
-
-	    this.size = function()  {
-	        return n;
-	    }
-
-	    // add an element to the stack
-	    this.push  = function (item) {
-	        var oldfirst = first;
-	        first = new Node();
-	        first.setItem(item);
-	        first.setNext(oldfirst);
-	        n++;
-	    }
-
-	        // delete and return the most recently added element
-	    this.pop = function () {
-	        if (this.isEmpty()) {
-	            console.log("can't pop, empty stack");
-	            return;
-	        }
-	        var item = first.getItem();      // save item to return
-	        first = first.getNext();            // delete first node
-	        n--;
-	        return item;                   // return the saved item
-	    }
-
-	    this.print = function() {
-	        for (var i = 0; i <= n; i++){
-	            console.log(this.pop());
-	        }
-	    }
-
-	    this.peek = function(){
-	        if(!this.isEmpty()) {
-	            return first.getItem();
-	        }
-	       
-	    }
-
-	    this.command = function(command) {
-	        fst = this.pop();
-	        snd = this.pop();
-	        switch(command) {
-	            case "*":
-	                this.push(fst * snd);
-	            break;
-	            case "+":
-	                this.push(fst + snd);
-	            break;
-	            default:
-	                this.push(snd);
-	                this.push(fst);
-	            break;
-	        }
-
-	    }
-
-	}
-
-	module.exports = Stack; 
-
-
-
-/***/ },
-/* 2 */
 /***/ function(module, exports) {
 
 	var Machine = function Machine(f) {
@@ -172,7 +79,7 @@
 	                                tag: "go",
 	                                data: mode.stack.data
 	                            }
-	                            
+
 	                            break;
 	                        case "right":
 	                            mode = {
@@ -180,16 +87,22 @@
 	                                tag: "num",
 	                                data: mode.stack.data + mode.data
 	                            }
-	                            break;
+	                        break;
+	                        case "catch":
+
+	                        break;
 	                    }
-	                    break;
+	                break;
+	                case ("throw"):
+	                
+	                break;
 	            }
 	        }
 	    }
 
 	    console.log(mode.data);
 
-	    this.printStack = function() {
+	    this.printStack = function () {
 	        // TODO
 	    }
 	}
@@ -198,7 +111,7 @@
 	module.exports = Machine;
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports) {
 
 	var ProgramFoo2 = [];
