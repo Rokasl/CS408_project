@@ -24,7 +24,7 @@ var Machine = function Machine(f) {
                                 tag: "go",
                                 data: mode.stack.data
                             }
-                            
+
                             break;
                         case "right":
                             mode = {
@@ -32,16 +32,22 @@ var Machine = function Machine(f) {
                                 tag: "num",
                                 data: mode.stack.data + mode.data
                             }
-                            break;
+                        break;
+                        case "catch":
+
+                        break;
                     }
-                    break;
+                break;
+                case ("throw"):
+                
+                break;
             }
         }
     }
 
     console.log(mode.data);
 
-    this.printStack = function() {
+    this.printStack = function () {
         // TODO
     }
 }
