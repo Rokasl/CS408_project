@@ -1,0 +1,140 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.30)  30 JAN 2017 21:23
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**report.tex
+(./report.tex
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 3 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks14
+\ex@=\dimen103
+))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+Package: stmaryrd 1994/03/03 St Mary's Road symbol package
+\symstmry=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
+(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
+)
+(/usr/share/texmf/tex/latex/polytable/polytable.sty
+Package: polytable 2013/07/18 v0.8.5 `polytable' package (Andres Loeh)
+
+(/usr/share/texmf/tex/latex/polytable/lazylist.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen104
+\extrarowheight=\dimen105
+\NC@list=\toks15
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
+\PT@colwidth=\dimen106
+\PT@cols=\count88
+\PT@table=\count89
+\PT@toks=\toks16
+\PT@in=\read1
+\PT@out=\write3
+)
+\mathindent=\dimen107
+\blanklineskip=\skip45
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count90
+\calc@Bcount=\count91
+\calc@Adimen=\dimen108
+\calc@Bdimen=\dimen109
+\calc@Askip=\skip46
+\calc@Bskip=\skip47
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count92
+\calc@Cskip=\skip48
+) (./report.aux)
+\openout1 = `report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 269.
+LaTeX Font Info:    ... okay on input line 269.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 269.
+LaTeX Font Info:    ... okay on input line 269.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 269.
+LaTeX Font Info:    ... okay on input line 269.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 269.
+LaTeX Font Info:    ... okay on input line 269.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 269.
+LaTeX Font Info:    ... okay on input line 269.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 269.
+LaTeX Font Info:    ... okay on input line 269.
+LaTeX Font Info:    Try loading font information for U+msa on input line 272.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 272.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+stmry on input line 272.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/Ustmry.fd) [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+\openout3 = `report.ptb'.
+
+ [1] (./report.aux) ) 
+Here is how much of TeX's memory you used:
+ 1235 strings out of 494953
+ 14485 string characters out of 6180977
+ 56940 words of memory out of 5000000
+ 4535 multiletter control sequences out of 15000+600000
+ 14565 words of font info for 58 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 25i,6n,26p,157b,192s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on report.pdf (2 pages, 69390 bytes).
+PDF statistics:
+ 39 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
