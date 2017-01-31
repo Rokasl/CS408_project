@@ -9,10 +9,16 @@ data  Expr  = Val Int
 
 newtype CodeGen val = MkCodeGen {
             codeGen :: Int -> ([(Int, String)], Int, val)
-        } 
+        }  
+       
 
 -- instance (Show a) => Show (CodeGen a) where
---     show (MkCodeGen )  = s   
+--      show MkCodeGen a => ([(s, i)], k, a)  = 
+--                 "([" ++ show s ++ "," ++ show i ++ ")," ++ show k ++ 
+--                     "," ++ show a ++ "])"   
+
+instance Show (CodeGen a) where
+        show a = ""
 
 instance Functor CodeGen where
         fmap = liftM
@@ -35,7 +41,7 @@ genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
 
 compile :: Expr -> CodeGen Int
 compile e = help "s" e where
-    help s (Val n)| trace ((show s) ++ " " ++ show n) True = genDef $
+    help s (Val n) = genDef $
         "function(s){return{stack:"++ s ++ ", tag:\"num\", data:"++ show n ++"}}"
     help s (e1 :+: e2) = do
         f2 <- compile e2

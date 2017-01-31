@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Machine = __webpack_require__(1);
-	foo = __webpack_require__(2);
+	foo = __webpack_require__(3);
 
 	var machine = new Machine(foo);
 
@@ -62,9 +62,9 @@
 	    }
 
 	    while (mode.tag === "go") {
-	        console.log(mode);
+
 	        mode = f[mode.data](mode.stack);
-	        console.log(mode);
+
 	        while (mode.tag != "go" && mode.stack != null) {
 	            switch (mode.tag) {
 	                case ("num"):
@@ -79,7 +79,6 @@
 	                                tag: "go",
 	                                data: mode.stack.data
 	                            }
-
 	                            break;
 	                        case "right":
 	                            mode = {
@@ -87,15 +86,40 @@
 	                                tag: "num",
 	                                data: mode.stack.data + mode.data
 	                            }
-	                        break;
+	                            break;
 	                        case "catch":
-
-	                        break;
+	                            if (mode.stack.i === 1) {
+	                                mode.stack = mode.stack.prev;
+	                            } else {
+	                                mode = {
+	                                    stack: {
+	                                        prev: mode.stack.prev,
+	                                        tag: "catch",
+	                                        data: mode.data,
+	                                        i: 1
+	                                    },
+	                                    tag: "go",
+	                                    data: mode.stack.data
+	                                }
+	                            }
+	                            break;
 	                    }
-	                break;
+	                    break;
 	                case ("throw"):
-	                
-	                break;
+	                    if (mode.stack.tag === "catch") {
+	                        mode = {
+	                            stack: null,
+	                            tag: "num",
+	                            data: mode.stack.data
+	                        }
+	                    } else {
+	                        mode = {
+	                            stack: mode.stack.prev,
+	                            tag: "throw",
+	                            data: "Unhandled exception!"
+	                        }
+	                    }
+	                    break;
 	            }
 	        }
 	    }
@@ -111,12 +135,13 @@
 	module.exports = Machine;
 
 /***/ },
-/* 2 */
+/* 2 */,
+/* 3 */
 /***/ function(module, exports) {
 
-	var ProgramFoo2 = [];
+	var ProgramFoo3 = [];
 
-	ProgramFoo2[1] = function (s) {
+	ProgramFoo3[1] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
@@ -127,18 +152,19 @@
 	        data: 3
 	    }
 	};
-	ProgramFoo2[2] = function (s) {
+	ProgramFoo3[2] = function (s) {
 	    return {
 	        stack: s,
 	        tag: "num",
 	        data: 5
 	    }
 	};
-	ProgramFoo2[0] = function (s) {
+	ProgramFoo3[0] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
-	            tag: "left",
+	            tag: "catch",
+	            i: 0,
 	            data: 1
 	        },
 	        tag: "num",
@@ -148,7 +174,7 @@
 
 
 
-	module.exports = ProgramFoo2;
+	module.exports = ProgramFoo3;
 
 /***/ }
 /******/ ]);

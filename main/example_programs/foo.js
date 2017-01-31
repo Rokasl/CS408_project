@@ -1,25 +1,14 @@
-// 2 + 3
-var ProgramFoo = function (s) {
+var ProgramFoo = [];
 
-    this.foo0 = function (s) {
-        return {
-            stack: s,
-            tag: "num",
-            data: 3
-        }
-    }
-
+ProgramFoo[0] = function (s) {
     return {
-        stack: {
-            prev: s,
-            tag: "left",
-            data: this.foo0 //function
-        },
+        stack: s,
         tag: "num",
-        data: 2
+        data: 3
     }
+};
 
 
-}
+
 
 module.exports = ProgramFoo;

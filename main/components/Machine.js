@@ -7,9 +7,9 @@ var Machine = function Machine(f) {
     }
 
     while (mode.tag === "go") {
-        console.log(mode);
+
         mode = f[mode.data](mode.stack);
-        console.log(mode);
+
         while (mode.tag != "go" && mode.stack != null) {
             switch (mode.tag) {
                 case ("num"):
@@ -24,7 +24,6 @@ var Machine = function Machine(f) {
                                 tag: "go",
                                 data: mode.stack.data
                             }
-
                             break;
                         case "right":
                             mode = {
@@ -32,15 +31,40 @@ var Machine = function Machine(f) {
                                 tag: "num",
                                 data: mode.stack.data + mode.data
                             }
-                        break;
+                            break;
                         case "catch":
-
-                        break;
+                            if (mode.stack.i === 1) {
+                                mode.stack = mode.stack.prev;
+                            } else {
+                                mode = {
+                                    stack: {
+                                        prev: mode.stack.prev,
+                                        tag: "catch",
+                                        data: mode.data,
+                                        i: 1
+                                    },
+                                    tag: "go",
+                                    data: mode.stack.data
+                                }
+                            }
+                            break;
                     }
-                break;
+                    break;
                 case ("throw"):
-                
-                break;
+                    if (mode.stack.tag === "catch") {
+                        mode = {
+                            stack: null,
+                            tag: "num",
+                            data: mode.stack.data
+                        }
+                    } else {
+                        mode = {
+                            stack: mode.stack.prev,
+                            tag: "throw",
+                            data: "Unhandled exception!"
+                        }
+                    }
+                    break;
             }
         }
     }
