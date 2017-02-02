@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Machine = __webpack_require__(1);
-	foo = __webpack_require__(4);
+	foo = __webpack_require__(2);
 
 	var machine = new Machine(foo);
 
@@ -55,6 +55,7 @@
 
 	var Machine = function Machine(f) {
 
+	    var save = [];
 	    var mode = {
 	        stack: null,
 	        tag: "go",
@@ -139,14 +140,15 @@
 	                    }
 	                    break;
 	                case ("get"):
+	                    save.push(mode); // save stack (TODO for better saving)
 	                    if (mode.stack.tag === ":=" && mode.data === mode.stack.name){
 	                        mode = {
-	                            stack: null,
+	                            stack: save[0].stack, //get back full stack
 	                            tag: "num",
 	                            data: mode.stack.data
 	                        }
 	                    } else if (mode.stack.prev != null) {
-	                        mode = { // currently throwing away stack
+	                        mode = { 
 	                            stack: mode.stack.prev,
 	                            tag: "get",
 	                            data: mode.data
@@ -162,7 +164,9 @@
 	            }
 	        }
 	    }
-
+	    console.log("----END----");
+	    console.log(save);
+	    console.log(mode);
 	    console.log(mode.data);
 
 	    this.printStack = function () {
@@ -174,9 +178,7 @@
 	module.exports = Machine;
 
 /***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */
+/* 2 */
 /***/ function(module, exports) {
 
 	var ProgramFoo5 = [];
@@ -189,7 +191,7 @@
 	            data: 2
 	        },
 	        tag: "num",
-	        data: 33
+	        data: 5
 	    }
 	};
 
@@ -209,7 +211,7 @@
 	    return {
 	        stack: s,
 	        tag: "get",
-	        data: "variable"
+	        data: "variabsle"
 	    }
 	};
 
@@ -223,7 +225,7 @@
 	            i: 0
 	        },
 	        tag: "num",
-	        data: 2
+	        data: 1000000
 	    }
 	}
 

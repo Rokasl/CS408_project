@@ -1,5 +1,6 @@
 var Machine = function Machine(f) {
 
+    var save = [];
     var mode = {
         stack: null,
         tag: "go",
@@ -84,14 +85,15 @@ var Machine = function Machine(f) {
                     }
                     break;
                 case ("get"):
+                    save.push(mode); // save stack (TODO for better saving)
                     if (mode.stack.tag === ":=" && mode.data === mode.stack.name){
                         mode = {
-                            stack: null,
+                            stack: save[0].stack, //get back full stack
                             tag: "num",
                             data: mode.stack.data
                         }
                     } else if (mode.stack.prev != null) {
-                        mode = { // currently throwing away stack
+                        mode = { 
                             stack: mode.stack.prev,
                             tag: "get",
                             data: mode.data
@@ -107,7 +109,9 @@ var Machine = function Machine(f) {
             }
         }
     }
-
+    console.log("----END----");
+    console.log(save);
+    console.log(mode);
     console.log(mode.data);
 
     this.printStack = function () {

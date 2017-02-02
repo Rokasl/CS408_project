@@ -8,7 +8,7 @@ ProgramFoo5[1] = function (s) {
             data: 2
         },
         tag: "num",
-        data: 33
+        data: 5
     }
 };
 
@@ -28,7 +28,7 @@ ProgramFoo5[3] = function (s) {
     return {
         stack: s,
         tag: "get",
-        data: "variable"
+        data: "variabsle"
     }
 };
 
@@ -42,7 +42,7 @@ ProgramFoo5[0] = function (s) {
             i: 0
         },
         tag: "num",
-        data: 2
+        data: 1000000
     }
 }
 
