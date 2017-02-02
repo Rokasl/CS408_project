@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Machine = __webpack_require__(1);
-	foo = __webpack_require__(3);
+	foo = __webpack_require__(4);
 
 	var machine = new Machine(foo);
 
@@ -64,6 +64,7 @@
 	    while (mode.tag === "go") {
 
 	        mode = f[mode.data](mode.stack);
+	        console.log(mode);
 
 	        while (mode.tag != "go" && mode.stack != null) {
 	            switch (mode.tag) {
@@ -103,6 +104,23 @@
 	                                }
 	                            }
 	                            break;
+	                        case ":=":
+	                            if (mode.stack.i === 1) {
+	                                mode.stack = mode.stack.prev;
+	                            } else {
+	                                mode = {
+	                                    stack: {
+	                                        prev: mode.stack.prev,
+	                                        tag: ":=",
+	                                        data: mode.data,
+	                                        name: mode.stack.name,
+	                                        i: 1
+	                                    },
+	                                    tag: "go",
+	                                    data: mode.stack.data
+	                                }
+	                            }
+	                            break;
 	                    }
 	                    break;
 	                case ("throw"):
@@ -117,6 +135,27 @@
 	                            stack: mode.stack.prev,
 	                            tag: "throw",
 	                            data: "Unhandled exception!"
+	                        }
+	                    }
+	                    break;
+	                case ("get"):
+	                    if (mode.stack.tag === ":=" && mode.data === mode.stack.name){
+	                        mode = {
+	                            stack: null,
+	                            tag: "num",
+	                            data: mode.stack.data
+	                        }
+	                    } else if (mode.stack.prev != null) {
+	                        mode = { // currently throwing away stack
+	                            stack: mode.stack.prev,
+	                            tag: "get",
+	                            data: mode.data
+	                        }
+	                    } else {
+	                        mode = { // throw exception!
+	                            stack: null,
+	                            tag: "throw",
+	                            data: "Exception: Undifined expresion: " + mode.data
 	                        }
 	                    }
 	                    break;
@@ -136,12 +175,13 @@
 
 /***/ },
 /* 2 */,
-/* 3 */
+/* 3 */,
+/* 4 */
 /***/ function(module, exports) {
 
-	var ProgramFoo3 = [];
+	var ProgramFoo5 = [];
 
-	ProgramFoo3[1] = function (s) {
+	ProgramFoo5[1] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
@@ -149,32 +189,48 @@
 	            data: 2
 	        },
 	        tag: "num",
-	        data: 3
+	        data: 33
 	    }
 	};
-	ProgramFoo3[2] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "num",
-	        data: 5
-	    }
-	};
-	ProgramFoo3[0] = function (s) {
+
+	ProgramFoo5[2] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
-	            tag: "catch",
-	            i: 0,
-	            data: 1
+	            tag: "left",
+	            data: 3
+	        },
+	        tag: "num",
+	        data: 6
+	    }
+	};
+
+	ProgramFoo5[3] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "get",
+	        data: "variable"
+	    }
+	};
+
+	ProgramFoo5[0] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            name : "variable",
+	            tag: ":=",
+	            data: 1, 
+	            i: 0
 	        },
 	        tag: "num",
 	        data: 2
 	    }
-	};
+	}
 
 
 
-	module.exports = ProgramFoo3;
+
+	module.exports = ProgramFoo5;
 
 /***/ }
 /******/ ]);

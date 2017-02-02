@@ -2,8 +2,15 @@ import Control.Applicative
 import Control.Monad (liftM, ap)
 import Debug.Trace
 
+data Name = String
+            deriving Show
+
 data  Expr  = Val Int 
             | Expr :+: Expr
+            | Catch Expr Expr
+            | Get Name
+            | Name := Expr
+            | Expr :> Expr
             deriving Show
             
 
@@ -17,8 +24,7 @@ newtype CodeGen val = MkCodeGen {
 --                 "([" ++ show s ++ "," ++ show i ++ ")," ++ show k ++ 
 --                     "," ++ show a ++ "])"   
 
-instance Show (CodeGen a) where
-        show a = ""
+
 
 instance Functor CodeGen where
         fmap = liftM

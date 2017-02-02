@@ -1,11 +1,10 @@
-var ProgramFoo4 = [];
+var ProgramFoo5 = [];
 
-ProgramFoo4[1] = function (s) {
+ProgramFoo5[1] = function (s) {
     return {
         stack: {
             prev: s,
-            tag: "catch",
-            i: 0,
+            tag: "left",
             data: 2
         },
         tag: "num",
@@ -13,7 +12,7 @@ ProgramFoo4[1] = function (s) {
     }
 };
 
-ProgramFoo4[2] = function (s) {
+ProgramFoo5[2] = function (s) {
     return {
         stack: {
             prev: s,
@@ -25,33 +24,22 @@ ProgramFoo4[2] = function (s) {
     }
 };
 
-ProgramFoo4[3] = function (s) {
+ProgramFoo5[3] = function (s) {
     return {
         stack: s,
-        tag: "throw",
-        data: 6
+        tag: "get",
+        data: "variable"
     }
 };
 
-ProgramFoo4[0] = function (s) {
-    return {
-        stack: {
-            prev: s,
-            tag: "left",
-            data: 1
-        },
-        tag: "num",
-        data: 2
-    }
-};
-
-ProgramFoo3[0] = function (s) {
+ProgramFoo5[0] = function (s) {
     return {
         stack: {
             prev: s,
             name : "variable",
             tag: ":=",
             data: 1, 
+            i: 0
         },
         tag: "num",
         data: 2
@@ -59,4 +47,6 @@ ProgramFoo3[0] = function (s) {
 }
 
 
-module.exports = ProgramFoo4;
+
+
+module.exports = ProgramFoo5;

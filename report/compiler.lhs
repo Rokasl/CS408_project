@@ -15,6 +15,31 @@
 
 \newcommand{\F}{\mathsf}
 
+\usepackage{listings}
+\usepackage{upquote}
+\lstset{
+    numbers=left,                
+    numberstyle=\scriptsize,
+    tabsize=4,
+    rulecolor=,
+    language=java,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\ttfamily
+}
+
+
 
 \begin{document}
 \title{CS408 Project Report}
@@ -43,9 +68,44 @@ in the browser. So, for example, user would be able to edit their MyPlace pages
 using Frank language. This involves creating Virtual Machine (abstract machine)
 which can support Frank structure.
 
-\section{Compiler}
+\section{Simple Compiler}
 
-\section{Abstract Machine}
+
+
+\section{Simple Abstract Machine}
+
+Basic Abstract Machine structure:
+
+\begin{lstlisting}
+     Mode: {
+        stack: {
+            prev: "", // pointer to previous stack
+            tag: "", // opperation 
+            data: "" // pointer to next mode to parse
+        }
+        tag: "",  // data type, example "num" for number
+        data: "" // actual value to place on stack
+    }
+\end{lstlisting}
+
+
+
+Example program:
+
+\begin{lstlisting}
+    var ProgramFoo = [];
+
+ProgramFoo[0] = function (s) {
+    return {
+        stack: s,
+        tag: "num",
+        data: 3
+    }
+};
+
+\end{lstlisting}
+
+This program will place 3 on top of the stack and halt.
 
 \section{Project Evaluation}
 
