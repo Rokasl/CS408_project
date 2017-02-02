@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass[12pt]{report}
 
 
 %include lhs2TeX.fmt
@@ -15,6 +15,7 @@
 
 \newcommand{\F}{\mathsf}
 
+\usepackage{textcomp}
 \usepackage{listings}
 \usepackage{upquote}
 \lstset{
@@ -70,24 +71,42 @@ which can support Frank structure.
 
 \section{Simple Compiler}
 
+> instance Monad CodeGen where
+>        return val = MkCodeGen $ \ next -> ([], next, val)
+>        ag >>= a2bg = MkCodeGen $ \ next ->
+>            case codeGen ag next of
+>                (ac, next, a) -> case 
+>                    codeGen(a2bg a) next of
+>                        (bc, next, b) -> (ac ++ bc, next, b)
+
+>   genDef :: String -> CodeGen Int
+>   genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
+
+
+>   compile :: Expr -> CodeGen Int
+>   compile e = help "s" e where
+>       help s (Val n) = genDef $
+>         "function(s){return{stack:"++ s ++ ",tag:\"num\", data:"++ show n ++"}}"
+>       help s (e1 :+: e2) = do
+>           f2 <- compile e2
+>           help ("{prev:" ++ s ++ ", tag:\"left\", data:"++ show f2 ++"}") e1   
 
 
 \section{Simple Abstract Machine}
 
-Basic Abstract Machine structure:
+Basic Stack structure:
 
 \begin{lstlisting}
      Mode: {
-        stack: {
-            prev: "", // pointer to previous stack
+        stack: { // rest of stack
+            prev: "", // previous stack
             tag: "", // opperation 
-            data: "" // pointer to next mode to parse
+            data: "" // pointer to next frame
         }
         tag: "",  // data type, example "num" for number
-        data: "" // actual value to place on stack
+        data: "" // value
     }
 \end{lstlisting}
-
 
 
 Example program:
@@ -106,6 +125,9 @@ ProgramFoo[0] = function (s) {
 \end{lstlisting}
 
 This program will place 3 on top of the stack and halt.
+
+
+
 
 \section{Project Evaluation}
 
@@ -159,7 +181,11 @@ report.
 January 31th: Implemented Throw and Cache for Abstract Machine. Worked on final
 report. 
 
-
 FEBRUARY 
+
+February 01: Worked on latext configurations.
+
+February 02: Implemented early versions of stack saving,restoring and variable
+assigment. 
 
 \end{document}

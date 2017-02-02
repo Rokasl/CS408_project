@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass[12pt]{report}
 
 
 %% ODER: format ==         = "\mathrel{==}"
@@ -265,6 +265,7 @@
 
 \newcommand{\F}{\mathsf}
 
+\usepackage{textcomp}
 \usepackage{listings}
 \usepackage{upquote}
 \lstset{
@@ -319,25 +320,88 @@ using Frank language. This involves creating Virtual Machine (abstract machine)
 which can support Frank structure.
 
 \section{Simple Compiler}
-
-
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{10}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{14}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{18}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{22}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{26}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[3]{}\mathkw{instance}\;\mathsf{Monad}\;\mathsf{CodeGen}\;\;\mathkw{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{7}{}\<[10]%
+\>[10]{}\Varid{return}\;\Varid{val}\mathrel{=}\mathsf{MkCodeGen}\mathbin{\$}\lambda \Varid{next}\to ([\mskip1.5mu \mskip1.5mu],\Varid{next},\Varid{val}){}\<[E]%
+\\
+\>[3]{}\hsindent{7}{}\<[10]%
+\>[10]{}\Varid{ag}\bind \Varid{a2bg}\mathrel{=}\mathsf{MkCodeGen}\mathbin{\$}\lambda \Varid{next}\to {}\<[E]%
+\\
+\>[10]{}\hsindent{4}{}\<[14]%
+\>[14]{}\mathkw{case}\;\Varid{codeGen}\;\Varid{ag}\;\Varid{next}\;\mathkw{of}{}\<[E]%
+\\
+\>[14]{}\hsindent{4}{}\<[18]%
+\>[18]{}(\Varid{ac},\Varid{next},\Varid{a})\to \mathkw{case}{}\<[E]%
+\\
+\>[18]{}\hsindent{4}{}\<[22]%
+\>[22]{}\Varid{codeGen}\;(\Varid{a2bg}\;\Varid{a})\;\Varid{next}\;\mathkw{of}{}\<[E]%
+\\
+\>[22]{}\hsindent{4}{}\<[26]%
+\>[26]{}(\Varid{bc},\Varid{next},\Varid{b})\to (\Varid{ac}\plus \Varid{bc},\Varid{next},\Varid{b}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{genDef}\mathbin{::}\mathsf{String}\to \mathsf{CodeGen}\;\mathsf{Int}{}\<[E]%
+\\
+\>[5]{}\Varid{genDef}\;\Varid{code}\mathrel{=}\mathsf{MkCodeGen}\mathbin{\$}\lambda \Varid{next}\to ([\mskip1.5mu (\Varid{next},\Varid{code})\mskip1.5mu],\Varid{next}\mathbin{+}\mathrm{1},\Varid{next}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{13}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[5]{}\Varid{compile}\mathbin{::}\mathsf{Expr}\to \mathsf{CodeGen}\;\mathsf{Int}{}\<[E]%
+\\
+\>[5]{}\Varid{compile}\;\Varid{e}\mathrel{=}\Varid{help}\;\text{\tt \char34 s\char34}\;\Varid{e}\;\;\mathkw{where}{}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{help}\;\Varid{s}\;(\mathsf{Val}\;\Varid{n})\mathrel{=}\Varid{genDef}\mathbin{\$}{}\<[E]%
+\\
+\>[9]{}\hsindent{2}{}\<[11]%
+\>[11]{}\text{\tt \char34 function(s)\char123 return\char123 stack:\char34}\plus \Varid{s}\plus \text{\tt \char34 ,tag:\char92 \char34 num\char92 \char34 ,~data:\char34}\plus \Varid{show}\;\Varid{n}\plus \text{\tt \char34 \char125 \char125 \char34}{}\<[E]%
+\\
+\>[5]{}\hsindent{4}{}\<[9]%
+\>[9]{}\Varid{help}\;\Varid{s}\;(\Varid{e1}\mathbin{:+:}\Varid{e2})\mathrel{=}\mathkw{do}{}\<[E]%
+\\
+\>[9]{}\hsindent{4}{}\<[13]%
+\>[13]{}\Varid{f2}\leftarrow \Varid{compile}\;\Varid{e2}{}\<[E]%
+\\
+\>[9]{}\hsindent{4}{}\<[13]%
+\>[13]{}\Varid{help}\;(\text{\tt \char34 \char123 prev:\char34}\plus \Varid{s}\plus \text{\tt \char34 ,~tag:\char92 \char34 left\char92 \char34 ,~data:\char34}\plus \Varid{show}\;\Varid{f2}\plus \text{\tt \char34 \char125 \char34})\;\Varid{e1}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
 
 \section{Simple Abstract Machine}
 
-Basic Abstract Machine structure:
+Basic Stack structure:
 
 \begin{lstlisting}
      Mode: {
-        stack: {
-            prev: "", // pointer to previous stack
+        stack: { // rest of stack
+            prev: "", // previous stack
             tag: "", // opperation 
-            data: "" // pointer to next mode to parse
+            data: "" // pointer to next frame
         }
         tag: "",  // data type, example "num" for number
-        data: "" // actual value to place on stack
+        data: "" // value
     }
 \end{lstlisting}
-
 
 
 Example program:
@@ -356,6 +420,9 @@ ProgramFoo[0] = function (s) {
 \end{lstlisting}
 
 This program will place 3 on top of the stack and halt.
+
+
+
 
 \section{Project Evaluation}
 
@@ -409,7 +476,11 @@ report.
 January 31th: Implemented Throw and Cache for Abstract Machine. Worked on final
 report. 
 
-
 FEBRUARY 
+
+February 01: Worked on latext configurations.
+
+February 02: Implemented early versions of stack saving,restoring and variable
+assigment. 
 
 \end{document}
