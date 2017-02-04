@@ -69,6 +69,33 @@ in the browser. So, for example, user would be able to edit their MyPlace pages
 using Frank language. This involves creating Virtual Machine (abstract machine)
 which can support Frank structure.
 
+\section{The beginning}
+
+By choosing this project, I knew that I was stepping out of my comfort zone.
+At the beginning of the project I was aware only of the purpose of the Abstract
+Machine, didn’t know much about compilers either, or how can they both work
+together and how to implement either of them. My understanding of Haskell was
+pretty basic as well. So I knew I have a big challenge ahead of me. Thus, It
+made sense to begin with something simpler than implementing the whole system
+from the start. And so, I’ve started by developing a simple Abstract Machine
+with few very basic procedures, just to get me going. Then I had to create
+a simple language with very few functions, such as addition of two values,
+Catch and Throw, variable assignment. Furthermore,  I’ve had to implemented
+a compiler for that Machine and language, so that they all could work together.
+
+How do they work together? Compiler takes in an expression in my language,
+such as, (Val 5) and outputs a populated javascript array, which we can call
+a program. Then the Abstract Machine takes that program and parses it, populates
+the stack and starts doing work.
+
+Also, this wasn’t for the educational purposes only, I worked on the compiler and
+Machine by keeping in mind that I would use parts of the builds in my final
+system, so that I won’t start from scratch again. Because of that, I had to
+constantly think about efficiency, testing and structure of my systems. In
+the next few sections, I’m going to go more in detail about the compiler
+and the Abstract Machine which I had to develop at the start.
+
+
 \section{Simple Compiler}
 
 > instance Monad CodeGen where
@@ -124,10 +151,21 @@ ProgramFoo[0] = function (s) {
 
 \end{lstlisting}
 
-This program will place 3 on top of the stack and halt.
+By passing this program to the Abstract Machine 3 will be placed on top of stack
+and then program machine will halt, since there are no further instructions.
 
+Furthermore, lets examine how very simple Abstract Machine works.
 
-
+Here we initialize starting variables, with mode.data being the most important bit,
+because it points to the starting instruction of the program that we pass in.
+\begin{lstlisting}
+    var save = [];
+    var mode = {
+        stack: null,
+        tag: "go",
+        data: 0
+    }
+\end{lstlisting}
 
 \section{Project Evaluation}
 
@@ -185,7 +223,9 @@ FEBRUARY
 
 February 01: Worked on latext configurations.
 
-February 02: Implemented early versions of stack saving,restoring and variable
-assigment. 
+February 02: Implemented early versions of stack saving, restoring and variable
+assignment.
+
+February 04: Report work - Introduction sections. 
 
 \end{document}
