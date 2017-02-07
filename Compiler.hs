@@ -7,10 +7,15 @@ data Name = String
 
 data  Expr  = Val Int 
             | Expr :+: Expr
+            -- Throw
             | Catch Expr Expr
             | Get Name
             | Name := Expr
-            | Expr :> Expr
+            | Expr :> Expr  -- :> is ugly syntax for ";" (taking value of the second)
+            -- WithRef Name -- name of new reference
+               --      Expr -- how to compute initial value of new reference
+               --      Expr -- code that makes use of reference
+               -- the WithRef stack frame is the handler for Get and :=
             deriving Show
             
 
