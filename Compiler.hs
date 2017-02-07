@@ -7,15 +7,15 @@ data Name = String
 
 data  Expr  = Val Int 
             | Expr :+: Expr
-            -- Throw
+            | Throw
             | Catch Expr Expr
             | Get Name
             | Name := Expr
             | Expr :> Expr  -- :> is ugly syntax for ";" (taking value of the second)
-            -- WithRef Name -- name of new reference
-               --      Expr -- how to compute initial value of new reference
-               --      Expr -- code that makes use of reference
-               -- the WithRef stack frame is the handler for Get and :=
+            | WithRef Name -- name of new reference
+                          Expr -- how to compute initial value of new reference
+                          Expr -- code that makes use of reference
+                --  the WithRef stack frame is the handler for Get and :=
             deriving Show
             
 
@@ -30,13 +30,6 @@ newtype CodeGen val = MkCodeGen {
         }                    -- the input "next number" and go up to just before
                              -- the output "next number"
                              
-
--- instance (Show a) => Show (CodeGen a) where
---      show MkCodeGen a => ([(s, i)], k, a)  = 
---                 "([" ++ show s ++ "," ++ show i ++ ")," ++ show k ++ 
---                     "," ++ show a ++ "])"   
-
-
 
 instance Functor CodeGen where
         fmap = liftM
@@ -61,19 +54,47 @@ compile :: Expr -> CodeGen Int -- the Int returned is the entry point
 compile e = help "s" e where
     help s (Val n) = genDef $
         "function(s){return{stack:"++ s ++ ", tag:\"num\", data:"++ show n ++"}}"
-    help s (e1 :+: e2) = do
+    help s (e1 :+: e2) = do 
         f2 <- compile e2
-        help ("{prev:" ++ s ++ ", tag:\"left\", data:"++ show f2 ++"}") e1   
+        help ("{prev:" ++ s ++ ", tag:\"left\", data:"++ show f2 ++"}") e1
+    help s Throw = genDef $
+        "function(s){return{stack:" ++ s
+        ++ ", tag:\"throw\", data:\" Unhandled exception!\"}}" 
+    help s (Catch e1 e2) = do
+        f2 <- compile e1
+        help ("{prev:" ++ s ++ ", tag:\"catch\", data:"++ show f2 ++ "," 
+                ++ "i:0}" -- hacky way, variable to know if we visited this frame
+                ) e2 
+        
+
+-- example, how to run:
+-- jsSetup "program" (compile Expr) 
 
 jsSetup  ::  String       -- array name
          ->  CodeGen x    -- compilation process
          ->  (  String    -- a big pile of JS
              ,  x         -- whatever the result was
              )
-jsSetup arr comp = (defs >>= def, x)
+jsSetup arr comp = ("var " ++ arr ++ "= [];\n"
+                     ++ (defs >>= def) ++ "module.exports = "
+                      ++ arr ++ ";", x)
   where
     (defs, _, x) = codeGen comp 0
     def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
 
 
--- writeFile :: FilePath -> String -> IO ()
+-- example
+-- jsWrite (jsSetup "prog" (compile (Val 2)))    
+
+jsWrite :: (String, x) -> IO()
+jsWrite (code, x) = writeFile "main/generated.js" code
+
+
+
+-- test cases:
+-- let xpr = Val 10
+-- jsWrite (jsSetup "test_num" (compile xpr))
+-- let xpr = Val 2 :+: (Val 4 :+: Val 8)
+-- jsWrite (jsSetup "test_sum" (compile xpr))
+-- let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)
+-- jsWrite (jsSetup "test_throw" (compile xpr))

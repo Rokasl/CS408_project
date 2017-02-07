@@ -46,8 +46,9 @@
 
 	Machine = __webpack_require__(1);
 	foo = __webpack_require__(2);
+	gen = __webpack_require__(4);
 
-	var machine = new Machine(foo);
+	var machine = new Machine(gen);
 
 /***/ },
 /* 1 */
@@ -59,14 +60,13 @@
 	    var mode = {
 	        stack: null,
 	        tag: "go",
-	        data: 0
+	        data: f.length -1
 	    }
 
 	    while (mode.tag === "go") {
-
+	     
 	        mode = f[mode.data](mode.stack);
 	        console.log(mode);
-
 	        while (mode.tag != "go" && mode.stack != null) {
 	            switch (mode.tag) {
 	                case ("num"):
@@ -165,8 +165,6 @@
 	        }
 	    }
 	    console.log("----END----");
-	    console.log(save);
-	    console.log(mode);
 	    console.log(mode.data);
 
 	    this.printStack = function () {
@@ -183,31 +181,31 @@
 
 	var ProgramFoo5 = [];
 
-	ProgramFoo5[1] = function (s) {
+	ProgramFoo5[2] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
 	            tag: "left",
-	            data: 2
+	            data: 1
 	        },
 	        tag: "num",
 	        data: 5
 	    }
 	};
 
-	ProgramFoo5[2] = function (s) {
+	ProgramFoo5[1] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
 	            tag: "left",
-	            data: 3
+	            data: 0
 	        },
 	        tag: "num",
 	        data: 6
 	    }
 	};
 
-	ProgramFoo5[3] = function (s) {
+	ProgramFoo5[0] = function (s) {
 	    return {
 	        stack: s,
 	        tag: "get",
@@ -215,13 +213,13 @@
 	    }
 	};
 
-	ProgramFoo5[0] = function (s) {
+	ProgramFoo5[3] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
 	            name : "variable",
 	            tag: ":=",
-	            data: 1, 
+	            data: 2, 
 	            i: 0
 	        },
 	        tag: "num",
@@ -233,6 +231,66 @@
 
 
 	module.exports = ProgramFoo5;
+
+/***/ },
+/* 3 */,
+/* 4 */
+/***/ function(module, exports) {
+
+	var prog = [];
+	prog[0] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "throw",
+	        data: " Unhandled exception!"
+	    }
+	};
+	prog[1] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "left",
+	            data: 0
+	        },
+	        tag: "num",
+	        data: 4
+	    }
+	};
+	prog[2] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "left",
+	            data: 1
+	        },
+	        tag: "num",
+	        data: 2
+	    }
+	};
+	prog[3] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "throw",
+	        data: " Unhandled exception!"
+	    }
+	};
+	prog[4] = function (s) {
+	    return {
+	        stack: {
+	            prev: {
+	                prev: s,
+	                tag: "catch",
+	                data: 2,
+	                i: 0
+	            },
+	            tag: "left",
+	            data: 3
+	        },
+	        tag: "num",
+	        data: 100
+	    }
+	};
+	module.exports = prog;
 
 /***/ }
 /******/ ]);

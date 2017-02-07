@@ -228,4 +228,6 @@ assignment.
 
 February 04: Report work - Introduction sections. 
 
+February 06: Tried to implement Show instance for CodeGen
+
 \end{document}

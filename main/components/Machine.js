@@ -4,13 +4,13 @@ var Machine = function Machine(f) {
     var mode = {
         stack: null,
         tag: "go",
-        data: 0
+        data: f.length -1
     }
 
     while (mode.tag === "go") {
-
+     
         mode = f[mode.data](mode.stack);
-
+        console.log(mode);
         while (mode.tag != "go" && mode.stack != null) {
             switch (mode.tag) {
                 case ("num"):
@@ -109,8 +109,6 @@ var Machine = function Machine(f) {
         }
     }
     console.log("----END----");
-    console.log(save);
-    console.log(mode);
     console.log(mode.data);
 
     this.printStack = function () {
