@@ -68,6 +68,7 @@
 	        mode = f[mode.data](mode.stack);
 	        console.log(mode);
 	        while (mode.tag != "go" && mode.stack != null) {
+	            console.log(mode);
 	            switch (mode.tag) {
 	                case ("num"):
 	                    switch (mode.stack.tag) {
@@ -125,7 +126,7 @@
 	                    }
 	                    break;
 	                case ("throw"):
-	                    if (mode.stack.tag === "catch") {
+	                    if (mode.stack.tag === "catch" && mode.stack.i != 0)  {
 	                        mode = {
 	                            stack: null,
 	                            tag: "num",
@@ -237,60 +238,13 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	var prog = [];
-	prog[0] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "throw",
-	        data: " Unhandled exception!"
-	    }
-	};
-	prog[1] = function (s) {
-	    return {
-	        stack: {
-	            prev: s,
-	            tag: "left",
-	            data: 0
-	        },
-	        tag: "num",
-	        data: 4
-	    }
-	};
-	prog[2] = function (s) {
-	    return {
-	        stack: {
-	            prev: s,
-	            tag: "left",
-	            data: 1
-	        },
-	        tag: "num",
-	        data: 2
-	    }
-	};
-	prog[3] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "throw",
-	        data: " Unhandled exception!"
-	    }
-	};
-	prog[4] = function (s) {
-	    return {
-	        stack: {
-	            prev: {
-	                prev: s,
-	                tag: "catch",
-	                data: 2,
-	                i: 0
-	            },
-	            tag: "left",
-	            data: 3
-	        },
-	        tag: "num",
-	        data: 100
-	    }
-	};
-	module.exports = prog;
+	var test_throw= [];
+	test_throw[0] = function(s){return{stack:s, tag:"throw", data:" Unhandled exception!"}};
+	test_throw[1] = function(s){return{stack:{prev:s, tag:"left", data:0}, tag:"num", data:4}};
+	test_throw[2] = function(s){return{stack:{prev:s, tag:"left", data:1}, tag:"num", data:2}};
+	test_throw[3] = function(s){return{stack:s, tag:"num", data:1000}};
+	test_throw[4] = function(s){return{stack:{prev:{prev:s, tag:"catch", data:2,i:0}, tag:"left", data:3}, tag:"num", data:2}};
+	module.exports = test_throw;
 
 /***/ }
 /******/ ]);

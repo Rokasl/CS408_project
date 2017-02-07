@@ -12,6 +12,7 @@ var Machine = function Machine(f) {
         mode = f[mode.data](mode.stack);
         console.log(mode);
         while (mode.tag != "go" && mode.stack != null) {
+            console.log(mode);
             switch (mode.tag) {
                 case ("num"):
                     switch (mode.stack.tag) {
@@ -69,7 +70,7 @@ var Machine = function Machine(f) {
                     }
                     break;
                 case ("throw"):
-                    if (mode.stack.tag === "catch") {
+                    if (mode.stack.tag === "catch" && mode.stack.i != 0)  {
                         mode = {
                             stack: null,
                             tag: "num",
