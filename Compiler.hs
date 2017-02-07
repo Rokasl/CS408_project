@@ -15,9 +15,16 @@ data  Expr  = Val Int
             
 
 newtype CodeGen val = MkCodeGen {
-            codeGen :: Int -> ([(Int, String)], Int, val)
-        }  
-       
+            codeGen :: Int -- next available number (for naming helper functions)
+                       -> ([(  Int        -- this number...
+                            ,  String     -- ...defined as this JS code
+                           )]
+                          ,  Int       -- next available number after compilation
+                          ,  val       -- result of compilation process
+                          )  -- usually the list of definitions will start with
+        }                    -- the input "next number" and go up to just before
+                             -- the output "next number"
+                             
 
 -- instance (Show a) => Show (CodeGen a) where
 --      show MkCodeGen a => ([(s, i)], k, a)  = 
@@ -41,14 +48,27 @@ instance Monad CodeGen where
                     codeGen(a2bg a) next of
                         (bc, next, b) -> (ac ++ bc, next, b)
 
-genDef :: String -> CodeGen Int
+genDef :: String -> CodeGen Int -- make a definition and return its number
 genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
 
 
-compile :: Expr -> CodeGen Int
+compile :: Expr -> CodeGen Int -- the Int returned is the entry point
 compile e = help "s" e where
     help s (Val n) = genDef $
         "function(s){return{stack:"++ s ++ ", tag:\"num\", data:"++ show n ++"}}"
     help s (e1 :+: e2) = do
         f2 <- compile e2
         help ("{prev:" ++ s ++ ", tag:\"left\", data:"++ show f2 ++"}") e1   
+
+jsSetup  ::  String       -- array name
+         ->  CodeGen x    -- compilation process
+         ->  (  String    -- a big pile of JS
+             ,  x         -- whatever the result was
+             )
+jsSetup arr comp = (defs >>= def, x)
+  where
+    (defs, _, x) = codeGen comp 0
+    def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
+
+
+-- writeFile :: FilePath -> String -> IO ()
