@@ -4,15 +4,14 @@ var Machine = function Machine(f) {
     var mode = {
         stack: null,
         tag: "go",
-        data: f.length -1
+        data: f.length - 1
     }
 
     while (mode.tag === "go") {
-     
+
         mode = f[mode.data](mode.stack);
         console.log(mode);
         while (mode.tag != "go" && mode.stack != null) {
-            console.log(mode);
             switch (mode.tag) {
                 case ("num"):
                     switch (mode.stack.tag) {
@@ -50,14 +49,32 @@ var Machine = function Machine(f) {
                                 }
                             }
                             break;
-                        case ":=":
+
+                        case ":>":
                             if (mode.stack.i === 1) {
                                 mode.stack = mode.stack.prev;
                             } else {
                                 mode = {
                                     stack: {
                                         prev: mode.stack.prev,
-                                        tag: ":=",
+                                        tag: ":>",
+                                        data: mode.data,
+                                        i: 1
+                                    },
+                                    tag: "go",
+                                    data: mode.stack.data
+                                }
+                            }
+                            break;
+
+                        case "WithRef":
+                            if (mode.stack.i === 1) {
+                                mode.stack = mode.stack.prev;
+                            } else {
+                                mode = {
+                                    stack: {
+                                        prev: mode.stack.prev,
+                                        tag: "WithRef",
                                         data: mode.data,
                                         name: mode.stack.name,
                                         i: 1
@@ -70,7 +87,7 @@ var Machine = function Machine(f) {
                     }
                     break;
                 case ("throw"):
-                    if (mode.stack.tag === "catch" && mode.stack.i != 0)  {
+                    if (mode.stack.tag === "catch" && mode.stack.i != 0) {
                         mode = {
                             stack: null,
                             tag: "num",
@@ -86,14 +103,15 @@ var Machine = function Machine(f) {
                     break;
                 case ("get"):
                     save.push(mode); // save stack (TODO for better saving)
-                    if (mode.stack.tag === ":=" && mode.data === mode.stack.name){
+                    if (mode.stack.tag === "WithRef" && mode.data === mode.stack.name) {
                         mode = {
                             stack: save[0].stack, //get back full stack
                             tag: "num",
                             data: mode.stack.data
                         }
+                        save = [];
                     } else if (mode.stack.prev != null) {
-                        mode = { 
+                        mode = {
                             stack: mode.stack.prev,
                             tag: "get",
                             data: mode.data
@@ -102,7 +120,7 @@ var Machine = function Machine(f) {
                         mode = { // throw exception!
                             stack: null,
                             tag: "throw",
-                            data: "Exception: Undifined expresion: " + mode.data
+                            data: "Exception: Undifined expression: " + mode.data
                         }
                     }
                     break;

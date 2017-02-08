@@ -9,10 +9,10 @@ data  Expr  = Val Int
             | Expr :+: Expr
             | Throw
             | Catch Expr Expr
-            | Get Name
-            | Name := Expr
+            | Get String
+            | String := Expr
             | Expr :> Expr  -- :> is ugly syntax for ";" (taking value of the second)
-            | WithRef Name -- name of new reference
+            | WithRef String -- name of new reference
                           Expr -- how to compute initial value of new reference
                           Expr -- code that makes use of reference
                 --  the WithRef stack frame is the handler for Get and :=
@@ -65,7 +65,17 @@ compile e = help "s" e where
         help ("{prev:" ++ s ++ ", tag:\"catch\", data:"++ show f2 ++ "," 
                 ++ "i:0}" -- hacky way, variable to know if we visited this frame
                 ) e2 
-        
+    help s (e1 :> e2) = do
+        f2 <- compile e2
+        help ("{prev:" ++ s ++ ", tag:\":>\", data:"++ show f2 ++ "," 
+                ++ "i:0}") e1
+    help s (Get name) = genDef $
+       "function(s){return{stack:"++ s ++ ", tag:\"get\", data:"++ show name ++"}}"
+    help s (WithRef name e1 e2) = do
+        f2 <- compile e2
+        help ("{prev:" ++ s ++ ", tag:\"WithRef\", data:"++ show f2 ++ "," 
+                ++ "i:0,name:\"" ++ name ++ "\"}") e1
+
 
 -- example, how to run:
 -- jsSetup "program" (compile Expr) 
@@ -98,3 +108,5 @@ jsWrite (code, x) = writeFile "main/generated.js" code
 -- jsWrite (jsSetup "test_sum" (compile xpr))
 -- let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)
 -- jsWrite (jsSetup "test_throw" (compile xpr))
+-- let xpr = (Val 2 :+: Val 100) :> (Catch (Val 10 :+: Val 3) (Val 2))
+-- jsWrite (jsSetup "test_:>1" (compile xpr))

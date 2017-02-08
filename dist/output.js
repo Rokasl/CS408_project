@@ -45,8 +45,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Machine = __webpack_require__(1);
-	foo = __webpack_require__(2);
-	gen = __webpack_require__(4);
+	foo = __webpack_require__(5);
+	gen = __webpack_require__(3);
 
 	var machine = new Machine(gen);
 
@@ -60,15 +60,14 @@
 	    var mode = {
 	        stack: null,
 	        tag: "go",
-	        data: f.length -1
+	        data: f.length - 1
 	    }
 
 	    while (mode.tag === "go") {
-	     
+
 	        mode = f[mode.data](mode.stack);
 	        console.log(mode);
 	        while (mode.tag != "go" && mode.stack != null) {
-	            console.log(mode);
 	            switch (mode.tag) {
 	                case ("num"):
 	                    switch (mode.stack.tag) {
@@ -106,14 +105,32 @@
 	                                }
 	                            }
 	                            break;
-	                        case ":=":
+
+	                        case ":>":
 	                            if (mode.stack.i === 1) {
 	                                mode.stack = mode.stack.prev;
 	                            } else {
 	                                mode = {
 	                                    stack: {
 	                                        prev: mode.stack.prev,
-	                                        tag: ":=",
+	                                        tag: ":>",
+	                                        data: mode.data,
+	                                        i: 1
+	                                    },
+	                                    tag: "go",
+	                                    data: mode.stack.data
+	                                }
+	                            }
+	                            break;
+
+	                        case "WithRef":
+	                            if (mode.stack.i === 1) {
+	                                mode.stack = mode.stack.prev;
+	                            } else {
+	                                mode = {
+	                                    stack: {
+	                                        prev: mode.stack.prev,
+	                                        tag: "WithRef",
 	                                        data: mode.data,
 	                                        name: mode.stack.name,
 	                                        i: 1
@@ -126,7 +143,7 @@
 	                    }
 	                    break;
 	                case ("throw"):
-	                    if (mode.stack.tag === "catch" && mode.stack.i != 0)  {
+	                    if (mode.stack.tag === "catch" && mode.stack.i != 0) {
 	                        mode = {
 	                            stack: null,
 	                            tag: "num",
@@ -142,14 +159,15 @@
 	                    break;
 	                case ("get"):
 	                    save.push(mode); // save stack (TODO for better saving)
-	                    if (mode.stack.tag === ":=" && mode.data === mode.stack.name){
+	                    if (mode.stack.tag === "WithRef" && mode.data === mode.stack.name) {
 	                        mode = {
 	                            stack: save[0].stack, //get back full stack
 	                            tag: "num",
 	                            data: mode.stack.data
 	                        }
+	                        save = [];
 	                    } else if (mode.stack.prev != null) {
-	                        mode = { 
+	                        mode = {
 	                            stack: mode.stack.prev,
 	                            tag: "get",
 	                            data: mode.data
@@ -158,7 +176,7 @@
 	                        mode = { // throw exception!
 	                            stack: null,
 	                            tag: "throw",
-	                            data: "Exception: Undifined expresion: " + mode.data
+	                            data: "Exception: Undifined expression: " + mode.data
 	                        }
 	                    }
 	                    break;
@@ -177,24 +195,19 @@
 	module.exports = Machine;
 
 /***/ },
-/* 2 */
+/* 2 */,
+/* 3 */
 /***/ function(module, exports) {
 
-	var ProgramFoo5 = [];
-
-	ProgramFoo5[2] = function (s) {
+	var test_num = [];
+	test_num[0] = function (s) {
 	    return {
-	        stack: {
-	            prev: s,
-	            tag: "left",
-	            data: 1
-	        },
-	        tag: "num",
-	        data: 5
+	        stack: s,
+	        tag: "get",
+	        data: "variable"
 	    }
 	};
-
-	ProgramFoo5[1] = function (s) {
+	test_num[1] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
@@ -202,49 +215,66 @@
 	            data: 0
 	        },
 	        tag: "num",
-	        data: 6
+	        data: 5
 	    }
 	};
-
-	ProgramFoo5[0] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "get",
-	        data: "variabsle"
-	    }
-	};
-
-	ProgramFoo5[3] = function (s) {
+	test_num[2] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
-	            name : "variable",
-	            tag: ":=",
-	            data: 2, 
-	            i: 0
+	            tag: "WithRef",
+	            data: 1,
+	            i: 0,
+	            name: "variable"
 	        },
 	        tag: "num",
-	        data: 1000000
+	        data: 2
 	    }
-	}
-
-
-
-
-	module.exports = ProgramFoo5;
+	};
+	module.exports = test_num;
 
 /***/ },
-/* 3 */,
-/* 4 */
+/* 4 */,
+/* 5 */
 /***/ function(module, exports) {
 
-	var test_throw= [];
-	test_throw[0] = function(s){return{stack:s, tag:"throw", data:" Unhandled exception!"}};
-	test_throw[1] = function(s){return{stack:{prev:s, tag:"left", data:0}, tag:"num", data:4}};
-	test_throw[2] = function(s){return{stack:{prev:s, tag:"left", data:1}, tag:"num", data:2}};
-	test_throw[3] = function(s){return{stack:s, tag:"num", data:1000}};
-	test_throw[4] = function(s){return{stack:{prev:{prev:s, tag:"catch", data:2,i:0}, tag:"left", data:3}, tag:"num", data:2}};
-	module.exports = test_throw;
+	var ProgramFoo7 = [];
+
+	ProgramFoo7[1] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "left",
+	            data: 0
+	        },
+	        tag: "num",
+	        data: 10
+	    }
+	};
+	ProgramFoo7[0] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "get",
+	        data: "variable"
+	    }
+	};
+	ProgramFoo7[2] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "WithRef",
+	            name: "variable",
+	            data: 1,
+	            i:0
+	        },
+	        tag: "num",
+	        data: 12
+	    }
+	};
+
+
+
+	module.exports = ProgramFoo7;
 
 /***/ }
 /******/ ]);
