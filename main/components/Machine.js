@@ -10,7 +10,8 @@ var Machine = function Machine(f) {
     while (mode.tag === "go") {
 
         mode = f[mode.data](mode.stack);
-
+        console.log(mode);
+       
         while (mode.tag != "go" && mode.stack != null) {
             switch (mode.tag) {
                 case ("num"):
@@ -84,6 +85,46 @@ var Machine = function Machine(f) {
                                 }
                             }
                             break;
+
+                        case ":=":
+                        console.log("initial mode", mode);
+                            if (mode.stack.i === 1) {
+                                mode.stack = mode.stack.prev;
+                            } else {
+
+
+                                m = mode;
+                                mode = mode.stack.prev;
+
+                                while (mode != null) {
+                            
+                                   
+
+                                    if (mode.tag === "WithRef" && mode.name === m.stack.name) {
+                                        mode.data = m.data;
+                                        break;
+                                    }
+                                    saveStack(mode);
+                                    mode = mode.prev;
+                                    
+                                }
+
+                                console.log(mode);
+                                // everything is okay, restore stack & continue!
+                                mode = restoreStack(mode);
+                                console.log(mode);
+                            
+                                mode = {
+                                    stack: mode,
+                                    tag: "go",
+                                    data: m.stack.data
+                                }
+
+                            }
+                            break;
+
+
+
                     }
                     break;
                 case ("throw"):
@@ -103,7 +144,6 @@ var Machine = function Machine(f) {
                     break;
                 case ("get"):
                     save.push(mode);
-                    saveStack(mode);
                     if (mode.stack.tag === "WithRef" && mode.data === mode.stack.name) {
                         mode = {
                             stack: save[0].stack, //get back full stack
@@ -111,7 +151,6 @@ var Machine = function Machine(f) {
                             data: mode.stack.data
                         }
                         save = [];
-                        restoreStack(mode);
                     } else if (mode.stack.prev != null) {
                         mode = {
                             stack: mode.stack.prev,
@@ -139,31 +178,39 @@ var Machine = function Machine(f) {
 
 
 var save = {
-    stack: null,
+    prev: null,
     tag: null,
     data: null
 }
 
 var saveStack = function (m) {
     save = {
-        stack: save,
+        prev: save,
         tag: m.tag,
         data: m.data
     }
+    console.log(save);
 }
 
 var restoreStack = function (m) {
     var stack;
 
-    while(save.stack != null) {
+    while (save.prev != null) {
+        
         stack = {
-            stack: m,
+            prev: m,
             tag: save.tag,
             data: save.data,
         }
-        save = save.stack;
+        save = save.prev;
+         console.log(save);
     }
-    console.log(stack);
+
+    save = {
+        prev: null,
+        tag: null,
+        data: null
+    }
     return stack
 }
 
