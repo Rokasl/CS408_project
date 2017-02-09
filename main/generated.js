@@ -1,33 +1,59 @@
-var test_num = [];
-test_num[0] = function (s) {
+var test_WithRef = [];
+test_WithRef[0] = function (s) {
     return {
         stack: s,
-        tag: "get",
-        data: "variable"
+        tag: "num",
+        data: 30
     }
 };
-test_num[1] = function (s) {
+test_WithRef[1] = function (s) {
     return {
         stack: {
             prev: s,
             tag: "left",
             data: 0
         },
-        tag: "num",
-        data: 5
+        tag: "get",
+        data: "x"
     }
 };
-test_num[2] = function (s) {
+test_WithRef[2] = function (s) {
+    return {
+        stack: s,
+        tag: "num",
+        data: 11
+    }
+};
+test_WithRef[3] = function (s) {
+    return {
+        stack: {
+            prev: {
+                prev: {
+                    prev: s,
+                    tag: ":>left",
+                    data: 1
+                },
+                tag: ":=",
+                name: "x"
+            },
+            tag: "left",
+            data: 2
+        },
+        tag: "get",
+        data: "x"
+    }
+};
+test_WithRef[4] = function (s) {
     return {
         stack: {
             prev: s,
             tag: "WithRef",
-            data: 1,
+            data: 3,
             i: 0,
-            name: "variable"
+            name: "x"
         },
         tag: "num",
-        data: 2
+        data: 22
     }
 };
-module.exports = test_num;
+module.exports = test_WithRef;

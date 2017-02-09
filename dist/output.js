@@ -48,7 +48,7 @@
 	foo = __webpack_require__(4);
 	gen = __webpack_require__(3);
 
-	var machine = new Machine(foo);
+	var machine = new Machine(gen);
 
 /***/ },
 /* 1 */
@@ -64,10 +64,9 @@
 	    }
 
 	    while (mode.tag === "go") {
-
 	        mode = f[mode.data](mode.stack);
 	        console.log(mode);
-	       
+
 	        while (mode.tag != "go" && mode.stack != null) {
 	            switch (mode.tag) {
 	                case ("num"):
@@ -107,22 +106,27 @@
 	                            }
 	                            break;
 
-	                        case ":>":
-	                            if (mode.stack.i === 1) {
-	                                mode.stack = mode.stack.prev;
-	                            } else {
-	                                mode = {
-	                                    stack: {
-	                                        prev: mode.stack.prev,
-	                                        tag: ":>",
-	                                        data: mode.data,
-	                                        i: 1
-	                                    },
-	                                    tag: "go",
-	                                    data: mode.stack.data
-	                                }
+	                        case ":>left":
+	                            mode = {
+	                                stack: {
+	                                    prev: mode.stack.prev,
+	                                    tag: ":>right",
+	                                    data: mode.data
+	                                },
+	                                tag: "go",
+	                                data: mode.stack.data
 	                            }
 	                            break;
+	                        case ":>right":
+	                            mode = {
+	                                stack: mode.stack.prev,
+	                                tag: "num",
+	                                data: mode.data
+	                            }
+	                            
+	                            break;
+
+
 
 	                        case "WithRef":
 	                            if (mode.stack.i === 1) {
@@ -143,43 +147,51 @@
 	                            break;
 
 	                        case ":=":
-	                        console.log("initial mode", mode);
-	                            if (mode.stack.i === 1) {
-	                                mode.stack = mode.stack.prev;
-	                            } else {
+	                            m = mode;
+	                            mode = mode.stack.prev;
+	                            found = false;
 
-
-	                                m = mode;
-	                                mode = mode.stack.prev;
-
-	                                while (mode != null) {
-	                            
-	                                   
-
-	                                    if (mode.tag === "WithRef" && mode.name === m.stack.name) {
-	                                        mode.data = m.data;
-	                                        break;
-	                                    }
-	                                    saveStack(mode);
-	                                    mode = mode.prev;
-	                                    
+	                            while (mode != null) {
+	                                if (mode.tag === "WithRef" && mode.name === m.stack.name) {
+	                                    mode.data = m.data;
+	                                    found = true;
+	                                    break;
 	                                }
 
-	                                console.log(mode);
-	                                // everything is okay, restore stack & continue!
-	                                mode = restoreStack(mode);
-	                                console.log(mode);
-	                            
-	                                mode = {
-	                                    stack: mode,
-	                                    tag: "go",
-	                                    data: m.stack.data
-	                                }
+	                                saveStack(mode);
+	                                mode = mode.prev;
 
 	                            }
+	                        
+
+	                            if (!found) { // variable not defined
+	                                mode = { // throw exception!
+	                                    stack: m.stack.prev,
+	                                    tag: "throw",
+	                                    data: "Exception: Undifined expression: " + m.stack.name
+	                                }
+	                            } else {
+	                            
+	                                // everything is okay, restore stack & continue!
+	                                mode = restoreStack(mode);
+
+	                                if (mode.data != null) {
+
+	                                    mode = {
+	                                        stack: mode,
+	                                        tag: "go",
+	                                        data: mode.data
+	                                    }
+	                                } else { // just halt, no further instructions
+	                                    mode = {
+	                                        stack: mode,
+	                                        tag: "halt",
+	                                        data: m.data
+	                                    }
+	                                }
+	                            }
+
 	                            break;
-
-
 
 	                    }
 	                    break;
@@ -221,6 +233,7 @@
 	                        }
 	                    }
 	                    break;
+
 	            }
 	        }
 	    }
@@ -245,24 +258,26 @@
 	        tag: m.tag,
 	        data: m.data
 	    }
-	    console.log(save);
 	}
 
 	var restoreStack = function (m) {
 	    var stack;
-
+	    // var stack = {
+	    //     prev: null,
+	    //     tag: null,
+	    //     data: null
+	    // };
 	    while (save.prev != null) {
-	        
+
 	        stack = {
 	            prev: m,
 	            tag: save.tag,
 	            data: save.data,
 	        }
 	        save = save.prev;
-	         console.log(save);
 	    }
 
-	    save = {
+	    save = { // reinitialize save
 	        prev: null,
 	        tag: null,
 	        data: null
@@ -277,39 +292,65 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	var test_num = [];
-	test_num[0] = function (s) {
+	var test_WithRef = [];
+	test_WithRef[0] = function (s) {
 	    return {
 	        stack: s,
-	        tag: "get",
-	        data: "variable"
+	        tag: "num",
+	        data: 30
 	    }
 	};
-	test_num[1] = function (s) {
+	test_WithRef[1] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
 	            tag: "left",
 	            data: 0
 	        },
-	        tag: "num",
-	        data: 5
+	        tag: "get",
+	        data: "x"
 	    }
 	};
-	test_num[2] = function (s) {
+	test_WithRef[2] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "num",
+	        data: 11
+	    }
+	};
+	test_WithRef[3] = function (s) {
+	    return {
+	        stack: {
+	            prev: {
+	                prev: {
+	                    prev: s,
+	                    tag: ":>left",
+	                    data: 1
+	                },
+	                tag: ":=",
+	                name: "x"
+	            },
+	            tag: "left",
+	            data: 2
+	        },
+	        tag: "get",
+	        data: "x"
+	    }
+	};
+	test_WithRef[4] = function (s) {
 	    return {
 	        stack: {
 	            prev: s,
 	            tag: "WithRef",
-	            data: 1,
+	            data: 3,
 	            i: 0,
-	            name: "variable"
+	            name: "x"
 	        },
 	        tag: "num",
-	        data: 2
+	        data: 22
 	    }
 	};
-	module.exports = test_num;
+	module.exports = test_WithRef;
 
 /***/ },
 /* 4 */
@@ -334,7 +375,7 @@
 	    return {
 	        stack: {
 	            prev: s,
-	            name : "variable",
+	            name : "variablez",
 	            tag: ":=",
 	            data: 0, 
 	            i: 0

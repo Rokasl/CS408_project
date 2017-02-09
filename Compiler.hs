@@ -67,14 +67,16 @@ compile e = help "s" e where
                 ) e2 
     help s (e1 :> e2) = do
         f2 <- compile e2
-        help ("{prev:" ++ s ++ ", tag:\":>\", data:"++ show f2 ++ "," 
-                ++ "i:0}") e1
+        help ("{prev:" ++ s ++ ", tag:\":>left\", data:"++ show f2 ++ "}") e1
     help s (Get name) = genDef $
        "function(s){return{stack:"++ s ++ ", tag:\"get\", data:"++ show name ++"}}"
     help s (WithRef name e1 e2) = do
         f2 <- compile e2
         help ("{prev:" ++ s ++ ", tag:\"WithRef\", data:"++ show f2 ++ "," 
                 ++ "i:0,name:\"" ++ name ++ "\"}") e1
+    help s (name := e1) = do
+        help ("{prev:" ++ s ++ ", tag:\":=\"," 
+                ++ "name:\"" ++ name ++ "\"}") e1            
 
 
 -- example, how to run:
@@ -112,3 +114,4 @@ jsWrite (code, x) = writeFile "main/generated.js" code
 -- jsWrite (jsSetup "test_:>1" (compile xpr))
 -- let xpr = (WithRef "variable" (Val 2) (Val 5 :+: Get "variable"))
 -- jsWrite (jsSetup "test_WithRef" (compile xpr))
+-- let xpr = WithRef "x" (Val 22) ("x" := (Get "x" :+: Val 11) :> (Get "x" :+: Val 30))

@@ -8,10 +8,9 @@ var Machine = function Machine(f) {
     }
 
     while (mode.tag === "go") {
-
         mode = f[mode.data](mode.stack);
         console.log(mode);
-       
+
         while (mode.tag != "go" && mode.stack != null) {
             switch (mode.tag) {
                 case ("num"):
@@ -51,22 +50,27 @@ var Machine = function Machine(f) {
                             }
                             break;
 
-                        case ":>":
-                            if (mode.stack.i === 1) {
-                                mode.stack = mode.stack.prev;
-                            } else {
-                                mode = {
-                                    stack: {
-                                        prev: mode.stack.prev,
-                                        tag: ":>",
-                                        data: mode.data,
-                                        i: 1
-                                    },
-                                    tag: "go",
-                                    data: mode.stack.data
-                                }
+                        case ":>left":
+                            mode = {
+                                stack: {
+                                    prev: mode.stack.prev,
+                                    tag: ":>right",
+                                    data: mode.data
+                                },
+                                tag: "go",
+                                data: mode.stack.data
                             }
                             break;
+                        case ":>right":
+                            mode = {
+                                stack: mode.stack.prev,
+                                tag: "num",
+                                data: mode.data
+                            }
+                            
+                            break;
+
+
 
                         case "WithRef":
                             if (mode.stack.i === 1) {
@@ -87,43 +91,51 @@ var Machine = function Machine(f) {
                             break;
 
                         case ":=":
-                        console.log("initial mode", mode);
-                            if (mode.stack.i === 1) {
-                                mode.stack = mode.stack.prev;
-                            } else {
+                            m = mode;
+                            mode = mode.stack.prev;
+                            found = false;
 
-
-                                m = mode;
-                                mode = mode.stack.prev;
-
-                                while (mode != null) {
-                            
-                                   
-
-                                    if (mode.tag === "WithRef" && mode.name === m.stack.name) {
-                                        mode.data = m.data;
-                                        break;
-                                    }
-                                    saveStack(mode);
-                                    mode = mode.prev;
-                                    
+                            while (mode != null) {
+                                if (mode.tag === "WithRef" && mode.name === m.stack.name) {
+                                    mode.data = m.data;
+                                    found = true;
+                                    break;
                                 }
 
-                                console.log(mode);
-                                // everything is okay, restore stack & continue!
-                                mode = restoreStack(mode);
-                                console.log(mode);
-                            
-                                mode = {
-                                    stack: mode,
-                                    tag: "go",
-                                    data: m.stack.data
-                                }
+                                saveStack(mode);
+                                mode = mode.prev;
 
                             }
+                        
+
+                            if (!found) { // variable not defined
+                                mode = { // throw exception!
+                                    stack: m.stack.prev,
+                                    tag: "throw",
+                                    data: "Exception: Undifined expression: " + m.stack.name
+                                }
+                            } else {
+                            
+                                // everything is okay, restore stack & continue!
+                                mode = restoreStack(mode);
+
+                                if (mode.data != null) {
+
+                                    mode = {
+                                        stack: mode,
+                                        tag: "go",
+                                        data: mode.data
+                                    }
+                                } else { // just halt, no further instructions
+                                    mode = {
+                                        stack: mode,
+                                        tag: "halt",
+                                        data: m.data
+                                    }
+                                }
+                            }
+
                             break;
-
-
 
                     }
                     break;
@@ -165,6 +177,7 @@ var Machine = function Machine(f) {
                         }
                     }
                     break;
+
             }
         }
     }
@@ -189,24 +202,26 @@ var saveStack = function (m) {
         tag: m.tag,
         data: m.data
     }
-    console.log(save);
 }
 
 var restoreStack = function (m) {
     var stack;
-
+    // var stack = {
+    //     prev: null,
+    //     tag: null,
+    //     data: null
+    // };
     while (save.prev != null) {
-        
+
         stack = {
             prev: m,
             tag: save.tag,
             data: save.data,
         }
         save = save.prev;
-         console.log(save);
     }
 
-    save = {
+    save = { // reinitialize save
         prev: null,
         tag: null,
         data: null

@@ -17,7 +17,7 @@ ProgramFoo8[1] = function (s) {
     return {
         stack: {
             prev: s,
-            name : "variable",
+            name : "variablez",
             tag: ":=",
             data: 0, 
             i: 0

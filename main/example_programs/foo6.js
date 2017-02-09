@@ -4,7 +4,7 @@ ProgramFoo6[1] = function (s) {
     return {
         stack: {
             prev: s,
-            tag: "left",
+            tag: ":>left",
             data: 0
         },
         tag: "num",
@@ -22,9 +22,8 @@ ProgramFoo6[2] = function (s) {
     return {
         stack: {
             prev: s,
-            tag: ":>",
+            tag: "left",
             data: 1,
-            i:0
         },
         tag: "num",
         data: 2
