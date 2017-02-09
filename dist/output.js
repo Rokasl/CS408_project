@@ -45,10 +45,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	Machine = __webpack_require__(1);
-	foo = __webpack_require__(5);
+	foo = __webpack_require__(2);
 	gen = __webpack_require__(3);
 
-	var machine = new Machine(gen);
+	var machine = new Machine(foo);
 
 /***/ },
 /* 1 */
@@ -66,7 +66,7 @@
 	    while (mode.tag === "go") {
 
 	        mode = f[mode.data](mode.stack);
-	        console.log(mode);
+
 	        while (mode.tag != "go" && mode.stack != null) {
 	            switch (mode.tag) {
 	                case ("num"):
@@ -158,7 +158,8 @@
 	                    }
 	                    break;
 	                case ("get"):
-	                    save.push(mode); // save stack (TODO for better saving)
+	                    save.push(mode);
+	                    saveStack(mode);
 	                    if (mode.stack.tag === "WithRef" && mode.data === mode.stack.name) {
 	                        mode = {
 	                            stack: save[0].stack, //get back full stack
@@ -166,6 +167,7 @@
 	                            data: mode.stack.data
 	                        }
 	                        save = [];
+	                        restoreStack(mode);
 	                    } else if (mode.stack.prev != null) {
 	                        mode = {
 	                            stack: mode.stack.prev,
@@ -192,50 +194,39 @@
 	}
 
 
+	var save = {
+	    stack: null,
+	    tag: null,
+	    data: null
+	}
+
+	var saveStack = function (m) {
+	    save = {
+	        stack: save,
+	        tag: m.tag,
+	        data: m.data
+	    }
+	}
+
+	var restoreStack = function (m) {
+	    var stack;
+
+	    while(save.stack != null) {
+	        stack = {
+	            stack: m,
+	            tag: save.tag,
+	            data: save.data,
+	        }
+	        save = save.stack;
+	    }
+	    console.log(stack);
+	    return stack
+	}
+
 	module.exports = Machine;
 
 /***/ },
-/* 2 */,
-/* 3 */
-/***/ function(module, exports) {
-
-	var test_num = [];
-	test_num[0] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "get",
-	        data: "variable"
-	    }
-	};
-	test_num[1] = function (s) {
-	    return {
-	        stack: {
-	            prev: s,
-	            tag: "left",
-	            data: 0
-	        },
-	        tag: "num",
-	        data: 5
-	    }
-	};
-	test_num[2] = function (s) {
-	    return {
-	        stack: {
-	            prev: s,
-	            tag: "WithRef",
-	            data: 1,
-	            i: 0,
-	            name: "variable"
-	        },
-	        tag: "num",
-	        data: 2
-	    }
-	};
-	module.exports = test_num;
-
-/***/ },
-/* 4 */,
-/* 5 */
+/* 2 */
 /***/ function(module, exports) {
 
 	var ProgramFoo7 = [];
@@ -275,6 +266,44 @@
 
 
 	module.exports = ProgramFoo7;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	var test_num = [];
+	test_num[0] = function (s) {
+	    return {
+	        stack: s,
+	        tag: "get",
+	        data: "variable"
+	    }
+	};
+	test_num[1] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "left",
+	            data: 0
+	        },
+	        tag: "num",
+	        data: 5
+	    }
+	};
+	test_num[2] = function (s) {
+	    return {
+	        stack: {
+	            prev: s,
+	            tag: "WithRef",
+	            data: 1,
+	            i: 0,
+	            name: "variable"
+	        },
+	        tag: "num",
+	        data: 2
+	    }
+	};
+	module.exports = test_num;
 
 /***/ }
 /******/ ]);

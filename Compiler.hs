@@ -110,3 +110,5 @@ jsWrite (code, x) = writeFile "main/generated.js" code
 -- jsWrite (jsSetup "test_throw" (compile xpr))
 -- let xpr = (Val 2 :+: Val 100) :> (Catch (Val 10 :+: Val 3) (Val 2))
 -- jsWrite (jsSetup "test_:>1" (compile xpr))
+-- let xpr = (WithRef "variable" (Val 2) (Val 5 :+: Get "variable"))
+-- jsWrite (jsSetup "test_WithRef" (compile xpr))
