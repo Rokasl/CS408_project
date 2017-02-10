@@ -25,10 +25,6 @@ declare -A test1=(
 for id_name in ${!test@}; do
     declare -n test=$id_name
 
-
-    echo "Expr: ${test[expr]}"
-    echo "Name: ${test[name]}"
-
     #Test
     ./tests/helper.sh ${test[expr]} ${test[name]}
     #end of expect
