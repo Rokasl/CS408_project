@@ -46,13 +46,17 @@
 
 	Machine = __webpack_require__(1);
 	foo = __webpack_require__(4);
-	gen = __webpack_require__(3);
+	gen = __webpack_require__(5);
 
 	var machine = new Machine(gen);
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	s = __webpack_require__(2);
+	printer = __webpack_require__(3);
+	var saver = new s();
 
 	var Machine = function Machine(f) {
 
@@ -158,7 +162,7 @@
 	                                    break;
 	                                }
 
-	                                saveStack(mode);
+	                                saver.saveStack(mode);
 	                                mode = mode.prev;
 
 	                            }
@@ -173,7 +177,7 @@
 	                            } else {
 	                            
 	                                // everything is okay, restore stack & continue!
-	                                mode = restoreStack(mode);
+	                                mode = saver.restoreStack(mode);
 
 	                                if (mode.data != null) {
 
@@ -238,119 +242,82 @@
 	        }
 	    }
 	    console.log("----END----");
+	    printer(mode);
+	    // just for node testing
 	    console.log(mode.data);
-
-	    this.printStack = function () {
-	        // TODO
-	    }
 	}
 
-
-	var save = {
-	    prev: null,
-	    tag: null,
-	    data: null
-	}
-
-	var saveStack = function (m) {
-	    save = {
-	        prev: save,
-	        tag: m.tag,
-	        data: m.data
-	    }
-	}
-
-	var restoreStack = function (m) {
-	    var stack;
-	    // var stack = {
-	    //     prev: null,
-	    //     tag: null,
-	    //     data: null
-	    // };
-	    while (save.prev != null) {
-
-	        stack = {
-	            prev: m,
-	            tag: save.tag,
-	            data: save.data,
-	        }
-	        save = save.prev;
-	    }
-
-	    save = { // reinitialize save
-	        prev: null,
-	        tag: null,
-	        data: null
-	    }
-	    return stack
-	}
 
 	module.exports = Machine;
 
 /***/ },
-/* 2 */,
+/* 2 */
+/***/ function(module, exports) {
+
+	// Early version of stack saver, which saves states of the stack while going deeper
+	//      and has an ability to restore it to the start state, while keeping all the
+	//          changes.         
+
+	var saver = function () {
+	    var save = {
+	        prev: null,
+	        tag: null,
+	        data: null
+	    }
+
+	    this.saveStack = function (m) {
+	        save = {
+	            prev: save,
+	            tag: m.tag,
+	            data: m.data
+	        }
+	    }
+
+	    this.restoreStack = function (m) {
+	        var stack;
+	        // var stack = {
+	        //     prev: null,
+	        //     tag: null,
+	        //     data: null
+	        // };
+	        while (save.prev != null) {
+
+	            stack = {
+	                prev: m,
+	                tag: save.tag,
+	                data: save.data,
+	            }
+	            save = save.prev;
+	        }
+	        this.destroySave();
+	        return stack
+	    }
+	    this.destroySave = function () {
+	        save = { // reinitialize save
+	            prev: null,
+	            tag: null,
+	            data: null
+	        }
+	    }
+	}
+
+	module.exports = saver;
+
+/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
-	var test_WithRef = [];
-	test_WithRef[0] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "num",
-	        data: 30
+	var printStack = function (stack) {
+	    // pretty printer
+	    while (stack != null) {
+	        console.log('Data: ', stack.data,' Tag: ', stack.tag);
+	        console.log('-----------------');
+	        stack = stack.prev;
 	    }
-	};
-	test_WithRef[1] = function (s) {
-	    return {
-	        stack: {
-	            prev: s,
-	            tag: "left",
-	            data: 0
-	        },
-	        tag: "get",
-	        data: "x"
-	    }
-	};
-	test_WithRef[2] = function (s) {
-	    return {
-	        stack: s,
-	        tag: "num",
-	        data: 11
-	    }
-	};
-	test_WithRef[3] = function (s) {
-	    return {
-	        stack: {
-	            prev: {
-	                prev: {
-	                    prev: s,
-	                    tag: ":>left",
-	                    data: 1
-	                },
-	                tag: ":=",
-	                name: "x"
-	            },
-	            tag: "left",
-	            data: 2
-	        },
-	        tag: "get",
-	        data: "x"
-	    }
-	};
-	test_WithRef[4] = function (s) {
-	    return {
-	        stack: {
-	            prev: s,
-	            tag: "WithRef",
-	            data: 3,
-	            i: 0,
-	            name: "x"
-	        },
-	        tag: "num",
-	        data: 22
-	    }
-	};
-	module.exports = test_WithRef;
+	    console.log('That\'s all folks!')
+	}
+
+	module.exports = printStack;
 
 /***/ },
 /* 4 */
@@ -410,6 +377,16 @@
 
 
 	module.exports = ProgramFoo8;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	var test_sum= [];
+	test_sum[0] = function(s){return{stack:s, tag:"num", data:8}};
+	test_sum[1] = function(s){return{stack:{prev:s, tag:"left", data:0}, tag:"num", data:4}};
+	test_sum[2] = function(s){return{stack:{prev:s, tag:"left", data:1}, tag:"num", data:2}};
+	module.exports = test_sum;
 
 /***/ }
 /******/ ]);

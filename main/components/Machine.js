@@ -1,3 +1,7 @@
+s = require("./StackSave.js");
+printer = require("./Printer");
+var saver = new s();
+
 var Machine = function Machine(f) {
 
     var save = [];
@@ -102,7 +106,7 @@ var Machine = function Machine(f) {
                                     break;
                                 }
 
-                                saveStack(mode);
+                                saver.saveStack(mode);
                                 mode = mode.prev;
 
                             }
@@ -117,7 +121,7 @@ var Machine = function Machine(f) {
                             } else {
                             
                                 // everything is okay, restore stack & continue!
-                                mode = restoreStack(mode);
+                                mode = saver.restoreStack(mode);
 
                                 if (mode.data != null) {
 
@@ -182,51 +186,10 @@ var Machine = function Machine(f) {
         }
     }
     console.log("----END----");
+    printer(mode);
+    // just for node testing
     console.log(mode.data);
-
-    this.printStack = function () {
-        // TODO
-    }
 }
 
-
-var save = {
-    prev: null,
-    tag: null,
-    data: null
-}
-
-var saveStack = function (m) {
-    save = {
-        prev: save,
-        tag: m.tag,
-        data: m.data
-    }
-}
-
-var restoreStack = function (m) {
-    var stack;
-    // var stack = {
-    //     prev: null,
-    //     tag: null,
-    //     data: null
-    // };
-    while (save.prev != null) {
-
-        stack = {
-            prev: m,
-            tag: save.tag,
-            data: save.data,
-        }
-        save = save.prev;
-    }
-
-    save = { // reinitialize save
-        prev: null,
-        tag: null,
-        data: null
-    }
-    return stack
-}
 
 module.exports = Machine;
