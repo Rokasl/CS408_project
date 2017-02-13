@@ -62,9 +62,7 @@ compile e = help "s" e where
         ++ ", tag:\"throw\", data:\" Unhandled exception!\"}}" 
     help s (Catch e1 e2) = do
         f2 <- compile e1
-        help ("{prev:" ++ s ++ ", tag:\"catch\", data:"++ show f2 ++ "," 
-                ++ "i:0}" -- hacky way, variable to know if we visited this frame
-                ) e2 
+        help ("{prev:" ++ s ++ ", tag:\"catch\", data:"++ show f2 ++ "}") e2 
     help s (e1 :> e2) = do
         f2 <- compile e2
         help ("{prev:" ++ s ++ ", tag:\":>left\", data:"++ show f2 ++ "}") e1

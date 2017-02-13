@@ -2,8 +2,12 @@
 # chmod +x helper.sh (if permission denied)
 
 
+send_user $argv;
 set expr [lrange $argv 0 end-1]
 set name [lindex $argv end 0]
+
+set expr [regsub {\{} $expr ""]
+set expr [regsub {\}} $expr ""]
 
 spawn ghci
 

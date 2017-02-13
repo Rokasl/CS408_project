@@ -94,20 +94,16 @@
 	                            }
 	                            break;
 	                        case "catch":
-	                            if (mode.stack.i === 1) {
-	                                mode.stack = mode.stack.prev;
-	                            } else {
-	                                mode = {
-	                                    stack: {
-	                                        prev: mode.stack.prev,
-	                                        tag: "catch",
-	                                        data: mode.data,
-	                                        i: 1
-	                                    },
-	                                    tag: "go",
-	                                    data: mode.stack.data
-	                                }
+	                            mode = {
+	                                stack: {
+	                                    prev: mode.stack.prev,
+	                                    tag: "catcher",
+	                                    data: mode.data,
+	                                },
+	                                tag: "go",
+	                                data: mode.stack.data
 	                            }
+
 	                            break;
 
 	                        case ":>left":
@@ -127,7 +123,7 @@
 	                                tag: "num",
 	                                data: mode.data
 	                            }
-	                            
+
 	                            break;
 
 
@@ -166,7 +162,7 @@
 	                                mode = mode.prev;
 
 	                            }
-	                        
+
 
 	                            if (!found) { // variable not defined
 	                                mode = { // throw exception!
@@ -175,7 +171,7 @@
 	                                    data: "Exception: Undifined expression: " + m.stack.name
 	                                }
 	                            } else {
-	                            
+
 	                                // everything is okay, restore stack & continue!
 	                                mode = saver.restoreStack(mode);
 
@@ -200,9 +196,9 @@
 	                    }
 	                    break;
 	                case ("throw"):
-	                    if (mode.stack.tag === "catch" && mode.stack.i != 0) {
+	                    if (mode.stack.tag === "catcher") {
 	                        mode = {
-	                            stack: null,
+	                            stack: mode.stack.prev,
 	                            tag: "num",
 	                            data: mode.stack.data
 	                        }
@@ -382,11 +378,11 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	var test_sum= [];
-	test_sum[0] = function(s){return{stack:s, tag:"num", data:8}};
-	test_sum[1] = function(s){return{stack:{prev:s, tag:"left", data:0}, tag:"num", data:4}};
-	test_sum[2] = function(s){return{stack:{prev:s, tag:"left", data:1}, tag:"num", data:2}};
-	module.exports = test_sum;
+	var test_simple_withref= [];
+	test_simple_withref[0] = function(s){return{stack:s, tag:"num", data:3}};
+	test_simple_withref[1] = function(s){return{stack:{prev:s, tag:"left", data:0}, tag:"num", data:5}};
+	test_simple_withref[2] = function(s){return{stack:{prev:s, tag:"WithRef", data:1,i:0,name:"x"}, tag:"num", data:2}};
+	module.exports = test_simple_withref;
 
 /***/ }
 /******/ ]);

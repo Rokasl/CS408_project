@@ -38,20 +38,16 @@ var Machine = function Machine(f) {
                             }
                             break;
                         case "catch":
-                            if (mode.stack.i === 1) {
-                                mode.stack = mode.stack.prev;
-                            } else {
-                                mode = {
-                                    stack: {
-                                        prev: mode.stack.prev,
-                                        tag: "catch",
-                                        data: mode.data,
-                                        i: 1
-                                    },
-                                    tag: "go",
-                                    data: mode.stack.data
-                                }
+                            mode = {
+                                stack: {
+                                    prev: mode.stack.prev,
+                                    tag: "catcher",
+                                    data: mode.data,
+                                },
+                                tag: "go",
+                                data: mode.stack.data
                             }
+
                             break;
 
                         case ":>left":
@@ -71,7 +67,7 @@ var Machine = function Machine(f) {
                                 tag: "num",
                                 data: mode.data
                             }
-                            
+
                             break;
 
 
@@ -110,7 +106,7 @@ var Machine = function Machine(f) {
                                 mode = mode.prev;
 
                             }
-                        
+
 
                             if (!found) { // variable not defined
                                 mode = { // throw exception!
@@ -119,7 +115,7 @@ var Machine = function Machine(f) {
                                     data: "Exception: Undifined expression: " + m.stack.name
                                 }
                             } else {
-                            
+
                                 // everything is okay, restore stack & continue!
                                 mode = saver.restoreStack(mode);
 
@@ -144,9 +140,9 @@ var Machine = function Machine(f) {
                     }
                     break;
                 case ("throw"):
-                    if (mode.stack.tag === "catch" && mode.stack.i != 0) {
+                    if (mode.stack.tag === "catcher") {
                         mode = {
-                            stack: null,
+                            stack: mode.stack.prev,
                             tag: "num",
                             data: mode.stack.data
                         }
