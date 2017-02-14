@@ -3,45 +3,45 @@
 //          changes.         
 
 var saver = function () {
-    var save = {
-        prev: null,
-        tag: null,
-        data: null
-    }
+    var save = null;
+    var restore = null;
 
     this.saveStack = function (m) {
         save = {
             prev: save,
             tag: m.tag,
-            data: m.data
+            data: m.data,
+            name: m.name
+        }
+    }
+
+    this.restoreHelper = function (m) {
+        restore = {
+            prev: restore,
+            tag: m.tag,
+            data: m.data,
+            name: m.name
         }
     }
 
     this.restoreStack = function (m) {
-        var stack;
-        // var stack = {
-        //     prev: null,
-        //     tag: null,
-        //     data: null
-        // };
-        while (save.prev != null) {
-
-            stack = {
-                prev: m,
-                tag: save.tag,
-                data: save.data,
-            }
+        this.saveStack(m);
+    
+        while (save != null) {
+            this.restoreHelper(save);
             save = save.prev;
         }
+        
+        stack = restore;
         this.destroySave();
-        return stack
+        this.destroyRestore();
+        return stack;
     }
     this.destroySave = function () {
-        save = { // reinitialize save
-            prev: null,
-            tag: null,
-            data: null
-        }
+        save = null;
+    }
+    this.destroyRestore = function () {
+        restore = null;
     }
 }
 

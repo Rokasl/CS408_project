@@ -67,27 +67,25 @@ var Machine = function Machine(f) {
                                 tag: "num",
                                 data: mode.data
                             }
-
                             break;
 
 
 
                         case "WithRef":
-                            if (mode.stack.i === 1) {
-                                mode.stack = mode.stack.prev;
-                            } else {
-                                mode = {
-                                    stack: {
-                                        prev: mode.stack.prev,
-                                        tag: "WithRef",
-                                        data: mode.data,
-                                        name: mode.stack.name,
-                                        i: 1
-                                    },
-                                    tag: "go",
-                                    data: mode.stack.data
-                                }
+                            mode = {
+                                stack: {
+                                    prev: mode.stack.prev,
+                                    tag: "WithRefRight",
+                                    data: mode.data,
+                                    name: mode.stack.name,
+                                },
+                                tag: "go",
+                                data: mode.stack.data
                             }
+                            break;
+
+                        case "WithRefRight":
+                            mode.stack = mode.stack.prev;
                             break;
 
                         case ":=":
@@ -96,7 +94,7 @@ var Machine = function Machine(f) {
                             found = false;
 
                             while (mode != null) {
-                                if (mode.tag === "WithRef" && mode.name === m.stack.name) {
+                                if (mode.tag === "WithRefRight" && mode.name === m.stack.name) {
                                     mode.data = m.data;
                                     found = true;
                                     break;
@@ -118,19 +116,11 @@ var Machine = function Machine(f) {
 
                                 // everything is okay, restore stack & continue!
                                 mode = saver.restoreStack(mode);
-
-                                if (mode.data != null) {
-
+                                if (mode.data != null && mode.tag != "WithRefRight") {
                                     mode = {
-                                        stack: mode,
+                                        stack: mode.prev,
                                         tag: "go",
                                         data: mode.data
-                                    }
-                                } else { // just halt, no further instructions
-                                    mode = {
-                                        stack: mode,
-                                        tag: "halt",
-                                        data: m.data
                                     }
                                 }
                             }
@@ -155,27 +145,33 @@ var Machine = function Machine(f) {
                     }
                     break;
                 case ("get"):
-                    save.push(mode);
-                    if (mode.stack.tag === "WithRef" && mode.data === mode.stack.name) {
-                        mode = {
-                            stack: save[0].stack, //get back full stack
-                            tag: "num",
-                            data: mode.stack.data
+                    m = mode; // save the current stack
+                    mode = mode.stack;
+                    found = false;
+
+                    while (mode != null) {
+                        if (mode.tag === "WithRefRight" && mode.name === m.data) {
+                            found = true;
+                            break;
                         }
-                        save = [];
-                    } else if (mode.stack.prev != null) {
+                        saver.saveStack(mode);
+                        mode = mode.prev;
+                    }
+
+                    if (!found) { // variable not defined
+                        mode = { // throw exception!
+                            stack: m.stack.prev,
+                            tag: "throw",
+                            data: "Exception: Undifined expression: " + m.data
+                        }
+                    } else { // everything is okay, restore stack & continue!
                         mode = {
-                            stack: mode.stack.prev,
-                            tag: "get",
+                            stack: saver.restoreStack(mode), // get back full stack
+                            tag: "num",
                             data: mode.data
                         }
-                    } else {
-                        mode = { // throw exception!
-                            stack: null,
-                            tag: "throw",
-                            data: "Exception: Undifined expression: " + mode.data
-                        }
                     }
+                    
                     break;
 
             }
