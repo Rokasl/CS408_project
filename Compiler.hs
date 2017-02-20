@@ -6,11 +6,12 @@ data Name = String
             deriving Show
 
 data  Expr  = Val Int 
-            | Expr :+: Expr
+            | Expr :+: Expr -- sum of two expressions 
             | Throw
-            | Catch Expr Expr
-            | Get String
-            | String := Expr
+            | Catch Expr Expr -- evaluated first expression, if result is
+                                -- Throw then evaluate second expression
+            | Get String -- get the expression of the reference
+            | String := Expr -- Set reference value to some expression
             | Expr :> Expr  -- :> is ugly syntax for ";" (taking value of the second)
             | WithRef String -- name of new reference
                           Expr -- how to compute initial value of new reference
@@ -71,7 +72,7 @@ compile e = help "s" e where
     help s (WithRef name e1 e2) = do
         f2 <- compile e2
         help ("{prev:" ++ s ++ ", tag:\"WithRef\", data:"++ show f2 ++ "," 
-                ++ "i:0,name:\"" ++ name ++ "\"}") e1
+                ++ "name:\"" ++ name ++ "\"}") e1
     help s (name := e1) = do
         help ("{prev:" ++ s ++ ", tag:\":=\"," 
                 ++ "name:\"" ++ name ++ "\"}") e1            

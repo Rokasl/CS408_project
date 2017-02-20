@@ -1,32 +1,21 @@
 var ProgramFoo2 = [];
 
-ProgramFoo2[1] = function (s) {
-    return {
-        stack: {
-            prev: s,
-            tag: "left",
-            data: 0
-        },
-        tag: "num",
-        data: 3
-    }
-};
 ProgramFoo2[0] = function (s) {
     return {
-        stack: s,
-        tag: "num",
-        data: 5
+        stack: s, // stack
+        tag: "num", //expression type
+        data: 3 // expression value
     }
 };
-ProgramFoo2[2] = function (s) {
+ProgramFoo2[1] = function (s) {
     return {
-        stack: {
-            prev: s,
-            tag: "left",
-            data: 1
+        stack: { // stack 
+            prev: s, // link to previous frame 
+            tag: "left", // command used for adding numbers
+            data: 0 // index of next operation 
         },
-        tag: "num",
-        data: 2
+        tag: "num", // expression type
+        data: 2 // expression value
     }
 };
 

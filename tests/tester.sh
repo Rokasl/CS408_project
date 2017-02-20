@@ -80,8 +80,6 @@ for id_name in ${!test@}; do
     output=$(node ./dist/output.js); #get output
     output="${output##*$'\n'}" #take only last line
 
-    echo $output;
-    echo ${test[expected]};
     if [ "$output" = "${test[expected]}" ]; then
         echo -e "${GREEN}Test passed${NC}"
     else 
