@@ -26,7 +26,7 @@ help:
 
 pdf:
 	pandoc "$(INPUTDIR)"/*.md \
-	-o "$(OUTPUTDIR)/thesis.pdf" \
+	-o "$(OUTPUTDIR)/report.pdf" \
 	-H "$(STYLEDIR)/preamble.tex" \
 	--template="$(STYLEDIR)/template.tex" \
 	--bibliography="$(BIBFILE)" 2>pandoc.log \
@@ -40,7 +40,7 @@ pdf:
 
 tex:
 	pandoc "$(INPUTDIR)"/*.md \
-	-o "$(OUTPUTDIR)/thesis.tex" \
+	-o "$(OUTPUTDIR)/report.tex" \
 	-H "$(STYLEDIR)/preamble.tex" \
 	--bibliography="$(BIBFILE)" \
 	-V fontsize=12pt \
@@ -52,14 +52,14 @@ tex:
 
 docx:
 	pandoc "$(INPUTDIR)"/*.md \
-	-o "$(OUTPUTDIR)/thesis.docx" \
+	-o "$(OUTPUTDIR)/report.docx" \
 	--bibliography="$(BIBFILE)" \
 	--csl="$(STYLEDIR)/ref_format.csl" \
 	--toc
 
 html:
 	pandoc "$(INPUTDIR)"/*.md \
-	-o "$(OUTPUTDIR)/thesis.html" \
+	-o "$(OUTPUTDIR)/report.html" \
 	--standalone \
 	--template="$(STYLEDIR)/template.html" \
 	--bibliography="$(BIBFILE)" \

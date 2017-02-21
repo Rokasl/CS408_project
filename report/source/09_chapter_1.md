@@ -12,6 +12,7 @@ section, explains the report structure.
 * End result must facilitate client-side communication of events and DOM updates between Frank code
   and the browser.
 
+
 ## Project Outcome
 
 

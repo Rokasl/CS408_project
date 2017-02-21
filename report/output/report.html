@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+        <meta name="generator" content="pandoc" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+                        <title></title>
+        <style type="text/css">code{white-space: pre;}</style>
+                                                    <style>
+            body {
+                font-family: Georgia;
+                max-width: 800px;
+                margin: 0 auto;
+                line-height: 30px;
+                font-size: 18px;
+                padding-left: 350px;
+                padding-right: 50px;
+                color: #111;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                font-family: Arial;
+            }
+            
+            h1 {
+                padding-top: 200px;
+                line-height: 50px;
+            }
+            h2 {
+                padding-top: 30px;
+            }
+            h3 {
+                padding-top: 20px;
+            }
+            h4 {
+                padding-top: 10px;
+            }
+            p {
+                text-align: justify;
+            }
+            p a {
+                word-wrap: break-word;
+                white-space: pre;
+            }
+            code {
+                word-wrap: break-word;
+            }
+            blockquote {
+                border-left: 3px solid #eee;
+                margin-left: 20px;
+                padding-left: 20px;
+            }
+            
+            ::selection {
+                background-color: #E4E4E4;
+            }
+            
+            table {
+                width: 100%;
+            }
+            table caption {
+                font-weight: bold;
+            }
+            table tr {
+                padding: 0;
+                margin: 0;
+                background-color: #f0f0f0;
+            }
+            table tr.even {
+                background-color: #fafafa;
+            }
+            table td {
+                margin: 0;
+                padding: 3px 5px;
+            }
+            
+            p span.added {
+                color: green;
+                background-color: #FFF3C5;
+            }
+            p span.removed {
+                color: red;
+                background-color: #FFF3C5;
+            }
+            
+            #title-page {
+                padding: 80px 0;
+            }
+            
+            #TOC {
+                position: fixed;
+                left: 0;
+                top: 0;
+                overflow-y: scroll;
+                height: 100%;
+                background: #fafafa;
+                max-width: 300px;
+                font-family: Arial;
+                font-size: 15px;
+                line-height: 30px;
+            }
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #ECECEC;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #B0B0B0;
+                border-radius: 8px;
+            }
+            #TOC > ul {
+                padding-right: 10px;
+            }
+            #TOC ul {
+                list-style: none;
+                padding-left: 20px;
+            }
+            #TOC ul li a {
+                text-decoration: none;
+                color: #364149;
+                text-overflow: ellipsis;
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            #TOC ul li a:hover {
+                color: #008cff;
+            }
+            
+            .figure {
+                text-align: center;
+            }
+            .figure p {
+                text-align: center;
+                font-style: italic;
+            }
+            .figure img {
+                  width: 100%;
+            }
+            </style>
+                <script src="js/jquery.js"></script>
+        <script src="js/diff.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+                <!--
+                -->
+        <div id="title-page">
+            <h1>This is the title of the thesis</h1>
+            <h2>Firstname Surname</h2>
+        </div>
+                    <div id="TOC">
+                <ul>
+                <li><a href="#abstract">Abstract</a></li>
+                <li><a href="#acknowledgements">Acknowledgements</a></li>
+                <li><a href="#list-of-figures">List of figures</a></li>
+                <li><a href="#list-of-tables">List of tables</a></li>
+                <li><a href="#abbreviations">Abbreviations</a></li>
+                <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+                <li><a href="#background"><span class="toc-section-number">1.1</span> Background</a></li>
+                <li><a href="#objectives"><span class="toc-section-number">1.2</span> Objectives</a></li>
+                <li><a href="#project-outcome"><span class="toc-section-number">1.3</span> Project Outcome</a></li>
+                <li><a href="#summary-of-chapters"><span class="toc-section-number">1.4</span> Summary of chapters</a></li>
+                </ul></li>
+                <li><a href="#related-work"><span class="toc-section-number">2</span> Related Work</a><ul>
+                <li><a href="#vole"><span class="toc-section-number">2.1</span> Vole</a></li>
+                <li><a href="#shonky"><span class="toc-section-number">2.2</span> Shonky</a></li>
+                <li><a href="#frankjnr"><span class="toc-section-number">2.3</span> Frankjnr</a><ul>
+                <li><a href="#frankjnr-limitations"><span class="toc-section-number">2.3.1</span> Frankjnr limitations</a></li>
+                </ul></li>
+                <li><a href="#ocaml"><span class="toc-section-number">2.4</span> Ocaml</a></li>
+                <li><a href="#haste"><span class="toc-section-number">2.5</span> Haste</a></li>
+                <li><a href="#conclusion"><span class="toc-section-number">2.6</span> Conclusion</a></li>
+                </ul></li>
+                <li><a href="#initial-development-simple-system"><span class="toc-section-number">3</span> Initial development &amp; Simple system</a><ul>
+                <li><a href="#introduction-1"><span class="toc-section-number">3.1</span> Introduction</a></li>
+                <li><a href="#simple-system"><span class="toc-section-number">3.2</span> Simple system</a><ul>
+                <li><a href="#language"><span class="toc-section-number">3.2.1</span> Language</a></li>
+                <li><a href="#compiler"><span class="toc-section-number">3.2.2</span> Compiler</a></li>
+                <li><a href="#abstract-machine"><span class="toc-section-number">3.2.3</span> Abstract machine</a></li>
+                <li><a href="#testing-framework"><span class="toc-section-number">3.2.4</span> Testing framework</a></li>
+                </ul></li>
+                <li><a href="#conclusion-1"><span class="toc-section-number">3.3</span> Conclusion</a></li>
+                </ul></li>
+                <li><a href="#research-containing-a-figure"><span class="toc-section-number">4</span> Research containing a figure</a><ul>
+                <li><a href="#introduction-2"><span class="toc-section-number">4.1</span> Introduction</a></li>
+                <li><a href="#method"><span class="toc-section-number">4.2</span> Method</a><ul>
+                <li><a href="#subsection-1"><span class="toc-section-number">4.2.1</span> Subsection 1</a></li>
+                <li><a href="#subsection-2"><span class="toc-section-number">4.2.2</span> Subsection 2</a></li>
+                </ul></li>
+                <li><a href="#results"><span class="toc-section-number">4.3</span> Results</a></li>
+                <li><a href="#discussion"><span class="toc-section-number">4.4</span> Discussion</a></li>
+                <li><a href="#conclusion-2"><span class="toc-section-number">4.5</span> Conclusion</a></li>
+                </ul></li>
+                <li><a href="#research-containing-a-table"><span class="toc-section-number">5</span> Research containing a table</a><ul>
+                <li><a href="#introduction-3"><span class="toc-section-number">5.1</span> Introduction</a></li>
+                <li><a href="#method-1"><span class="toc-section-number">5.2</span> Method</a><ul>
+                <li><a href="#subsection-1-1"><span class="toc-section-number">5.2.1</span> Subsection 1</a></li>
+                <li><a href="#subsection-2-1"><span class="toc-section-number">5.2.2</span> Subsection 2</a></li>
+                </ul></li>
+                <li><a href="#results-1"><span class="toc-section-number">5.3</span> Results</a></li>
+                <li><a href="#discussion-1"><span class="toc-section-number">5.4</span> Discussion</a></li>
+                <li><a href="#conclusion-3"><span class="toc-section-number">5.5</span> Conclusion</a></li>
+                </ul></li>
+                <li><a href="#final-research-study"><span class="toc-section-number">6</span> Final research study</a><ul>
+                <li><a href="#introduction-4"><span class="toc-section-number">6.1</span> Introduction</a></li>
+                <li><a href="#method-2"><span class="toc-section-number">6.2</span> Method</a><ul>
+                <li><a href="#subsection-1-2"><span class="toc-section-number">6.2.1</span> Subsection 1</a></li>
+                <li><a href="#subsection-2-2"><span class="toc-section-number">6.2.2</span> Subsection 2</a></li>
+                </ul></li>
+                <li><a href="#results-2"><span class="toc-section-number">6.3</span> Results</a></li>
+                <li><a href="#discussion-2"><span class="toc-section-number">6.4</span> Discussion</a></li>
+                <li><a href="#conclusion-4"><span class="toc-section-number">6.5</span> Conclusion</a></li>
+                </ul></li>
+                <li><a href="#conclusion-5"><span class="toc-section-number">7</span> Conclusion</a><ul>
+                <li><a href="#thesis-summary"><span class="toc-section-number">7.1</span> Thesis summary</a></li>
+                <li><a href="#future-work"><span class="toc-section-number">7.2</span> Future work</a></li>
+                </ul></li>
+                <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
+                <li><a href="#appendix-2-some-more-extra-stuff">Appendix 2: Some more extra stuff</a></li>
+                <li><a href="#references">References</a></li>
+                </ul>
+            </div>
+                                
+<h1 id="abstract" class="unnumbered">Abstract</h1>
+<!-- This is the abstract -->
+<p>Frank is strongly typed, strict functional programming language invented by Sam Lindley and Conor McBride and it is influenced by Paul Blain Levy’s call-by-push-value calculus. Featuring a bidirectional effect type system, effect polymorphism, and effect handlers. This means that Frank supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when command is complete depending on the handler the system could resume from the point it was suspended. Handlers are very similar to typical functions but their argument processes can communicate in more advanced ways. So the idea is to utilize this functionality in the web. Side-effects might be various events such as mouse actions, http requests etc. and the handler would be the application in the web page.</p>
+<p>In this project the main goal is to compile Frank to JavaScript and run it in the browser. So, for example, user would be able to edit their MyPlace pages using Frank language. This involves creating a Compiler and Virtual Machine (abstract machine) which can support compiled Frank structure.</p>
+<p> </p>
+<h1 id="acknowledgements" class="unnumbered">Acknowledgements</h1>
+<!-- This is for acknowledging all of the people who helped out -->
+<p>I would like to express my special thanks of gratitude to my supervisor, Conor Mcbride for his guidance throughout this project.</p>
+<p>Also, I would like to thank my friends for helping me think with our numerous technical discussions.</p>
+<!-- Use the \newpage command to force a new page -->
+
+
+
+
+<h1 id="list-of-figures" class="unnumbered">List of figures</h1>
+<!--
+For me, this was the only drawback of writing in Markdown: it is not possible to add a short caption to figures and tables. This means that the \listoftables and \listoffigures commands will generate lists using the full titles, which is probably isn't what you want. For now, the solution is to create the lists manually, when everything else is finished.
+
+
+Figure 4.1  This is an example figure . . .              \hfill{pp}  
+Figure x.x  Short title of the figure . . .              \hfill{pp}  
+-->
+<p> </p>
+
+<h1 id="list-of-tables" class="unnumbered">List of tables</h1>
+<!-- 
+For me, this was the only drawback of writing in Markdown: it is not possible to add a short caption to figures and tables. This means that the \listoftables and \listoffigures commands will generate lists using the full titles, which is probably isn't what you want. For now, the solution is to create the lists manually, when everything else is finished.
+-->
+<p>Table 5.1 This is an example table . . . <br />
+Table x.x Short title of the figure . . . </p>
+<h1 id="abbreviations" class="unnumbered">Abbreviations</h1>
+
+
+<p> </p>
+<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<p>This chapter focuses on explaining the project motivation, objectives and outcome. Furthermore, last section, explains the report structure.</p>
+<h2 id="background"><span class="header-section-number">1.1</span> Background</h2>
+<h2 id="objectives"><span class="header-section-number">1.2</span> Objectives</h2>
+<ul>
+<li>Develop Code Compiler which compiles Frank code to JavaScript program.</li>
+<li>Develop Abstract Machine implementation which supports the output of the Compiler.</li>
+<li>End result must facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
+</ul>
+<h2 id="project-outcome"><span class="header-section-number">1.3</span> Project Outcome</h2>
+<h2 id="summary-of-chapters"><span class="header-section-number">1.4</span> Summary of chapters</h2>
+<!-- 
+For italic, add one * on either side of the text
+For bold, add two * on either side of the text
+For bold and italic, add _** on either side of the text
+-->
+<h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
+<!-- Literature review ??? -->
+<h2 id="vole"><span class="header-section-number">2.1</span> Vole</h2>
+<p>Vole is lightweight functional programming language with its own Compiler and Abstract Machine. Compiler compiles the Vole code to JavaScript, which can be used by Vole.js (Abstract Machine) and run it on the browser. It has some support for effects and handlers.</p>
+<h2 id="shonky"><span class="header-section-number">2.2</span> Shonky</h2>
+<p>Shonky is untyped and impure functional programming language. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
+<h2 id="frankjnr"><span class="header-section-number">2.3</span> Frankjnr</h2>
+<p>Frankjnr is an implementation of Frank programming language described in &quot;<em>Do be do be do</em>&quot; <span class="citation">(Sam Lindley, Conor McBride &amp; Craig McLaughlin 2016)</span>.</p>
+<h3 id="frankjnr-limitations"><span class="header-section-number">2.3.1</span> Frankjnr limitations</h3>
+<ul>
+<li>Only top-level mutually recursive computation bindings are supported;</li>
+<li>Coverage checking is not implemented;</li>
+</ul>
+<h2 id="ocaml"><span class="header-section-number">2.4</span> Ocaml</h2>
+<h2 id="haste"><span class="header-section-number">2.5</span> Haste</h2>
+<!--http://haste-lang.org/ -->
+<p>Haste is an implementation of the Haskell functional programming language, designed for web applications and it is being used in the industry. It supports the full Haskell language, including GHC extensions because it is based on GHC compiler. Haste support modern web technologies such as WebSockets, LocalStorage, Canvas, etc. . Haste, also, has support for effects and handlers. Furthermore, Haste programs can be compiled to a single JavaScript file.</p>
+<h2 id="conclusion"><span class="header-section-number">2.6</span> Conclusion</h2>
+<h1 id="initial-development-simple-system"><span class="header-section-number">3</span> Initial development &amp; Simple system</h1>
+<h2 id="introduction-1"><span class="header-section-number">3.1</span> Introduction</h2>
+<h2 id="simple-system"><span class="header-section-number">3.2</span> Simple system</h2>
+<h3 id="language"><span class="header-section-number">3.2.1</span> Language</h3>
+<h3 id="compiler"><span class="header-section-number">3.2.2</span> Compiler</h3>
+<h3 id="abstract-machine"><span class="header-section-number">3.2.3</span> Abstract machine</h3>
+<h3 id="testing-framework"><span class="header-section-number">3.2.4</span> Testing framework</h3>
+<h2 id="conclusion-1"><span class="header-section-number">3.3</span> Conclusion</h2>
+<h1 id="research-containing-a-figure"><span class="header-section-number">4</span> Research containing a figure</h1>
+<h2 id="introduction-2"><span class="header-section-number">4.1</span> Introduction</h2>
+<p>This is the introduction. Sed vulputate tortor at nisl blandit interdum. Cras sagittis massa ex, quis eleifend purus condimentum congue. Maecenas tristique, justo vitae efficitur mollis, mi nulla varius elit, in consequat ligula nulla ut augue. Phasellus diam sapien, placerat sit amet tempor non, lobortis tempus ante.</p>
+<h2 id="method"><span class="header-section-number">4.2</span> Method</h2>
+<p>Donec imperdiet, lectus vestibulum sagittis tempus, turpis dolor euismod justo, vel tempus neque libero sit amet tortor. Nam cursus commodo tincidunt.</p>
+<h3 id="subsection-1"><span class="header-section-number">4.2.1</span> Subsection 1</h3>
+<p>This is the first part of the methodology. Duis tempor sapien sed tellus ultrices blandit. Sed porta mauris tortor, eu vulputate arcu dapibus ac. Curabitur sodales at felis efficitur sollicitudin. Quisque at neque sollicitudin, mollis arcu vitae, faucibus tellus.</p>
+<h3 id="subsection-2"><span class="header-section-number">4.2.2</span> Subsection 2</h3>
+<p>This is the second part of the methodology. Sed ut ipsum ultrices, interdum ipsum vel, lobortis diam. Curabitur sit amet massa quis tortor molestie dapibus a at libero. Mauris mollis magna quis ante vulputate consequat. Integer leo turpis, suscipit ac venenatis pellentesque, efficitur non sem. Pellentesque eget vulputate turpis. Etiam id nibh at elit fermentum interdum.</p>
+<!-- 
+Comments can be added like this.
+-->
+<h2 id="results"><span class="header-section-number">4.3</span> Results</h2>
+<p>These are the results. In vitae odio at libero elementum fermentum vel iaculis enim. Nullam finibus sapien in congue condimentum. Curabitur et ligula et ipsum mollis fringilla.</p>
+<h2 id="discussion"><span class="header-section-number">4.4</span> Discussion</h2>
+<p>Figure  shows how to add a figure. Donec ut lacinia nibh. Nam tincidunt augue et tristique cursus. Vestibulum sagittis odio nisl, a malesuada turpis blandit quis. Cras ultrices metus tempor laoreet sodales. Nam molestie ipsum ac imperdiet laoreet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+<!-- 
+Figures can be added with the following syntax:
+![my_caption \label{my_label}](source/figures/my_image.pdf){ width=50% }
+
+For details on setting attributes like width and height, see:
+http://pandoc.org/MANUAL.html#extension-link_attributes
+-->
+<div class="figure">
+<embed src="source/figures/example_figure.pdf" style="width:100.0%" />
+<p class="caption">RV Calypso is a former British Royal Navy minesweeper converted into a research vessel for the oceanographic researcher Jacques-Yves Cousteau. It was equipped with a mobile laboratory for underwater field research. </p>
+</div>
+<h2 id="conclusion-2"><span class="header-section-number">4.5</span> Conclusion</h2>
+<p>This is the conclusion to the chapter. Quisque nec purus a quam consectetur volutpat. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In lorem justo, convallis quis lacinia eget, laoreet eu metus. Fusce blandit tellus tellus. Curabitur nec cursus odio. Quisque tristique eros nulla, vitae finibus lorem aliquam quis. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+<h1 id="research-containing-a-table"><span class="header-section-number">5</span> Research containing a table</h1>
+<h2 id="introduction-3"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>This is the introduction. Phasellus non purus id mauris aliquam rutrum vitae quis tellus. Maecenas rhoncus ligula nulla, fringilla placerat mi consectetur eu. Aenean nec metus ac est ornare posuere. Nunc ipsum lacus, gravida commodo turpis quis, rutrum eleifend erat. Pellentesque id lorem eget ante porta tincidunt nec nec tellus.</p>
+<h2 id="method-1"><span class="header-section-number">5.2</span> Method</h2>
+<p>Vivamus consectetur, velit in congue lobortis, massa massa lacinia urna, sollicitudin semper ipsum augue quis tortor. Donec quis nisl at arcu volutpat ultrices. Maecenas ex nibh, consequat ac blandit sit amet, molestie in odio. Morbi finibus libero et nisl dignissim, at ultricies ligula pulvinar.</p>
+<h3 id="subsection-1-1"><span class="header-section-number">5.2.1</span> Subsection 1</h3>
+<p>This is the first part of the methodology. Integer leo erat, commodo in lacus vel, egestas varius elit. Nulla eget magna quam. Nullam sollicitudin dolor ut ipsum varius tincidunt. Duis dignissim massa in ipsum accumsan imperdiet. Maecenas suscipit sapien sed dui pharetra blandit. Morbi fermentum est vel quam pretium maximus.</p>
+<h3 id="subsection-2-1"><span class="header-section-number">5.2.2</span> Subsection 2</h3>
+<p>This is the second part of the methodology. Nullam accumsan condimentum eros eu volutpat. Maecenas quis ligula tempor, interdum ante sit amet, aliquet sem. Fusce tellus massa, blandit id tempus at, cursus in tortor. Nunc nec volutpat ante. Phasellus dignissim ut lectus quis porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<!-- 
+Comments can be added like this.
+-->
+<h2 id="results-1"><span class="header-section-number">5.3</span> Results</h2>
+<p>Table  shows us how to add a table. Integer tincidunt sed nisl eget pellentesque. Mauris eleifend, nisl non lobortis fringilla, sapien eros aliquet orci, vitae pretium massa neque eu turpis. Pellentesque tincidunt aliquet volutpat. Ut ornare dui id ex sodales laoreet.</p>
+<!-- Force the table onto a newpage -->
+
+<table style="width:88%;">
+<caption>This is the table caption. Suspendisse blandit dolor sed tellus venenatis, venenatis fringilla turpis pretium. </caption>
+<colgroup>
+<col width="27%" />
+<col width="33%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Column 1</th>
+<th align="left">Column 2</th>
+<th align="left">Column 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Row 1</td>
+<td align="left">0.1</td>
+<td align="left">0.2</td>
+</tr>
+<tr class="even">
+<td align="left">Row 2</td>
+<td align="left">0.3</td>
+<td align="left">0.3</td>
+</tr>
+<tr class="odd">
+<td align="left">Row 3</td>
+<td align="left">0.4</td>
+<td align="left">0.4</td>
+</tr>
+<tr class="even">
+<td align="left">Row 4</td>
+<td align="left">0.5</td>
+<td align="left">0.6</td>
+</tr>
+</tbody>
+</table>
+<h2 id="discussion-1"><span class="header-section-number">5.4</span> Discussion</h2>
+<p>This is the discussion. Etiam sit amet mi eros. Donec vel nisi sed purus gravida fermentum at quis odio. Vestibulum quis nisl sit amet justo maximus molestie. Maecenas vitae arcu erat. Nulla facilisi. Nam pretium mauris eu enim porttitor, a mattis velit dictum. Nulla sit amet ligula non mauris volutpat fermentum quis vitae sapien.</p>
+<h2 id="conclusion-3"><span class="header-section-number">5.5</span> Conclusion</h2>
+<p>This is the conclusion to the chapter. Nullam porta tortor id vehicula interdum. Quisque pharetra, neque ut accumsan suscipit, orci orci commodo tortor, ac finibus est turpis eget justo. Cras sodales nibh nec mauris laoreet iaculis. Morbi volutpat orci felis, id condimentum nulla suscipit eu. Fusce in turpis quis ligula tempus scelerisque eget quis odio. Vestibulum et dolor id erat lobortis ullamcorper quis at sem.</p>
+<h1 id="final-research-study"><span class="header-section-number">6</span> Final research study</h1>
+<h2 id="introduction-4"><span class="header-section-number">6.1</span> Introduction</h2>
+<p>This is the introduction. Nunc lorem odio, laoreet eu turpis at, condimentum sagittis diam. Phasellus metus ligula, auctor ac nunc vel, molestie mattis libero. Praesent id posuere ex, vel efficitur nibh. Quisque vestibulum accumsan lacus vitae mattis.</p>
+<h2 id="method-2"><span class="header-section-number">6.2</span> Method</h2>
+<p>In tincidunt viverra dolor, ac pharetra tellus faucibus eget. Pellentesque tempor a enim nec venenatis. Morbi blandit magna imperdiet posuere auctor. Maecenas in maximus est.</p>
+<h3 id="subsection-1-2"><span class="header-section-number">6.2.1</span> Subsection 1</h3>
+<p>This is the first part of the methodology. Praesent mollis sem diam, sit amet tristique lacus vulputate quis. Vivamus rhoncus est rhoncus tellus lacinia, a interdum sem egestas. Curabitur quis urna vel quam blandit semper vitae a leo. Nam vel lectus lectus.</p>
+<h3 id="subsection-2-2"><span class="header-section-number">6.2.2</span> Subsection 2</h3>
+<p>This is the second part of the methodology. Aenean vel pretium tortor. Aliquam erat volutpat. Quisque quis lobortis mi. Nulla turpis leo, ultrices nec nulla non, ullamcorper laoreet risus.</p>
+<!-- 
+Comments can be added like this.
+-->
+<h2 id="results-2"><span class="header-section-number">6.3</span> Results</h2>
+<p>These are the results. Curabitur vulputate nisl non ante tincidunt tempor. Aenean porta nisi quam, sed ornare urna congue sed. Curabitur in sapien justo. Quisque pulvinar ullamcorper metus, eu varius mauris pellentesque et. In hac habitasse platea dictumst. Pellentesque nec porttitor libero. Duis et magna a massa lacinia cursus.</p>
+<h2 id="discussion-2"><span class="header-section-number">6.4</span> Discussion</h2>
+<p>This is the discussion. Curabitur gravida nisl id gravida congue. Duis est nisi, sagittis eget accumsan ullamcorper, semper quis turpis. Mauris ultricies diam metus, sollicitudin ultricies turpis lobortis vitae. Ut egestas vehicula enim, porta molestie neque consectetur placerat. Integer iaculis sapien dolor, non porta nibh condimentum ut.</p>
+<h2 id="conclusion-4"><span class="header-section-number">6.5</span> Conclusion</h2>
+<p>This is the conclusion to the chapter. Nulla sed condimentum lectus. Duis sed tempor erat, at cursus lacus. Nam vitae tempus arcu, id vestibulum sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+<h1 id="conclusion-5"><span class="header-section-number">7</span> Conclusion</h1>
+<!-- 
+A chapter that concludes the thesis by summarising the learning points
+and outlining future areas for research
+-->
+<h2 id="thesis-summary"><span class="header-section-number">7.1</span> Thesis summary</h2>
+<p>In summary, pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc eleifend, ex a luctus porttitor, felis ex suscipit tellus, ut sollicitudin sapien purus in libero. Nulla blandit eget urna vel tempus. Praesent fringilla dui sapien, sit amet egestas leo sollicitudin at.</p>
+<h2 id="future-work"><span class="header-section-number">7.2</span> Future work</h2>
+<p>There are several potential directions for extending this thesis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam gravida ipsum at tempor tincidunt. Aliquam ligula nisl, blandit et dui eu, eleifend tempus nibh. Nullam eleifend sapien eget ante hendrerit commodo. Pellentesque pharetra erat sit amet dapibus scelerisque.</p>
+<p>Vestibulum suscipit tellus risus, faucibus vulputate orci lobortis eget. Nunc varius sem nisi. Nunc tempor magna sapien, euismod blandit elit pharetra sed. In dapibus magna convallis lectus sodales, a consequat sem euismod. Curabitur in interdum purus. Integer ultrices laoreet aliquet. Nulla vel dapibus urna. Nunc efficitur erat ac nisi auctor sodales.</p>
+<h1 id="appendix-1-some-extra-stuff" class="unnumbered">Appendix 1: Some extra stuff</h1>
+<!-- 
+This could be a list of papers by the author for example 
+-->
+<p>Add appendix 1 here. Vivamus hendrerit rhoncus interdum. Sed ullamcorper et augue at porta. Suspendisse facilisis imperdiet urna, eu pellentesque purus suscipit in. Integer dignissim mattis ex aliquam blandit. Curabitur lobortis quam varius turpis ultrices egestas.</p>
+<h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
+<!-- 
+This could include extra figures or raw data
+-->
+<p>Add appendix 2 here. Aliquam rhoncus mauris ac neque imperdiet, in mattis eros aliquam. Etiam sed massa et risus posuere rutrum vel et mauris. Integer id mauris sed arcu venenatis finibus. Etiam nec hendrerit purus, sed cursus nunc. Pellentesque ac luctus magna. Aenean non posuere enim, nec hendrerit lacus. Etiam lacinia facilisis tempor. Aenean dictum nunc id felis rhoncus aliquam.</p>
+
+<!-- 
+Do not edit this page.
+
+References are automatically generated from the BibTex file (References.bib)
+
+...which you should create using your reference manager.
+-->
+<h1 id="references" class="unnumbered">References</h1>
+<div id="refs" class="references">
+<div id="ref-FrankPaper">
+<p>Sam Lindley, Conor McBride &amp; Craig McLaughlin, 2016. <em>Do be do be do</em>,</p>
+</div>
+</div>
+            </body>
+</html>
+

@@ -1,32 +1,41 @@
-# Literature review, with maths
+# Related Work
+<!-- Literature review ??? -->
 
-<!--
-After the introductory chapter, it seems fairly common to 
-include a chapter that reviews the literature and 
-introduces methodology used throughout the thesis.
--->
+## Vole
 
-## Introduction
+Vole is lightweight functional programming language with its own Compiler and Abstract Machine.
+Compiler compiles the Vole code to JavaScript, which can be used by Vole.js (Abstract Machine) and run
+it on the browser. It has some support for effects and handlers.
 
-This is the introduction. Duis in neque felis. In hac habitasse platea dictumst. Cras eget rutrum elit. Pellentesque tristique venenatis pellentesque. Cras eu dignissim quam, vel sodales felis. Vestibulum efficitur justo a nibh cursus eleifend. Integer ultrices lorem at nunc efficitur lobortis.
+## Shonky
 
-## The middle
+Shonky is untyped and impure functional programming language. The key feature of Shonky is that it
+supports local handling of computational effect, using the regular application syntax.
+This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank,
+just without type support. Its interpreter is written in Haskell, although it has potential to be ported
+to JavaScript or PHP to support web operations.
 
-This is the literature review. Nullam quam odio, volutpat ac ornare quis, vestibulum nec nulla. Aenean nec dapibus in mL/min^-1^. Mathematical formula can be inserted using Latex:
+##Frankjnr
 
-(@ref_for_eqn1) $f(x) = ax^3 + bx^2 + cx + d$
+Frankjnr is an implementation of Frank programming language described in "*Do be do be do*" [@FrankPaper].
 
-Nunc eleifend, ex a luctus porttitor, felis ex suscipit tellus, ut sollicitudin sapien purus in libero. Nulla blandit eget urna vel tempus. Praesent fringilla dui sapien, sit amet egestas leo sollicitudin at.  
+### Frankjnr limitations
 
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed faucibus pulvinar volutpat. Ut semper fringilla erat non dapibus. Nunc vitae felis eget purus placerat finibus laoreet ut nibh.
+* Only top-level mutually recursive computation bindings are supported;
+* Coverage checking is not implemented;
+
+## Ocaml
+
+
+## Haste 
+<!--http://haste-lang.org/ -->
+Haste is an implementation of the Haskell functional programming language,
+designed for web applications and it is being used in the industry. It supports the full Haskell language,
+including GHC extensions because it is based on GHC compiler. Haste support modern web technologies
+such as WebSockets, LocalStorage, Canvas, etc. . Haste, also, has support for effects and handlers.
+Furthermore, Haste programs can be compiled to a single JavaScript file. 
 
 ## Conclusion
 
-This is the conclusion. Donec pulvinar molestie urna eu faucibus. In tristique ut neque vel eleifend. Morbi ut massa vitae diam gravida iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
-<!-- Insert an unordered list -->
-
-- first item in the list
-- second item in the list
-- third item in the list
 

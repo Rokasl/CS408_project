@@ -1,7 +1,11 @@
 {
     "language": "en_US",
     "ignoreWordsList": [
-        "Strathclyde"
+        "Strathclyde",
+        "Shonky",
+        "ocaml",
+        "Ocaml",
+        "Frankjnr"
     ],
     "documentTypes": [
         "markdown",
