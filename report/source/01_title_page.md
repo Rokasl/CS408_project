@@ -1,12 +1,11 @@
-<!-- 
-This is the Latex-heavy title page. 
-People outside UCL may want to remove the header logo 
-and add the centred logo
--->
 
 \begin{titlepage}
     \begin{center}
         
+        \normalsize
+        Submitted for the Degree of MEng in Computer Science\\
+        for the academic year of 2016/17.
+
         \vspace*{2.5cm}
         
         \huge
@@ -15,32 +14,33 @@ and add the centred logo
         \vspace{1.5cm}
         
         \Large
-	Rokas Labeikis        
+        Student Registration Number: 201349799\\
+	    Student Name: Rokas Labeikis        
 
         \vspace{1.5cm}
 
         \normalsize
-        A thesis presented for the degree of\\
-        Doctor of Philosophy
+        Except where explicitly stated all the work in this report, including appendices, is my own and was carried out during my final year. It has not been submitted for assessment in any other context.
         
+        I agree to this material being made available in whole or in part to benefit the education of future students.
+      
+        \hfill
+
+        Signature: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Date: \_\_\_\_\_\_\_\_\_
+
         \vfill
         
         \normalsize
         Supervised by:\\
-        Professor Louis Fage\\
-        Captain J. Y. Cousteau
+        Professor Conor McBride
 
         \vspace{0.8cm}
-
-        % Uncomment the following line
-        % to add a centered university logo
-        % \includegraphics[width=0.4\textwidth]{style/univ_logo.eps}
         
         \normalsize
-        University College London, UK\\
-        January 2015
+        University of Strathclyde, UK\\
+        February 2017
 
-        % Except where otherwise noted, content in this thesis is licensed under a Creative Commons Attribution 4.0 License (http://creativecommons.org/licenses/by/4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. Copyright 2015,Tom Pollard.
+  
 
     \end{center}
 \end{titlepage}
