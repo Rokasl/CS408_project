@@ -1,4 +1,4 @@
-module Dev.Compiler where
+module Compiler where
 
 import Shonky.Syntax
 
@@ -47,13 +47,18 @@ patCompile  :: JSExp -- representing the scrutinee of the match
                        ,  JSStmt    -- the code that builds the environment
                        )
 
-patCompile c (PT x) = do
-  i <- next
-  return ([(x, i)], "env[" ++ show i ++ "]=" ++ c ++ "; ")
 
 patCompile c (PV p) = do
   (e,m) <- vpatCompile (c ++ ".value") p
   return (e, "if (" ++ c ++ ".tag!==\"value\") {" ++ matchFail ++"};\n" ++ m)
+
+
+patCompile c (PT x) = do
+  i <- next
+  return ([(x, i)], "env[" ++ show i ++ "]=" ++ c ++ "; ")
+
+patComile c (PC command args v) = do
+  
 
 vpatCompile  :: JSExp -- representing the scrutinee of the match
              -> VPat  -- the Shonky value pattern
@@ -61,11 +66,15 @@ vpatCompile  :: JSExp -- representing the scrutinee of the match
                         ,  JSStmt    -- the code that builds the environment
                         )
 
-vpatCompile v (VPV x) = do
+vpatCompile v (VPV x) = do -- string variable
   i <- next
   return ([(x, i)], "env[" ++ show i ++ "]=" ++ v ++ ";\n")
 
-vpatCompile v (VPA a) = do
+vpatCompile v (VPI x) = do -- integer variable
+  i <- next
+  return ([(show x, i)], "env[" ++ show i ++ "]=" ++ v ++ ";\n")
+
+vpatCompile v (VPA a) = do -- atom value
   return ([],
     "if (" ++ v ++ ".tag!==\"atom\") {" ++ matchFail ++"};\n" ++
     "if (" ++ v ++ ".atom!==\"" ++ a ++ "\") {" ++ matchFail ++"};\n"
@@ -77,6 +86,8 @@ vpatCompile v (p1 :&: p2) = do
   return (t1 ++ t2,
     "if (" ++ v ++ ".tag!==\"pair\") {" ++ matchFail ++"};\n" ++
     e1 ++ e2)
+
+
 
 listOf  :: (JSExp -> p -> Counter (EnvTable, JSStmt))
              -- could be patCompile or vpatCompile
