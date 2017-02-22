@@ -9,7 +9,7 @@ section, explains the report structure.
 ## Objectives
 * Develop Code Compiler which compiles Frank code to JavaScript program.
 * Develop Abstract Machine implementation which supports the output of the Compiler.
-* End result must facilitate client-side communication of events and DOM updates between Frank code
+* Completed system must facilitate client-side communication of events and DOM updates between Frank code
   and the browser.
 
 

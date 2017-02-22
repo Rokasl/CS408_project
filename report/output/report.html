@@ -7,7 +7,44 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
                         <title></title>
         <style type="text/css">code{white-space: pre;}</style>
-                                                    <style>
+                            <style type="text/css">
+            div.sourceCode { overflow-x: auto; }
+            table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+              margin: 0; padding: 0; vertical-align: baseline; border: none; }
+            table.sourceCode { width: 100%; line-height: 100%; }
+            td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+            td.sourceCode { padding-left: 5px; }
+            code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code > span.dt { color: #902000; } /* DataType */
+            code > span.dv { color: #40a070; } /* DecVal */
+            code > span.bn { color: #40a070; } /* BaseN */
+            code > span.fl { color: #40a070; } /* Float */
+            code > span.ch { color: #4070a0; } /* Char */
+            code > span.st { color: #4070a0; } /* String */
+            code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code > span.ot { color: #007020; } /* Other */
+            code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code > span.fu { color: #06287e; } /* Function */
+            code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+            code > span.cn { color: #880000; } /* Constant */
+            code > span.sc { color: #4070a0; } /* SpecialChar */
+            code > span.vs { color: #4070a0; } /* VerbatimString */
+            code > span.ss { color: #bb6688; } /* SpecialString */
+            code > span.im { } /* Import */
+            code > span.va { color: #19177c; } /* Variable */
+            code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code > span.op { color: #666666; } /* Operator */
+            code > span.bu { } /* BuiltIn */
+            code > span.ex { } /* Extension */
+            code > span.pp { color: #bc7a00; } /* Preprocessor */
+            code > span.at { color: #7d9029; } /* Attribute */
+            code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            </style>
+                                            <style>
             body {
                 font-family: Georgia;
                 max-width: 800px;
@@ -174,51 +211,30 @@
                 <li><a href="#haste"><span class="toc-section-number">2.5</span> Haste</a></li>
                 <li><a href="#conclusion"><span class="toc-section-number">2.6</span> Conclusion</a></li>
                 </ul></li>
-                <li><a href="#initial-development-simple-system"><span class="toc-section-number">3</span> Initial development &amp; Simple system</a><ul>
-                <li><a href="#introduction-1"><span class="toc-section-number">3.1</span> Introduction</a></li>
-                <li><a href="#simple-system"><span class="toc-section-number">3.2</span> Simple system</a><ul>
-                <li><a href="#language"><span class="toc-section-number">3.2.1</span> Language</a></li>
-                <li><a href="#compiler"><span class="toc-section-number">3.2.2</span> Compiler</a></li>
-                <li><a href="#abstract-machine"><span class="toc-section-number">3.2.3</span> Abstract machine</a></li>
-                <li><a href="#testing-framework"><span class="toc-section-number">3.2.4</span> Testing framework</a></li>
+                <li><a href="#problem-description-and-specification"><span class="toc-section-number">3</span> Problem Description and Specification</a><ul>
+                <li><a href="#problem-overview"><span class="toc-section-number">3.1</span> Problem overview</a></li>
+                <li><a href="#requirements-analysis"><span class="toc-section-number">3.2</span> Requirements Analysis</a></li>
+                <li><a href="#specification"><span class="toc-section-number">3.3</span> Specification</a></li>
+                <li><a href="#design-methodology"><span class="toc-section-number">3.4</span> Design Methodology</a></li>
                 </ul></li>
-                <li><a href="#conclusion-1"><span class="toc-section-number">3.3</span> Conclusion</a></li>
+                <li><a href="#initial-development-simple-system"><span class="toc-section-number">4</span> Initial development &amp; Simple system</a><ul>
+                <li><a href="#introduction-1"><span class="toc-section-number">4.1</span> Introduction</a></li>
+                <li><a href="#simple-system"><span class="toc-section-number">4.2</span> Simple system</a><ul>
+                <li><a href="#language"><span class="toc-section-number">4.2.1</span> Language</a></li>
+                <li><a href="#compiler"><span class="toc-section-number">4.2.2</span> Compiler</a></li>
+                <li><a href="#abstract-machine"><span class="toc-section-number">4.2.3</span> Abstract machine</a></li>
+                <li><a href="#testing-framework"><span class="toc-section-number">4.2.4</span> Testing framework</a></li>
                 </ul></li>
-                <li><a href="#research-containing-a-figure"><span class="toc-section-number">4</span> Research containing a figure</a><ul>
-                <li><a href="#introduction-2"><span class="toc-section-number">4.1</span> Introduction</a></li>
-                <li><a href="#method"><span class="toc-section-number">4.2</span> Method</a><ul>
-                <li><a href="#subsection-1"><span class="toc-section-number">4.2.1</span> Subsection 1</a></li>
-                <li><a href="#subsection-2"><span class="toc-section-number">4.2.2</span> Subsection 2</a></li>
+                <li><a href="#conclusion-1"><span class="toc-section-number">4.3</span> Conclusion</a></li>
                 </ul></li>
-                <li><a href="#results"><span class="toc-section-number">4.3</span> Results</a></li>
-                <li><a href="#discussion"><span class="toc-section-number">4.4</span> Discussion</a></li>
-                <li><a href="#conclusion-2"><span class="toc-section-number">4.5</span> Conclusion</a></li>
+                <li><a href="#detailed-design-and-implementation-of-the-final-system"><span class="toc-section-number">5</span> Detailed Design and Implementation of the final system</a></li>
+                <li><a href="#verification-and-validation"><span class="toc-section-number">6</span> Verification and Validation</a></li>
+                <li><a href="#results-and-evaluation"><span class="toc-section-number">7</span> Results and Evaluation</a></li>
+                <li><a href="#summary-conclusion"><span class="toc-section-number">8</span> Summary &amp; Conclusion</a><ul>
+                <li><a href="#summary"><span class="toc-section-number">8.1</span> Summary</a></li>
+                <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
-                <li><a href="#research-containing-a-table"><span class="toc-section-number">5</span> Research containing a table</a><ul>
-                <li><a href="#introduction-3"><span class="toc-section-number">5.1</span> Introduction</a></li>
-                <li><a href="#method-1"><span class="toc-section-number">5.2</span> Method</a><ul>
-                <li><a href="#subsection-1-1"><span class="toc-section-number">5.2.1</span> Subsection 1</a></li>
-                <li><a href="#subsection-2-1"><span class="toc-section-number">5.2.2</span> Subsection 2</a></li>
-                </ul></li>
-                <li><a href="#results-1"><span class="toc-section-number">5.3</span> Results</a></li>
-                <li><a href="#discussion-1"><span class="toc-section-number">5.4</span> Discussion</a></li>
-                <li><a href="#conclusion-3"><span class="toc-section-number">5.5</span> Conclusion</a></li>
-                </ul></li>
-                <li><a href="#final-research-study"><span class="toc-section-number">6</span> Final research study</a><ul>
-                <li><a href="#introduction-4"><span class="toc-section-number">6.1</span> Introduction</a></li>
-                <li><a href="#method-2"><span class="toc-section-number">6.2</span> Method</a><ul>
-                <li><a href="#subsection-1-2"><span class="toc-section-number">6.2.1</span> Subsection 1</a></li>
-                <li><a href="#subsection-2-2"><span class="toc-section-number">6.2.2</span> Subsection 2</a></li>
-                </ul></li>
-                <li><a href="#results-2"><span class="toc-section-number">6.3</span> Results</a></li>
-                <li><a href="#discussion-2"><span class="toc-section-number">6.4</span> Discussion</a></li>
-                <li><a href="#conclusion-4"><span class="toc-section-number">6.5</span> Conclusion</a></li>
-                </ul></li>
-                <li><a href="#conclusion-5"><span class="toc-section-number">7</span> Conclusion</a><ul>
-                <li><a href="#thesis-summary"><span class="toc-section-number">7.1</span> Thesis summary</a></li>
-                <li><a href="#future-work"><span class="toc-section-number">7.2</span> Future work</a></li>
-                </ul></li>
-                <li><a href="#appendix-1-some-extra-stuff">Appendix 1: Some extra stuff</a></li>
+                <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
                 <li><a href="#appendix-2-some-more-extra-stuff">Appendix 2: Some more extra stuff</a></li>
                 <li><a href="#references">References</a></li>
                 </ul>
@@ -265,7 +281,7 @@ Table x.x Short title of the figure . . . </p>
 <ul>
 <li>Develop Code Compiler which compiles Frank code to JavaScript program.</li>
 <li>Develop Abstract Machine implementation which supports the output of the Compiler.</li>
-<li>End result must facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
+<li>Completed system must facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
 </ul>
 <h2 id="project-outcome"><span class="header-section-number">1.3</span> Project Outcome</h2>
 <h2 id="summary-of-chapters"><span class="header-section-number">1.4</span> Summary of chapters</h2>
@@ -292,138 +308,241 @@ For bold and italic, add _** on either side of the text
 <!--http://haste-lang.org/ -->
 <p>Haste is an implementation of the Haskell functional programming language, designed for web applications and it is being used in the industry. It supports the full Haskell language, including GHC extensions because it is based on GHC compiler. Haste support modern web technologies such as WebSockets, LocalStorage, Canvas, etc. . Haste, also, has support for effects and handlers. Furthermore, Haste programs can be compiled to a single JavaScript file.</p>
 <h2 id="conclusion"><span class="header-section-number">2.6</span> Conclusion</h2>
-<h1 id="initial-development-simple-system"><span class="header-section-number">3</span> Initial development &amp; Simple system</h1>
-<h2 id="introduction-1"><span class="header-section-number">3.1</span> Introduction</h2>
-<h2 id="simple-system"><span class="header-section-number">3.2</span> Simple system</h2>
-<h3 id="language"><span class="header-section-number">3.2.1</span> Language</h3>
-<h3 id="compiler"><span class="header-section-number">3.2.2</span> Compiler</h3>
-<h3 id="abstract-machine"><span class="header-section-number">3.2.3</span> Abstract machine</h3>
-<h3 id="testing-framework"><span class="header-section-number">3.2.4</span> Testing framework</h3>
-<h2 id="conclusion-1"><span class="header-section-number">3.3</span> Conclusion</h2>
-<h1 id="research-containing-a-figure"><span class="header-section-number">4</span> Research containing a figure</h1>
-<h2 id="introduction-2"><span class="header-section-number">4.1</span> Introduction</h2>
-<p>This is the introduction. Sed vulputate tortor at nisl blandit interdum. Cras sagittis massa ex, quis eleifend purus condimentum congue. Maecenas tristique, justo vitae efficitur mollis, mi nulla varius elit, in consequat ligula nulla ut augue. Phasellus diam sapien, placerat sit amet tempor non, lobortis tempus ante.</p>
-<h2 id="method"><span class="header-section-number">4.2</span> Method</h2>
-<p>Donec imperdiet, lectus vestibulum sagittis tempus, turpis dolor euismod justo, vel tempus neque libero sit amet tortor. Nam cursus commodo tincidunt.</p>
-<h3 id="subsection-1"><span class="header-section-number">4.2.1</span> Subsection 1</h3>
-<p>This is the first part of the methodology. Duis tempor sapien sed tellus ultrices blandit. Sed porta mauris tortor, eu vulputate arcu dapibus ac. Curabitur sodales at felis efficitur sollicitudin. Quisque at neque sollicitudin, mollis arcu vitae, faucibus tellus.</p>
-<h3 id="subsection-2"><span class="header-section-number">4.2.2</span> Subsection 2</h3>
-<p>This is the second part of the methodology. Sed ut ipsum ultrices, interdum ipsum vel, lobortis diam. Curabitur sit amet massa quis tortor molestie dapibus a at libero. Mauris mollis magna quis ante vulputate consequat. Integer leo turpis, suscipit ac venenatis pellentesque, efficitur non sem. Pellentesque eget vulputate turpis. Etiam id nibh at elit fermentum interdum.</p>
-<!-- 
-Comments can be added like this.
--->
-<h2 id="results"><span class="header-section-number">4.3</span> Results</h2>
-<p>These are the results. In vitae odio at libero elementum fermentum vel iaculis enim. Nullam finibus sapien in congue condimentum. Curabitur et ligula et ipsum mollis fringilla.</p>
-<h2 id="discussion"><span class="header-section-number">4.4</span> Discussion</h2>
-<p>Figure  shows how to add a figure. Donec ut lacinia nibh. Nam tincidunt augue et tristique cursus. Vestibulum sagittis odio nisl, a malesuada turpis blandit quis. Cras ultrices metus tempor laoreet sodales. Nam molestie ipsum ac imperdiet laoreet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-<!-- 
-Figures can be added with the following syntax:
-![my_caption \label{my_label}](source/figures/my_image.pdf){ width=50% }
+<h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
+<h2 id="problem-overview"><span class="header-section-number">3.1</span> Problem overview</h2>
+<h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
+<h2 id="specification"><span class="header-section-number">3.3</span> Specification</h2>
+<h2 id="design-methodology"><span class="header-section-number">3.4</span> Design Methodology</h2>
+<h1 id="initial-development-simple-system"><span class="header-section-number">4</span> Initial development &amp; Simple system</h1>
+<h2 id="introduction-1"><span class="header-section-number">4.1</span> Introduction</h2>
+<p>Because of the complexity of overall project and the lack of initial author knowledge in the field the most optimal plan was to start with something small and expand gradually. The intricacies consist of:</p>
+<ul>
+<li>Frank is a complex functional language;</li>
+<li>Frankjnr adds another layer of complexity, since author needs to be aware of the implementation and compilation process;</li>
+<li>Dependence on Shonky's language, because the final implementation of the Compiler must be able to understand and compile Shonky language;</li>
+<li>Complexity of the Compilers and their implementation;</li>
+<li>Complexity of Abstract Machines and their implementation;</li>
+</ul>
+<p>Thus, simpler language was developed with matching Compiler and Abstract Machine. Both, the Compiler and the Machine were developed while keeping in mind that their key parts will be used for the final product. So efficiency, reliability, structure were all key factors.</p>
+<h2 id="simple-system"><span class="header-section-number">4.2</span> Simple system</h2>
+<h3 id="language"><span class="header-section-number">4.2.1</span> Language</h3>
+<p>A language written in Haskell, which supports few specific operations, such as, sum of two expressions, Throw &amp; Catch, Set, Next, Get, new reference.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Expr</span> <span class="fu">=</span> <span class="dt">Val</span> <span class="dt">Int</span> 
+        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:+:</span> <span class="dt">Expr</span> <span class="co">-- sum of two expressions </span>
+        <span class="fu">|</span> <span class="dt">Throw</span>
+        <span class="fu">|</span> <span class="dt">Catch</span> <span class="dt">Expr</span> <span class="dt">Expr</span> <span class="co">-- evaluated first expression, if result is</span>
+                          <span class="co">-- Throw then evaluate second expression</span>
+        <span class="fu">|</span> <span class="dt">Get</span> <span class="dt">String</span> <span class="co">-- get the expression of the reference</span>
+        <span class="fu">|</span> <span class="dt">String</span> <span class="fu">:=</span> <span class="dt">Expr</span> <span class="co">-- Set reference value to some expression</span>
+        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:&gt;</span> <span class="dt">Expr</span>  
+            <span class="co">-- :&gt; is ugly syntax for &quot;;&quot; (taking value of the second)</span>
+        <span class="fu">|</span> <span class="dt">WithRef</span> <span class="dt">String</span> <span class="co">-- name of new reference</span>
+                    <span class="dt">Expr</span> <span class="co">-- how to compute initial value of new reference</span>
+                    <span class="dt">Expr</span> <span class="co">-- code that makes use of reference</span>
+            <span class="co">--  the WithRef stack frame is the handler for Get and :=</span></code></pre></div>
+<h3 id="compiler"><span class="header-section-number">4.2.2</span> Compiler</h3>
+<p>Purpose of the Compiler is to take an expression of the simple language described above and output a JavaScript working program which could be used by the Abstract Machine.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">CodeGen</span> val <span class="fu">=</span> <span class="dt">MkCodeGen</span> {
+<span class="ot">            codeGen ::</span> <span class="dt">Int</span> <span class="co">-- next available number (for naming helper functions)</span>
+                       <span class="ot">-&gt;</span> ([(  <span class="dt">Int</span>        <span class="co">-- this number...</span>
+                            ,  <span class="dt">String</span>     <span class="co">-- ...defined as this JS code</span>
+                           )]
+                          ,  <span class="dt">Int</span>       <span class="co">-- next available number after compilation</span>
+                          ,  val       <span class="co">-- result of compilation process</span>
+                          )  <span class="co">-- usually the list of definitions will start with</span>
+        }                    <span class="co">-- the input &quot;next number&quot; and go up to just before</span>
+                             <span class="co">-- the output &quot;next number&quot;</span></code></pre></div>
+<p>Function compile works together with genDef to make definitions of functions in JavaScript and link them together, by utilizing linked list data structure. Below is displayed a small piece of the compile function and full genDef function.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">genDef ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> <span class="co">-- make a definition and return its number</span>
+genDef code <span class="fu">=</span> <span class="dt">MkCodeGen</span> <span class="fu">$</span> \ next <span class="ot">-&gt;</span> ([(next, code)],next <span class="fu">+</span> <span class="dv">1</span>, next)
 
-For details on setting attributes like width and height, see:
-http://pandoc.org/MANUAL.html#extension-link_attributes
--->
-<div class="figure">
-<embed src="source/figures/example_figure.pdf" style="width:100.0%" />
-<p class="caption">RV Calypso is a former British Royal Navy minesweeper converted into a research vessel for the oceanographic researcher Jacques-Yves Cousteau. It was equipped with a mobile laboratory for underwater field research. </p>
-</div>
-<h2 id="conclusion-2"><span class="header-section-number">4.5</span> Conclusion</h2>
-<p>This is the conclusion to the chapter. Quisque nec purus a quam consectetur volutpat. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In lorem justo, convallis quis lacinia eget, laoreet eu metus. Fusce blandit tellus tellus. Curabitur nec cursus odio. Quisque tristique eros nulla, vitae finibus lorem aliquam quis. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-<h1 id="research-containing-a-table"><span class="header-section-number">5</span> Research containing a table</h1>
-<h2 id="introduction-3"><span class="header-section-number">5.1</span> Introduction</h2>
-<p>This is the introduction. Phasellus non purus id mauris aliquam rutrum vitae quis tellus. Maecenas rhoncus ligula nulla, fringilla placerat mi consectetur eu. Aenean nec metus ac est ornare posuere. Nunc ipsum lacus, gravida commodo turpis quis, rutrum eleifend erat. Pellentesque id lorem eget ante porta tincidunt nec nec tellus.</p>
-<h2 id="method-1"><span class="header-section-number">5.2</span> Method</h2>
-<p>Vivamus consectetur, velit in congue lobortis, massa massa lacinia urna, sollicitudin semper ipsum augue quis tortor. Donec quis nisl at arcu volutpat ultrices. Maecenas ex nibh, consequat ac blandit sit amet, molestie in odio. Morbi finibus libero et nisl dignissim, at ultricies ligula pulvinar.</p>
-<h3 id="subsection-1-1"><span class="header-section-number">5.2.1</span> Subsection 1</h3>
-<p>This is the first part of the methodology. Integer leo erat, commodo in lacus vel, egestas varius elit. Nulla eget magna quam. Nullam sollicitudin dolor ut ipsum varius tincidunt. Duis dignissim massa in ipsum accumsan imperdiet. Maecenas suscipit sapien sed dui pharetra blandit. Morbi fermentum est vel quam pretium maximus.</p>
-<h3 id="subsection-2-1"><span class="header-section-number">5.2.2</span> Subsection 2</h3>
-<p>This is the second part of the methodology. Nullam accumsan condimentum eros eu volutpat. Maecenas quis ligula tempor, interdum ante sit amet, aliquet sem. Fusce tellus massa, blandit id tempus at, cursus in tortor. Nunc nec volutpat ante. Phasellus dignissim ut lectus quis porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<!-- 
-Comments can be added like this.
--->
-<h2 id="results-1"><span class="header-section-number">5.3</span> Results</h2>
-<p>Table  shows us how to add a table. Integer tincidunt sed nisl eget pellentesque. Mauris eleifend, nisl non lobortis fringilla, sapien eros aliquet orci, vitae pretium massa neque eu turpis. Pellentesque tincidunt aliquet volutpat. Ut ornare dui id ex sodales laoreet.</p>
-<!-- Force the table onto a newpage -->
+<span class="ot">compile ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> <span class="co">-- the Int returned is the entry point</span>
+compile e <span class="fu">=</span> help <span class="st">&quot;s&quot;</span> e <span class="kw">where</span>
+    help s (<span class="dt">Val</span> n) <span class="fu">=</span> genDef <span class="fu">$</span>
+        <span class="st">&quot;function(s){return{stack:&quot;</span><span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;num\&quot;, data:&quot;</span><span class="fu">++</span> show n <span class="fu">++</span><span class="st">&quot;}}&quot;</span></code></pre></div>
+<h3 id="abstract-machine"><span class="header-section-number">4.2.3</span> Abstract machine</h3>
+<p>Purpose of the Abstract Machine is to take in a compiled program and run it in the browser. It gradually builds a stack from the given program, where each frame of the stack has a link to another frame. The elegant part of this is that, stack frames can be saved, updated, deleted and restored; thus, making the Machines data structure flexible.</p>
+<p>Below is an example of a compiled program ready to be used by Abstract Machine. This particular program is simple, it only adds two numbers (3 + 2), so the expected output is 5.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> ProgramFoo <span class="op">=</span> []<span class="op">;</span>
 
-<table style="width:88%;">
-<caption>This is the table caption. Suspendisse blandit dolor sed tellus venenatis, venenatis fringilla turpis pretium. </caption>
-<colgroup>
-<col width="27%" />
-<col width="33%" />
-<col width="26%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Column 1</th>
-<th align="left">Column 2</th>
-<th align="left">Column 3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Row 1</td>
-<td align="left">0.1</td>
-<td align="left">0.2</td>
-</tr>
-<tr class="even">
-<td align="left">Row 2</td>
-<td align="left">0.3</td>
-<td align="left">0.3</td>
-</tr>
-<tr class="odd">
-<td align="left">Row 3</td>
-<td align="left">0.4</td>
-<td align="left">0.4</td>
-</tr>
-<tr class="even">
-<td align="left">Row 4</td>
-<td align="left">0.5</td>
-<td align="left">0.6</td>
-</tr>
-</tbody>
-</table>
-<h2 id="discussion-1"><span class="header-section-number">5.4</span> Discussion</h2>
-<p>This is the discussion. Etiam sit amet mi eros. Donec vel nisi sed purus gravida fermentum at quis odio. Vestibulum quis nisl sit amet justo maximus molestie. Maecenas vitae arcu erat. Nulla facilisi. Nam pretium mauris eu enim porttitor, a mattis velit dictum. Nulla sit amet ligula non mauris volutpat fermentum quis vitae sapien.</p>
-<h2 id="conclusion-3"><span class="header-section-number">5.5</span> Conclusion</h2>
-<p>This is the conclusion to the chapter. Nullam porta tortor id vehicula interdum. Quisque pharetra, neque ut accumsan suscipit, orci orci commodo tortor, ac finibus est turpis eget justo. Cras sodales nibh nec mauris laoreet iaculis. Morbi volutpat orci felis, id condimentum nulla suscipit eu. Fusce in turpis quis ligula tempus scelerisque eget quis odio. Vestibulum et dolor id erat lobortis ullamcorper quis at sem.</p>
-<h1 id="final-research-study"><span class="header-section-number">6</span> Final research study</h1>
-<h2 id="introduction-4"><span class="header-section-number">6.1</span> Introduction</h2>
-<p>This is the introduction. Nunc lorem odio, laoreet eu turpis at, condimentum sagittis diam. Phasellus metus ligula, auctor ac nunc vel, molestie mattis libero. Praesent id posuere ex, vel efficitur nibh. Quisque vestibulum accumsan lacus vitae mattis.</p>
-<h2 id="method-2"><span class="header-section-number">6.2</span> Method</h2>
-<p>In tincidunt viverra dolor, ac pharetra tellus faucibus eget. Pellentesque tempor a enim nec venenatis. Morbi blandit magna imperdiet posuere auctor. Maecenas in maximus est.</p>
-<h3 id="subsection-1-2"><span class="header-section-number">6.2.1</span> Subsection 1</h3>
-<p>This is the first part of the methodology. Praesent mollis sem diam, sit amet tristique lacus vulputate quis. Vivamus rhoncus est rhoncus tellus lacinia, a interdum sem egestas. Curabitur quis urna vel quam blandit semper vitae a leo. Nam vel lectus lectus.</p>
-<h3 id="subsection-2-2"><span class="header-section-number">6.2.2</span> Subsection 2</h3>
-<p>This is the second part of the methodology. Aenean vel pretium tortor. Aliquam erat volutpat. Quisque quis lobortis mi. Nulla turpis leo, ultrices nec nulla non, ullamcorper laoreet risus.</p>
-<!-- 
-Comments can be added like this.
--->
-<h2 id="results-2"><span class="header-section-number">6.3</span> Results</h2>
-<p>These are the results. Curabitur vulputate nisl non ante tincidunt tempor. Aenean porta nisi quam, sed ornare urna congue sed. Curabitur in sapien justo. Quisque pulvinar ullamcorper metus, eu varius mauris pellentesque et. In hac habitasse platea dictumst. Pellentesque nec porttitor libero. Duis et magna a massa lacinia cursus.</p>
-<h2 id="discussion-2"><span class="header-section-number">6.4</span> Discussion</h2>
-<p>This is the discussion. Curabitur gravida nisl id gravida congue. Duis est nisi, sagittis eget accumsan ullamcorper, semper quis turpis. Mauris ultricies diam metus, sollicitudin ultricies turpis lobortis vitae. Ut egestas vehicula enim, porta molestie neque consectetur placerat. Integer iaculis sapien dolor, non porta nibh condimentum ut.</p>
-<h2 id="conclusion-4"><span class="header-section-number">6.5</span> Conclusion</h2>
-<p>This is the conclusion to the chapter. Nulla sed condimentum lectus. Duis sed tempor erat, at cursus lacus. Nam vitae tempus arcu, id vestibulum sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-<h1 id="conclusion-5"><span class="header-section-number">7</span> Conclusion</h1>
+ProgramFoo[<span class="dv">0</span>] <span class="op">=</span> <span class="kw">function</span> (s) <span class="op">{</span>
+    <span class="cf">return</span> <span class="op">{</span>
+        <span class="dt">stack</span><span class="op">:</span> s<span class="op">,</span> <span class="co">// stack</span>
+        <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span> <span class="co">//expression type</span>
+        <span class="dt">data</span><span class="op">:</span> <span class="dv">3</span> <span class="co">// expression value</span>
+    <span class="op">}</span>
+<span class="op">};</span>
+ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw">function</span> (s) <span class="op">{</span>
+    <span class="cf">return</span> <span class="op">{</span>
+        <span class="dt">stack</span><span class="op">:</span> <span class="op">{</span> <span class="co">// stack </span>
+            <span class="dt">prev</span><span class="op">:</span> s<span class="op">,</span> <span class="co">// link to previous frame </span>
+            <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;left&quot;</span><span class="op">,</span> <span class="co">// command used for adding numbers</span>
+            <span class="dt">data</span><span class="op">:</span> <span class="dv">0</span> <span class="co">// index of next operation </span>
+        <span class="op">},</span>
+        <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span> <span class="co">// expression type</span>
+        <span class="dt">data</span><span class="op">:</span> <span class="dv">2</span> <span class="co">// expression value</span>
+    <span class="op">}</span>
+<span class="op">};</span></code></pre></div>
+<p>The Abstract Machine currently supports functionality for adding expressions, creating a reference, getting the value of a reference, setting new value of a given reference, throwing &amp; catching an exception.</p>
+<p>Room for improvement:</p>
+<ul>
+<li>Efficiency;</li>
+<li>Documentation;</li>
+<li>Functionality;</li>
+</ul>
+<h3 id="testing-framework"><span class="header-section-number">4.2.4</span> Testing framework</h3>
+<p>Testing framework consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be briefly reviewed.</p>
+<p>Bash script is the main script which stores all test cases, then goes through them one after another. For each test case it launches Expect script and passes parameters to it, furthermore, it recompiles the output of the Compiler by utilizing Webpack and retrieves the result of Abstract Machine with Node. Then Bash script just compares the expected output with actual output.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="ex">id_name</span> in <span class="va">${!test@}</span><span class="kw">;</span> <span class="kw">do</span>
+    <span class="bu">declare</span> -n <span class="va">test=$id_name</span>    
+    <span class="co">#Test</span>
+    <span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]}</span>
+    <span class="co">#end of expect</span>
+
+    <span class="ex">webpack</span> --hide-modules <span class="co">#recompile output.js </span>
+
+    <span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
+    <span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span>
+
+    <span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$output</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">${test[expected]}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
+        <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${GREEN}</span><span class="st">Test passed</span><span class="va">${NC}</span><span class="st">&quot;</span>
+    <span class="kw">else</span> 
+        <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${RED}</span><span class="st">Test failed</span><span class="va">${NC}</span><span class="st">&quot;</span>
+    <span class="kw">fi</span>
+<span class="ex">Done</span></code></pre></div>
+<p>Sample test case:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;10&#39;</span>
+)</code></pre></div>
+<p>Expect script takes the title of the test and the actual expression. Then it simply runs Ghci commands to produce the output of the Compiler.</p>
+<p>There is still plenty of room to improve this framework, in particular:</p>
+<ul>
+<li>Speed &amp; efficiency;</li>
+<li>Move test cases into separate file;</li>
+<li>More useful statistics at the end of computation;</li>
+</ul>
+<p>To use the testing framework just run ./tester.sh in the terminal window</p>
+<h2 id="conclusion-1"><span class="header-section-number">4.3</span> Conclusion</h2>
+<h1 id="detailed-design-and-implementation-of-the-final-system"><span class="header-section-number">5</span> Detailed Design and Implementation of the final system</h1>
+<h1 id="verification-and-validation"><span class="header-section-number">6</span> Verification and Validation</h1>
+<h1 id="results-and-evaluation"><span class="header-section-number">7</span> Results and Evaluation</h1>
+<h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
 <!-- 
 A chapter that concludes the thesis by summarising the learning points
 and outlining future areas for research
 -->
-<h2 id="thesis-summary"><span class="header-section-number">7.1</span> Thesis summary</h2>
-<p>In summary, pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc eleifend, ex a luctus porttitor, felis ex suscipit tellus, ut sollicitudin sapien purus in libero. Nulla blandit eget urna vel tempus. Praesent fringilla dui sapien, sit amet egestas leo sollicitudin at.</p>
-<h2 id="future-work"><span class="header-section-number">7.2</span> Future work</h2>
-<p>There are several potential directions for extending this thesis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam gravida ipsum at tempor tincidunt. Aliquam ligula nisl, blandit et dui eu, eleifend tempus nibh. Nullam eleifend sapien eget ante hendrerit commodo. Pellentesque pharetra erat sit amet dapibus scelerisque.</p>
-<p>Vestibulum suscipit tellus risus, faucibus vulputate orci lobortis eget. Nunc varius sem nisi. Nunc tempor magna sapien, euismod blandit elit pharetra sed. In dapibus magna convallis lectus sodales, a consequat sem euismod. Curabitur in interdum purus. Integer ultrices laoreet aliquet. Nulla vel dapibus urna. Nunc efficitur erat ac nisi auctor sodales.</p>
-<h1 id="appendix-1-some-extra-stuff" class="unnumbered">Appendix 1: Some extra stuff</h1>
-<!-- 
-This could be a list of papers by the author for example 
--->
-<p>Add appendix 1 here. Vivamus hendrerit rhoncus interdum. Sed ullamcorper et augue at porta. Suspendisse facilisis imperdiet urna, eu pellentesque purus suscipit in. Integer dignissim mattis ex aliquam blandit. Curabitur lobortis quam varius turpis ultrices egestas.</p>
+<h2 id="summary"><span class="header-section-number">8.1</span> Summary</h2>
+<h2 id="future-work"><span class="header-section-number">8.2</span> Future work</h2>
+<h1 id="appendix-1-progress-log" class="unnumbered">Appendix 1: Progress log</h1>
+<p><strong>JANUARY</strong></p>
+<p>January 4th:<br />
+<em>Research:</em><br />
+Looked over Frankjnr, Shonky, Vole implementations.</p>
+<p>January 5th:<br />
+Tried to install Frankjnr for a period of time, however couldn’t resolve all the errors.</p>
+<p>January 7th:<br />
+<em>Research:</em><br />
+Looked at Vole with a bit more detail.</p>
+<p>January 9th:<br />
+Tried to install Frankjnr by using Cabal dependency management tool, no success (deprecated dependencies).<br />
+<em>Presentation &amp; Report work:</em><br />
+Worked on project specification, plan and presentation.</p>
+<p>January 10th:<br />
+<em>Research:</em><br />
+Looked at Vole, in particular Machine.lhs, Compile.lhs and Vole.js.</p>
+<p>January 11th:<br />
+<em>Presentation &amp; Report work:</em><br />
+Worked on project specification, plan and presentation.</p>
+<p>January 16th:<br />
+<em>Research:</em><br />
+Looked at Shonky stack implementation, tried to output it on the screen.</p>
+<p>January 17th:<br />
+<em>Machine Development:</em><br />
+Implemented simple linked list stack in JavaScript, just as a practice.</p>
+<p>January 18th:<br />
+<em>Research:</em><br />
+Looked again at Shonky’s Abstract Machine, particularly the order the input is parsed.</p>
+<p>January 24th:<br />
+<em>Machine Development:</em><br />
+Implemented simple Abstract Machine, which can sum 2 numbers.</p>
+<p>January 25th:<br />
+<em>Machine Development:</em><br />
+Machine now works with stack larger than 2.<br />
+Updated the way it stores functions, now it uses Array data structure.<br />
+<em>Research:</em><br />
+Looking into how to implement throw, catch and compiler.</p>
+<p>January 26th:<br />
+<em>Compiler Development:</em><br />
+Created basic language in Haskell. Which supports expressions and sum of expressions.<br />
+Developed monadic structure for the compiler.</p>
+<p>January 30th:<br />
+<em>Compiler Development:</em><br />
+Finished the basic layout, however it doesn’t display any results yet.<br />
+Presentation &amp; Report Work:<br />
+Setup of latex with lex2tex.</p>
+<p>January 31th:<br />
+<em>Machine Development:</em><br />
+Implemented Throw and Catch for Abstract Machine.<br />
+Presentation &amp; Report work:<br />
+Worked on structure of the report.</p>
+<p><strong>FEBRUARY</strong></p>
+<p>February 01:<br />
+<em>Presentation &amp; Report work:</em><br />
+Worked on latex configurations.</p>
+<p>February 02:<br />
+<em>Machine Development:</em><br />
+Implemented early versions of stack saving, restoring and support for Set command.</p>
+<p>February 04:<br />
+<em>Presentation &amp; Report work:</em><br />
+Report work - Introduction sections.</p>
+<p>February 06:<br />
+<em>Compiler Development:</em><br />
+Tried to implement Show instance for CodeGen function.</p>
+<p>February 07:<br />
+<em>Research:</em><br />
+Looked at the lifecycle and expected behaviour of the Compiler.<br />
+<em>Compiler Development:</em><br />
+Implemented Compiler Catch and Throw.</p>
+<p>February 08:<br />
+<em>Compiler Development:</em><br />
+Implemented Get, Next, WithRef commands.<br />
+<em>Machine Development:</em><br />
+Implemented support for Next commands.<br />
+Added new examples of working programs.</p>
+<p>February 09:<br />
+<em>Machine development:</em><br />
+Implemented early version of stack saving and restoring.<br />
+Implemented support for Set commands.<br />
+Added new working examples.<br />
+Reworked Next command support, should work as expected.</p>
+<p>February 10:<br />
+<em>Test Framework development:</em><br />
+Implemented test framework by utilizing Bash and Expect scripts.<br />
+<em>Machine development:</em><br />
+Divided code into separate classes and files.<br />
+Added printer class, which just outputs the current stack to the console.</p>
+<p>February 13:<br />
+Started to rework Abstract Machine, to closer match the implementation required.<br />
+<em>Machine development:</em><br />
+Reworked Catch and Throw command support.<br />
+<em>Compiler development:</em><br />
+Small efficiency adjustments.<br />
+Test Framework development:<br />
+Added more test cases.<br />
+General bug fixes.</p>
+<p>February 14: <em>Test Framework development:</em><br />
+Fixed major bug with string parsing.<br />
+Added more test cases.<br />
+<em>Machine development:</em><br />
+Completely reworked support for Get, Set and WithRef commands.<br />
+General bug fixes.</p>
+<p><em>February 15:</em><br />
+Progress report.</p>
+<p><em>February 16:</em><br />
+Progress report.</p>
 <h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
-<!-- 
-This could include extra figures or raw data
--->
-<p>Add appendix 2 here. Aliquam rhoncus mauris ac neque imperdiet, in mattis eros aliquam. Etiam sed massa et risus posuere rutrum vel et mauris. Integer id mauris sed arcu venenatis finibus. Etiam nec hendrerit purus, sed cursus nunc. Pellentesque ac luctus magna. Aenean non posuere enim, nec hendrerit lacus. Etiam lacinia facilisis tempor. Aenean dictum nunc id felis rhoncus aliquam.</p>
 
 <!-- 
 Do not edit this page.
