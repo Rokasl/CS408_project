@@ -35,17 +35,59 @@ instance Monad Counter where
 next :: Counter Int
 next = MkCounter (\ i -> (i, i+1)) 
 
+type JSExp = String
+type JSStmt = String
+
+matchFail :: JSStmt
+matchFail = "throw( ... );" -- FIXME!
+
+patCompile  :: JSExp -- representing the scrutinee of the match
+            -> Pat   -- the Shonky computation pattern
+            -> Counter (  EnvTable  -- mapping Shonky vars to env indices
+                       ,  JSStmt    -- the code that builds the environment
+                       )
+
 patCompile c (PT x) = do
   i <- next
   return ([(x, i)], "env[" ++ show i ++ "]=" ++ c ++ "; ")
 
 patCompile c (PV p) = do
   (e,m) <- vpatCompile (c ++ ".value") p
-  return (e, "if (" ++ c ++ ".tag===\"value\") {" ++ m ++ "} else { throw(...) }; ")
+  return (e, "if (" ++ c ++ ".tag!==\"value\") {" ++ matchFail ++"};\n" ++ m)
+
+vpatCompile  :: JSExp -- representing the scrutinee of the match
+             -> VPat  -- the Shonky value pattern
+             -> Counter (  EnvTable  -- mapping Shonky vars to env indices
+                        ,  JSStmt    -- the code that builds the environment
+                        )
 
 vpatCompile v (VPV x) = do
   i <- next
-  return ([(x, i)], "env[" ++ show i ++ "]=" ++ v ++ "; ")
+  return ([(x, i)], "env[" ++ show i ++ "]=" ++ v ++ ";\n")
+
+vpatCompile v (VPA a) = do
+  return ([],
+    "if (" ++ v ++ ".tag!==\"atom\") {" ++ matchFail ++"};\n" ++
+    "if (" ++ v ++ ".atom!==\"" ++ a ++ "\") {" ++ matchFail ++"};\n"
+    )
+
+vpatCompile v (p1 :&: p2) = do
+  (t1, e1) <- vpatCompile (v ++ ".car") p1
+  (t2, e2) <- vpatCompile (v ++ ".cdr") p2
+  return (t1 ++ t2,
+    "if (" ++ v ++ ".tag!==\"pair\") {" ++ matchFail ++"};\n" ++
+    e1 ++ e2)
+
+listOf  :: (JSExp -> p -> Counter (EnvTable, JSStmt))
+             -- could be patCompile or vpatCompile
+        -> JSExp -> [p] -> Counter (EnvTable, JSStmt)
+listOf comp arr ps = go (zip [0..] ps) where
+  go [] = return ([], "")
+  go ((i,p) : ips) = do
+    (t1, e1) <- comp (arr ++ "[" ++ show i ++ "]") p
+    (t2, e2) <- go ips
+    return (t1 ++ t2, e1 ++ e2)
+
 
 -- jstype JSRun = (JSVal[], JSStack) -> JSMode
 -- jstype JSMode = {stack: JSStack, comp: JSComp}     
@@ -71,3 +113,11 @@ vpatCompile v (VPV x) = do
 
 -- if we know the EnvTable for each case in a match, we can compile the
 -- expressions as JSRun things, then collect them in a "branches" array.
+
+-- e.g.
+-- runCounter (patCompile "args[0]" (PV (VPV "x"))) 0
+-- gives
+--   (([("x",0)]
+--   ,"if (args[0].tag===\"value\") {env[0]=args[0].value; }
+--     else { throw(...) }; ")
+--   ,1)
