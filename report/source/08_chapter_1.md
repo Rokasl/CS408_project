@@ -6,6 +6,8 @@ section, explains the report structure.
 ## Background
 
 
+
+
 ## Objectives
 * Develop Code Compiler which compiles Frank code to JavaScript program.
 * Develop Abstract Machine implementation which supports the output of the Compiler.
@@ -18,9 +20,5 @@ section, explains the report structure.
 
 ## Summary of chapters
 
-<!-- 
-For italic, add one * on either side of the text
-For bold, add two * on either side of the text
-For bold and italic, add _** on either side of the text
--->
+
 

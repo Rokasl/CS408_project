@@ -58,7 +58,7 @@ patCompile c (PT x) = do
   i <- next
   return ([(x, i)], "env[" ++ show i ++ "]=" ++ c ++ "; ")
 
-patComile c (PC command args v) = do
+
   
 
 vpatCompile  :: JSExp -- representing the scrutinee of the match
@@ -153,6 +153,9 @@ expCompile xis stk (EV x) = case lookup x xis of
   Nothing -> error "it's not a pattern variable, but is it a top-level function?"
   Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
 
+expCompile xis stk (EI x) = 
+  return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:\"" ++ show x ++ "\"}}}"
+
 expCompile xis stk (EA a) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
 
@@ -161,7 +164,7 @@ expCompile xis stk (ecar :& ecdr) = do
   expCompile xis
     ("{prev: " ++ stk ++ ", tag:\"car\", env:env, cdr:" ++ show fcdr ++ "}")
     ecar
-
+ 
 
 lineCompile :: ([Pat], Exp) -> CodeGen JSStmt
 lineCompile (ps, e) = do

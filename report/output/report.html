@@ -285,11 +285,6 @@ Table x.x Short title of the figure . . . </p>
 </ul>
 <h2 id="project-outcome"><span class="header-section-number">1.3</span> Project Outcome</h2>
 <h2 id="summary-of-chapters"><span class="header-section-number">1.4</span> Summary of chapters</h2>
-<!-- 
-For italic, add one * on either side of the text
-For bold, add two * on either side of the text
-For bold and italic, add _** on either side of the text
--->
 <h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
 <!-- Literature review ??? -->
 <h2 id="vole"><span class="header-section-number">2.1</span> Vole</h2>
@@ -311,6 +306,27 @@ For bold and italic, add _** on either side of the text
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
 <h2 id="problem-overview"><span class="header-section-number">3.1</span> Problem overview</h2>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
+<p><strong>Functional requirements</strong></p>
+<ul>
+<li>To create new back end for Frankjnr:
+<ul>
+<li>Develop Compiler which uses Shonky's language and outputs a working JavaScript structure of code;</li>
+<li>Develop Abstract Machine which runs the previously compiled JavaScript code in the browser;</li>
+</ul></li>
+<li>To facilitate client-side communication of events and DOM updates between Frank code and the browser;</li>
+</ul>
+<p><strong>Non-functional requirements</strong></p>
+<ul>
+<li>To create set of tests which should always pass, before each new release of the system;</li>
+<li>To develop testing framework, which tests the system with minimal human interaction;</li>
+<li>To measure performance (in comparison with the existing backend and with other kinds of generated JS);</li>
+<li>Easier client-side programming (example, complex parser of a text field);</li>
+</ul>
+<p><strong>Risks</strong></p>
+<ul>
+<li>Dependence on Frank implementation (Frankjnr). Instances of Frank code will be tested to make sure it behaves as expected;</li>
+<li>Estimating and scheduling development time. Due to inexperience with this kind of projects, correctly estimating and scheduling time might be difficult, this, also, greatly increases the possibility of not finishing the project. However, meetings with supervisor are organized regularly, to make sure the project is on track;</li>
+</ul>
 <h2 id="specification"><span class="header-section-number">3.3</span> Specification</h2>
 <h2 id="design-methodology"><span class="header-section-number">3.4</span> Design Methodology</h2>
 <h1 id="initial-development-simple-system"><span class="header-section-number">4</span> Initial development &amp; Simple system</h1>
