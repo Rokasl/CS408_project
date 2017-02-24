@@ -227,7 +227,9 @@
                 </ul></li>
                 <li><a href="#conclusion-1"><span class="toc-section-number">4.3</span> Conclusion</a></li>
                 </ul></li>
-                <li><a href="#detailed-design-and-implementation-of-the-final-system"><span class="toc-section-number">5</span> Detailed Design and Implementation of the final system</a></li>
+                <li><a href="#detailed-design-and-implementation-of-the-final-system"><span class="toc-section-number">5</span> Detailed Design and Implementation of the final system</a><ul>
+                <li><a href="#introduction-2"><span class="toc-section-number">5.1</span> Introduction</a></li>
+                </ul></li>
                 <li><a href="#verification-and-validation"><span class="toc-section-number">6</span> Verification and Validation</a></li>
                 <li><a href="#results-and-evaluation"><span class="toc-section-number">7</span> Results and Evaluation</a></li>
                 <li><a href="#summary-conclusion"><span class="toc-section-number">8</span> Summary &amp; Conclusion</a><ul>
@@ -341,9 +343,18 @@ Table x.x Short title of the figure . . . </p>
 </ul>
 <p>Thus, simpler language was developed with matching Compiler and Abstract Machine. Both, the Compiler and the Machine were developed while keeping in mind that their key parts will be used for the final product. So efficiency, reliability, structure were all key factors.</p>
 <h2 id="simple-system"><span class="header-section-number">4.2</span> Simple system</h2>
+<p>It consists of:</p>
+<ul>
+<li>Compiler - written in Haskell;</li>
+<li>Language - written in Haskell;</li>
+<li>Machine - written in JavaScript;</li>
+<li>Testing Framework - written in Bash and Expect scripts;</li>
+</ul>
 <h3 id="language"><span class="header-section-number">4.2.1</span> Language</h3>
-<p>A language written in Haskell, which supports few specific operations, such as, sum of two expressions, Throw &amp; Catch, Set, Next, Get, new reference.</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Expr</span> <span class="fu">=</span> <span class="dt">Val</span> <span class="dt">Int</span> 
+<p>A language written in Haskell, which syntax supports few specific operations, such as, sum of two expressions, Throw &amp; Catch, Set, Next, Get, new reference.</p>
+<p><strong>Full language definition</strong></p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Expr</span> <span class="fu">=</span> 
+        <span class="fu">|</span> <span class="dt">Val</span> <span class="dt">Int</span> <span class="co">-- integer value</span>
         <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:+:</span> <span class="dt">Expr</span> <span class="co">-- sum of two expressions </span>
         <span class="fu">|</span> <span class="dt">Throw</span>
         <span class="fu">|</span> <span class="dt">Catch</span> <span class="dt">Expr</span> <span class="dt">Expr</span> <span class="co">-- evaluated first expression, if result is</span>
@@ -356,6 +367,7 @@ Table x.x Short title of the figure . . . </p>
                     <span class="dt">Expr</span> <span class="co">-- how to compute initial value of new reference</span>
                     <span class="dt">Expr</span> <span class="co">-- code that makes use of reference</span>
             <span class="co">--  the WithRef stack frame is the handler for Get and :=</span></code></pre></div>
+<p>Each of the operations were carefully selected, where their implementation in the Abstract Machine varies significantly. Because the implementation of these operations will be generalized in the final system, for instance, code for sum of two expressions will cope with all arithmetic calculations of two expressions.</p>
 <h3 id="compiler"><span class="header-section-number">4.2.2</span> Compiler</h3>
 <p>Purpose of the Compiler is to take an expression of the simple language described above and output a JavaScript working program which could be used by the Abstract Machine.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">CodeGen</span> val <span class="fu">=</span> <span class="dt">MkCodeGen</span> {
@@ -407,41 +419,63 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <li>Functionality;</li>
 </ul>
 <h3 id="testing-framework"><span class="header-section-number">4.2.4</span> Testing framework</h3>
-<p>Testing framework consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be briefly reviewed.</p>
-<p>Bash script is the main script which stores all test cases, then goes through them one after another. For each test case it launches Expect script and passes parameters to it, furthermore, it recompiles the output of the Compiler by utilizing Webpack and retrieves the result of Abstract Machine with Node. Then Bash script just compares the expected output with actual output.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">for</span> <span class="ex">id_name</span> in <span class="va">${!test@}</span><span class="kw">;</span> <span class="kw">do</span>
-    <span class="bu">declare</span> -n <span class="va">test=$id_name</span>    
-    <span class="co">#Test</span>
-    <span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]}</span>
-    <span class="co">#end of expect</span>
-
-    <span class="ex">webpack</span> --hide-modules <span class="co">#recompile output.js </span>
-
-    <span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
-    <span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span>
-
-    <span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$output</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">${test[expected]}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
-        <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${GREEN}</span><span class="st">Test passed</span><span class="va">${NC}</span><span class="st">&quot;</span>
-    <span class="kw">else</span> 
-        <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${RED}</span><span class="st">Test failed</span><span class="va">${NC}</span><span class="st">&quot;</span>
-    <span class="kw">fi</span>
-<span class="ex">Done</span></code></pre></div>
+<p>Testing framework consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
+<h4 id="bash-script"><span class="header-section-number">4.2.4.1</span> Bash script</h4>
+<p>Bash script is the main script in the testing framework which stores all test cases, then goes through them one by one.</p>
 <p>Sample test case:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
     [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;10&#39;</span>
 )</code></pre></div>
-<p>Expect script takes the title of the test and the actual expression. Then it simply runs Ghci commands to produce the output of the Compiler.</p>
-<p>There is still plenty of room to improve this framework, in particular:</p>
+<p>Complex test case:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test9=(</span>  
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 22) (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11) :&gt; (Get &quot;x&quot; :+: Val 30))&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get_set_next&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;63&#39;</span>
+)</code></pre></div>
+<p>Each test case must store three values: expression to be tested, the name of the test and expected output.</p>
+<p>For each test case it launches Expect script and passes parameters to it. It passes the expression to be tested and the name of the test.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]</span></code></pre></div>
+<p>After, Expect script &quot;helper.sh&quot; finishes computing and generates new program, system must recompile Abstract Machines code to use newly generated program. Webpack is used for all JavaScript code compilations, dependencies and overall structure.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules <span class="co">#recompile code to output.js </span></code></pre></div>
+<p>After successful recompilation of JavaScript Bash script has to retrieve the output of the program by retrieving the last line of the console output utilizing Node functionality and some string manipulation.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
+<span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span></code></pre></div>
+<p>Finally, Bash script just compares the expected output with actual output and gives back the result for the user to see.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$output</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">${test[expected]}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
+    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${GREEN}</span><span class="st">Test passed</span><span class="va">${NC}</span><span class="st">&quot;</span>
+<span class="kw">else</span> 
+    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${RED}</span><span class="st">Test failed</span><span class="va">${NC}</span><span class="st">&quot;</span>
+<span class="kw">fi</span></code></pre></div>
+<h4 id="expect-script"><span class="header-section-number">4.2.4.2</span> Expect script</h4>
+<p>Expect script is used because of its ability to send and receive commands to programs which have their own terminal, in this case GHCI.</p>
+<p>Expect script takes the name of the test and the expression to be tested. Because it is only possible to pass one array to Expect script, the script performs some array manipulation to retrieve the name and the expression.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">set</span> <span class="fu">expr</span> [lrange <span class="va">$argv</span> 0 end-1]
+<span class="kw">set</span> <span class="ex">name</span> [lindex <span class="va">$argv</span> end 0]</code></pre></div>
+<p>After that it launches GHCI terminal.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">spawn</span> ghci</code></pre></div>
+<p>And waits for &quot;&gt;&quot; character before sending the command to load the Compiler.hs file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;&gt;&quot;</span>
+<span class="ex">send</span> <span class="st">&quot;:load Compiler.hs\r&quot;</span></code></pre></div>
+<p>Finally, Expect script sends the two following commands to generate the output of the Compiler and quits to resume the Bash script execution.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
+<span class="ex">send</span> <span class="st">&quot;</span><span class="va">$b</span><span class="st">\r&quot;</span>
+
+<span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
+<span class="ex">send</span> <span class="st">&quot;jsWrite (jsSetup </span><span class="dt">\&quot;</span><span class="va">$name</span><span class="dt">\&quot;</span><span class="st"> (compile xpr))\r&quot;</span> </code></pre></div>
+<p>Possible improvements for the final testing framework:</p>
 <ul>
 <li>Speed &amp; efficiency;</li>
 <li>Move test cases into separate file;</li>
 <li>More useful statistics at the end of computation;</li>
 </ul>
-<p>To use the testing framework just run ./tester.sh in the terminal window</p>
+<p><strong>Usage</strong></p>
+<p>To use the testing framework just run ./tester.sh in the terminal window. If there is a permission issue do &quot;chmod +x helper.sh&quot;.</p>
 <h2 id="conclusion-1"><span class="header-section-number">4.3</span> Conclusion</h2>
 <h1 id="detailed-design-and-implementation-of-the-final-system"><span class="header-section-number">5</span> Detailed Design and Implementation of the final system</h1>
+<h2 id="introduction-2"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>The implementation of final Compiler and Abstract Machine were heavily supervised by Conor McBride.</p>
 <h1 id="verification-and-validation"><span class="header-section-number">6</span> Verification and Validation</h1>
 <h1 id="results-and-evaluation"><span class="header-section-number">7</span> Results and Evaluation</h1>
 <h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
@@ -554,10 +588,16 @@ Added more test cases.<br />
 <em>Machine development:</em><br />
 Completely reworked support for Get, Set and WithRef commands.<br />
 General bug fixes.</p>
-<p><em>February 15:</em><br />
+<p>February 15:<br />
 Progress report.</p>
-<p><em>February 16:</em><br />
+<p>February 16:<br />
 Progress report.</p>
+<p>February 24:<br />
+<em>Final Compiler development:</em><br />
+Outputting generated code to js file.<br />
+Researched top level functions.<br />
+<em>Project</em><br />
+Updated project structure.</p>
 <h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
 
 <!-- 

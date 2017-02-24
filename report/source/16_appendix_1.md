@@ -130,12 +130,15 @@ Added more test cases.\
 Completely reworked support for Get, Set and WithRef commands.\
 General bug fixes.
 
-*February 15:*\
+February 15:\
 Progress report.
 
-*February 16:*\
+February 16:\
 Progress report.
 
-
-
-
+February 24:\
+*Final Compiler development:*\
+Outputting generated code to js file.\
+Researched top level functions.\
+*Project*\
+Updated project structure.

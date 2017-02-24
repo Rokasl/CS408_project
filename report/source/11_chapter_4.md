@@ -19,13 +19,23 @@ product. So efficiency, reliability, structure were all key factors.
 
 ## Simple system
 
+It consists of:
+
+* Compiler - written in Haskell;
+* Language - written in Haskell;
+* Machine - written in JavaScript;
+* Testing Framework - written in Bash and Expect scripts;
+
 ### Language
 
-A language written in Haskell, which supports few specific operations, such as, sum of two expressions,
-Throw & Catch, Set, Next, Get, new reference. 
+A language written in Haskell, which syntax supports few specific operations, such as, sum of two
+expressions, Throw & Catch, Set, Next, Get, new reference. 
+
+**Full language definition**
 
 ```haskell
-data Expr = Val Int 
+data Expr = 
+        | Val Int -- integer value
         | Expr :+: Expr -- sum of two expressions 
         | Throw
         | Catch Expr Expr -- evaluated first expression, if result is
@@ -39,6 +49,10 @@ data Expr = Val Int
                     Expr -- code that makes use of reference
             --  the WithRef stack frame is the handler for Get and :=
 ```
+Each of the operations were carefully selected, where their implementation in the Abstract Machine
+varies significantly. Because the implementation of these operations will be generalized in the final
+system, for instance, code for sum of two expressions will cope with all arithmetic calculations of two
+expressions.   
 
 ### Compiler
 
@@ -57,8 +71,6 @@ newtype CodeGen val = MkCodeGen {
         }                    -- the input "next number" and go up to just before
                              -- the output "next number"
 ```
-
-
 
 Function compile works together with genDef to make definitions of functions in JavaScript and link
 them together, by utilizing linked list data structure. Below is displayed a small piece of the compile
@@ -121,32 +133,12 @@ Room for improvement:
 ### Testing framework
 
 Testing framework consists of two files utilizing two different scripts: Bash script and Expect script.
-Its purpose is to automate the testing process. Below each of these scripts will be briefly reviewed.
+Its purpose is to automate the testing process. Below each of these scripts will be reviewed.
 
-Bash script is the main script which stores all test cases, then goes through them one after another.
-For each test case it launches Expect script and passes parameters to it, furthermore, it recompiles the
-output of the Compiler by utilizing Webpack and retrieves the result of Abstract Machine with Node.
-Then Bash script just compares the expected output with actual output.
+#### Bash script
 
-```bash
-for id_name in ${!test@}; do
-    declare -n test=$id_name    
-    #Test
-    ./tests/helper.sh ${test[expr]} ${test[name]}
-    #end of expect
-
-    webpack --hide-modules #recompile output.js 
-
-    output=$(node ./dist/output.js); #get output
-    output="${output##*$'\n'}" #take only last line
-
-    if [ "$output" = "${test[expected]}" ]; then
-        echo -e "${GREEN}Test passed${NC}"
-    else 
-        echo -e "${RED}Test failed${NC}"
-    fi
-Done
-```
+Bash script is the main script in the testing framework which stores all test cases,
+then goes through them one by one.
 
 Sample test case:
 
@@ -157,19 +149,103 @@ declare -A test0=(
     [expected]='10'
 )
 ```
-Expect script takes the title of the test and the actual expression. Then it simply runs Ghci commands
-to produce the output of the Compiler.
+Complex test case:
 
-There is still plenty of room to improve this framework, in particular:
+```bash
+declare -A test9=(  
+    [expr]='let xpr = WithRef "x" (Val 22) ("x" := (Get "x" :+: Val 11) :> (Get "x" :+: Val 30))'
+    [name]='test_withref_get_set_next'
+    [expected]='63'
+)
+```
+
+Each test case must store three values: expression to be tested, the name of the test and expected
+output.
+
+For each test case it launches Expect script and passes parameters to it. It passes the expression to be
+tested and the name of the test.
+
+```bash
+./tests/helper.sh ${test[expr]} ${test[name]
+```
+
+After, Expect script "helper.sh" finishes computing and generates new program, system must recompile 
+Abstract Machines code to use newly generated program. Webpack is used for all JavaScript code compilations,
+dependencies and overall structure. 
+
+```bash
+webpack --hide-modules #recompile code to output.js 
+```
+
+After successful recompilation of JavaScript Bash script has to retrieve the output of the program by
+retrieving the last line of the console output utilizing Node functionality and some string manipulation.
+
+```bash
+output=$(node ./dist/output.js); #get output
+output="${output##*$'\n'}" #take only last line
+```
+
+Finally, Bash script just compares the expected output with actual output and gives back the result for 
+the user to see.
+
+```bash
+if [ "$output" = "${test[expected]}" ]; then
+    echo -e "${GREEN}Test passed${NC}"
+else 
+    echo -e "${RED}Test failed${NC}"
+fi
+```
+#### Expect script
+
+Expect script is used because of its ability to send and receive commands to programs which have their own
+terminal, in this case GHCI. 
+
+Expect script takes the name of the test and the expression to be tested. Because it is only possible to
+pass one array to Expect script, the script performs some array manipulation to retrieve the name and the
+expression.
+
+```bash
+set expr [lrange $argv 0 end-1]
+set name [lindex $argv end 0]
+```
+
+After that it launches GHCI terminal.
+
+```bash
+spawn ghci
+```
+
+And waits for ">" character before sending the command to load the Compiler.hs file. 
+
+```bash
+expect ">"
+send ":load Compiler.hs\r"
+```
+Finally, Expect script sends the two following commands to generate the output of the Compiler and quits
+to resume the Bash script execution.
+
+```bash
+expect "Main>"
+send "$b\r"
+
+expect "Main>"
+send "jsWrite (jsSetup \"$name\" (compile xpr))\r" 
+```
+
+
+Possible improvements for the final testing framework:
 
 * Speed & efficiency;
 * Move test cases into separate file;
 * More useful statistics at the end of computation;
 
-To use the testing framework just run ./tester.sh in the terminal window
+**Usage**
+
+To use the testing framework just run ./tester.sh in the terminal window. If there is a permission issue
+do "chmod +x helper.sh".
 
 
 
 ## Conclusion
 
-
+ 

@@ -1,13 +1,15 @@
 {
     "language": "en_US",
     "ignoreWordsList": [
+        "Shonky's",
         "Strathclyde",
         "Shonky",
         "ocaml",
         "Ocaml",
         "Frankjnr",
-        "Shonky's",
-        "behaviour"
+        "behaviour",
+        "Conor",
+        "Webpack"
     ],
     "documentTypes": [
         "markdown",
