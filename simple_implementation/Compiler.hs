@@ -98,7 +98,7 @@ jsSetup arr comp = ("var " ++ arr ++ "= [];\n"
 -- jsWrite (jsSetup "prog" (compile (Val 2)))    
 
 jsWrite :: (String, x) -> IO()
-jsWrite (code, x) = writeFile "main/generated.js" code
+jsWrite (code, x) = writeFile "dist/generated.js" code
 
 
 

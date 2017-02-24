@@ -8,7 +8,7 @@ import Debug.Trace
 
 
 
-type EnvTable = [(String, Int)]
+type EnvTable = [(String, Int)] -- environment lookup table
 
 --   patCompile :: .. -- whatever JSComp we're matching
 --      -> Pat -> Counter (EnvTable, ..JS code to make a JSVal[])
@@ -198,6 +198,23 @@ topLevelCompile ds = do
   error "not done yet"
 
 
+jsSetup  ::  String       -- array name
+         ->  CodeGen JSStmt    -- compilation process
+         ->  String    -- a big pile of JS
+            
+jsSetup arr comp = "var " ++ arr ++ "= [];\n"
+                     ++ x
+                     ++ (defs >>= def) ++ "module.exports = "
+                      ++ arr ++ ";"
+  where
+    (defs, _, x) = codeGen comp 0
+    def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
+
+-- example jsWrite (jsSetup "prog" (funCompile [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]))
+jsWrite :: String -> IO()
+jsWrite code = writeFile "gen.js" code
+
+
 -- jstype JSRun = (JSVal[], JSStack) -> JSMode
 -- jstype JSMode = {stack: JSStack, comp: JSComp}     
 
@@ -227,3 +244,5 @@ topLevelCompile ds = do
 --   ,"if (args[0].tag===\"value\") {env[0]=args[0].value; }
 --     else { throw(...) }; ")
 --   ,1)
+
+
