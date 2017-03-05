@@ -99,18 +99,3 @@ jsSetup arr comp = ("var " ++ arr ++ "= [];\n"
 
 jsWrite :: (String, x) -> IO()
 jsWrite (code, x) = writeFile "dist/generated.js" code
-
-
-
--- test cases:
--- let xpr = Val 10
--- jsWrite (jsSetup "test_num" (compile xpr))
--- let xpr = Val 2 :+: (Val 4 :+: Val 8)
--- jsWrite (jsSetup "test_sum" (compile xpr))
--- let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)
--- jsWrite (jsSetup "test_throw" (compile xpr))
--- let xpr = (Val 2 :+: Val 100) :> (Catch (Val 10 :+: Val 3) (Val 2))
--- jsWrite (jsSetup "test_:>1" (compile xpr))
--- let xpr = (WithRef "variable" (Val 2) (Val 5 :+: Get "variable"))
--- jsWrite (jsSetup "test_WithRef" (compile xpr))
--- let xpr = WithRef "x" (Val 22) ("x" := (Get "x" :+: Val 11) :> (Get "x" :+: Val 30))

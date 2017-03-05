@@ -142,3 +142,9 @@ Outputting generated code to js file.\
 Researched top level functions.\
 *Project*\
 Updated project structure.
+
+March 05:\
+*Report*\
+Chapter 4 almost done.\
+*Project*\
+Improvements all around: bug fixes, documentation updates.

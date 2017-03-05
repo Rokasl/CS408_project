@@ -4,7 +4,6 @@ var saver = new s();
 
 var Machine = function Machine(f) {
 
-    var save = [];
     var mode = {
         stack: null,
         tag: "go",
@@ -13,7 +12,6 @@ var Machine = function Machine(f) {
 
     while (mode.tag === "go") {
         mode = f[mode.data](mode.stack);
-        console.log(mode);
 
         while (mode.tag != "go" && mode.stack != null) {
             switch (mode.tag) {

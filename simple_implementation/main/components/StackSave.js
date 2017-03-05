@@ -6,7 +6,7 @@ var saver = function () {
     var save = null;
     var restore = null;
 
-    this.saveStack = function (m) {
+    this.saveStack = function (m) { // m is current stack frame
         save = {
             prev: save,
             tag: m.tag,
