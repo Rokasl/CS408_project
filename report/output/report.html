@@ -371,7 +371,8 @@ Table x.x Short title of the figure . . . </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:&gt;</span> <span class="dt">Expr</span></code></pre></div>
 <p>Each of the operations were carefully selected, where their implementation in the Abstract Machine varies significantly. Because the implementation of these operations will be generalized in the final system, for instance, code for sum of two expressions will cope with all arithmetic calculations of two expressions.</p>
 <h3 id="compiler"><span class="header-section-number">4.2.2</span> Compiler</h3>
-<p>Purpose of the Compiler is to take an expression of the simple language described above and output a JavaScript working program which could be used by the Abstract Machine.</p>
+<p>Purpose of the Compiler is to take an expression of the simple, experimental language described above and output a JavaScript working program, array of functions, which could be used by the Abstract Machine.</p>
+<p>Below is a definition of code generation monad. It contains a constructor MkCodeGen and deconstructor codeGen.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">CodeGen</span> val <span class="fu">=</span> <span class="dt">MkCodeGen</span> {
 <span class="ot">            codeGen ::</span> <span class="dt">Int</span> <span class="co">-- next available number (for naming helper functions)</span>
                        <span class="ot">-&gt;</span> ([(  <span class="dt">Int</span>        <span class="co">-- this number...</span>
@@ -382,14 +383,28 @@ Table x.x Short title of the figure . . . </p>
                           )  <span class="co">-- usually the list of definitions will start with</span>
         }                    <span class="co">-- the input &quot;next number&quot; and go up to just before</span>
                              <span class="co">-- the output &quot;next number&quot;</span></code></pre></div>
-<p>Function compile works together with genDef to make definitions of functions in JavaScript and link them together, by utilizing linked list data structure. Below is displayed a small piece of the compile function and full genDef function.</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">genDef ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> <span class="co">-- make a definition and return its number</span>
-genDef code <span class="fu">=</span> <span class="dt">MkCodeGen</span> <span class="fu">$</span> \ next <span class="ot">-&gt;</span> ([(next, code)],next <span class="fu">+</span> <span class="dv">1</span>, next)
-
-<span class="ot">compile ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> <span class="co">-- the Int returned is the entry point</span>
-compile e <span class="fu">=</span> help <span class="st">&quot;s&quot;</span> e <span class="kw">where</span>
-    help s (<span class="dt">Val</span> n) <span class="fu">=</span> genDef <span class="fu">$</span>
+<p>MkCodeGen is used to construct a definition in genDef function displayed below. genDef returns the definition number.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">genDef ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> 
+genDef code <span class="fu">=</span> <span class="dt">MkCodeGen</span> <span class="fu">$</span> \ next <span class="ot">-&gt;</span> ([(next, code)],next <span class="fu">+</span> <span class="dv">1</span>, next)</code></pre></div>
+<p>genDef is used by compile function to make new function definitions. Below is the type of compile function. compile function takes in a valid language expression and outputs entry point of the compilation as well as compilation process which can be separated into chucks of JavaScript code.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">compile ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span></code></pre></div>
+<p>compile function is either used to create new function definitions...</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">help s (<span class="dt">Val</span> n) <span class="fu">=</span> genDef <span class="fu">$</span>
         <span class="st">&quot;function(s){return{stack:&quot;</span><span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;num\&quot;, data:&quot;</span><span class="fu">++</span> show n <span class="fu">++</span><span class="st">&quot;}}&quot;</span></code></pre></div>
+<p>or to compile expressions to JavaScript.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">help s (e1 <span class="fu">:+:</span> e2) <span class="fu">=</span> <span class="kw">do</span> 
+    f2 <span class="ot">&lt;-</span> compile e2
+    help (<span class="st">&quot;{prev:&quot;</span> <span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;left\&quot;, data:&quot;</span><span class="fu">++</span> show f2 <span class="fu">++</span><span class="st">&quot;}&quot;</span>) e1</code></pre></div>
+<p><strong>Formating and outputting to file</strong></p>
+<p>jsSetup takes a name of the array, the output of compile function and outputs a JavaScript formatted string.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">jsSetup  ::</span>  <span class="dt">String</span>       <span class="co">-- array name</span>
+         <span class="ot">-&gt;</span>  <span class="dt">CodeGen</span> x    <span class="co">-- compilation process</span>
+         <span class="ot">-&gt;</span>  (  <span class="dt">String</span>    <span class="co">-- JavaScript code</span>
+             ,  x         <span class="co">-- result</span>
+             )</code></pre></div>
+<p>jsWrite takes an output of jsSetup and writes everything to a file &quot;generated.js&quot; which can be safely used by Abstract Machine.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">jsWrite ::</span> (<span class="dt">String</span>, x) <span class="ot">-&gt;</span> <span class="dt">IO</span>()
+jsWrite (code, x) <span class="fu">=</span> writeFile <span class="st">&quot;dist/generated.js&quot;</span> code</code></pre></div>
 <h3 id="abstract-machine"><span class="header-section-number">4.2.3</span> Abstract machine</h3>
 <p>Purpose of the Abstract Machine is to take in a compiled program and run it in the browser. It gradually builds a stack from the given program, where each frame of the stack has a link to another frame. The elegant part of this is that, stack frames can be saved, updated, deleted and restored; thus, making the Machines data structure flexible.</p>
 <p><strong>Program Structure</strong></p>

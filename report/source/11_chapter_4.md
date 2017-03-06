@@ -96,8 +96,11 @@ expressions.
 
 ### Compiler
 
-Purpose of the Compiler is to take an expression of the simple language described above and output
-a JavaScript working program which could be used by the Abstract Machine.
+Purpose of the Compiler is to take an expression of the simple, experimental language described above and
+output a JavaScript working program, array of functions, which could be used by the Abstract Machine.
+
+Below is a definition of code generation monad. It contains a constructor MkCodeGen and deconstructor
+codeGen. 
 
 ```haskell
 newtype CodeGen val = MkCodeGen {
@@ -112,18 +115,55 @@ newtype CodeGen val = MkCodeGen {
                              -- the output "next number"
 ```
 
-Function compile works together with genDef to make definitions of functions in JavaScript and link
-them together, by utilizing linked list data structure. Below is displayed a small piece of the compile
-function and full genDef function.
+MkCodeGen is used to construct a definition in genDef function displayed below. genDef returns the 
+definition number.
 
 ```haskell
-genDef :: String -> CodeGen Int -- make a definition and return its number
+genDef :: String -> CodeGen Int 
 genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
+```
 
-compile :: Expr -> CodeGen Int -- the Int returned is the entry point
-compile e = help "s" e where
-    help s (Val n) = genDef $
+genDef is used by compile function to make new function definitions. Below is the type of compile function.
+compile function takes in a valid language expression and outputs entry point of the compilation as well
+as compilation process which can be separated into chucks of JavaScript code.  
+
+```haskell
+compile :: Expr -> CodeGen Int
+```
+
+compile function is either used to create new function definitions...
+
+```haskell
+help s (Val n) = genDef $
         "function(s){return{stack:"++ s ++ ", tag:\"num\", data:"++ show n ++"}}"
+```
+or to compile expressions to JavaScript. 
+
+```haskell
+help s (e1 :+: e2) = do 
+    f2 <- compile e2
+    help ("{prev:" ++ s ++ ", tag:\"left\", data:"++ show f2 ++"}") e1
+```
+
+**Formating and outputting to file**
+
+jsSetup takes a name of the array, the output of compile function and outputs a JavaScript formatted
+string. 
+
+```haskell
+jsSetup  ::  String       -- array name
+         ->  CodeGen x    -- compilation process
+         ->  (  String    -- JavaScript code
+             ,  x         -- result
+             )
+```
+
+jsWrite takes an output of jsSetup and writes everything to a file "generated.js" which can be safely
+used by Abstract Machine.
+
+```haskell
+jsWrite :: (String, x) -> IO()
+jsWrite (code, x) = writeFile "dist/generated.js" code
 ```
 
 ### Abstract machine
