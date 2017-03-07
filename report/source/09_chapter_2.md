@@ -3,9 +3,15 @@
 
 ## Vole
 
-Vole is lightweight functional programming language with its own Compiler and Abstract Machine.
-Compiler compiles the Vole code to JavaScript, which can be used by Vole.js (Abstract Machine) and run
-it on the browser. It has some support for effects and handlers.
+Vole is lightweight functional programming language with its own Compiler and Abstract Machine. It even
+has two Abstract Machines, one is written in Haskell and mainly works on the Terminal and the other is 
+written in JavaScript, so it makes it possible to run Vole code in the browser. 
+In the later case, compiler compiles the Vole syntax to JavaScript, which can be used by Vole.js
+(Abstract Machine) to run it on the browser. It has some support for effects and handlers.
+
+Aa resource it is extremely useful in this projects context, because it essentially tries to solve the
+same problem but for a different language.
+
 
 ## Shonky
 

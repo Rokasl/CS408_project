@@ -1,4 +1,4 @@
-# Initial development & Simple system
+# Initial development & experimental system
 
 ## Introduction
 

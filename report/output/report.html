@@ -217,7 +217,7 @@
                 <li><a href="#specification"><span class="toc-section-number">3.3</span> Specification</a></li>
                 <li><a href="#design-methodology"><span class="toc-section-number">3.4</span> Design Methodology</a></li>
                 </ul></li>
-                <li><a href="#initial-development-simple-system"><span class="toc-section-number">4</span> Initial development &amp; Simple system</a><ul>
+                <li><a href="#initial-development-experimental-system"><span class="toc-section-number">4</span> Initial development &amp; experimental system</a><ul>
                 <li><a href="#introduction-1"><span class="toc-section-number">4.1</span> Introduction</a></li>
                 <li><a href="#simple-system"><span class="toc-section-number">4.2</span> Simple system</a><ul>
                 <li><a href="#language"><span class="toc-section-number">4.2.1</span> Language</a></li>
@@ -249,7 +249,7 @@
 <h1 id="acknowledgements" class="unnumbered">Acknowledgements</h1>
 <!-- This is for acknowledging all of the people who helped out -->
 <p>I would like to express my special thanks of gratitude to my supervisor, Conor Mcbride for his guidance throughout this project.</p>
-<p>Also, I would like to thank my friends for helping me think with our numerous technical discussions.</p>
+<p>Also, I would like to thank my friends for helping me to think with our numerous technical discussions and contemplations.</p>
 <!-- Use the \newpage command to force a new page -->
 
 
@@ -286,10 +286,20 @@ Table x.x Short title of the figure . . . </p>
 </ul>
 <h2 id="project-outcome"><span class="header-section-number">1.3</span> Project Outcome</h2>
 <h2 id="summary-of-chapters"><span class="header-section-number">1.4</span> Summary of chapters</h2>
+<p><strong>Chapter 2 - Related Work</strong></p>
+<p>The point of the chapter is to highlight work done by others that somehow ties in with this project. It either may be work that author is basing his work off of, or work that shows others attempts to solve the similar problems.</p>
+<p><strong>Chapter 3 - Problem Description and Specification</strong></p>
+<p>This chapter briefly overviews the main problem of the project. It expands upon functional and non-functional requirements, followed by detailed specification and explanation of design methodology.</p>
+<p><strong>Chapter 4 - Initial development &amp; experimental system</strong></p>
+<p>This chapter is focused on initial experimental system. It highlights the purpose of each component, their implementation, drawbacks and any possible improvements.</p>
+<p><strong>Chapter 5 - Detailed Design and Implementation of the final system</strong></p>
+<p><strong>Chapter 6 - Verification and Validation</strong></p>
+<p><strong>Chapter 7 - Results and Evaluation</strong></p>
 <h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
 <!-- Literature review ??? -->
 <h2 id="vole"><span class="header-section-number">2.1</span> Vole</h2>
-<p>Vole is lightweight functional programming language with its own Compiler and Abstract Machine. Compiler compiles the Vole code to JavaScript, which can be used by Vole.js (Abstract Machine) and run it on the browser. It has some support for effects and handlers.</p>
+<p>Vole is lightweight functional programming language with its own Compiler and Abstract Machine. It even has two Abstract Machines, one is written in Haskell and mainly works on the Terminal and the other is written in JavaScript, so it makes it possible to run Vole code in the browser. In the later case, compiler compiles the Vole syntax to JavaScript, which can be used by Vole.js (Abstract Machine) to run it on the browser. It has some support for effects and handlers.</p>
+<p>Aa resource it is extremely useful in this projects context, because it essentially tries to solve the same problem but for a different language.</p>
 <h2 id="shonky"><span class="header-section-number">2.2</span> Shonky</h2>
 <p>Shonky is untyped and impure functional programming language. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
 <h2 id="frankjnr"><span class="header-section-number">2.3</span> Frankjnr</h2>
@@ -330,7 +340,7 @@ Table x.x Short title of the figure . . . </p>
 </ul>
 <h2 id="specification"><span class="header-section-number">3.3</span> Specification</h2>
 <h2 id="design-methodology"><span class="header-section-number">3.4</span> Design Methodology</h2>
-<h1 id="initial-development-simple-system"><span class="header-section-number">4</span> Initial development &amp; Simple system</h1>
+<h1 id="initial-development-experimental-system"><span class="header-section-number">4</span> Initial development &amp; experimental system</h1>
 <h2 id="introduction-1"><span class="header-section-number">4.1</span> Introduction</h2>
 <p>Because of the complexity of overall project and the lack of initial author knowledge in the field the most optimal plan was to start with something small and expand gradually. The intricacies consist of:</p>
 <ul>
