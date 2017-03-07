@@ -148,3 +148,11 @@ March 05:\
 Chapter 4 almost done.\
 *Project*\
 Improvements all around: bug fixes, documentation updates.
+
+March 07:\
+*Report*\
+Related work section\
+Introduction chapter summarization\
+*Final Compiler development:*\
+Attempt to implement operators array\
+Looking into how to compile operator variables\

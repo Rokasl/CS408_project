@@ -9,6 +9,7 @@ import Debug.Trace
 
 
 type EnvTable = [(String, Int)] -- environment lookup table
+type FTable = [(String, Int)] -- operator lookup table
 
 --   patCompile :: .. -- whatever JSComp we're matching
 --      -> Pat -> Counter (EnvTable, ..JS code to make a JSVal[])
@@ -34,6 +35,9 @@ instance Monad Counter where
 
 next :: Counter Int
 next = MkCounter (\ i -> (i, i+1)) 
+
+next2 :: Counter Int
+next2 = MkCounter (\ i -> (i, i+1))
 
 type JSExp = String
 type JSStmt = String
@@ -136,57 +140,66 @@ genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
 
 expFun
   :: EnvTable     -- maps variable names to env indices
+  -> FTable
   -> Exp          -- Shonky source code
   -> CodeGen Int
 
-expFun xis e = do
-  js <- expCompile xis "stk" e
+expFun xis ftable e = do
+  js <- expCompile xis ftable "stk" e
   genDef ("function(stk,env){return " ++ js ++ "}")
 
 expCompile
   :: EnvTable     -- maps variable names to env indices
+  -> FTable
   -> JSExp        -- stack
   -> Exp          -- Shonky source code
   -> CodeGen JSExp
 
-expCompile xis stk (EV x) = case lookup x xis of
-  Nothing -> error "it's not a pattern variable, but is it a top-level function?"
+expCompile xis ftable stk (EV x) = case lookup x xis of
+  -- Nothing -> error "it's not a pattern variable, but is it a operator?"
+  Nothing -> case lookup x ftable of
+    Nothing -> error "It's not a pattern variable!"
+    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"operator\", operator:"++ show i ++"}}"
   Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
 
-expCompile xis stk (EI x) = 
+expCompile xis ftable stk (EI x) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:\"" ++ show x ++ "\"}}}"
 
-expCompile xis stk (EA a) = 
+expCompile xis ftable stk (EA a) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
 
-expCompile xis stk (ecar :& ecdr) = do
-  fcdr <- expFun xis ecdr
-  expCompile xis
+expCompile xis ftable stk (ecar :& ecdr) = do
+  fcdr <- expFun xis ftable ecdr
+  expCompile xis ftable 
     ("{prev: " ++ stk ++ ", tag:\"car\", env:env, cdr:" ++ show fcdr ++ "}")
     ecar
  
 
-lineCompile :: ([Pat], Exp) -> CodeGen JSStmt
-lineCompile (ps, e) = do
+lineCompile :: ([Pat], Exp) -> FTable -> CodeGen JSStmt
+lineCompile (ps, e) ftable = do
   let ((xis, patJS), _) = runCounter (listOf patCompile "args" ps) 0
-  expJS <- expCompile xis "stk" e
+  expJS <- expCompile xis ftable "stk" e
   return $ "{" ++ patJS ++ "return " ++ expJS ++ "\n}"
 
 -- codeGen (lineCompile ([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")) 0
 
-linesCompile :: [([Pat], Exp)] -> CodeGen JSStmt
-linesCompile [] = return "throw(\"undefined function\")"
-linesCompile (l : ls) = do
-  ctry   <- lineCompile l
-  ccatch <- linesCompile ls
+linesCompile :: [([Pat], Exp)] -> FTable -> CodeGen JSStmt
+linesCompile [] ftable = return "throw(\"undefined function\")"
+linesCompile (l : ls) ftable = do
+  ctry   <- lineCompile l ftable
+  ccatch <- linesCompile ls ftable
   return $ "try " ++ ctry ++ " catch (err) {" ++ ccatch ++ "}"
 
-funCompile :: [([Pat], Exp)] -> CodeGen JSStmt
-funCompile ls = do
-  c <- linesCompile ls
+funCompile :: [([Pat], Exp)] -> FTable -> CodeGen JSStmt
+funCompile ls ftable = do
+  c <- linesCompile ls ftable
   return $ "function(stk,args){var env=[];\n" ++ c ++ "\n}"
 
 -- codeGen (funCompile [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]) 0
+
+-- ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ])
+
+-- codeGen (topLevelCompile([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")], DF "fib2" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]])) 0
 
 
 topLevelCompile :: [Def Exp] -> CodeGen [(Int, JSStmt)]
@@ -195,7 +208,16 @@ topLevelCompile ds = do
   let ftable = zipWith (\ (f, _) i -> (f, i)) fs [0..]
   -- now adjust compiler functions to take an ftable (preferably by extending the CodeGen monad)
   -- now compile all the top level functions and put them in an array
-  error "not done yet"
+  -- let table = [(n, fst f) | f <- ftable  ,  n <- [0..] ]
+  let zs =  [ funCompile pse ftable | DF f h pse <- ds ]
+  z <- head zs
+  return $ [(n, "operator["++ show n ++"]=" ++ z ) | n <- [0.. (length ftable)- 1]]
+  -- return $ do
+  --     let zs = [ funCompile pse | DF f h pse <- ds ]
+  --     n <- [0..(length ftable)- 1]
+  --     z <- head zs
+  --     return (n, "operator["++ show n ++"]=" ++ show z )
+
 
 
 jsSetup  ::  String       -- array name
