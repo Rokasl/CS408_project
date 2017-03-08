@@ -134,6 +134,10 @@ instance Monad CodeGen where
                     codeGen(a2bg a) next of
                         (bc, next, b) -> (ac ++ bc, next, b)
 
+instance Monoid x => Monoid (CodeGen x) where
+        mempty = pure mempty
+        mappend ca cb = mappend <$> ca <*> cb 
+
 genDef :: String -> CodeGen Int -- make a definition and return its number
 genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
 
@@ -156,11 +160,10 @@ expCompile
   -> CodeGen JSExp
 
 expCompile xis ftable stk (EV x) = case lookup x xis of
-  -- Nothing -> error "it's not a pattern variable, but is it a operator?"
+  Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
   Nothing -> case lookup x ftable of
     Nothing -> error "It's not a pattern variable!"
-    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"operator\", operator:"++ show i ++"}}"
-  Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
+    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\" value:{tag:\"operator\", operator:"++ show i ++"}}}"
 
 expCompile xis ftable stk (EI x) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:\"" ++ show x ++ "\"}}}"
@@ -199,46 +202,60 @@ funCompile ls ftable = do
 
 -- ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ])
 
--- codeGen (topLevelCompile([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")], DF "fib2" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]])) 0
+-- codeGen (operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ])) 0
+
+-- helper function for operatorCompile
+oneCompile :: FTable -> (String, ([[String]],[([Pat], Exp)])) -> CodeGen JSStmt
+oneCompile ftable (f,(h, pse)) = do
+  jsf <- funCompile pse ftable
+  case lookup f ftable of
+    Nothing -> error "Bug! - Something is not right with operator lookup table"
+    Just n -> return $ "operator["++ show n ++"]=" ++ jsf ++ ";\n"
 
 
-topLevelCompile :: [Def Exp] -> CodeGen [(Int, JSStmt)]
-topLevelCompile ds = do
+
+-- Top Level Compiler - compile all the top level functions
+operatorCompile :: [Def Exp] -> CodeGen (FTable, JSStmt)
+operatorCompile ds = do
   let fs = [(f, (h, pse)) | DF f h pse <- ds]
   let ftable = zipWith (\ (f, _) i -> (f, i)) fs [0..]
-  -- now adjust compiler functions to take an ftable (preferably by extending the CodeGen monad)
-  -- now compile all the top level functions and put them in an array
-  -- let table = [(n, fst f) | f <- ftable  ,  n <- [0..] ]
-  let zs =  [ funCompile pse ftable | DF f h pse <- ds ]
-  z <- head zs
-  return $ [(n, "operator["++ show n ++"]=" ++ z ) | n <- [0.. (length ftable)- 1]]
-  -- return $ do
-  --     let zs = [ funCompile pse | DF f h pse <- ds ]
-  --     n <- [0..(length ftable)- 1]
-  --     z <- head zs
-  --     return (n, "operator["++ show n ++"]=" ++ show z )
-
-
+  let (_,_,x) = codeGen (foldMap (oneCompile ftable) fs) 0
+  return (ftable, x)
 
 jsSetup  ::  String       -- array name
-         ->  CodeGen JSStmt    -- compilation process
+         ->  CodeGen (FTable, JSStmt)    -- compilation process
          ->  String    -- a big pile of JS
-            
+
 jsSetup arr comp = "var " ++ arr ++ "= [];\n"
-                     ++ x
                      ++ (defs >>= def) ++ "module.exports = "
                       ++ arr ++ ";"
   where
     (defs, _, x) = codeGen comp 0
     def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
 
--- example jsWrite (jsSetup "prog" (funCompile [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]))
+-- example jsComplete "prog" ( operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ]))
 jsWrite :: String -> IO()
 jsWrite code = writeFile "gen.js" code
 
+jsComplete :: String -> CodeGen (FTable, JSStmt) -> IO()
+jsComplete  arr comp = jsWrite (jsSetup arr comp)
+
+-- Type definitions!!! 
+-- Possible improvement - code them into haskell, so that the haskell would enforce them.
 
 -- jstype JSRun = (JSVal[], JSStack) -> JSMode
 -- jstype JSMode = {stack: JSStack, comp: JSComp}     
+
+-- jstype JSStack 
+--   = null
+--   | {prev: JSStack, tag="car", env: JSEnv, cdr: Int }
+--   | {prev: JSStack, tag="cdr", car: JSVal }
+--   | {prev: JSStack, tag="fun", env: JSEnv, args: JSList Int }
+--   | {prev: JSStack, tag="args", fun: JSVal, ready: JSList JSVal, env: JSEnv, waiting: JSList Int }
+
+-- jstype JSList x
+--   = null
+--   | {head : x, tail : JSList x}    
 
 -- jstype JSComp
 --   = {tag="value", value: JSVal}

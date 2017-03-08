@@ -1,2 +1,2 @@
-([(0, "function(stk,env){return {stack:stk, comp:{tag:\"value\", value:env[0]}}}")], 1,
- [(0, "operator[0]=function(stk,args){var env=[];\ntry {if (args[0].tag!==\"value\") {throw(\"no match\");};\nenv[0]=args[0].value;\nif (args[1].tag!==\"value\") {throw(\"no match\");};\nenv[1]=args[1].value;\nreturn {stack:{prev: stk, tag:\"car\", env:env, cdr:0}, comp:{tag:\"value\", value:env[1]}}\n} catch (err) {throw(\"undefined function\")}\n}")])
+var prog= [];
+module.exports = prog;
