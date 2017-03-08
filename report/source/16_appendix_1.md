@@ -156,3 +156,11 @@ Introduction chapter summarization\
 *Final Compiler development:*\
 Attempt to implement operators array\
 Looking into how to compile operator variables\
+
+March 08:\
+*Report*\
+Background section\
+*Final Compiler development:*\
+Various fixes\
+operatorCompile function adjustment\
+File Writer adjustment\

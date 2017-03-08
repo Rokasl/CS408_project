@@ -1,16 +1,45 @@
-Repository is divided into three different sections: Report, experimental system and final system.
+# CS408 - Run Frank in Browser
+Final 4th year project.
 
-Report
+Repository is divided into three sections: Report, experimental system and final system.
 
-Experimental System
+##Report
 
-Command to install webpack (you'll need node https://nodejs.org/ installed)
+Recompile with:
+
+    npm run watch
+
+##Experimental System
+
+###Abstract Machine
+
+Command to install webpack (you'll need node https://nodejs.org/ installed):
 
     npm install webpack -g
 
-Then
+To watch for any changes in JavaScript:
 
     webpack -w
 
+###Compiler
 
-Final System
+To run simply:
+
+    ghci Compiler.hs
+
+###Tests    
+To run tests - open Terminal and type:
+
+    ./tester.sh
+
+####Requirements:
+
+* chmod +x tester.sh (if permission denied)
+
+* expect 
+
+    apt-get install expect
+
+* node & webpack    
+
+##Final System
