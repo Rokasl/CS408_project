@@ -13,8 +13,8 @@ can communicate in more advanced ways. So the idea is to utilize this functional
 Side-effects might be various events such as mouse actions, http requests etc. and the handler
 would be the application in the web page.
 
-In this project the main goal is to compile Frank to JavaScript and run it in the browser.
-So, for example, user would be able to edit their MyPlace pages using Frank language.
+The main top-level goal of the project is to compile Frank to JavaScript and run it in the browser.
+Thus, users would be able to use Frank for web development purposes.
 This involves creating a Compiler and Virtual Machine (abstract machine) which can support compiled
 Frank structure.
 

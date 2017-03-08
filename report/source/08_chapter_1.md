@@ -1,15 +1,41 @@
 # Introduction
 
-This chapter focuses on explaining the project motivation, objectives and outcome. Furthermore, last
-section, explains the report structure.
+This chapter focuses on explaining the project motivation, objectives and outcome. Also, in the last section
+report structure is displayed.
 
 ## Background
 
+<!--In current modern times web development is one of the most important and successful spheres of engineering,
+because the accessibility to the Internet is periodically increasing and its undeniable benefits to both the
+consumer and the supplier. -->
 
+Functional languages are evolving, they are constantly changing to innovate and adapt to ever changing 
+needs of software engineering. Thus, concept of Frank language was created by Prof. Conor McBride and 
+Prof. Sam Lindley followed by its implementation called Frank and more recently newer release - Frankjnr.
+
+Frank is strongly typed, strict functional programming language 
+designed around Plotkin and Pretnar’s effect handler abstraction, strongly influenced by [@Plotkin5],
+[@Plotkin6], [@Plotkin7], [@Plotkin], [@Plotkin2], [@Plotkin3], [@Plotkin4] papers on algebraic effects
+and handlers for them
+as well as Paul Blain Levy’s call-by-push-value calculus.
+Featuring  a bidirectional effect
+type system, effect polymorphism, and effect handlers. This means that Frank supports type-checked
+side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend
+the evaluation of the expression where they occur and give control to a handler which interprets the
+command. However, when command is complete depending on the handler the system could resume from the
+point it was suspended. Handlers are very similar to typical functions but their argument processes
+can communicate in more advanced ways  
+
+It's important dominates the world as nearly every 
+
+These days funtional languages 
+
+Frank supports effects and handlers. 
 
 
 ## Objectives
-* Develop Code Compiler which compiles Frank code to JavaScript program.
+* Utilize Frankjnr implementation of Frank and Shonky language.
+* Develop Code Compiler which compiles Shonky's code to JavaScript program.
 * Develop Abstract Machine implementation which supports the output of the Compiler.
 * Completed system must facilitate client-side communication of events and DOM updates between Frank code
   and the browser.

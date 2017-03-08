@@ -244,12 +244,12 @@
 <h1 id="abstract" class="unnumbered">Abstract</h1>
 <!-- This is the abstract -->
 <p>Frank is strongly typed, strict functional programming language invented by Sam Lindley and Conor McBride and it is influenced by Paul Blain Levy’s call-by-push-value calculus. Featuring a bidirectional effect type system, effect polymorphism, and effect handlers. This means that Frank supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when command is complete depending on the handler the system could resume from the point it was suspended. Handlers are very similar to typical functions but their argument processes can communicate in more advanced ways. So the idea is to utilize this functionality in the web. Side-effects might be various events such as mouse actions, http requests etc. and the handler would be the application in the web page.</p>
-<p>In this project the main goal is to compile Frank to JavaScript and run it in the browser. So, for example, user would be able to edit their MyPlace pages using Frank language. This involves creating a Compiler and Virtual Machine (abstract machine) which can support compiled Frank structure.</p>
+<p>The main top-level goal of the project is to compile Frank to JavaScript and run it in the browser. Thus, users would be able to use Frank for web development purposes. This involves creating a Compiler and Virtual Machine (abstract machine) which can support compiled Frank structure.</p>
 <p> </p>
 <h1 id="acknowledgements" class="unnumbered">Acknowledgements</h1>
 <!-- This is for acknowledging all of the people who helped out -->
 <p>I would like to express my special thanks of gratitude to my supervisor, Conor Mcbride for his guidance throughout this project.</p>
-<p>Also, I would like to thank my friends for helping me to think with our numerous technical discussions and contemplations.</p>
+<p>Also, I would like to thank my friends for helping me think with our numerous technical discussions and contemplations.</p>
 <!-- Use the \newpage command to force a new page -->
 
 
@@ -276,11 +276,20 @@ Table x.x Short title of the figure . . . </p>
 
 <p> </p>
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
-<p>This chapter focuses on explaining the project motivation, objectives and outcome. Furthermore, last section, explains the report structure.</p>
+<p>This chapter focuses on explaining the project motivation, objectives and outcome. Also, in the last section report structure is displayed.</p>
 <h2 id="background"><span class="header-section-number">1.1</span> Background</h2>
+<!--In current modern times web development is one of the most important and successful spheres of engineering,
+because the accessibility to the Internet is periodically increasing and its undeniable benefits to both the
+consumer and the supplier. -->
+<p>Functional languages are evolving, they are constantly changing to innovate and adapt to ever changing needs of software engineering. Thus, concept of Frank language was created by Prof. Conor McBride and Prof. Sam Lindley followed by its implementation called Frank and more recently newer release - Frankjnr.</p>
+<p>Frank is strongly typed, strict functional programming language designed around Plotkin and Pretnar’s effect handler abstraction, strongly influenced by <span class="citation">(B. C. Pierce and D. N. Turner 2000)</span>, <span class="citation">(G. D. Plotkin and J. Power 2001b)</span>, <span class="citation">(G. D. Plotkin and J. Power 2001a)</span>, <span class="citation">(G. D. Plotkin and J. Power 2002)</span>, <span class="citation">(G. D. Plotkin and J. Power 2003)</span>, <span class="citation">(G. D. Plotkin and J. Power 2009)</span>, <span class="citation">(G. D. Plotkin and M. Pretnar 2013)</span> papers on algebraic effects and handlers for them as well as Paul Blain Levy’s call-by-push-value calculus. Featuring a bidirectional effect type system, effect polymorphism, and effect handlers. This means that Frank supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when command is complete depending on the handler the system could resume from the point it was suspended. Handlers are very similar to typical functions but their argument processes can communicate in more advanced ways</p>
+<p>It's important dominates the world as nearly every</p>
+<p>These days funtional languages</p>
+<p>Frank supports effects and handlers.</p>
 <h2 id="objectives"><span class="header-section-number">1.2</span> Objectives</h2>
 <ul>
-<li>Develop Code Compiler which compiles Frank code to JavaScript program.</li>
+<li>Utilize Frankjnr implementation of Frank and Shonky language.</li>
+<li>Develop Code Compiler which compiles Shonky's code to JavaScript program.</li>
 <li>Develop Abstract Machine implementation which supports the output of the Compiler.</li>
 <li>Completed system must facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
 </ul>
@@ -722,6 +731,27 @@ References are automatically generated from the BibTex file (References.bib)
 -->
 <h1 id="references" class="unnumbered">References</h1>
 <div id="refs" class="references">
+<div id="ref-Plotkin5">
+<p>B. C. Pierce and D. N. Turner, 2000. <em>Local type inference</em>,</p>
+</div>
+<div id="ref-Plotkin7">
+<p>G. D. Plotkin and J. Power, 2001a. <em>Adequacy for algebraic effects</em>,</p>
+</div>
+<div id="ref-Plotkin2">
+<p>G. D. Plotkin and J. Power, 2003. <em>Algebraic operations and generic effects</em>,</p>
+</div>
+<div id="ref-Plotkin3">
+<p>G. D. Plotkin and J. Power, 2009. <em>Handlers of algebraic effects</em>,</p>
+</div>
+<div id="ref-Plotkin">
+<p>G. D. Plotkin and J. Power, 2002. <em>Notions of computation determine monads</em>,</p>
+</div>
+<div id="ref-Plotkin6">
+<p>G. D. Plotkin and J. Power, 2001b. <em>Semantics for algebraic operations</em>,</p>
+</div>
+<div id="ref-Plotkin4">
+<p>G. D. Plotkin and M. Pretnar, 2013. <em>Handling algebraic effects</em>,</p>
+</div>
 <div id="ref-FrankPaper">
 <p>Sam Lindley, Conor McBride &amp; Craig McLaughlin, 2016. <em>Do be do be do</em>,</p>
 </div>
