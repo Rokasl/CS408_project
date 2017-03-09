@@ -219,23 +219,25 @@ operatorCompile :: [Def Exp] -> CodeGen (FTable, JSStmt)
 operatorCompile ds = do
   let fs = [(f, (h, pse)) | DF f h pse <- ds]
   let ftable = zipWith (\ (f, _) i -> (f, i)) fs [0..]
-  let (_,_,x) = codeGen (foldMap (oneCompile ftable) fs) 0
+  x <- foldMap (oneCompile ftable) fs
   return (ftable, x)
 
 jsSetup  ::  String       -- array name
          ->  CodeGen (FTable, JSStmt)    -- compilation process
          ->  String    -- a big pile of JS
 
-jsSetup arr comp = "var " ++ arr ++ "= [];\n"
-                     ++ (defs >>= def) ++ "module.exports = "
-                      ++ arr ++ ";"
+jsSetup arr comp =   "var operator = [];\n"
+                     ++ "var " ++ arr ++ " = [];\n"
+                     ++ x
+                     ++ (defs >>= def) ++ "module.exports = ["
+                     ++ arr ++ ", operator];\n"
   where
-    (defs, _, x) = codeGen comp 0
+    (defs, _, (ftable, x)) = codeGen comp 0
     def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
 
 -- example jsComplete "prog" ( operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ]))
 jsWrite :: String -> IO()
-jsWrite code = writeFile "gen.js" code
+jsWrite code = writeFile "machine/dist/gen.js" code
 
 jsComplete :: String -> CodeGen (FTable, JSStmt) -> IO()
 jsComplete  arr comp = jsWrite (jsSetup arr comp)
@@ -249,7 +251,7 @@ jsComplete  arr comp = jsWrite (jsSetup arr comp)
 -- jstype JSStack 
 --   = null
 --   | {prev: JSStack, tag="car", env: JSEnv, cdr: Int }
---   | {prev: JSStack, tag="cdr", car: JSVal }
+--   | {prev: JSStack, tag="cdr", env: JSEnv??? car: JSVal }
 --   | {prev: JSStack, tag="fun", env: JSEnv, args: JSList Int }
 --   | {prev: JSStack, tag="args", fun: JSVal, ready: JSList JSVal, env: JSEnv, waiting: JSList Int }
 
