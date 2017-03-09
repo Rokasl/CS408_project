@@ -19,7 +19,6 @@
 * To measure performance (in comparison with the existing backend and with other kinds of generated JS);
 * Easier client-side programming (example, complex parser of a text field);
 
-
 **Risks** 
 
 * Dependence on Frank implementation (Frankjnr). Instances of Frank code will be tested to make sure

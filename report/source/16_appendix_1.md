@@ -143,6 +143,8 @@ Researched top level functions.\
 *Project*\
 Updated project structure.
 
+**March**
+
 March 05:\
 *Report*\
 Chapter 4 almost done.\
@@ -164,3 +166,13 @@ Background section\
 Various fixes\
 operatorCompile function adjustment\
 File Writer adjustment\
+
+March 09:\
+*Report*\
+Related work section\
+*Final Compiler development:*\
+Adjusted file generation\
+Fixed operatorCompile function\
+*Final Abstract Machine development:*\
+Initialized project structure with webpack\
+Initial implementation of final Machine (support for CAR and CDR operations)\
