@@ -176,3 +176,12 @@ Fixed operatorCompile function\
 *Final Abstract Machine development:*\
 Initialized project structure with webpack\
 Initial implementation of final Machine (support for CAR and CDR operations)\
+
+March 10:\
+*Final Compiler development:*\
+Adjusted type definitions\
+Added one layer of structure to Computations\
+*Final Abstract Machine development:*\
+Fixed bugs regarding CAR and CDR\
+Optimization- "go" tag is not needed, creating modes directly\
+CDR now returns pair\

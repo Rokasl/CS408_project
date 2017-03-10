@@ -174,7 +174,7 @@ expCompile xis ftable stk (EA a) =
 expCompile xis ftable stk (ecar :& ecdr) = do
   fcdr <- expFun xis ftable ecdr
   expCompile xis ftable 
-    ("{prev: " ++ stk ++ ", tag:\"car\", env:env, cdr:" ++ show fcdr ++ "}")
+    ("{prev: " ++ stk ++ ", frame:{ tag:\"car\", env:env, cdr:" ++ show fcdr ++ "}}")
     ecar
  
 
@@ -250,26 +250,32 @@ jsComplete  arr comp = jsWrite (jsSetup arr comp)
 
 -- jstype JSStack 
 --   = null
---   | {prev: JSStack, tag="car", env: JSEnv, cdr: Int }
---   | {prev: JSStack, tag="cdr", env: JSEnv??? car: JSVal }
---   | {prev: JSStack, tag="fun", env: JSEnv, args: JSList Int }
---   | {prev: JSStack, tag="args", fun: JSVal, ready: JSList JSVal, env: JSEnv, waiting: JSList Int }
+--   | {prev: JSStack, frame: JSFrame }
+
+-- jstype JSFrame 
+--   = null
+--   | {tag:"car", env: JSEnv, cdr: Int }
+--   | {tag:"cdr", car: JSVal }
+--   | {tag:"fun", env: JSEnv, args: JSList Int }
+--   | {tag:"args", fun: JSVal, ready: JSList JSComp, env: JSEnv, waiting: JSList Int }
 
 -- jstype JSList x
 --   = null
 --   | {head : x, tail : JSList x}    
 
 -- jstype JSComp
---   = {tag="value", value: JSVal}
---   | {tag="command", command: Command, args: JSVal[], resume: JSVal}
+--   = {tag:"value", value: JSVal}
+--   | {tag:"command", command: String, args: JSVal[], callback:JSCallBack}
 
--- (Command is String)
+-- jstype JSCallBack
+--   = null
+--   | {frame: JSFrame, callback:JSCallBack}
 
 -- jstype JSVal
---   = {tag="atom", atom: String}
---   | {tag="int", int: Int}
---   | {tag="pair", car: JSValue, cdr: JSValue}
---   | {tag="toplevelfun", toplevelfun: Int}
+--   = {tag:"atom", atom: String}
+--   | {tag:"int", int: Int}
+--   | {tag:"pair", car: JSValue, cdr: JSValue}
+--   | {tag:"toplevelfun", toplevelfun: Int}
 
 -- jstype JSMatch
 --   = null  -- bad news

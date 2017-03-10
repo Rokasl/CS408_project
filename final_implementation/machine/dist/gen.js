@@ -14,9 +14,11 @@ operator[0] = function (stk, args) {
         return {
             stack: {
                 prev: stk,
-                tag: "car",
-                env: env,
-                cdr: 0
+                frame: {
+                    tag: "car",
+                    env: env,
+                    cdr: 0
+                }
             },
             comp: {
                 tag: "value",

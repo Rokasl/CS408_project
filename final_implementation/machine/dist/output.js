@@ -55,77 +55,59 @@
 
 	var Machine = function Machine(resumptions, operators) {
 
-	    var mode = {
-	        comp: {
-	            tag: "go",
-	            value: 0
-	        },
-	        stack: null
-	    }
-
-
-
+	    // temp args for testing
 	    var argz = [];
 
 	    argz[0] = {
 	        tag: "value",
-	        value: "x"
+	        value: {
+	            tag: "atom",
+	            atom: "x"
+	        }
 	    };
 
 	    argz[1] = {
 	        tag: "value",
-	        value: "y"
+	        value: {
+	            tag: "atom",
+	            atom: "y"
+	        }
 	    };
 
-	    var i;
-	    var count = 0;
+	    var mode = operators[0](null, argz); // main operator 0 for now
 
-	    for (var n = 0; n < operators.length; n++) {
-	        i = true;
-	        while (mode.comp.tag == "go" && count < 10) {
-	            count++;
-	            console.log(mode);
+	    console.log(mode);
 
-	            if (i) {
-	                mode = operators[n](null, argz);
-	                i = false;
-	            } else {
-	                mode = resumptions[mode.comp.value](mode.stack, mode.stack.env);
-	            }
+	    while (mode.stack != null) {
+	        switch (mode.comp.tag) {
+	            case "value":
+	                switch (mode.stack.frame.tag) {
+	                    case "car": // call a resumption imeditaly 
+	                        mode = resumptions[mode.stack.frame.cdr](
+	                            stack = {
+	                                prev: mode.stack.prev,
+	                                frame: {
+	                                    tag: "cdr",
+	                                    car: mode.comp.value
+	                                },
+	                            }, mode.stack.frame.env);
+	                        break;
 
-	            console.log(mode);
-	            while (mode.comp.tag != "go" && mode.stack != null) {
-	                switch (mode.comp.tag) {
-	                    case "value":
-	                        switch (mode.stack.tag) {
-	                            case "car":
-	                                mode = {
-	                                    comp: {
-	                                        tag: "go",
-	                                        value: mode.stack.cdr
-	                                    },
-	                                    stack: {
-	                                        prev: mode.stack.prev,
-	                                        tag: "cdr",
-	                                        env: mode.stack.env,
-	                                        car: mode.comp.value
-	                                    }
+	                    case "cdr":
+	                        mode = {
+	                            comp: {
+	                                tag: "value",
+	                                value: {
+	                                    tag: "pair",
+	                                    car: mode.stack.frame.car,
+	                                    cdr: mode.comp.value
 	                                }
-	                                break;
-
-	                            case "cdr":
-	                                mode = {
-	                                    comp: {
-	                                        tag: "value",
-	                                        value: mode.comp.value
-	                                    },
-	                                    stack: mode.stack.prev
-	                                }
-	                                break;
+	                            },
+	                            stack: mode.stack.prev
 	                        }
 	                        break;
 	                }
-	            }
+	                break;
 	        }
 	    }
 
@@ -155,9 +137,11 @@
 	        return {
 	            stack: {
 	                prev: stk,
-	                tag: "car",
-	                env: env,
-	                cdr: 0
+	                frame: {
+	                    tag: "car",
+	                    env: env,
+	                    cdr: 0
+	                }
 	            },
 	            comp: {
 	                tag: "value",
