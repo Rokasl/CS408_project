@@ -11,13 +11,23 @@ operator[0] = function (stk, args) {
             throw ("no match");
         };
         env[1] = args[1].value;
+        if (args[2].tag !== "value") {
+            throw ("no match");
+        };
+        env[2] = args[2].value;
         return {
             stack: {
                 prev: stk,
                 frame: {
-                    tag: "car",
+                    tag: "fun",
                     env: env,
-                    cdr: 0
+                    args: {
+                        head: 0,
+                        tail: {
+                            head: 1,
+                            tail: null
+                        }
+                    }
                 }
             },
             comp: {
@@ -35,6 +45,15 @@ prog[0] = function (stk, env) {
         comp: {
             tag: "value",
             value: env[0]
+        }
+    }
+};
+prog[1] = function (stk, env) {
+    return {
+        stack: stk,
+        comp: {
+            tag: "value",
+            value: env[2]
         }
     }
 };

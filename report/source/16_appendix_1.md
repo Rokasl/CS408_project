@@ -185,3 +185,9 @@ Added one layer of structure to Computations\
 Fixed bugs regarding CAR and CDR\
 Optimization- "go" tag is not needed, creating modes directly\
 CDR now returns pair\
+
+March 11:\
+*Final Compiler development:*\
+Added needed functionality to compiler to support 'application' operations\
+*Final Abstract Machine development:*\
+Added functionality for FUN and ARG, still need to figure out how to apply a function to ready list\

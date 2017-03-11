@@ -74,11 +74,23 @@
 	        }
 	    };
 
+	    argz[2] = {
+	        tag: "value",
+	        value: {
+	            tag: "atom",
+	            atom: "z"
+	        }
+	    };
+
 	    var mode = operators[0](null, argz); // main operator 0 for now
 
 	    console.log(mode);
 
-	    while (mode.stack != null) {
+	    var tempcount = 0;
+	    while (mode.stack != null && tempcount < 10) {
+	        tempcount++;
+
+
 	        switch (mode.comp.tag) {
 	            case "value":
 	                switch (mode.stack.frame.tag) {
@@ -104,6 +116,46 @@
 	                                }
 	                            },
 	                            stack: mode.stack.prev
+	                        }
+	                        break;
+	                    case "fun":
+	                        mode = resumptions[mode.stack.frame.args.head](
+	                            stack = {
+	                                prev: mode.stack.prev,
+	                                frame: {
+	                                    tag: "arg",
+	                                    fun: mode.comp.value,
+	                                    env: mode.stack.frame.env,
+	                                    ready: [],
+	                                    waiting: mode.stack.frame.args.tail
+	                                    // handler stuff 
+	                                },
+	                            }, mode.stack.frame.env);
+	                        break;
+
+	                    case "arg":
+	                        if (mode.stack.frame.waiting != null) {
+
+	                            mode = resumptions[mode.stack.frame.waiting.head](
+	                                stack = {
+	                                    prev: mode.stack.prev,
+	                                    frame: {
+	                                        tag: "arg",
+	                                        fun: mode.stack.frame.fun,
+	                                        env: mode.stack.frame.env,
+	                                        ready: mode.stack.frame.ready.concat([mode.comp.value]),
+	                                        waiting: mode.stack.frame.waiting.tail
+	                                        // handler stuff 
+	                                    },
+	                                }, mode.stack.frame.env);
+
+	                        } else {
+	                            mode.stack.frame.ready = mode.stack.frame.ready.concat([mode.comp.value]);   
+	                            console.log(mode);
+
+	                            
+	                            // DONE , now apply the function
+	                            throw "todo";
 	                        }
 	                        break;
 	                }
@@ -134,13 +186,23 @@
 	            throw ("no match");
 	        };
 	        env[1] = args[1].value;
+	        if (args[2].tag !== "value") {
+	            throw ("no match");
+	        };
+	        env[2] = args[2].value;
 	        return {
 	            stack: {
 	                prev: stk,
 	                frame: {
-	                    tag: "car",
+	                    tag: "fun",
 	                    env: env,
-	                    cdr: 0
+	                    args: {
+	                        head: 0,
+	                        tail: {
+	                            head: 1,
+	                            tail: null
+	                        }
+	                    }
 	                }
 	            },
 	            comp: {
@@ -158,6 +220,15 @@
 	        comp: {
 	            tag: "value",
 	            value: env[0]
+	        }
+	    }
+	};
+	prog[1] = function (stk, env) {
+	    return {
+	        stack: stk,
+	        comp: {
+	            tag: "value",
+	            value: env[2]
 	        }
 	    }
 	};

@@ -36,9 +36,6 @@ instance Monad Counter where
 next :: Counter Int
 next = MkCounter (\ i -> (i, i+1)) 
 
-next2 :: Counter Int
-next2 = MkCounter (\ i -> (i, i+1))
-
 type JSExp = String
 type JSStmt = String
 type JSMode = String
@@ -176,7 +173,23 @@ expCompile xis ftable stk (ecar :& ecdr) = do
   expCompile xis ftable 
     ("{prev: " ++ stk ++ ", frame:{ tag:\"car\", env:env, cdr:" ++ show fcdr ++ "}}")
     ecar
- 
+  
+expCompile xis ftable stk (ef :$ exs) = do
+ fexs <- expFun xis ftable (head exs)
+ ftail <- tailCompile xis ftable (ef :$ tail exs)
+ expCompile xis ftable 
+    ("{prev: " ++ stk ++ ", frame:{ tag:\"fun\", env:env, args:" 
+      ++ "{head: "++ show fexs ++", tail: "++ ftail ++ "}}}")
+    ef
+
+tailCompile :: EnvTable -> FTable -> Exp -> CodeGen JSExp
+tailCompile xis ftable (ef :$ []) = do
+  return $ "null"
+tailCompile xis ftable (ef :$ exs) = do
+  fexs <- expFun xis ftable (head exs)
+  ftail <- tailCompile xis ftable (ef :$ tail exs)
+  return $ "{head:"++ show fexs ++", tail: "++ ftail ++"}"
+
 
 lineCompile :: ([Pat], Exp) -> FTable -> CodeGen JSStmt
 lineCompile (ps, e) ftable = do
@@ -214,7 +227,7 @@ oneCompile ftable (f,(h, pse)) = do
 
 
 
--- Top Level Compiler - compile all the top level functions
+-- Top Level Compiler - compile all top level functions
 operatorCompile :: [Def Exp] -> CodeGen (FTable, JSStmt)
 operatorCompile ds = do
   let fs = [(f, (h, pse)) | DF f h pse <- ds]
@@ -236,6 +249,7 @@ jsSetup arr comp =   "var operator = [];\n"
     def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
 
 -- example jsComplete "prog" ( operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ]))
+-- example jsComplete "prog" ( operatorCompile ([DF "test2" [[]] [([PV (VPV "x"), PV (VPV "y"), PV (VPV "z")], EV "y" :$ [EV "x", EV "z"])] ]))
 jsWrite :: String -> IO()
 jsWrite code = writeFile "machine/dist/gen.js" code
 
