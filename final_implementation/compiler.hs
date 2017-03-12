@@ -160,7 +160,7 @@ expCompile xis ftable stk (EV x) = case lookup x xis of
   Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
   Nothing -> case lookup x ftable of
     Nothing -> error "It's not a pattern variable!"
-    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\" value:{tag:\"operator\", operator:"++ show i ++"}}}"
+    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\", value:{tag:\"operator\", operator:"++ show i ++"}}}"
 
 expCompile xis ftable stk (EI x) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:\"" ++ show x ++ "\"}}}"
@@ -255,6 +255,18 @@ jsWrite code = writeFile "machine/dist/gen.js" code
 
 jsComplete :: String -> CodeGen (FTable, JSStmt) -> IO()
 jsComplete  arr comp = jsWrite (jsSetup arr comp)
+
+parseShonky :: String -> String -> IO()
+parseShonky name path = do
+  contents <- readFile path
+  jsComplete name (parser contents)
+
+parser :: String -> CodeGen(FTable, JSStmt)
+parser contents = case (parse pProg contents) of
+  Nothing -> operatorCompile ([DF "error" [[]] []])
+  Just (xs, name) -> operatorCompile xs
+
+
 
 -- Type definitions!!! 
 -- Possible improvement - code them into haskell, so that the haskell would enforce them.

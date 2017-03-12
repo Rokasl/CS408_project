@@ -27,6 +27,7 @@ var Machine = function Machine(resumptions, operators) {
         }
     };
 
+
     var mode = operators[0](null, argz); // main operator 0 for now
 
     console.log(mode);
@@ -99,8 +100,10 @@ var Machine = function Machine(resumptions, operators) {
                             console.log(mode);
 
                             
-                            // DONE , now apply the function
-                            throw "todo";
+                            // DONE , now apply the function,  reverse the ready list an apply the function?
+                            // how to identify which operator is main?
+                            
+                           break; // temp 
                         }
                         break;
                 }

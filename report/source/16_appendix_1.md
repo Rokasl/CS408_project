@@ -167,6 +167,7 @@ Various fixes\
 operatorCompile function adjustment\
 File Writer adjustment\
 
+
 March 09:\
 *Report*\
 Related work section\
@@ -177,6 +178,7 @@ Fixed operatorCompile function\
 Initialized project structure with webpack\
 Initial implementation of final Machine (support for CAR and CDR operations)\
 
+
 March 10:\
 *Final Compiler development:*\
 Adjusted type definitions\
@@ -186,8 +188,19 @@ Fixed bugs regarding CAR and CDR\
 Optimization- "go" tag is not needed, creating modes directly\
 CDR now returns pair\
 
+
 March 11:\
 *Final Compiler development:*\
 Added needed functionality to compiler to support 'application' operations\
 *Final Abstract Machine development:*\
-Added functionality for FUN and ARG, still need to figure out how to apply a function to ready list\
+Added functionality for FUN and ARG, still need to figure out how to apply a function to ready list
+
+
+March 12:\
+*Final Compiler development:*\
+Added parser functions, now the compiler is able to covert Shonky language to its syntax\
+*Final Testing Framework development:*\
+Created initial structure of the framework as well as sample test case\
+*Report*\
+Problem overview section\
+

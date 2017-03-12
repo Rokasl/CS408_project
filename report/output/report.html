@@ -237,6 +237,7 @@
                 <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
+                <li><a href="#appendix-2-some-more-extra-stuff">Appendix 2: Some more extra stuff</a></li>
                 <li><a href="#references">References</a></li>
                 </ul>
             </div>
@@ -326,7 +327,13 @@ consumer and the supplier. -->
 <h2 id="conclusion"><span class="header-section-number">2.6</span> Conclusion</h2>
 <p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's interpreter with new Compiler and Abstract Machine which would support web development while keeping Shonky's syntax data structures. Other related work were used as an examples of different solutions to overcome obstacles.</p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
+<p>This section discusses the project problem, challenges, requirements and involved risks.</p>
 <h2 id="problem-overview"><span class="header-section-number">3.1</span> Problem overview</h2>
+<p>The main aim of the project was to develop new Compiler and corresponding Abstract Machine for existing functional language Frank implementation called Frankjnr. The difference from the old ones was that new Compiler and Abstract Machine would support web development. Many different challenges follow from that. First one being authors initial lack of knowledge on Frank language. Frank being full and complex language author had to study it and overcome any difficulties regarding the language by researching the paper on Frank &quot;<em>Do be do be do</em>&quot; <span class="citation">(Sam Lindley, Conor McBride &amp; Craig McLaughlin 2016)</span>.</p>
+<p>A second challenge was overcoming the complexity of existing systems. Because this project is not standalone, it strictly depends on the Shonky Syntax implementation as well as Frankjnr handling Frank's code. Author had to take time and carefully research existing systems, to understand how everything fits together and how efficiently replace exiting Shonky interpreter with new Compiler and Abstract Machine.</p>
+<p>Another challenge was the difficult nature of compilers and abstract machines. This was the most difficult challenge to overcome due to the depth and the amount of detail each of them have. Thus, the incremental approach was adapted, in order to for the author to learn step by step, starting with simpler things. Author started the project by developing experimental system with its own language,compiler and virtual machine to understand the crucial concepts of compiler and abstract machines.</p>
+<p>Fourth challenge was testing and validation. Because the project is focused on developing completely new system without any usage of frameworks, testing framework had to be developed which could run test cases and check their correctness without any interaction of the user. Testing framework was developed by utilizing Bash Script, Expect Script languages and Node, Webpack, Ghci commands. It was firstly, created for experimental system and then based on observation and testing, altered and improved for the final system. In the end, it dramatically improved development time by constantly locating bugs and validating the correctness of the outputs.</p>
+<p>The project was extremely broad and involved great initial research as well as constant analysis of next steps, thus development was slow but effective. However, due to time constrains development time had to be planned very carefully, because of this some acknowledged directions of development had to be ignored to finish the prototype in time. For example, one of those directions was Haskell enforced type checker. Haskell compiler could have had a type checker which would prevent any bugs regarding generated JavaScript programs by enforcing its types. Now such bugs are spotted by the console window of the browser or testing framework.</p>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
 <p><strong>Functional requirements</strong></p>
 <ul>
@@ -730,7 +737,8 @@ Background section<br />
 Various fixes<br />
 operatorCompile function adjustment<br />
 File Writer adjustment<br />
-March 09:<br />
+</p>
+<p>March 09:<br />
 <em>Report</em><br />
 Related work section<br />
 <em>Final Compiler development:</em><br />
@@ -739,7 +747,30 @@ Fixed operatorCompile function<br />
 <em>Final Abstract Machine development:</em><br />
 Initialized project structure with webpack<br />
 Initial implementation of final Machine (support for CAR and CDR operations)<br />
-# Appendix 2: Some more extra stuff {.unnumbered}</p>
+</p>
+<p>March 10:<br />
+<em>Final Compiler development:</em><br />
+Adjusted type definitions<br />
+Added one layer of structure to Computations<br />
+<em>Final Abstract Machine development:</em><br />
+Fixed bugs regarding CAR and CDR<br />
+Optimization- &quot;go&quot; tag is not needed, creating modes directly<br />
+CDR now returns pair<br />
+</p>
+<p>March 11:<br />
+<em>Final Compiler development:</em><br />
+Added needed functionality to compiler to support 'application' operations<br />
+<em>Final Abstract Machine development:</em><br />
+Added functionality for FUN and ARG, still need to figure out how to apply a function to ready list</p>
+<p>March 12:<br />
+<em>Final Compiler development:</em><br />
+Added parser functions, now the compiler is able to covert Shonky language to its syntax<br />
+<em>Final Testing Framework development:</em><br />
+Created initial structure of the framework as well as sample test case<br />
+<em>Report</em><br />
+Problem overview section<br />
+</p>
+<h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
 
 <!-- 
 Do not edit this page.

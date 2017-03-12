@@ -1,0 +1,11 @@
+-- #desc thunk inside data constructor potentially leaks effect
+interface Eff = bang : Unit
+
+data Bar = One {Int}
+
+-- #return cannot unify abilities [£] and [£, Eff]
+exec : Bar [Eff] -> Int
+exec (One f) = f!
+
+main : [Eff]Int
+main! = exec (One {1})

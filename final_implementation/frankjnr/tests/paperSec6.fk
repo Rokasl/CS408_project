@@ -1,0 +1,75 @@
+abort : [Abort]X
+abort! = on aborting! {}
+
+map : {X -> Y} -> List X -> List Y
+map f nil         = nil
+map f (cons x xs) = cons (f x) (map f xs)
+
+app : {X -> Y} -> List X -> Unit
+app f nil         = unit
+app f (cons x xs) = f x; app f xs
+
+interface Abort = aborting : Zero
+data Zero =
+
+on : X -> {X -> Y} -> Y
+on x f = f x
+
+-- Computation as Data
+
+interface LookAhead = peek : Char | accept : Unit
+
+data Log [] X = start {[]X}
+              | inched (Log [] X) {Char -> []X}
+	      | ouched (Log [] X)
+
+data Buffer = empty | hold Char
+
+input :  Log [LookAhead, Abort, Console] X ->
+         Buffer ->
+         <LookAhead, Abort>X ->
+         [Console]X
+input _ _        x               = x
+input l (hold c) <peek -> k>     =
+  input l (hold c) (k c)
+input l (hold c) <accept -> k>   =
+  ouch c; input (ouched l) empty (k unit)
+input l empty    <accept -> k>   =
+  input l empty (k unit)
+input l empty    <peek -> k>     = on inch!
+  { '\b' -> rollback l
+  | c    -> input (inched l k) (hold c) (k c) }
+input l _        <aborting -> k> = rollback l
+
+rollback : Log [LookAhead, Abort, Console] X ->
+           [Console]X
+rollback (start p)    = parse p
+-- 1) code in the paper
+rollback (ouched l)   = map ouch "\b \b"; rollback l
+-- 2) the following sends the type checker into an infinite loop
+--rollback (ouched l)   = on (map ouch "\b \b") {_ -> rollback l}
+rollback (inched l k) = input l empty (k peek!)
+
+parse : {[LookAhead, Abort, Console]X} -> [Console]X
+parse p = input (start p) empty p!
+
+-- a basic parser that counts a sequence of zeros
+zeros : Int -> [LookAhead, Abort]Int
+zeros n = on peek! { '0' -> accept!; zeros (n+1)
+                   | ' ' -> accept!; n
+                   | c   -> abort!}
+
+main : [Console]Int
+main! = parse {zeros 0}
+
+-- another parser that tracks bracket nesting
+nest : String -> Int -> [LookAhead, Abort]String
+nest s 0 = on peek! { '('  -> accept!; nest s 1
+                    | '\n' -> accept!; s
+                    | c    -> abort! }
+nest s n = on peek! { '('  -> accept!; nest s (n+1)
+                    | ')'  -> accept!; nest s (n-1)
+                    | c    -> accept!; nest (cons c s) n }
+
+startNest : [Console]String
+startNest! = parse {nest "" 0}
