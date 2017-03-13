@@ -57,8 +57,16 @@ patCompile c (PV p) = do
 
 patCompile c (PT x) = do
   i <- next
-  return ([(x, i)], "env[" ++ show i ++ "]=" ++ c ++ "; ")
+  return ([(x, i)], "if (" ++ c ++".tag!=\"value\"){"++ matchFail ++"};\n"
+                    ++ "if("++ c ++".value.tag!=\"thunk\"){"++ matchFail ++"};\n"
+                    ++ "if("++ c ++".value.thunk!=\""++ x ++"\"){"++ matchFail ++"};\n"
+                    ++ "env[" ++ show i ++ "]=" ++ c ++ ".value;\n")
 
+
+patCompile c (PC command vpats var) = do
+  i <- next
+  return ([(var, i)], "if (" ++ c ++".tag!=\"command\"){"++ matchFail ++"};\n"
+                    ++ "env[" ++ show i ++ "]=" ++ c ++ ".value;\n")
 
   
 
@@ -175,11 +183,10 @@ expCompile xis ftable stk (ecar :& ecdr) = do
     ecar
   
 expCompile xis ftable stk (ef :$ exs) = do
- fexs <- expFun xis ftable (head exs)
- ftail <- tailCompile xis ftable (ef :$ tail exs)
+ ftail <- tailCompile xis ftable (ef :$ exs)
  expCompile xis ftable 
     ("{prev: " ++ stk ++ ", frame:{ tag:\"fun\", env:env, args:" 
-      ++ "{head: "++ show fexs ++", tail: "++ ftail ++ "}}}")
+      ++ ftail ++"}}")
     ef
 
 tailCompile :: EnvTable -> FTable -> Exp -> CodeGen JSExp
@@ -223,9 +230,19 @@ oneCompile ftable (f,(h, pse)) = do
   jsf <- funCompile pse ftable
   case lookup f ftable of
     Nothing -> error "Bug! - Something is not right with operator lookup table"
-    Just n -> return $ "operator["++ show n ++"]=" ++ jsf ++ ";\n"
+    Just n -> return $ "operator["++ show n ++"]={interface:" ++ availableCommands h
+                       ++ ",implementation:" ++ jsf ++ "};\n"
 
+availableCommands :: [[String]] -> String
+availableCommands [] = "null"
+availableCommands ([] : []) = "null"
+availableCommands (e : []) = "{head:["++ arrayCommands e ++"], tail: null}"
+availableCommands (e : es) = "{head:["++ arrayCommands e ++"], tail:"++ availableCommands es ++"}"
 
+arrayCommands :: [String] -> String
+arrayCommands [] = ""
+arrayCommands (e : []) = "\"" ++ e ++ "\""
+arrayCommands (e : es) = "\"" ++ e ++ "\"," ++ arrayCommands es
 
 -- Top Level Compiler - compile all top level functions
 operatorCompile :: [Def Exp] -> CodeGen (FTable, JSStmt)
@@ -283,7 +300,7 @@ parser contents = case (parse pProg contents) of
 --   | {tag:"car", env: JSEnv, cdr: Int }
 --   | {tag:"cdr", car: JSVal }
 --   | {tag:"fun", env: JSEnv, args: JSList Int }
---   | {tag:"args", fun: JSVal, ready: JSList JSComp, env: JSEnv, waiting: JSList Int }
+--   | {tag:"args", fun: JSVal, ready: JSComp[], env: JSEnv, waiting: JSList Int }
 
 -- jstype JSList x
 --   = null
@@ -301,7 +318,9 @@ parser contents = case (parse pProg contents) of
 --   = {tag:"atom", atom: String}
 --   | {tag:"int", int: Int}
 --   | {tag:"pair", car: JSValue, cdr: JSValue}
---   | {tag:"toplevelfun", toplevelfun: Int}
+--   | {tag:"operator", operator: Int}
+--   | {tag:"callback", callback: JSCallBack}
+--   | {tag:"thunk", thunk:JSComp}
 
 -- jstype JSMatch
 --   = null  -- bad news
