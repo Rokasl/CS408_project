@@ -62,6 +62,6 @@ for similar problem, which got author thinking of different ways to approach the
 Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses
 Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's
 interpreter with new Compiler and Abstract Machine which would support web development while keeping
-Shonky's syntax data structures. Other related work were used as an examples of different solutions to 
-overcome obstacles. 
+Shonky's syntax data structures. Other related work were used as examples of different solutions to 
+overcome similar obstacles. 
 
