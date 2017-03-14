@@ -1,0 +1,5 @@
+main() -> add((suc,zero),(suc,zero))
+
+add():
+add(zero,y) -> y,
+add((suc, x),y) -> (suc,add(x,y))

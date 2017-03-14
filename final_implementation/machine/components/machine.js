@@ -41,7 +41,7 @@ var Machine = function Machine(resumptions, operators) {
                         tag: "command",
                         command: fun.atom,
                         args: vargs,
-                        callback: []
+                        callback: null
                     }
                 }
                 break;
@@ -51,8 +51,18 @@ var Machine = function Machine(resumptions, operators) {
                     comp: fun.thunk
                 }
             break;
-
+            case ("callback"):
+                return {
+                    stack: {
+                        prev: stk,
+                        frame: fun.callback
+                    },
+                    comp : vargs[0]
+                }
+            break;
         }
+
+        throw ("Something is missing...")
     }
 
 
@@ -193,7 +203,10 @@ var Machine = function Machine(resumptions, operators) {
                             }
                         }
                     } else {
-                        mode.comp.callback = mode.comp.callback.contact([mode.stack.frame]);
+                        mode.comp.callback = {
+                            frame: mode.stack.frame,
+                            callback: mode.comp.callback
+                        }
                         mode.stack = mode.stack.prev
                     }
                 }
