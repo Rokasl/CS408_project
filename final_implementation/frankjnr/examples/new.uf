@@ -1,0 +1,8 @@
+main() -> unit()
+case(,):
+case(x,f) -> f(x)
+
+
+unit() -> ['unit]
+nil() -> ['nil]
+cons(x1,x2) -> ['cons,x1,x2]

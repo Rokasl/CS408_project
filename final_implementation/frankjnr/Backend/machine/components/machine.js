@@ -24,18 +24,18 @@ var Machine = function Machine(resumptions, operators) {
 
     function apply(stk, fun, args) { //returns a mode
         if (fun.tag === "operator") {
-            return operators[fun.operator].implementation(stk, args); //stk prev maybe???
+            return operators[fun.operator].implementation(stk, args);
         }
 
-        // update args to vargs
-        var vargs = [];
-        for (var i = 0; i < args.length; i++) {
-            vargs.push(args[i].value);
-        }
 
         switch (fun.tag) {
             case ("atom"):
-                return { 
+                // update args to vargs
+                var vargs = [];
+                for (var i = 0; i < args.length; i++) {
+                    vargs.push(args[i].value);
+                }
+                return {
                     stack: stk,
                     comp: {
                         tag: "command",
@@ -45,56 +45,37 @@ var Machine = function Machine(resumptions, operators) {
                     }
                 }
                 break;
-            case ("thunk"): // like this?
+            case ("thunk"): 
                 return {
-                    stack:stk,
+                    stack: stk,
                     comp: fun.thunk
                 }
-            break;
+                break;
             case ("callback"):
-                return {
-                    stack: {
-                        prev: stk,
-                        frame: fun.callback
-                    },
-                    comp : vargs[0]
+                var stack = stk;
+                var cbk = fun.callback;
+
+                while (cbk !== null) {
+                    stack = {
+                        prev: stack,
+                        frame: cbk.frame
+                    }
+                    cbk = cbk.callback;
                 }
-            break;
+
+                return {
+                    stack: stack,
+                    comp: args[0]
+                }
+                break;
         }
 
         throw ("Something is missing...")
     }
 
 
-    // temp args for testing
-    var argz = [];
 
-    argz[0] = {
-        tag: "value",
-        value: {
-            tag: "atom",
-            atom: "x"
-        }
-    };
-
-    argz[1] = {
-        tag: "value",
-        value: {
-            tag: "atom",
-            atom: "y"
-        }
-    };
-
-    argz[2] = {
-        tag: "value",
-        value: {
-            tag: "atom",
-            atom: "z"
-        }
-    };
-
-
-    var mode = operators[0].implementation(null, argz); // main operator 0 for now
+    var mode = operators[0].implementation(null, []); // starting mode first found operator with no args
 
     console.log(mode);
 
@@ -132,7 +113,7 @@ var Machine = function Machine(resumptions, operators) {
                         break;
                     case "fun":
                         if (mode.stack.frame.args === null) { //ready to go
-                            apply(mode.stack, mode.comp.value, null);
+                            apply(mode.stack.prev, mode.comp.value, null);
                         } else {
                             var intf = interfaceF(mode.comp.value);
                             mode = resumptions[mode.stack.frame.args.head](
@@ -144,7 +125,7 @@ var Machine = function Machine(resumptions, operators) {
                                         env: mode.stack.frame.env,
                                         ready: [],
                                         waiting: mode.stack.frame.args.tail,
-                                        handles: [headHandles(intf)],
+                                        handles: headHandles(intf),
                                         waitingHandles: tailHandles(intf)
                                     },
                                 }, mode.stack.frame.env);
@@ -153,68 +134,74 @@ var Machine = function Machine(resumptions, operators) {
 
                     case "arg":
                         var ready = mode.stack.frame.ready.concat([mode.comp]);
+                        mode = argRight(
+                            mode.stack,
+                            mode.stack.frame.fun,
+                            ready,
+                            mode.stack.env,
+                            mode.stack.frame.waiting,
+                            mode.stack.frame.waitingHandles
+                        );
 
-                        if (mode.stack.frame.waiting != null) {
-                            var waitingH;
-                            var h;
-                            if (mode.stack.frame.waitingHandles != null) {
-                                h = mode.stack.frame.handles.concat([mode.stack.frame.waitingHandles.head]);
-                                waitingH = mode.stack.frame.waitingHandles.tail;
-                            } else {
-                                h = mode.stack.frame.handles;
-                                waitingH = null;
-                            }
-                            mode = resumptions[mode.stack.frame.waiting.head](
-                                stack = {
-                                    prev: mode.stack.prev,
-                                    frame: {
-                                        tag: "arg",
-                                        fun: mode.stack.frame.fun,
-                                        env: mode.stack.frame.env,
-                                        ready: ready,
-                                        waiting: mode.stack.frame.waiting.tail,
-                                        handles: h,
-                                        waitingHandles: waitingH
-                                    },
-                                }, mode.stack.frame.env);
-                        } else { // ready to apply the fucntion
-
-                            mode.stack.frame.ready = ready;
-                            // reverse ??? 
-
-                            mode = apply(mode.stack, mode.stack.frame.fun, mode.stack.frame.ready);
-
-                        }
 
                         break;
                 }
                 break;
 
             case ("command"):
-                if (mode.stack != null) {
-                    if (mode.stack.frame.tag === "arg") {
-                        for (var i = 0; i < mode.stack.frame.handles; i++) {
-                            if (mode.stack.frame.handles[i] === mode.comp.command) {
-                                mode.stack.frame.ready = mode.stack.frame.ready.concat([mode.comp.commad]);
 
-                                // like this?
-                                throw ("not done");
-
-                            }
+                if (mode.stack.frame.tag === "arg") {
+                    for (var i = 0; i < mode.stack.frame.handles.length; i++) {
+                        if (mode.stack.frame.handles[i] === mode.comp.command) {
+                            ready = mode.stack.frame.ready.concat([mode.comp]);
+                            mode = argRight(
+                                mode.stack,
+                                mode.stack.frame.fun,
+                                ready,
+                                mode.stack.env,
+                                mode.stack.frame.waiting,
+                                mode.stack.frame.waitingHandles
+                            );
                         }
-                    } else {
-                        mode.comp.callback = {
-                            frame: mode.stack.frame,
-                            callback: mode.comp.callback
-                        }
-                        mode.stack = mode.stack.prev
                     }
+                } else {
+                    mode.comp.callback = {
+                        frame: mode.stack.frame,
+                        callback: mode.comp.callback
+                    }
+                    mode.stack = mode.stack.prev
                 }
+
                 break;
         }
     }
 
     console.log(mode);
+
+    function argRight(stack, fun, ready, env, waiting, waitingHandles) {
+
+        if (waiting != null) {
+            var waitingH = waitingHandles.tail;
+            var h = waitingHandles.head;
+            mode = resumptions[waiting.head](
+                stack = {
+                    prev: stack.prev,
+                    frame: {
+                        tag: "arg",
+                        fun: fun,
+                        env: env,
+                        ready: ready,
+                        waiting: waiting.tail,
+                        handles: h,
+                        waitingHandles: waitingH
+                    },
+                }, env);
+        } else { // ready to apply the fucntion
+            mode = apply(stack.prev, fun, ready);
+        }
+
+        return mode;
+    }
 
 }
 

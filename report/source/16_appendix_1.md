@@ -204,3 +204,23 @@ Created initial structure of the framework as well as sample test case\
 *Report*\
 Problem overview section\
 
+March 13:\
+*Final Compiler development:*\
+Commands development\
+*Final Abstract Machine development:*\
+Commands development\
+*Report*\
+Specification section\
+
+March 14:\
+*Final Compiler development:*\
+Bug fixes\
+*Final Abstract Machine development:*\
+Bug fixes, command support implemented\
+*Report*\
+Requirement analysis section\
+*Project structure*\
+Frankjnr now uses new back end\
+
+
+

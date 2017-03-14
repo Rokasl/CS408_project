@@ -2,6 +2,7 @@
     "language": "en_US",
     "ignoreWordsList": [
         "Shonky's",
+        "synergize",
         "Strathclyde",
         "Shonky",
         "ocaml",
@@ -12,7 +13,7 @@
         "Webpack",
         "deconstructor",
         "Lindley",
-        "synergize"
+        "CoffeScript"
     ],
     "documentTypes": [
         "markdown",

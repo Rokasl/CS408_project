@@ -1,11 +1,10 @@
-module Compiler where
+module Backend.Compiler where
 
 import Shonky.Syntax
 
 import Control.Applicative
 import Control.Monad (liftM, ap)
 import Debug.Trace
-
 
 
 type EnvTable = [(String, Int)] -- environment lookup table
@@ -57,16 +56,15 @@ patCompile c (PV p) = do
 
 patCompile c (PT x) = do
   i <- next
-  return ([(x, i)], "if (" ++ c ++".tag!=\"value\"){"++ matchFail ++"};\n"
-                    ++ "if("++ c ++".value.tag!=\"thunk\"){"++ matchFail ++"};\n"
-                    ++ "if("++ c ++".value.thunk!=\""++ x ++"\"){"++ matchFail ++"};\n"
-                    ++ "env[" ++ show i ++ "]=" ++ c ++ ".value;\n")
+  return ([(x, i)], "env[" ++ show i ++ "]={tag:\"thunk\", thunk:"++ c ++"};\n")
 
 
 patCompile c (PC command vpats var) = do
+  (t1,e1) <- listOf vpatCompile (c ++ ".args") vpats
   i <- next
-  return ([(var, i)], "if (" ++ c ++".tag!=\"command\"){"++ matchFail ++"};\n"
-                    ++ "env[" ++ show i ++ "]=" ++ c ++ ".value;\n")
+  return (t1++[(var,i)], "if (" ++ c ++".command!=\"command\"){"++ matchFail ++"};\n"
+                       ++ e1
+                       ++ "env[" ++ show i ++ "]={tag:\"callback\", callback:"++ c ++".callback};\n")
 
   
 
@@ -268,7 +266,7 @@ jsSetup arr comp =   "var operator = [];\n"
 -- example jsComplete "prog" ( operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ]))
 -- example jsComplete "prog" ( operatorCompile ([DF "test2" [[]] [([PV (VPV "x"), PV (VPV "y"), PV (VPV "z")], EV "y" :$ [EV "x", EV "z"])] ]))
 jsWrite :: String -> IO()
-jsWrite code = writeFile "machine/dist/gen.js" code
+jsWrite code = writeFile "Backend/machine/dist/gen.js" code
 
 jsComplete :: String -> CodeGen (FTable, JSStmt) -> IO()
 jsComplete  arr comp = jsWrite (jsSetup arr comp)
@@ -328,13 +326,4 @@ parser contents = case (parse pProg contents) of
 
 -- if we know the EnvTable for each case in a match, we can compile the
 -- expressions as JSRun things, then collect them in a "branches" array.
-
--- e.g.
--- runCounter (patCompile "args[0]" (PV (VPV "x"))) 0
--- gives
---   (([("x",0)]
---   ,"if (args[0].tag===\"value\") {env[0]=args[0].value; }
---     else { throw(...) }; ")
---   ,1)
-
 

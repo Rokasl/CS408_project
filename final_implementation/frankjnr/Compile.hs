@@ -54,6 +54,9 @@ isAtom id = do s <- getCState
 compileToFile :: NotRaw a => Prog a -> String -> IO ()
 compileToFile p dst = writeFile (dst ++ ".uf") (S.ppProg $ compile p)
 
+compileToJS :: NotRaw a => Prog a -> [S.Def S.Exp]
+compileToJS p = compile p
+
 compile :: NotRaw a => Prog a -> [S.Def S.Exp]
 compile (MkProg xs) = res
   where res = reverse $ evalState (compile' xs) st

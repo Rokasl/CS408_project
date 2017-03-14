@@ -1,0 +1,72 @@
+append(,):
+append(['nil],ys) -> ys,
+append(['cons,x,xs],ys) -> cons(x,append(xs,ys))
+
+
+t1() -> append(cons(1,cons(2,nil())),cons(3,cons(4,nil())))
+map(,):
+map(f,['nil]) -> nil(),
+map(f,['cons,x,xs]) -> cons(f(x),map(f,xs))
+
+
+t2() -> map({(n) -> plus(n,1)},cons(1,cons(2,cons(3,nil()))))
+t3() -> map('ouch,cons([|H|],cons([|e|],cons([|l|],cons([|l|],cons([|o|],cons([| |],cons([|w|],cons([|o|],cons([|r|],cons([|l|],cons([|d|],cons([|!|],cons([|\n|],nil()))))))))))))));unit()
+print():
+print(s) -> map('ouch,s);unit()
+
+
+fst(,):
+fst(x,y) -> x
+
+
+snd(,):
+snd(x,y) -> y
+
+
+t4() -> fst('inch(),'ouch([|f|]))
+t5() -> print(cons([|P|],cons([|l|],cons([|e|],cons([|a|],cons([|s|],cons([|e|],cons([| |],cons([|t|],cons([|y|],cons([|p|],cons([|e|],cons([| |],cons([|a|],cons([| |],cons([|c|],cons([|h|],cons([|a|],cons([|r|],cons([|a|],cons([|c|],cons([|t|],cons([|e|],cons([|r|],cons([|\n|],nil())))))))))))))))))))))))));'inch()
+iffy(,,):
+iffy(['true],t,f) -> t,
+iffy(['false],t,f) -> f
+
+
+t6() -> iffy(true(),print(cons([|T|],cons([|\n|],nil()))),print(cons([|F|],cons([|\n|],nil()))))
+if(,,):
+if(['true],t,f) -> t(),
+if(['false],t,f) -> f()
+
+
+t7() -> if(true(),{() -> print(cons([|T|],cons([|\n|],nil())))},{() -> print(cons([|F|],cons([|\n|],nil())))})
+t8() -> case('inch(),{([|a|]) -> 65,([|b|]) -> 66,(x) -> minus(0,1)})
+abort() -> case('aborting(),{})
+head():
+head(['nil]) -> abort(),
+head(['cons,x,xs]) -> x
+
+
+foo() -> print(cons([|h|],cons([|e|],cons([|l|],cons([|l|],cons([|o|],cons([|\n|],nil())))))));head(cons(1,cons(2,cons(3,nil()))))
+t9() -> head(nil())
+catch(aborting,):
+catch(x,h) -> x,
+catch({'aborting() -> k},h) -> h()
+
+
+bar() -> catch(abort(),{() -> abort()})
+t10() -> catch(head(nil()),{() -> minus(0,1)})
+t11() -> catch(head(cons(42,nil())),{() -> minus(0,1)})
+t12() -> catch(print(cons([|h|],cons([|e|],cons([|l|],cons([|l|],cons([|o|],cons([|\n|],nil())))))));head(nil()),{() -> minus(0,1)})
+main() -> unit()
+case(,):
+case(x,f) -> f(x)
+
+
+false() -> ['false]
+true() -> ['true]
+suc(x1) -> ['suc,x1]
+zero() -> ['zero]
+pair(x1,x2) -> ['pair,x1,x2]
+just(x1) -> ['just,x1]
+nothing() -> ['nothing]
+unit() -> ['unit]
+nil() -> ['nil]
+cons(x1,x2) -> ['cons,x1,x2]

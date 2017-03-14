@@ -26,6 +26,7 @@ executable frank
                , TypeCheck
                , TypeCheckCommon
                , Unification
+               , Backend.Compiler
 
   build-depends: Unique
                , base >= 4.7 && < 5

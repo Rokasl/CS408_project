@@ -21,6 +21,8 @@ import System.Environment
 import System.Exit
 import System.IO
 
+import Backend.Compiler
+
 type Args = [(String,String)]
 
 splice :: Prog Raw -> Tm Raw -> Prog Raw
@@ -86,6 +88,9 @@ compileProg progName p args =
   do env <- if ("output-shonky","") `elem` args then
               do compileToFile p progName
                  loadFile progName
+            else if ("output-js","") `elem` args then
+              do (jsComplete "prog" (operatorCompile (compileToJS p)))
+                 return Empty
             else return $ load $ compile p
      return env
 
@@ -119,6 +124,7 @@ arguments :: Mode Args
 arguments =
   mode "frank" [] "Frank program" (flagArg (upd "file") "FILE")
   [flagNone ["output-shonky"] (("output-shonky",""):) "Output Shonky code"
+  ,flagNone ["output-js"] (("output-js",""):) "Output JavaScript code"
   ,flagNone ["debug-output"] (("debug-output",""):)
    "Enable output for debugging the Frank system"
   ,flagReq ["eval"] (upd "eval") "USE"

@@ -57,8 +57,70 @@ or testing framework.
 ## Requirements Analysis
 
 Before any development could begin requirements needed to be gathered, author did this by discussing 
-how the system should behave and what the system should use with the supervisor. Further research was 
-made to ensure the appropriateness of chosen languages and technologies. 
+how the system should behave and what technologies it should utilize with the supervisor. Further research
+was made to ensure the appropriateness of chosen languages and technologies. 
+
+### Development Tools and Languages
+
+This section will briefly explain used tools and languages and reasoning behind them. 
+
+### Vagrant
+<!--https://www.vagrantup.com/-->
+
+Vagrant is an optional tool to create separate development environment for the project. It runs on Virtual
+Box and it is essentially a server on your local computer which you can boot up and work on. Furthermore,
+Vagrant comes with up to date relevant libraries out of the box. Author used it to avoid installing
+software and managing libraries on local machine, thus speeding up development.
+
+
+### Webpack
+<!--https://webpack.github.io/-->
+
+Webpack is a module builder and it is available as npm package. In this project it is used for Abstract
+Machine development as it adds some wanted features to plain JavaScript, and in the end everything
+is compiled to a single light JavaScript file. The most important is an ability
+to create and export different modules, for example, module could be a function or a variable. This lets
+for improved project structure as you are able to keep JavaScript components in separate files, thus making
+it easer to develop and navigate through code.
+
+### JavaScript
+
+JavaScript is a client side scripting language. In this project output of the compiler is generated in
+JavaScript, which is then used by Virtual Machine
+which is, also, written in JavaScript so that both could cooperate on run time without any further 
+compilations. 
+
+JavaScript is used because of its key features. Firstly, it has support for functional programming by
+letting function arguments be other functions. Secondly, it is supported by all popular browsers.
+And finally, there are lots of libraries and features to support web development.
+
+#### Alternative - CoffeScript
+
+CoffeScript is much newer language and it improves upon JavaScript syntax, allowing for neater declarations,
+introduces new features and reinforces the structure of the code.
+CoffeScript can run in any environment where JavaScript can run, because in the end it is compiled to
+JavaScript. It is available as npm package. However, it wasn't used because author didn't want another 
+layer of compilation going on in the background. 
+
+### Haskell
+<!--https://wiki.haskell.org
+https://www.haskell.org/-->
+
+Haskell is a statically, implicitly typed, lazy, standardized functional programming language with
+non-strict semantics.
+Haskell features include support for recursive functions, data types, pattern matching,
+and list comprehensions. 
+
+Haskell was a clear choice for compiler development because of its functional language features, like 
+pattern-matching, efficient recursion, support for monadic structures. Moreover, Frankjnr and Shonky are
+written in Haskell, so it was easy to cooperate with those projects.  
+
+### Report Markdown 
+<!--https://github.com/tompollard/phd_thesis_markdown-->
+<!--http://pandoc.org/-->
+This report adapted the template of markdown developed by Tom Pollard, because of its flexible structure
+and features, such as support for Pandoc markdown and latex expressions. Everything is compiled to a single
+PDF by utilizing npm. 
 
 ## Specification
 
