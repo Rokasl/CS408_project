@@ -54,6 +54,7 @@ isAtom id = do s <- getCState
 compileToFile :: NotRaw a => Prog a -> String -> IO ()
 compileToFile p dst = writeFile (dst ++ ".uf") (S.ppProg $ compile p)
 
+-- function created by Rokas Labeikis on 2017/03/14
 compileToJS :: NotRaw a => Prog a -> [S.Def S.Exp]
 compileToJS p = compile p
 

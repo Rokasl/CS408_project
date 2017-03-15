@@ -84,6 +84,8 @@ checkUse p use =
     Left err -> die err
     Right ty -> return ty
 
+-- function edited by Rokas Labeikis on 2017/03/14
+-- initiates compilation to JS file with "output-js" flag
 compileProg progName p args =
   do env <- if ("output-shonky","") `elem` args then
               do compileToFile p progName

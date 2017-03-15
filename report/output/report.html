@@ -663,6 +663,155 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 </ul>
 <p>More detailed descriptions can be found at 'Related work' section of the report or at their Github pages.</p>
 <h2 id="project-folder-structure"><span class="header-section-number">5.2</span> Project folder structure</h2>
+<p>Final system is located in &quot;final_implementation&quot; folder. And all of the code for new compiler and abstract machine is located in &quot;Backend&quot; folder.</p>
+<p>Table's starting folder is <em>&quot;/final_implementation&quot;</em>.</p>
+<table>
+<caption>Project folder structure</caption>
+<colgroup>
+<col width="27%" />
+<col width="18%" />
+<col width="54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Paths and Files</th>
+<th></th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>Main directory for final implementation</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Frank.hs</td>
+<td>Main Frankjnr file</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Compile.hs</td>
+<td>Compiles Frank to Shonky data structures</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><em>/Backend</em></td>
+<td></td>
+<td>Machine and Compiler files</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Compiler.hs</td>
+<td>Main compiler</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>/Backend/machine</em></td>
+<td></td>
+<td>Abstract Machine files</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>webpack.js</td>
+<td>Webpack configuration file</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>tester.html</td>
+<td>HTML which includes output.js (testing purposes)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>main.js</td>
+<td>Main machine function</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><em>/Backend/machine/components</em></td>
+<td></td>
+<td>Includes all components to construct Virtual Machine</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>machine.js</td>
+<td>Main component for Virtual Machine</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>/Backend/machine/dist</em></td>
+<td></td>
+<td>Generated files</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>gen.js</td>
+<td>Compiler generated code</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>output.js</td>
+<td>Webpack generated code (every JS file is packed into one)</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>/Backend/Shonky</em></td>
+<td></td>
+<td>Shonky project directory</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Syntax.hs</td>
+<td>Contains needed data structures</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><em>/Backend/tests</em></td>
+<td></td>
+<td>Test framework</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>main.sh</td>
+<td>Main file</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>helper.sh</td>
+<td>expect script helper file</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>testcases.sh</td>
+<td>Contains all of the test cases</td>
+</tr>
+</tbody>
+</table>
 <h2 id="abstract-machine-1"><span class="header-section-number">5.3</span> Abstract machine</h2>
 <h2 id="compiler-1"><span class="header-section-number">5.4</span> Compiler</h2>
 <h2 id="testing-framework-1"><span class="header-section-number">5.5</span> Testing framework</h2>
@@ -859,6 +1008,8 @@ Bug fixes, command support implemented<br />
 Requirement analysis section<br />
 <em>Project structure</em><br />
 Frankjnr now uses new back end</p>
+<p>March 15:<br />
+</p>
 <h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
 
 <!-- 

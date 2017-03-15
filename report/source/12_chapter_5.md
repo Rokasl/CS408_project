@@ -26,6 +26,43 @@ More detailed descriptions can be found at 'Related work' section of the report 
 
 ## Project folder structure
 
+Final system is located in "final_implementation" folder. And all of the code for new 
+compiler and abstract machine is located in "Backend" folder.
+
+Table's starting folder is *"/final_implementation"*.
+
+| Paths and Files              |                   | Summary                                                   |
+|------------------------------|-------------------|-----------------------------------------------------------|
+|                              |                   | Main directory for final implementation                   |
+|                              | Frank.hs          | Main Frankjnr file                                        |
+|                              | Compile.hs        | Compiles Frank to Shonky data structures                  |
+|                              |                   |                                                           |
+| */Backend*                   |                   | Machine and Compiler files                                |
+|                              | Compiler.hs       | Main compiler                                             |
+|                              |                   |                                                           |
+| */Backend/machine*           |                   | Abstract Machine files                                    |
+|                              | webpack.js        | Webpack configuration file                                |
+|                              | tester.html       | HTML which includes output.js (testing purposes)          |
+|                              | main.js           | Main machine function                                     |
+|                              |                   |                                                           |
+| */Backend/machine/components*|                   | Includes all components to construct Virtual Machine      |
+|                              | machine.js        | Main component for  Virtual Machine                       |
+|                              |                   |                                                           |
+| */Backend/machine/dist*      |                   | Generated files                                           |
+|                              | gen.js            | Compiler generated code                                   |
+|                              | output.js         | Webpack generated code (every JS file is packed into one) |
+|                              |                   |                                                           |
+| */Backend/Shonky*            |                   | Shonky project directory                                  |
+|                              | Syntax.hs         | Contains needed data structures                           |
+|                              |                   |                                                           |
+| */Backend/tests*             |                   | Test framework                                            |
+|                              | main.sh           | Main file                                                 |
+|                              | helper.sh         | expect script helper file                                 |
+|                              | testcases.sh      | Contains all of the test cases                            |
+
+Table: Project folder structure
+
+
 ## Abstract machine
 
 ## Compiler
