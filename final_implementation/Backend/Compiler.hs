@@ -78,7 +78,7 @@ vpatCompile v (VPV x) = do -- string variable
   i <- next
   return ([(x, i)], "env[" ++ show i ++ "]=" ++ v ++ ";\n")
 
-vpatCompile v (VPI x) = do -- integer variable
+vpatCompile v (VPI x) = do -- integer value
   i <- next
   return ([(show x, i)], "env[" ++ show i ++ "]=" ++ v ++ ";\n")
 
@@ -169,7 +169,7 @@ expCompile xis ftable stk (EV x) = case lookup x xis of
     Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\", value:{tag:\"operator\", operator:"++ show i ++"}}}"
 
 expCompile xis ftable stk (EI x) = 
-  return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:\"" ++ show x ++ "\"}}}"
+  return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:" ++ show x ++ "}}}"
 
 expCompile xis ftable stk (EA a) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
@@ -252,7 +252,7 @@ builtIns = do
 -- Top Level Compiler - compile all top level functions (with built in ones)
 operatorCompile :: [(String, ([[String]], [([Pat], Exp)]))] -> [Def Exp] -> CodeGen (FTable, JSStmt)
 operatorCompile builtins ds = do
-  let fs = builtins ++ [(f, (h, pse)) | DF f h pse <- ds]
+  let fs = [(f, (h, pse)) | DF f h pse <- ds] ++ builtins
   let ftable = zipWith (\ (f, _) i -> (f, i)) fs [0..]
   x <- foldMap (oneCompile ftable) fs
   return (ftable, x)

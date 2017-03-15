@@ -1,0 +1,9 @@
+main : {Nat}
+main! = add (suc zero) (suc zero) 
+
+data Nat = zero | suc Nat
+
+
+add : {Nat -> Nat -> Nat}
+add zero b = b
+add (suc a) b = suc (add a b)

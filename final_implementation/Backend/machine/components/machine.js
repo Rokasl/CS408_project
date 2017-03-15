@@ -80,9 +80,8 @@ var Machine = function Machine(resumptions, operators) {
     console.log(mode);
 
     var tempcount = 0;
-    while (mode.stack != null && tempcount < 10) {
+    while (mode.stack != null && tempcount < 50) {
         tempcount++;
-
 
         switch (mode.comp.tag) {
             case "value":
@@ -113,7 +112,7 @@ var Machine = function Machine(resumptions, operators) {
                         break;
                     case "fun":
                         if (mode.stack.frame.args === null) { //ready to go
-                            apply(mode.stack.prev, mode.comp.value, null);
+                            mode = apply(mode.stack.prev, mode.comp.value, null);
                         } else {
                             var intf = interfaceF(mode.comp.value);
                             mode = resumptions[mode.stack.frame.args.head](
@@ -138,7 +137,7 @@ var Machine = function Machine(resumptions, operators) {
                             mode.stack,
                             mode.stack.frame.fun,
                             ready,
-                            mode.stack.env,
+                            mode.stack.frame.env,
                             mode.stack.frame.waiting,
                             mode.stack.frame.waitingHandles
                         );
@@ -149,7 +148,6 @@ var Machine = function Machine(resumptions, operators) {
                 break;
 
             case ("command"):
-
                 if (mode.stack.frame.tag === "arg") {
                     for (var i = 0; i < mode.stack.frame.handles.length; i++) {
                         if (mode.stack.frame.handles[i] === mode.comp.command) {
@@ -158,7 +156,7 @@ var Machine = function Machine(resumptions, operators) {
                                 mode.stack,
                                 mode.stack.frame.fun,
                                 ready,
-                                mode.stack.env,
+                                mode.stack.frame.env,
                                 mode.stack.frame.waiting,
                                 mode.stack.frame.waitingHandles
                             );
@@ -179,10 +177,9 @@ var Machine = function Machine(resumptions, operators) {
     console.log(mode);
 
     function argRight(stack, fun, ready, env, waiting, waitingHandles) {
-
         if (waiting != null) {
-            var waitingH = waitingHandles.tail;
-            var h = waitingHandles.head;
+            var waitingH = tailHandles(waitingHandles);
+            var h = headHandles(waitingHandles);
             mode = resumptions[waiting.head](
                 stack = {
                     prev: stack.prev,
