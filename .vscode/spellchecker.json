@@ -13,7 +13,8 @@
         "Webpack",
         "deconstructor",
         "Lindley",
-        "CoffeScript"
+        "CoffeScript",
+        "impelemting"
     ],
     "documentTypes": [
         "markdown",

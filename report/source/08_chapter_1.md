@@ -44,37 +44,62 @@ them. Author chose this project while knowing that it would be extremely challen
 learning experience.
 
 ## Objectives
-* Utilize Frankjnr implementation of Frank and Shonky language.
-* Develop Code Compiler which compiles Shonky's code to JavaScript program.
-* Develop Abstract Machine implementation which supports the output of the Compiler.
+* Utilize Frankjnr implementation of Frank and Shonky language;
+* Utilize Shonky syntax and data structures;
+* Develop Code Compiler which compiles Shonky's code to JavaScript program;
+* Develop Abstract Machine implementation which supports the output of the Compiler;
 * Completed system must facilitate client-side communication of events and DOM updates between Frank code
-  and the browser.
+  and the browser;
 
 
 ## Project Outcome
 
+During initial development stages experimental system was developed with its own language,
+compiler, virtual machine and
+testing framework in order to expand authors insight of the subject.
+Lessons learned and code style with few functions of experimental system were adapted in
+creation of the final system.
+Because of it, Author was successful in implementing new Abstract Machine and Compiler for Frankjnr.
+They were, also, successfully integrated into Frankjnr project.
+However, newly developed components are very much in prototype stage as they don't yet have full support
+of all Frank's features. Moreover, the project can still improve on variaty of things, such as performance,
+building procedures and testing.
+   
 
 ## Summary of chapters
 
 **Chapter 2 - Related Work**
 
 The point of the chapter is to highlight work done by others that somehow ties in with this project.
-It either may be work that author is basing his work off of, or work that shows others attempts to solve
-the similar problems.
+It may be work that author is basing his work of, work that shows others attempts to solve similar problems
+or connected projects which were partially used in the final implementation of the project.
 
 **Chapter 3 - Problem Description and Specification**
 
-This chapter briefly overviews the main problem of the project. It expands upon functional and 
-non-functional requirements, followed by detailed specification and explanation of design methodology.
+This chapter briefly overviews the main problems and challenges of the project. It briefly explains
+requirement analysis stage and development tools, languages chosen. It, also, expands upon
+functional and non-functional requirements, followed by detailed specification and explanation
+of design methodology.
 
 **Chapter 4 - Initial development & experimental system**
 
-This chapter is focused on initial experimental system. It highlights the purpose of each component, their
-implementation, drawbacks and any possible improvements. 
+This chapter is focused on initial experimental system. It highlights the reasoning behind it,
+purpose of each component, their implementation, drawbacks and any possible improvements. 
 
 **Chapter 5 - Detailed Design and Implementation of the final system**
 
+Chapter reflects upon implementation and design of the final compiler and abstract machine. It, also,
+explains project structure, developed testing framework, project connections between Shonky and Frankjnr
+as well as possible improvements and considered alternative approaches. 
+
 **Chapter 6 - Verification and Validation**
 
+This chapter explains how the outcome of the project was validated and what testing procedures were
+followed during and after the project. 
+
+
 **Chapter 7 - Results and Evaluation**
+
+Main idea of the chapter is to highlight summarized outcome of the project, how it was 
+evaluated and explain relevant future work. 
 

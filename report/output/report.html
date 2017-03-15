@@ -243,7 +243,10 @@
                 <li><a href="#detailed-design-and-implementation-of-the-final-system"><span class="toc-section-number">5</span> Detailed Design and Implementation of the final system</a><ul>
                 <li><a href="#introduction-2"><span class="toc-section-number">5.1</span> Introduction</a></li>
                 <li><a href="#project-folder-structure"><span class="toc-section-number">5.2</span> Project folder structure</a></li>
-                <li><a href="#possible-improvements"><span class="toc-section-number">5.3</span> Possible improvements</a></li>
+                <li><a href="#abstract-machine-1"><span class="toc-section-number">5.3</span> Abstract machine</a></li>
+                <li><a href="#compiler-1"><span class="toc-section-number">5.4</span> Compiler</a></li>
+                <li><a href="#testing-framework-1"><span class="toc-section-number">5.5</span> Testing framework</a></li>
+                <li><a href="#possible-improvements"><span class="toc-section-number">5.6</span> Possible improvements</a></li>
                 </ul></li>
                 <li><a href="#results-and-evaluation"><span class="toc-section-number">6</span> Results and Evaluation</a></li>
                 <li><a href="#summary-conclusion"><span class="toc-section-number">7</span> Summary &amp; Conclusion</a><ul>
@@ -263,7 +266,7 @@
 <p> </p>
 <h1 id="acknowledgements" class="unnumbered">Acknowledgements</h1>
 <!-- This is for acknowledging all of the people who helped out -->
-<p>I would like to express my special thanks of gratitude to my supervisor, Conor Mcbride for his guidance throughout this project.</p>
+<p>I would like to express my special thanks of gratitude to my supervisor, Conor Mcbride for his guidance, support and patients throughout this project.</p>
 <p>Also, I would like to thank my friends for helping me think with our numerous technical discussions and contemplations.</p>
 <!-- Use the \newpage command to force a new page -->
 
@@ -303,22 +306,27 @@ consumer and the supplier. -->
 <p>This projects requires knowledge how Compilers and Abstract Machines work and how to use them together them. Author chose this project while knowing that it would be extremely challenging but most effective learning experience.</p>
 <h2 id="objectives"><span class="header-section-number">1.2</span> Objectives</h2>
 <ul>
-<li>Utilize Frankjnr implementation of Frank and Shonky language.</li>
-<li>Develop Code Compiler which compiles Shonky's code to JavaScript program.</li>
-<li>Develop Abstract Machine implementation which supports the output of the Compiler.</li>
-<li>Completed system must facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
+<li>Utilize Frankjnr implementation of Frank and Shonky language;</li>
+<li>Utilize Shonky syntax and data structures;</li>
+<li>Develop Code Compiler which compiles Shonky's code to JavaScript program;</li>
+<li>Develop Abstract Machine implementation which supports the output of the Compiler;</li>
+<li>Completed system must facilitate client-side communication of events and DOM updates between Frank code and the browser;</li>
 </ul>
 <h2 id="project-outcome"><span class="header-section-number">1.3</span> Project Outcome</h2>
+<p>During initial development stages experimental system was developed with its own language, compiler, virtual machine and testing framework in order to expand authors insight of the subject. Lessons learned and code style with few functions of experimental system were adapted in creation of the final system. Because of it, Author was successful in implementing new Abstract Machine and Compiler for Frankjnr. They were, also, successfully integrated into Frankjnr project. However, newly developed components are very much in prototype stage as they don't yet have full support of all Frank's features. Moreover, the project can still improve on variaty of things, such as performance, building procedures and testing.</p>
 <h2 id="summary-of-chapters"><span class="header-section-number">1.4</span> Summary of chapters</h2>
 <p><strong>Chapter 2 - Related Work</strong></p>
-<p>The point of the chapter is to highlight work done by others that somehow ties in with this project. It either may be work that author is basing his work off of, or work that shows others attempts to solve the similar problems.</p>
+<p>The point of the chapter is to highlight work done by others that somehow ties in with this project. It may be work that author is basing his work of, work that shows others attempts to solve similar problems or connected projects which were partially used in the final implementation of the project.</p>
 <p><strong>Chapter 3 - Problem Description and Specification</strong></p>
-<p>This chapter briefly overviews the main problem of the project. It expands upon functional and non-functional requirements, followed by detailed specification and explanation of design methodology.</p>
+<p>This chapter briefly overviews the main problems and challenges of the project. It briefly explains requirement analysis stage and development tools, languages chosen. It, also, expands upon functional and non-functional requirements, followed by detailed specification and explanation of design methodology.</p>
 <p><strong>Chapter 4 - Initial development &amp; experimental system</strong></p>
-<p>This chapter is focused on initial experimental system. It highlights the purpose of each component, their implementation, drawbacks and any possible improvements.</p>
+<p>This chapter is focused on initial experimental system. It highlights the reasoning behind it, purpose of each component, their implementation, drawbacks and any possible improvements.</p>
 <p><strong>Chapter 5 - Detailed Design and Implementation of the final system</strong></p>
+<p>Chapter reflects upon implementation and design of the final compiler and abstract machine. It, also, explains project structure, developed testing framework, project connections between Shonky and Frankjnr as well as possible improvements and considered alternative approaches.</p>
 <p><strong>Chapter 6 - Verification and Validation</strong></p>
+<p>This chapter explains how the outcome of the project was validated and what testing procedures were followed during and after the project.</p>
 <p><strong>Chapter 7 - Results and Evaluation</strong></p>
+<p>Main idea of the chapter is to highlight summarized outcome of the project, how it was evaluated and explain relevant future work.</p>
 <h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
 <!-- Literature review ??? -->
 <h2 id="vole"><span class="header-section-number">2.1</span> Vole</h2>
@@ -356,9 +364,9 @@ consumer and the supplier. -->
 <li>Authors lack of experience with languages being used and overall analyzed concepts (compiler and virtual machines).</li>
 </ul>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
-<p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
+<p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel Wrigh 2004)</span>,to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
 <h3 id="development-tools-and-languages"><span class="header-section-number">3.2.1</span> Development Tools and Languages</h3>
-<p>This section will briefly explain used tools and languages and reasoning behind them.</p>
+<p>This section will briefly explain used tools and languages and reasoning behind each of them.</p>
 <h3 id="vagrant"><span class="header-section-number">3.2.2</span> Vagrant</h3>
 <!--https://www.vagrantup.com/-->
 <p>Vagrant is an optional tool to create separate development environment for the project. It runs on Virtual Box and it is essentially a server on your local computer which you can boot up and work on. Furthermore, Vagrant comes with up to date relevant libraries out of the box. Author used it to avoid installing software and managing libraries on local machine, thus speeding up development.</p>
@@ -644,12 +652,27 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 </ul>
 <p>The further plan is to roll out the lessons learned for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
 <h1 id="detailed-design-and-implementation-of-the-final-system"><span class="header-section-number">5</span> Detailed Design and Implementation of the final system</h1>
+<p>Chapter focuses on implementation, design of the final compiler and abstract machine, as well as, any topics connected to them.</p>
 <h2 id="introduction-2"><span class="header-section-number">5.1</span> Introduction</h2>
-<p>The implementation of final Compiler and Abstract Machine were heavily supervised by Conor McBride.</p>
+<p>Final system started to develop on week six of the second semester after the end of experimental system development. Some parts of the code were lifted from the earlier experiment and main concepts of how virtual machines and compilers should work are reused.</p>
+<p><strong>Disclaimer</strong></p>
+<p>Final system uses two other systems in its code base, thus not all of the code is written by the author of this project. Author's code will be clearly indicated. Two projects connected to the system are:</p>
+<ul>
+<li><strong>Frankjnr</strong> - developed by Craig???. Final system is essentially new back end for Frankjnr. So the whole Frankjnr project was used and new back end was placing in 'Backend' folder. Parts of Frankjnr code were slightly updated to let the user choose between the old back end and the new one. Updated files were: Compile.hs and Frank.hs, updates are clearly indicated with comments;</li>
+<li><strong>Shonky</strong> - developed by Conor McBride. Final compiler uses Shonky's syntax file for its supported data structures and parse functions;</li>
+</ul>
+<p>More detailed descriptions can be found at 'Related work' section of the report or at their Github pages.</p>
 <h2 id="project-folder-structure"><span class="header-section-number">5.2</span> Project folder structure</h2>
-<h2 id="possible-improvements"><span class="header-section-number">5.3</span> Possible improvements</h2>
+<h2 id="abstract-machine-1"><span class="header-section-number">5.3</span> Abstract machine</h2>
+<h2 id="compiler-1"><span class="header-section-number">5.4</span> Compiler</h2>
+<h2 id="testing-framework-1"><span class="header-section-number">5.5</span> Testing framework</h2>
+<h2 id="possible-improvements"><span class="header-section-number">5.6</span> Possible improvements</h2>
 <p>use chunks of stacks when top of the chunk is possible needed stack frame and others are not (speedup)</p>
-<p>turn local functions into top level operators is called &quot;Lambda-lifting&quot; it was invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC # Verification and Validation</p>
+<p>turn local functions into top level operators is called &quot;Lambda-lifting&quot; it was invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC</p>
+<p>Match-this-or-bust pattern matching is late 60s technology:</p>
+<p>Computer Aided Manipulation of Symbols F.V. McBride PhD thesis, 1970, Queen's University Belfast</p>
+<p>The more efficient compilation by building a tree of switches is</p>
+<p>Compiling Pattern Matching Lennart Augustsson in Functional Programming and Computer Architecture 1985 Springer LNCS 209 # Verification and Validation</p>
 <h1 id="results-and-evaluation"><span class="header-section-number">6</span> Results and Evaluation</h1>
 <h1 id="summary-conclusion"><span class="header-section-number">7</span> Summary &amp; Conclusion</h1>
 <!-- 
@@ -783,15 +806,14 @@ Related work section<br />
 Introduction chapter summarization<br />
 <em>Final Compiler development:</em><br />
 Attempt to implement operators array<br />
-Looking into how to compile operator variables<br />
-March 08:<br />
+Looking into how to compile operator variables</p>
+<p>March 08:<br />
 <em>Report</em><br />
 Background section<br />
 <em>Final Compiler development:</em><br />
 Various fixes<br />
 operatorCompile function adjustment<br />
-File Writer adjustment<br />
-</p>
+File Writer adjustment</p>
 <p>March 09:<br />
 <em>Report</em><br />
 Related work section<br />
@@ -800,8 +822,7 @@ Adjusted file generation<br />
 Fixed operatorCompile function<br />
 <em>Final Abstract Machine development:</em><br />
 Initialized project structure with webpack<br />
-Initial implementation of final Machine (support for CAR and CDR operations)<br />
-</p>
+Initial implementation of final Machine (support for CAR and CDR operations)</p>
 <p>March 10:<br />
 <em>Final Compiler development:</em><br />
 Adjusted type definitions<br />
@@ -809,8 +830,7 @@ Added one layer of structure to Computations<br />
 <em>Final Abstract Machine development:</em><br />
 Fixed bugs regarding CAR and CDR<br />
 Optimization- &quot;go&quot; tag is not needed, creating modes directly<br />
-CDR now returns pair<br />
-</p>
+CDR now returns pair</p>
 <p>March 11:<br />
 <em>Final Compiler development:</em><br />
 Added needed functionality to compiler to support 'application' operations<br />
@@ -822,8 +842,23 @@ Added parser functions, now the compiler is able to covert Shonky language to it
 <em>Final Testing Framework development:</em><br />
 Created initial structure of the framework as well as sample test case<br />
 <em>Report</em><br />
-Problem overview section<br />
-</p>
+Problem overview section</p>
+<p>March 13:<br />
+<em>Final Compiler development:</em><br />
+Commands development<br />
+<em>Final Abstract Machine development:</em><br />
+Commands development<br />
+<em>Report</em><br />
+Specification section</p>
+<p>March 14:<br />
+<em>Final Compiler development:</em><br />
+Bug fixes<br />
+<em>Final Abstract Machine development:</em><br />
+Bug fixes, command support implemented<br />
+<em>Report</em><br />
+Requirement analysis section<br />
+<em>Project structure</em><br />
+Frankjnr now uses new back end</p>
 <h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
 
 <!-- 
@@ -855,6 +890,9 @@ References are automatically generated from the BibTex file (References.bib)
 </div>
 <div id="ref-Plotkin4">
 <p>G. D. Plotkin and M. Pretnar, 2013. <em>Handling algebraic effects</em>,</p>
+</div>
+<div id="ref-CompilingCorrectly">
+<p>Graham Hutton and Joel Wrigh, 2004. <em>Compiling Exceptions Correctly</em>,</p>
 </div>
 <div id="ref-FrankPaper">
 <p>Sam Lindley, Conor McBride &amp; Craig McLaughlin, 2016. <em>Do be do be do</em>,</p>

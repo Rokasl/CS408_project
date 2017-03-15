@@ -57,12 +57,15 @@ or testing framework.
 ## Requirements Analysis
 
 Before any development could begin requirements needed to be gathered, author did this by discussing 
-how the system should behave and what technologies it should utilize with the supervisor. Further research
-was made to ensure the appropriateness of chosen languages and technologies. 
+how the system should behave and what technologies it should utilize with the supervisor. He, also,
+attended programming languages seminar where Frank language was discussed, gaining different perspective
+on the whole project. Lastly, author read papers on relevant topics, such as "Compiling Exceptions
+Correctly" [@CompilingCorrectly],to expand his knowledge and gain more insight in what to do.
+Further research was made to ensure the appropriateness of chosen languages and technologies. 
 
 ### Development Tools and Languages
 
-This section will briefly explain used tools and languages and reasoning behind them. 
+This section will briefly explain used tools and languages and reasoning behind each of them. 
 
 ### Vagrant
 <!--https://www.vagrantup.com/-->

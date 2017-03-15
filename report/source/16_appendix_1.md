@@ -157,7 +157,7 @@ Related work section\
 Introduction chapter summarization\
 *Final Compiler development:*\
 Attempt to implement operators array\
-Looking into how to compile operator variables\
+Looking into how to compile operator variables
 
 March 08:\
 *Report*\
@@ -165,7 +165,7 @@ Background section\
 *Final Compiler development:*\
 Various fixes\
 operatorCompile function adjustment\
-File Writer adjustment\
+File Writer adjustment
 
 
 March 09:\
@@ -176,7 +176,7 @@ Adjusted file generation\
 Fixed operatorCompile function\
 *Final Abstract Machine development:*\
 Initialized project structure with webpack\
-Initial implementation of final Machine (support for CAR and CDR operations)\
+Initial implementation of final Machine (support for CAR and CDR operations)
 
 
 March 10:\
@@ -186,7 +186,7 @@ Added one layer of structure to Computations\
 *Final Abstract Machine development:*\
 Fixed bugs regarding CAR and CDR\
 Optimization- "go" tag is not needed, creating modes directly\
-CDR now returns pair\
+CDR now returns pair
 
 
 March 11:\
@@ -202,7 +202,7 @@ Added parser functions, now the compiler is able to covert Shonky language to it
 *Final Testing Framework development:*\
 Created initial structure of the framework as well as sample test case\
 *Report*\
-Problem overview section\
+Problem overview section
 
 March 13:\
 *Final Compiler development:*\
@@ -210,7 +210,7 @@ Commands development\
 *Final Abstract Machine development:*\
 Commands development\
 *Report*\
-Specification section\
+Specification section
 
 March 14:\
 *Final Compiler development:*\
@@ -220,7 +220,7 @@ Bug fixes, command support implemented\
 *Report*\
 Requirement analysis section\
 *Project structure*\
-Frankjnr now uses new back end\
+Frankjnr now uses new back end
 
 
 
