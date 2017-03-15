@@ -89,8 +89,8 @@ compileProg progName p args =
               do compileToFile p progName
                  loadFile progName
             else if ("output-js","") `elem` args then
-              do (jsComplete "prog" (operatorCompile (compileToJS p)))
-                 return Empty
+              do (jsComplete "prog" (operatorCompile builtIns (compileToJS p)))
+                 error "Compilation done!"
             else return $ load $ compile p
      return env
 

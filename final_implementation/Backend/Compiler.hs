@@ -242,10 +242,17 @@ arrayCommands [] = ""
 arrayCommands (e : []) = "\"" ++ e ++ "\""
 arrayCommands (e : es) = "\"" ++ e ++ "\"," ++ arrayCommands es
 
--- Top Level Compiler - compile all top level functions
-operatorCompile :: [Def Exp] -> CodeGen (FTable, JSStmt)
-operatorCompile ds = do
-  let fs = [(f, (h, pse)) | DF f h pse <- ds]
+-- Built in functions (ex. addition and substraction)
+builtIns :: [(String, ([[String]], [([Pat], Exp)]))]
+builtIns = do 
+  let defs = [DF "pair" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]]
+  efs <- [(f, (h, pse)) | DF f h pse <- defs]
+  return efs
+
+-- Top Level Compiler - compile all top level functions (with built in ones)
+operatorCompile :: [(String, ([[String]], [([Pat], Exp)]))] -> [Def Exp] -> CodeGen (FTable, JSStmt)
+operatorCompile builtins ds = do
+  let fs = builtins ++ [(f, (h, pse)) | DF f h pse <- ds]
   let ftable = zipWith (\ (f, _) i -> (f, i)) fs [0..]
   x <- foldMap (oneCompile ftable) fs
   return (ftable, x)
@@ -263,7 +270,7 @@ jsSetup arr comp =   "var operator = [];\n"
     (defs, _, (ftable, x)) = codeGen comp 0
     def (i, c) = arr ++ "[" ++ show i ++ "] = " ++ c ++ ";\n"
 
--- example jsComplete "prog" ( operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ]))
+-- example jsComplete "prog" ( operatorCompile ([DF "test" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ]))
 -- example jsComplete "prog" ( operatorCompile ([DF "test2" [[]] [([PV (VPV "x"), PV (VPV "y"), PV (VPV "z")], EV "y" :$ [EV "x", EV "z"])] ]))
 jsWrite :: String -> IO()
 jsWrite code = writeFile "Backend/machine/dist/gen.js" code
@@ -278,8 +285,8 @@ parseShonky name path = do
 
 parser :: String -> CodeGen(FTable, JSStmt)
 parser contents = case (parse pProg contents) of
-  Nothing -> operatorCompile ([DF "error" [[]] []])
-  Just (xs, name) -> operatorCompile xs
+  Nothing -> operatorCompile builtIns [DF "error" [[]] []]
+  Just (xs, name) -> operatorCompile builtIns xs
 
 
 
