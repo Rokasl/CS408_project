@@ -24,8 +24,11 @@ var Machine = function Machine(resumptions, operators) {
 
     function apply(stk, fun, args) { //returns a mode
         switch (fun.tag) {
+            case ("local"):
+                return fun.operator.implementation(stk,fun.env,args) 
+                break;
             case ("operator"):
-                return operators[fun.operator].implementation(stk, args);
+                return operators[fun.operator].implementation(stk, fun.env, args);
                 break;
             case ("atom"):
                 // update args to vargs
@@ -73,7 +76,7 @@ var Machine = function Machine(resumptions, operators) {
 
 
 
-    var mode = operators[0].implementation(null, []); // starting mode first found operator with no args
+    var mode = operators[0].implementation(null, [], []); // starting mode first found operator with no args
 
     console.log(mode);
 
@@ -198,6 +201,7 @@ var Machine = function Machine(resumptions, operators) {
         return mode;
     }
 
+    console.log(mode);
     console.log(prettyPrinter(mode.comp.value));
 
 

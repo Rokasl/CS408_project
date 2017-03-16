@@ -167,7 +167,7 @@ expCompile xis ftable stk (EV x) = case lookup x xis of
   Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
   Nothing -> case lookup x ftable of
     Nothing -> error "It's not a pattern variable!"
-    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\", value:{tag:\"operator\", operator:"++ show i ++"}}}"
+    Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\", value:{tag:\"operator\", operator:"++ show i ++", env:[]}}}"
 
 expCompile xis ftable stk (EI x) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:" ++ show x ++ "}}}"
@@ -188,6 +188,11 @@ expCompile xis ftable stk (ef :$ exs) = do
       ++ ftail ++"}}")
     ef
 
+expCompile xis ftable stk (EF h pse) = do
+  op <- makeOperator (length xis) ftable (h, pse)
+  return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\","
+             ++ "value:{tag:\"local\", env:env, operator:" ++ op  ++ "}}}"
+
 tailCompile :: EnvTable -> FTable -> Exp -> CodeGen JSExp
 tailCompile xis ftable (ef :$ []) = do
   return $ "null"
@@ -197,25 +202,25 @@ tailCompile xis ftable (ef :$ exs) = do
   return $ "{head:"++ show fexs ++", tail: "++ ftail ++"}"
 
 
-lineCompile :: ([Pat], Exp) -> FTable -> CodeGen JSStmt
-lineCompile (ps, e) ftable = do
-  let ((xis, patJS), _) = runCounter (listOf patCompile "args" ps) 0
+lineCompile :: Int -> ([Pat], Exp) -> FTable -> CodeGen JSStmt
+lineCompile count (ps, e) ftable = do
+  let ((xis, patJS), _) = runCounter (listOf patCompile "args" ps) count
   expJS <- expCompile xis ftable "stk" e
   return $ "{" ++ patJS ++ "return " ++ expJS ++ "\n}"
 
 -- codeGen (lineCompile ([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")) 0
 
-linesCompile :: [([Pat], Exp)] -> FTable -> CodeGen JSStmt
-linesCompile [] ftable = return "throw(\"undefined function\")"
-linesCompile (l : ls) ftable = do
-  ctry   <- lineCompile l ftable
-  ccatch <- linesCompile ls ftable
+linesCompile :: Int -> [([Pat], Exp)] -> FTable -> CodeGen JSStmt
+linesCompile count [] ftable = return "throw(\"undefined function\")"
+linesCompile count (l : ls) ftable = do
+  ctry   <- lineCompile count l ftable
+  ccatch <- linesCompile count ls ftable
   return $ "try " ++ ctry ++ " catch (err) {" ++ ccatch ++ "}"
 
-funCompile :: [([Pat], Exp)] -> FTable -> CodeGen JSStmt
-funCompile ls ftable = do
-  c <- linesCompile ls ftable
-  return $ "function(stk,args){var env=[];\n" ++ c ++ "\n}"
+funCompile :: Int -> [([Pat], Exp)] -> FTable -> CodeGen JSStmt
+funCompile count ls ftable = do
+  c <- linesCompile count ls ftable
+  return $ "function(stk,env,args){" ++ c ++ "\n}"
 
 -- codeGen (funCompile [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]) 0
 
@@ -225,12 +230,17 @@ funCompile ls ftable = do
 
 -- helper function for operatorCompile
 oneCompile :: FTable -> (String, ([[String]],[([Pat], Exp)])) -> CodeGen JSStmt
-oneCompile ftable (f,(h, pse)) = do
-  jsf <- funCompile pse ftable
-  case lookup f ftable of
+oneCompile ftable (f,(h, pse)) = case lookup f ftable of
     Nothing -> error "Bug! - Something is not right with operator lookup table"
-    Just n -> return $ "operator["++ show n ++"]={interface:" ++ availableCommands h
-                       ++ ",implementation:" ++ jsf ++ "};\n"
+    Just n -> do
+      ocomp <- makeOperator 0 ftable (h, pse)
+      return $ "operator["++ show n ++"]=" ++ ocomp
+
+makeOperator :: Int -> FTable -> ([[String]],[([Pat], Exp)]) -> CodeGen JSStmt
+makeOperator count ftable (h, pse) = do                      
+  jsf <- funCompile count pse ftable
+  return $ "{interface: "++ availableCommands h ++", implementation:" ++ jsf ++ "}\n"
+
 
 availableCommands :: [[String]] -> String
 availableCommands [] = "null"
@@ -324,9 +334,10 @@ parser contents = case (parse pProg contents) of
 --   = {tag:"atom", atom: String}
 --   | {tag:"int", int: Int}
 --   | {tag:"pair", car: JSValue, cdr: JSValue}
---   | {tag:"operator", operator: Int}
+--   | {tag:"operator", operator: Int, env:JSEnv}
 --   | {tag:"callback", callback: JSCallBack}
 --   | {tag:"thunk", thunk:JSComp}
+--   | {tag:"loacl", env:JSEnv, operator:}
 
 -- jstype JSMatch
 --   = null  -- bad news
