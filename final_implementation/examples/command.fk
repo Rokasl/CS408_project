@@ -1,0 +1,25 @@
+main : {Pair Nat Nat}
+main! = state zero (pr next! next!)
+
+interface State S = get : S
+                  | put : S -> Unit
+
+data Pair X Y = pr X Y
+
+data Nat = zero 
+         | suc Nat
+
+fst : X -> Y -> X
+fst x y = x
+
+snd : X -> Y -> Y
+snd  x y = y
+
+next : [State Nat]Nat
+next! = fst get! (put (suc get!))
+
+state : S -> <State S>X -> X
+state _ x = x
+state s <get -> k> = state s (k s)
+state _ <put s -> k> = state s (k unit)
+

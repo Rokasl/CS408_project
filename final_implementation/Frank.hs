@@ -21,7 +21,6 @@ import System.Environment
 import System.Exit
 import System.IO
 
-import Backend.Compiler
 
 type Args = [(String,String)]
 
@@ -91,8 +90,8 @@ compileProg progName p args =
               do compileToFile p progName
                  loadFile progName
             else if ("output-js","") `elem` args then
-              do (jsComplete "prog" (operatorCompile builtIns (compileToJS p)))
-                 error "Compilation done!"
+              do compileToJS p
+                 die "Compilation complete!"     
             else return $ load $ compile p
      return env
 

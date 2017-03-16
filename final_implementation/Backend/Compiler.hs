@@ -62,7 +62,8 @@ patCompile c (PT x) = do
 patCompile c (PC command vpats var) = do
   (t1,e1) <- listOf vpatCompile (c ++ ".args") vpats
   i <- next
-  return (t1++[(var,i)], "if (" ++ c ++".command!=\"command\"){"++ matchFail ++"};\n"
+  return (t1++[(var,i)], "if (" ++ c ++".tag!==\"command\"){"++ matchFail ++"};\n"
+                       ++ "if ("++ c++".command!==\""++command++"\"){"++ matchFail ++"};\n"
                        ++ e1
                        ++ "env[" ++ show i ++ "]={tag:\"callback\", callback:"++ c ++".callback};\n")
 

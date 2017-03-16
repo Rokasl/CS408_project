@@ -14,6 +14,8 @@ import qualified Data.Set as S
 import Syntax
 import qualified Shonky.Syntax as S
 
+import Backend.Compiler
+
 testShonky =
   unlines $
   [ "evalstate(,get put):"
@@ -55,8 +57,8 @@ compileToFile :: NotRaw a => Prog a -> String -> IO ()
 compileToFile p dst = writeFile (dst ++ ".uf") (S.ppProg $ compile p)
 
 -- function created by Rokas Labeikis on 2017/03/14
-compileToJS :: NotRaw a => Prog a -> [S.Def S.Exp]
-compileToJS p = compile p
+compileToJS :: NotRaw a => Prog a -> IO ()
+compileToJS p = jsComplete "prog" (operatorCompile builtIns (compile p))
 
 compile :: NotRaw a => Prog a -> [S.Def S.Exp]
 compile (MkProg xs) = res
