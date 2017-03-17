@@ -1,4 +1,3 @@
+.vscode/
+
 /simple_implementation/dist/
-/final_implementation/Backend/machine/dist/
-/report/output/*
-/.vscode/*
