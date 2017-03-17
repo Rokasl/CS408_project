@@ -21,11 +21,14 @@ for id_name in ${!test@}; do
     declare -n test=$id_name    
     total=$((total+1))
 
-    #Test compiler
-    ./tests/helper.sh ${test[path]} ${test[name]}
-    #end of expect
+    echo
+    echo ${test[name]}
 
-    cd machine
+    cd .. 
+
+    frank ${test[path]} --output-js
+
+    cd Backend/machine
 
     webpack --hide-modules #recompile output.js 
 

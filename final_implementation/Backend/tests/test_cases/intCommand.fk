@@ -1,13 +1,11 @@
-main : {List Nat}
-main! = state zero (map {_ -> next!} [unit, unit, unit])
+main : {Pair Int Int}
+main! = state 0 (pr next! next!)
 
 interface State S = get : S
                   | put : S -> Unit
 
 data Pair X Y = pr X Y
 
-data Nat = zero 
-         | suc Nat
 
 fst : X -> Y -> X
 fst x y = x
@@ -15,14 +13,11 @@ fst x y = x
 snd : X -> Y -> Y
 snd  x y = y
 
-next : [State Nat]Nat
-next! = fst get! (put (suc get!))
+next : [State Int]Int
+next! = fst get! (put (get!))
 
 state : S -> <State S>X -> X
 state _ x = x
 state s <get -> k> = state s (k s)
 state _ <put s -> k> = state s (k unit)
 
-map : {{X -> Y} -> List X -> List Y}
-map f []        = []
-map f (x :: xs) = f x :: map f xs

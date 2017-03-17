@@ -81,7 +81,10 @@ vpatCompile v (VPV x) = do -- string variable
 
 vpatCompile v (VPI x) = do -- integer value
   i <- next
-  return ([(show x, i)], "env[" ++ show i ++ "]=" ++ v ++ ";\n")
+  return ([],
+    "if (" ++ v ++ ".tag!==\"int\") {" ++ matchFail ++"};\n" ++
+    "if (" ++ v ++ ".int!==" ++ show x ++ ") {" ++ matchFail ++"};\n"
+    )
 
 vpatCompile v (VPA a) = do -- atom value
   return ([],
@@ -170,7 +173,7 @@ expCompile xis ftable stk (EV x) = case lookup x xis of
     Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\", value:{tag:\"operator\", operator:"++ show i ++", env:[]}}}"
 
 expCompile xis ftable stk (EI x) = 
-  return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"integer\", integer:" ++ show x ++ "}}}"
+  return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"int\", int:" ++ show x ++ "}}}"
 
 expCompile xis ftable stk (EA a) = 
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
@@ -256,7 +259,7 @@ arrayCommands (e : es) = "\"" ++ e ++ "\"," ++ arrayCommands es
 -- Built in functions (ex. addition and substraction)
 builtIns :: [(String, ([[String]], [([Pat], Exp)]))]
 builtIns = do 
-  let defs = [DF "pair" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")]]
+  let defs = []
   efs <- [(f, (h, pse)) | DF f h pse <- defs]
   return efs
 

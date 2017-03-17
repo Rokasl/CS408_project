@@ -25,7 +25,7 @@ var Machine = function Machine(resumptions, operators) {
     function apply(stk, fun, args) { //returns a mode
         switch (fun.tag) {
             case ("local"):
-                return fun.operator.implementation(stk,fun.env,args) 
+                return fun.operator.implementation(stk, fun.env, args)
                 break;
             case ("operator"):
                 return operators[fun.operator].implementation(stk, fun.env, args);
@@ -202,42 +202,38 @@ var Machine = function Machine(resumptions, operators) {
     }
 
     console.log(mode);
+
+    // needed for testing purposes
     console.log(prettyPrinter(mode.comp.value));
 
-
-    function prettyPrinter(comp) {
-
-        return valString(comp);
-
+    function prettyPrinter(v) {
+        return valString(v);
 
         function cdrString(v) {
             switch (v.tag) {
                 case "pair":
-                    return carString(v.car) + cdrString(v.cdr);
+                    return valString(v.car) + cdrString(v.cdr);
                 case "atom":
                     if (v.atom === "") {
-                        return ""
+                        return " "
                     };
-                default:
-                    return "|" + carString(v);
             }
+            return "|" + valString(v);
         };
-
-        function carString(v) {
-            switch (v.tag) {
-                case "atom":
-                    return " " + v.atom;
-                case "pair":
-                    return carString(v.car) + carString(v.cdr);
-            }
-        }
 
         function valString(v) {
             switch (v.tag) {
                 case "atom":
-                    return v.atom;
+                    if (v.atom === "cons") {
+                        return ", "
+                    }
+                    if (v.atom === "nil") {return ""}
+                    return " " + v.atom;
+                case "int":
+                    return " " + v.int
+                    break;
                 case "pair":
-                    return "[" + carString(v.car) + cdrString(v.cdr) + "]";
+                    return valString(v.car) + cdrString(v.cdr);
             }
         };
     }

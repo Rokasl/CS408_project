@@ -1,0 +1,6 @@
+main : {Int}
+main! = getNumber 1
+
+getNumber : {Int -> Int}
+getNumber 1 = 4 + 2
+getNumber 2 = 8
