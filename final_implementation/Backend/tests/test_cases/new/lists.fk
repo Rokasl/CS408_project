@@ -1,0 +1,7 @@
+main : {List Nat}
+main! = [zero, suc zero, zero]
+
+
+data Nat = zero 
+         | suc Nat
+

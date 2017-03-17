@@ -14,7 +14,7 @@ snd : X -> Y -> Y
 snd  x y = y
 
 next : [State Int]Int
-next! = fst get! (put (get!))
+next! = fst get! (put (get! + 1))
 
 state : S -> <State S>X -> X
 state _ x = x

@@ -169,7 +169,7 @@ expCompile
 expCompile xis ftable stk (EV x) = case lookup x xis of
   Just i -> return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\", value:env[" ++ show i ++ "]}}"
   Nothing -> case lookup x ftable of
-    Nothing -> error "It's not a pattern variable!"
+    Nothing -> error  (show x ++ " is not a pattern variable!")
     Just i -> return $ "{stack:"++ stk ++", comp:{tag:\"value\", value:{tag:\"operator\", operator:"++ show i ++", env:[]}}}"
 
 expCompile xis ftable stk (EI x) = 
@@ -256,10 +256,13 @@ arrayCommands [] = ""
 arrayCommands (e : []) = "\"" ++ e ++ "\""
 arrayCommands (e : es) = "\"" ++ e ++ "\"," ++ arrayCommands es
 
+
+-- EV "plus" :$ [EI 1,EI 2]
 -- Built in functions (ex. addition and substraction)
 builtIns :: [(String, ([[String]], [([Pat], Exp)]))]
 builtIns = do 
-  let defs = []
+  let defs = [DF "plus" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "x" :$ [EV "y"] )],
+              DF "minus" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "x" :$ [EV "y", EV "y"] )]]
   efs <- [(f, (h, pse)) | DF f h pse <- defs]
   return efs
 

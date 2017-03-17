@@ -1,5 +1,7 @@
 var Machine = function Machine(resumptions, operators) {
 
+    // Helper functions
+
     function interfaceF(val) {
         if (val.tag === "operator") {
             return operators[val.operator].interface;
@@ -21,9 +23,50 @@ var Machine = function Machine(resumptions, operators) {
         return null;
     }
 
+    function argRight(stack, fun, ready, env, waiting, waitingHandles) {
+        if (waiting != null) {
+            var waitingH = tailHandles(waitingHandles);
+            var h = headHandles(waitingHandles);
+            mode = resumptions[waiting.head]({
+                prev: stack,
+                frame: {
+                    tag: "arg",
+                    fun: fun,
+                    env: env,
+                    ready: ready,
+                    waiting: waiting.tail,
+                    handles: h,
+                    waitingHandles: waitingH
+                },
+            }, env);
+        } else { // ready to apply the fucntion
+            mode = apply(stack, fun, ready);
+        }
+
+        return mode;
+    }
+
 
     function apply(stk, fun, args) { //returns a mode
         switch (fun.tag) {
+            case ("int"):
+                var answ;
+                if (args.length === 2) { // minus
+                    answ = fun.int - args[0].value.int;
+                } else { // plus
+                    answ = fun.int + args[0].value.int;
+                }
+                return {
+                    stack:stk,
+                    comp: {
+                        tag: "value",
+                        value:{
+                            tag: "int",
+                            int: answ
+                        }
+                    }
+                }
+                break;
             case ("local"):
                 return fun.operator.implementation(stk, fun.env, args)
                 break;
@@ -74,7 +117,7 @@ var Machine = function Machine(resumptions, operators) {
         throw ("Something is missing...")
     }
 
-
+    // Starting point of the machine
 
     var mode = operators[0].implementation(null, [], []); // starting mode first found operator with no args
 
@@ -178,65 +221,7 @@ var Machine = function Machine(resumptions, operators) {
         }
     }
 
-    function argRight(stack, fun, ready, env, waiting, waitingHandles) {
-        if (waiting != null) {
-            var waitingH = tailHandles(waitingHandles);
-            var h = headHandles(waitingHandles);
-            mode = resumptions[waiting.head]({
-                prev: stack,
-                frame: {
-                    tag: "arg",
-                    fun: fun,
-                    env: env,
-                    ready: ready,
-                    waiting: waiting.tail,
-                    handles: h,
-                    waitingHandles: waitingH
-                },
-            }, env);
-        } else { // ready to apply the fucntion
-            mode = apply(stack, fun, ready);
-        }
-
-        return mode;
-    }
-
-    console.log(mode);
-
-    // needed for testing purposes
-    console.log(prettyPrinter(mode.comp.value));
-
-    function prettyPrinter(v) {
-        return valString(v);
-
-        function cdrString(v) {
-            switch (v.tag) {
-                case "pair":
-                    return valString(v.car) + cdrString(v.cdr);
-                case "atom":
-                    if (v.atom === "") {
-                        return " "
-                    };
-            }
-            return "|" + valString(v);
-        };
-
-        function valString(v) {
-            switch (v.tag) {
-                case "atom":
-                    if (v.atom === "cons") {
-                        return ", "
-                    }
-                    if (v.atom === "nil") {return ""}
-                    return " " + v.atom;
-                case "int":
-                    return " " + v.int
-                    break;
-                case "pair":
-                    return valString(v.car) + cdrString(v.cdr);
-            }
-        };
-    }
+    return mode;
 
 }
 
