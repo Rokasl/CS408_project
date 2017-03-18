@@ -312,7 +312,7 @@ parser contents = case (parse pProg contents) of
 -- Type definitions!!! 
 -- Possible improvement - code them into haskell, so that the haskell would enforce them.
 
--- jstype JSRun = (JSVal[], JSStack) -> JSMode
+-- jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
 -- jstype JSMode = {stack: JSStack, comp: JSComp}     
 
 -- jstype JSStack 
@@ -324,7 +324,8 @@ parser contents = case (parse pProg contents) of
 --   | {tag:"car", env: JSEnv, cdr: Int }
 --   | {tag:"cdr", car: JSVal }
 --   | {tag:"fun", env: JSEnv, args: JSList Int }
---   | {tag:"args", fun: JSVal, ready: JSComp[], env: JSEnv, waiting: JSList Int }
+--   | {tag:"args", fun: JSVal, ready: JSComp[], env: JSEnv, waiting: JSList Int,
+--      headles: Int, waitingHandles: JSList Int }
 
 -- jstype JSList x
 --   = null
@@ -341,11 +342,11 @@ parser contents = case (parse pProg contents) of
 -- jstype JSVal
 --   = {tag:"atom", atom: String}
 --   | {tag:"int", int: Int}
---   | {tag:"pair", car: JSValue, cdr: JSValue}
+--   | {tag:"pair", car: JSVal, cdr: JSVal}
 --   | {tag:"operator", operator: Int, env:JSEnv}
 --   | {tag:"callback", callback: JSCallBack}
 --   | {tag:"thunk", thunk:JSComp}
---   | {tag:"loacl", env:JSEnv, operator:}
+--   | {tag:"local", env:JSEnv, operator: JSVal}
 
 -- jstype JSMatch
 --   = null  -- bad news

@@ -11,7 +11,7 @@ on the web, there are few working examples in the Git repository of Vole. It, al
 for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and
 application front-end on run-time.
 
-In the context of this project - Vole is extremely useful resource, because Vole essentially tries to
+In the context of this project - Vole is a useful resource, because it essentially tries to
 solve the same problem but for a different language. Author had to study Vole, to 
 understand its technical implementation, usage of resources and to expand his knowledge of Compilers 
 and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison. 
@@ -42,8 +42,6 @@ which are then used by Shonky interpreter to run Frank.
 
 * Only top-level mutually recursive computation bindings are supported;
 * Coverage checking is not implemented;
-
-## Ocaml
 
 
 ## Haste 

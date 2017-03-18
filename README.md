@@ -1,17 +1,25 @@
 # CS408 - Run Frank in Browser
 Final 4th year project.
 
+Supervisor: Prof. Conor McBride
+
+Student: Rokas Labeikis
+
 Repository is divided into three sections: Report, experimental system and final system.
 
-##Report
+For full documentation and instructions read the report.
+
+## Report
+
+Pdf and html versions of the report are located in the *report/output* folder.
 
 Recompile with:
 
     npm run watch
 
-##Experimental System
+## Experimental System
 
-###Abstract Machine
+### Abstract Machine
 
 Command to install webpack (you'll need node https://nodejs.org/ installed):
 
@@ -21,25 +29,33 @@ To watch for any changes in JavaScript:
 
     webpack -w
 
-###Compiler
+### Compiler
 
 To run simply:
 
     ghci Compiler.hs
 
-###Tests    
+### Tests    
 To run tests - open Terminal and type:
 
     ./tester.sh
 
-####Requirements:
+### Requirements:
 
 * chmod +x tester.sh (if permission denied)
 
-* expect 
+* expect script
 
     apt-get install expect
 
-* node & webpack    
+* node & webpack
+* ghci    
 
-##Final System
+## Final System
+
+
+### Requirements:
+
+* chmod +x tester.sh (if permission denied)
+* node & webpack
+* ghci 

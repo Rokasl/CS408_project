@@ -207,9 +207,8 @@
                 <li><a href="#frankjnr"><span class="toc-section-number">2.3</span> Frankjnr</a><ul>
                 <li><a href="#frankjnr-limitations"><span class="toc-section-number">2.3.1</span> Frankjnr limitations</a></li>
                 </ul></li>
-                <li><a href="#ocaml"><span class="toc-section-number">2.4</span> Ocaml</a></li>
-                <li><a href="#haste"><span class="toc-section-number">2.5</span> Haste</a></li>
-                <li><a href="#conclusion"><span class="toc-section-number">2.6</span> Conclusion</a></li>
+                <li><a href="#haste"><span class="toc-section-number">2.4</span> Haste</a></li>
+                <li><a href="#conclusion"><span class="toc-section-number">2.5</span> Conclusion</a></li>
                 </ul></li>
                 <li><a href="#problem-description-and-specification"><span class="toc-section-number">3</span> Problem Description and Specification</a><ul>
                 <li><a href="#problem-overview"><span class="toc-section-number">3.1</span> Problem overview</a><ul>
@@ -248,9 +247,13 @@
                 <li><a href="#compiler-1"><span class="toc-section-number">5.3</span> Compiler</a><ul>
                 <li><a href="#built-in-functions"><span class="toc-section-number">5.3.1</span> Built in functions</a></li>
                 </ul></li>
-                <li><a href="#abstract-machine-1"><span class="toc-section-number">5.4</span> Abstract machine</a></li>
+                <li><a href="#abstract-machine-1"><span class="toc-section-number">5.4</span> Abstract machine</a><ul>
+                <li><a href="#implementation"><span class="toc-section-number">5.4.1</span> Implementation</a></li>
+                <li><a href="#helper-functions"><span class="toc-section-number">5.4.2</span> Helper functions</a></li>
+                <li><a href="#javascript-type-definitions"><span class="toc-section-number">5.4.3</span> JavaScript type definitions</a></li>
+                </ul></li>
                 <li><a href="#testing-framework-1"><span class="toc-section-number">5.5</span> Testing framework</a><ul>
-                <li><a href="#implementation"><span class="toc-section-number">5.5.1</span> Implementation</a></li>
+                <li><a href="#implementation-1"><span class="toc-section-number">5.5.1</span> Implementation</a></li>
                 <li><a href="#possible-improvements"><span class="toc-section-number">5.5.2</span> Possible improvements</a></li>
                 </ul></li>
                 <li><a href="#possible-improvements-1"><span class="toc-section-number">5.6</span> Possible improvements</a></li>
@@ -340,7 +343,7 @@ consumer and the supplier. -->
 <!-- Literature review ??? -->
 <h2 id="vole"><span class="header-section-number">2.1</span> Vole</h2>
 <p>Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local machine. Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs on the web, there are few working examples in the Git repository of Vole. It, also, has some support for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and application front-end on run-time.</p>
-<p>In the context of this project - Vole is extremely useful resource, because Vole essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of Compilers and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
+<p>In the context of this project - Vole is a useful resource, because it essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of Compilers and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
 <h2 id="shonky"><span class="header-section-number">2.2</span> Shonky</h2>
 <p>Shonky is untyped and impure functional programming language. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
 <p>In the context of the project Shonky language data structures are used by the Abstract Machine, in Chapter 5 it is explained in great detail of how exactly were they used and for what purpose. However, Shonky interpreter is completely scrapped and is only used as a reference in solving any Abstract Machine or Compiler difficulties.</p>
@@ -351,11 +354,10 @@ consumer and the supplier. -->
 <li>Only top-level mutually recursive computation bindings are supported;</li>
 <li>Coverage checking is not implemented;</li>
 </ul>
-<h2 id="ocaml"><span class="header-section-number">2.4</span> Ocaml</h2>
-<h2 id="haste"><span class="header-section-number">2.5</span> Haste</h2>
+<h2 id="haste"><span class="header-section-number">2.4</span> Haste</h2>
 <!--http://haste-lang.org/ -->
 <p>Haste is an implementation of the Haskell functional programming language, designed for web applications and it is being used in the industry. It supports the full Haskell language, including GHC extensions because it is based on GHC compiler. Haste support modern web technologies such as WebSockets, LocalStorage, Canvas, etc. . Haste, also, has support for effects and handlers. Furthermore, Haste programs can be compiled to a single JavaScript file. Haste wasn't used as a direct resource, however it provided Author with detailed description of another solution to similar problem.</p>
-<h2 id="conclusion"><span class="header-section-number">2.6</span> Conclusion</h2>
+<h2 id="conclusion"><span class="header-section-number">2.5</span> Conclusion</h2>
 <p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's interpreter with new Compiler and Abstract Machine which would support web development while keeping Shonky's syntax data structures. Other related work were used as examples of different solutions to overcome similar obstacles.</p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
 <p>This section discusses the project problem, challenges, requirements and involved risks.</p>
@@ -855,11 +857,68 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <span class="op">}</span></code></pre></div>
 <p>Those were special cases when compiler is not able to deal with them, however other built in functions, which do not require arithmetic operations can easily be added without machine knowing about them. Such as, pairing two elements or getting first element out of a pair.</p>
 <h2 id="abstract-machine-1"><span class="header-section-number">5.4</span> Abstract machine</h2>
+<p>Purpose of the abstract machine is to take in generated output of the compiler and run it in the web, thus completing the task of running Frank code in the browser. For full usage &amp; installation instructions see Appendix 2.</p>
+<p>Abstract machine modules are located in <em>final_implementation/Backend/machine</em> folder. They are written in JavaScript and are compiled to a single file <em>final_implementation/Backend/machine/dist/output.js</em> by utilizing webpack.</p>
+<h3 id="implementation"><span class="header-section-number">5.4.1</span> Implementation</h3>
+<p>Abstract machine takes contents of gen.js as an input, which contains two different arrays: operators and resumptions. Operators are equivalent to functions in Haskell, resumptions are computations waiting to be executed. In current implementation starting operator is always the first function, so main method should be at the top of file. And they return modes which are computation who store stack, here the machine defines initial mode with initial empty stack, no arguments and no environment:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> operators[<span class="dv">0</span>].<span class="at">implementation</span>(<span class="kw">null</span><span class="op">,</span> []<span class="op">,</span> [])<span class="op">;</span></code></pre></div>
+<p>The machine will keep executing in a while loop until stack becomes empty and before halting it will return the final mode and call printer function to display the output. In each while cycle machine check the current computation tag, it can either be a &quot;value&quot; or a &quot;command&quot; and depending on which one it is, machine will act accordingly.</p>
+<p><strong>Value</strong></p>
+<p>If the &quot;mode.comp.tag&quot; is equal to &quot;value&quot; then machine will look at the first frame of the stack to receive information on what to do next. There are four options depending on the frame tags, each of them will construct new mode building or reducing the stack in the process (look at <em>JavaScript type definitions</em> section to see their structure):</p>
+<ul>
+<li><p><strong>&quot;car&quot;</strong> - will construct mode out of calling a resumption based on &quot;mode.stack.frame.cdr&quot; value. For resumption to construct a new mode they need two values, stack and an environment. Therefore, machine will pass in the stack and the environment as well. Although, it will alter the stack by removing top stack frame and creating a new one with a &quot;cdr&quot; tag and a car value.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"> frame<span class="op">:</span> <span class="op">{</span>
+   <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;cdr&quot;</span><span class="op">,</span>
+   <span class="dt">car</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">comp</span>.<span class="at">value</span>
+ <span class="op">},</span></code></pre></div></li>
+<li><p><strong>&quot;cdr&quot;</strong> - will reduce the stack and return a pair of <em>car</em> and <em>cdr</em> as its computation. It will take <em>car</em> value from the current stack frame and cdr from current computation value.</p></li>
+<li><p><strong>&quot;fun&quot;</strong> - means application, so some function needs to be applied to a list of arguments, which is essentially list of resumptions. If the list of arguments is empty that means the machine is ready to initiate the function application by calling helper &quot;apply&quot; function without any arguments. If, however, the argument list is not empty machine needs to construct new mode with frame tag &quot;arg&quot;. It creates new mode out of first argument resumption &quot;resumptions[mode.stack.frame.args.head]&quot; and passes all the needed information in the new stack frame:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"> frame<span class="op">:</span> <span class="op">{</span>
+   <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;arg&quot;</span><span class="op">,</span>
+   <span class="dt">fun</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">comp</span>.<span class="at">value</span><span class="op">,</span>
+   <span class="dt">env</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="va">frame</span>.<span class="at">env</span><span class="op">,</span>
+   <span class="dt">ready</span><span class="op">:</span> []<span class="op">,</span>
+   <span class="dt">waiting</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="va">frame</span>.<span class="va">args</span>.<span class="at">tail</span><span class="op">,</span>
+   <span class="dt">handles</span><span class="op">:</span> <span class="at">headHandles</span>(intf)<span class="op">,</span>
+   <span class="dt">waitingHandles</span><span class="op">:</span> <span class="at">tailHandles</span>(intf)
+ <span class="op">},</span></code></pre></div>
+<p>&quot;fun&quot; field to keep the function that will be applied when the arguments &quot;waiting&quot; list is empty. &quot;env&quot; to keep the environment, &quot;ready&quot; list to know which arguments have been parsed, initially it is empty. &quot;waiting&quot; to keep track of list of arguments that are left unchecked. And, lastly, &quot;handles&quot; with &quot;waitingHandles&quot; to keep track which argument handle what commands, so if handles list is empty it means that this argument doesn't handle any commands. It gets these values by applying helper functions, which return head and tail of the list. And the initial handle list is extracted from operators interface with helper function &quot;interfaceF&quot;, which simply returns given operators interface (list of commands that it can handle).</p></li>
+<li><p><strong>&quot;arg&quot;</strong> - simply adds current head of arguments to the ready list and initiates helper function &quot;argRight&quot; which will return new mode (its functionality in detail is described in &quot;Helper functions&quot; section).</p></li>
+</ul>
+<p><strong>Command</strong></p>
+<h3 id="helper-functions"><span class="header-section-number">5.4.2</span> Helper functions</h3>
+<p>This section will describe the functionality of two main helper functions.</p>
+<p><strong>argRight</strong> - takes in stack tail, function to be applied, list of arguments that are ready, environment, list of arguments which are still waiting to be checked and list of handled commands. List of handled commands is kept for the machine to know what commands does the resumption handle. Same as in the &quot;fun&quot; case if the waiting list of resumptions (arguments) is empty then the machine is ready to apply the function, thus call apply function, if it is not then create new &quot;arg&quot; frame in the same fashion as in &quot;fun&quot; option. The key difference is that &quot;fun&quot; could be instantly applied if it didn't have any arguments, thus not creating any &quot;arg&quot; frames. Moreover, there is potential to move all logic to &quot;argRight&quot; function without having any in &quot;fun&quot; case, improving code reuse and optimization.</p>
+<p><strong>apply</strong> - Depending on a &quot;fun&quot; variable, which is some value, constructs a mode from which to continue execution. &quot;fun&quot; variable could be:</p>
+<ul>
+<li><p><strong>&quot;int&quot;</strong> - Applying int to an argument is not really sensible, however in this case it is possible because of built in operations (see <em>Built in functions</em> section). This custom functionality lets machine add and subtract integer values.</p></li>
+<li><p><strong>&quot;local&quot;</strong> - Means a local function, and the machine is turning it into top level operator, concept introduced by <span class="citation">(Thomas Jonson 1985)</span> and it is named &quot;Lambda Lifting&quot;. Therefore, mode is constructed out of an operator variable.</p></li>
+<li><p><strong>&quot;operator&quot;</strong> - Means top level function, mode is constructed from an operator depending on &quot;fun.operator&quot; value which is an index for operators array.</p></li>
+<li><p><strong>&quot;atom&quot;</strong> - Applications of atoms mean a command is initiated, so mode with command tag and command value must be created. It, also keeps the arguments and creates a &quot;callback&quot; value to be able to restore the stack successfully after finding required command in the stack. Thus new mode looks like this:</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">      stack<span class="op">:</span> stk<span class="op">,</span>
+      comp<span class="op">:</span> <span class="op">{</span>
+        <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;command&quot;</span><span class="op">,</span>
+        <span class="dt">command</span><span class="op">:</span> <span class="va">fun</span>.<span class="at">atom</span><span class="op">,</span>
+        <span class="dt">args</span><span class="op">:</span> vargs<span class="op">,</span>
+        <span class="dt">callback</span><span class="op">:</span> <span class="kw">null</span>
+      <span class="op">}</span></code></pre></div>
+<ul>
+<li><strong>&quot;thunk&quot;</strong> - Application of thunk pattern. Constructs a mode while ignoring any arguments and computation expression comes from &quot;fun.thunk&quot;. New mode is equal to:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">      stack<span class="op">:</span> stk<span class="op">,</span>
+      comp<span class="op">:</span> <span class="va">fun</span>.<span class="at">thunk</span></code></pre></div>
+<ul>
+<li><strong>&quot;callback&quot;</strong> - This means command has been found and executed and now the machine has to restore the stack to its original position. It does this looping through the &quot;callback&quot; while building the stack with callback's frames. When it is done, machine returns a mode constructed of the restored stack and first argument.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">      stack<span class="op">:</span> stack<span class="op">,</span>
+      comp<span class="op">:</span> args[<span class="dv">0</span>]</code></pre></div>
+<h3 id="javascript-type-definitions"><span class="header-section-number">5.4.3</span> JavaScript type definitions</h3>
 <h2 id="testing-framework-1"><span class="header-section-number">5.5</span> Testing framework</h2>
 <p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is design to launch number of programs, located in <em>test_cases</em> folder, and give back results to the user, which test programs succeeded and which failed. It eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
 <p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect Script (previously located in <em>helper.sh</em> file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their output.</p>
 <p>For all test case programs, usage &amp; installation instructions check Github or see Appendix.</p>
-<h3 id="implementation"><span class="header-section-number">5.5.1</span> Implementation</h3>
+<h3 id="implementation-1"><span class="header-section-number">5.5.1</span> Implementation</h3>
 <p>Similarly like in experimental systems test framework, test cases are stored in array. Each of them are objects which store three values: path of the test program, name of the test and expected output. They are looped through on by one displaying the name of the test to the user and recompiling the test with:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
 <p>It generates the <em>gen.js</em> in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be recompiled to include new <em>gen.js</em> file.</p>
@@ -1254,6 +1313,9 @@ References are automatically generated from the BibTex file (References.bib)
 </div>
 <div id="ref-FrankPaper">
 <p>Sam Lindley, Conor McBride &amp; Craig McLaughlin, 2016. <em>Do be do be do</em>,</p>
+</div>
+<div id="ref-LambdaLifting">
+<p>Thomas Jonson, 1985. <em>Springer LNCS 201</em>,</p>
 </div>
 </div>
             </body>

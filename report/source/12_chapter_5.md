@@ -126,6 +126,151 @@ Such as, pairing two elements or getting first element out of a pair.
 
 ## Abstract machine
 
+Purpose of the abstract machine is to take in generated output of the compiler and run it in the 
+web, thus completing the task of running Frank code in the browser.
+For full usage & installation instructions see Appendix 2.
+
+Abstract machine modules are located in *final_implementation/Backend/machine* folder. They are written in
+JavaScript and are compiled to a single file *final_implementation/Backend/machine/dist/output.js*
+by utilizing
+webpack.
+
+### Implementation
+
+Abstract machine takes contents of gen.js as an input, which contains two different arrays: 
+operators and resumptions. Operators are equivalent to functions in Haskell, resumptions are computations
+waiting to be executed. In current implementation starting operator is always the first function, so
+main method should be at the top of file. And they return modes which are computation who store stack,
+here the machine defines initial mode with initial empty stack, no arguments and no environment: 
+
+```javascript
+var mode = operators[0].implementation(null, [], []);
+```
+
+The machine will keep executing in a while loop until stack becomes empty and before halting
+it will return the final mode and call printer function to display the output. In each while cycle
+machine check the current computation tag, it can either be a "value" or a "command" and depending on 
+which one it is, machine will act accordingly.
+
+**Value** 
+
+If the "mode.comp.tag" is equal to "value" then machine will look at the first frame of the stack
+to receive information on what to do next. There are four options depending on the frame tags, each
+of them will construct new mode building or reducing the stack in the process (look at *JavaScript type
+definitions* section to see their structure):
+
+* **"car"** - will construct mode out of calling a resumption based on "mode.stack.frame.cdr" value.
+  For resumption to construct a new mode they need two values, stack and an environment. Therefore, 
+  machine will pass in the stack and the environment as well. Although, it will alter the stack by
+  removing top stack frame and creating a new one with a "cdr" tag and a car value.
+```javascript
+     frame: {
+       tag: "cdr",
+       car: mode.comp.value
+     },
+```
+
+* **"cdr"** - will reduce the stack and return a pair of *car* and *cdr* as its computation. It will take
+  *car* value from the current stack frame and cdr from current computation value.
+
+* **"fun"** - means application, so some function needs to be applied to a list of arguments,
+  which is essentially list of resumptions. If the
+  list of arguments is empty that means the machine is ready
+  to initiate the function application by calling helper "apply" function without any arguments.
+  If, however, the argument list is not empty machine needs to construct new mode with frame tag "arg".
+  It creates new mode out of first argument resumption "resumptions[mode.stack.frame.args.head]" and 
+  passes all the needed information in the new stack frame:
+```javascript
+     frame: {
+       tag: "arg",
+       fun: mode.comp.value,
+       env: mode.stack.frame.env,
+       ready: [],
+       waiting: mode.stack.frame.args.tail,
+       handles: headHandles(intf),
+       waitingHandles: tailHandles(intf)
+     },
+``` 
+  "fun" field to keep the function that will be applied when the arguments "waiting" list is empty.
+  "env" to keep the environment, "ready" list to know which arguments have been parsed, initially it
+  is empty. "waiting" to keep track of list of arguments that are left unchecked. And, lastly,
+  "handles" with "waitingHandles" to keep track which argument handle what commands, so if handles
+  list is empty it means that this argument doesn't handle any commands. It gets these values by 
+  applying helper functions, which return head and tail of the list. And the initial handle list is 
+  extracted from operators interface with helper function "interfaceF", which simply returns given 
+  operators interface (list of commands that it can handle).  
+
+* **"arg"** - simply adds current head of arguments to the ready list and initiates helper function 
+  "argRight" which will return new mode (its functionality in detail
+   is described in "Helper functions" section).
+
+**Command**
+ 
+
+### Helper functions
+
+This section will describe the functionality of two main helper functions. 
+
+**argRight** - takes in stack tail, function to be applied, list of arguments that are ready, 
+environment, list of arguments which are still waiting to be checked and list of handled commands.
+List of handled commands is kept for the machine to know what commands does the resumption handle.
+Same as in the "fun" case if the waiting list of resumptions (arguments) is empty then the machine is
+ready to apply the function, thus call apply function, if it is not then create new "arg" frame in the
+same fashion as in "fun" option. The key difference is that "fun" could be instantly applied if it didn't
+have any arguments, thus not creating any "arg" frames. Moreover, there is potential to move all logic
+to "argRight" function without having any in "fun" case, improving code reuse and optimization.  
+
+**apply** - Depending on a "fun" variable, which is some value, constructs a mode from which to continue 
+execution. "fun" variable could be:
+
+* **"int"** - Applying int to an argument is not really sensible, however in this case it is possible 
+because of built in operations (see *Built in functions* section). This custom functionality lets machine
+add and subtract integer values.
+
+* **"local"** - Means a local function, and the machine is turning it into top level operator, concept
+introduced by [@LambdaLifting] and it is named "Lambda Lifting". Therefore, mode is constructed out of 
+an operator variable.
+
+* **"operator"** - Means top level function, mode is constructed from an operator depending on 
+"fun.operator" value which is an index for operators array. 
+
+* **"atom"** - Applications of atoms mean a command is initiated, so mode with command tag and command
+value must be created. It, also keeps the arguments and creates a "callback" value to be able to restore
+the stack successfully after finding required command in the stack. Thus new mode looks like this:
+
+```javascript
+      stack: stk,
+      comp: {
+        tag: "command",
+        command: fun.atom,
+        args: vargs,
+        callback: null
+      }
+```
+
+* **"thunk"** - Application of thunk pattern. Constructs a mode while ignoring any arguments and 
+computation expression comes from "fun.thunk". New mode is equal to:
+
+```javascript
+      stack: stk,
+      comp: fun.thunk
+```
+
+* **"callback"** - This means command has been found and executed and now the machine has to restore
+the stack to its original position. It does this looping through the "callback" while building the stack
+with callback's frames. When it is done, machine returns a mode constructed of the restored stack and 
+first argument. 
+
+```javascript
+      stack: stack,
+      comp: args[0]
+```
+
+### JavaScript type definitions
+
+
+
+
 ## Testing framework
 
 Contained in *final_implementation/Backend/tests* folder. Framework is design to launch number of 

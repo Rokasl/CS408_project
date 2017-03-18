@@ -122,10 +122,8 @@ var Machine = function Machine(resumptions, operators) {
     var mode = operators[0].implementation(null, [], []); // starting mode first found operator with no args
 
     console.log(mode);
-
-    var tempcount = 0;
-    while (mode.stack != null && tempcount < 500) {
-        tempcount++;
+    
+    while (mode.stack != null) {
 
         switch (mode.comp.tag) {
             case "value":
