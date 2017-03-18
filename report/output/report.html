@@ -241,12 +241,19 @@
                 <li><a href="#conclusion-1"><span class="toc-section-number">4.3</span> Conclusion</a></li>
                 </ul></li>
                 <li><a href="#detailed-design-and-implementation-of-the-final-system"><span class="toc-section-number">5</span> Detailed Design and Implementation of the final system</a><ul>
-                <li><a href="#introduction-2"><span class="toc-section-number">5.1</span> Introduction</a></li>
+                <li><a href="#introduction-2"><span class="toc-section-number">5.1</span> Introduction</a><ul>
+                <li><a href="#disclaimer"><span class="toc-section-number">5.1.1</span> Disclaimer</a></li>
+                </ul></li>
                 <li><a href="#project-folder-structure"><span class="toc-section-number">5.2</span> Project folder structure</a></li>
-                <li><a href="#abstract-machine-1"><span class="toc-section-number">5.3</span> Abstract machine</a></li>
-                <li><a href="#compiler-1"><span class="toc-section-number">5.4</span> Compiler</a></li>
-                <li><a href="#testing-framework-1"><span class="toc-section-number">5.5</span> Testing framework</a></li>
-                <li><a href="#possible-improvements"><span class="toc-section-number">5.6</span> Possible improvements</a></li>
+                <li><a href="#compiler-1"><span class="toc-section-number">5.3</span> Compiler</a><ul>
+                <li><a href="#built-in-functions"><span class="toc-section-number">5.3.1</span> Built in functions</a></li>
+                </ul></li>
+                <li><a href="#abstract-machine-1"><span class="toc-section-number">5.4</span> Abstract machine</a></li>
+                <li><a href="#testing-framework-1"><span class="toc-section-number">5.5</span> Testing framework</a><ul>
+                <li><a href="#implementation"><span class="toc-section-number">5.5.1</span> Implementation</a></li>
+                <li><a href="#possible-improvements"><span class="toc-section-number">5.5.2</span> Possible improvements</a></li>
+                </ul></li>
+                <li><a href="#possible-improvements-1"><span class="toc-section-number">5.6</span> Possible improvements</a></li>
                 </ul></li>
                 <li><a href="#results-and-evaluation"><span class="toc-section-number">6</span> Results and Evaluation</a></li>
                 <li><a href="#summary-conclusion"><span class="toc-section-number">7</span> Summary &amp; Conclusion</a><ul>
@@ -254,7 +261,9 @@
                 <li><a href="#future-work"><span class="toc-section-number">7.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
-                <li><a href="#appendix-2-some-more-extra-stuff">Appendix 2: Some more extra stuff</a></li>
+                <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a></li>
+                <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a></li>
+                <li><a href="#appendix-4-project-readme.md-files"><span class="toc-section-number">8</span> Appendix 4: Project readme.md files</a></li>
                 <li><a href="#references">References</a></li>
                 </ul>
             </div>
@@ -429,11 +438,11 @@ https://www.haskell.org/-->
 </ul>
 <p>Thus, simpler language was developed with matching Compiler and Abstract Machine. Both, the Compiler and the Machine were developed while keeping in mind that their key parts will be used for the final product. So efficiency, reliability, structure were all key factors.</p>
 <h2 id="simple-system"><span class="header-section-number">4.2</span> Simple system</h2>
-<p>It consists of:</p>
+<p>System consists of:</p>
 <ul>
 <li>Compiler - written in Haskell;</li>
 <li>Language - written in Haskell;</li>
-<li>Machine - written in JavaScript;</li>
+<li>Machine - written in JavaScript, compiled with Webpack;</li>
 <li>Testing Framework - written in Bash and Expect scripts;</li>
 </ul>
 <h3 id="language"><span class="header-section-number">4.2.1</span> Language</h3>
@@ -530,7 +539,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
         mode <span class="op">=</span> f[<span class="va">mode</span>.<span class="at">data</span>](<span class="va">mode</span>.<span class="at">stack</span>)<span class="op">;</span></code></pre></div>
 <p>After the mode is reinitialized mode.tag can't be equal to &quot;go&quot; and mode stack can't be empty. If these requirements aren't met then it means that execution is over.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">!=</span> <span class="st">&quot;go&quot;</span> <span class="op">&amp;&amp;</span> <span class="va">mode</span>.<span class="at">stack</span> <span class="op">!=</span> <span class="kw">null</span>) <span class="op">{</span></code></pre></div>
-<p>If the execution is still going then the behaviour of the Abstract Machine will differ based on mode's tag parameter. Tag could be equal to these values:</p>
+<p>If the execution is still going then the behavior of the Abstract Machine will differ based on mode's tag parameter. Tag could be equal to these values:</p>
 <ul>
 <li><strong>&quot;num&quot;</strong> - all of the basic evaluations of given expression:
 <ul>
@@ -636,8 +645,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <li>Move test cases into separate file;</li>
 <li>More useful statistics at the end of computation;</li>
 </ul>
-<p><strong>Usage</strong></p>
-<p>To use the testing framework just run ./tester.sh in the terminal window. If there is a permission issue do &quot;chmod +x helper.sh&quot;.</p>
+<p>For usage and installation instructions go to Appendix 2 section.</p>
 <h2 id="conclusion-1"><span class="header-section-number">4.3</span> Conclusion</h2>
 <p>A preliminary experiment, implementing the essence of Frank-like execution for much simpler language, has been completed successfully. The key lessons were:</p>
 <ul>
@@ -646,22 +654,19 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <li>Compiler - parsing the input and generating valid JavaScript code;</li>
 <li>Machine - executing given program, and managing its resources, such as mode, stack and saved stack.</li>
 </ul>
-<p>Key things to improve:</p>
-<ul>
-<li>Optimization</li>
-</ul>
-<p>The further plan is to roll out the lessons learned for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
+<p>Key things to improve are optimization &amp; performance.</p>
+<p>The further plan is to roll out the lessons learned creating compiler and VM for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
 <h1 id="detailed-design-and-implementation-of-the-final-system"><span class="header-section-number">5</span> Detailed Design and Implementation of the final system</h1>
 <p>Chapter focuses on implementation, design of the final compiler and abstract machine, as well as, any topics connected to them.</p>
 <h2 id="introduction-2"><span class="header-section-number">5.1</span> Introduction</h2>
 <p>Final system started to develop on week six of the second semester after the end of experimental system development. Some parts of the code were lifted from the earlier experiment and main concepts of how virtual machines and compilers should work are reused.</p>
-<p><strong>Disclaimer</strong></p>
+<h3 id="disclaimer"><span class="header-section-number">5.1.1</span> Disclaimer</h3>
 <p>Final system uses two other systems in its code base, thus not all of the code is written by the author of this project. Author's code will be clearly indicated. Two projects connected to the system are:</p>
 <ul>
 <li><strong>Frankjnr</strong> - developed by Craig???. Final system is essentially new back end for Frankjnr. So the whole Frankjnr project was used and new back end was placing in 'Backend' folder. Parts of Frankjnr code were slightly updated to let the user choose between the old back end and the new one. Updated files were: Compile.hs and Frank.hs, updates are clearly indicated with comments;</li>
 <li><strong>Shonky</strong> - developed by Conor McBride. Final compiler uses Shonky's syntax file for its supported data structures and parse functions;</li>
 </ul>
-<p>More detailed descriptions can be found at 'Related work' section of the report or at their Github pages.</p>
+<p>More detailed descriptions can be found at 'Related work' section of the report or at their respective Github pages.</p>
 <h2 id="project-folder-structure"><span class="header-section-number">5.2</span> Project folder structure</h2>
 <p>Final system is located in &quot;final_implementation&quot; folder. And all of the code for new compiler and abstract machine is located in &quot;Backend&quot; folder.</p>
 <p>Table's starting folder is <em>&quot;/final_implementation&quot;</em>.</p>
@@ -752,70 +757,121 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 </tr>
 <tr class="odd">
 <td></td>
+<td>printer.js</td>
+<td>Component responsible for result printing</td>
+</tr>
+<tr class="even">
+<td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><em>/Backend/machine/dist</em></td>
 <td></td>
 <td>Generated files</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td>gen.js</td>
 <td>Compiler generated code</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td>output.js</td>
 <td>Webpack generated code (every JS file is packed into one)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><em>/Backend/Shonky</em></td>
 <td></td>
 <td>Shonky project directory</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td>Syntax.hs</td>
 <td>Contains needed data structures</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><em>/Backend/tests</em></td>
 <td></td>
 <td>Test framework</td>
 </tr>
-<tr class="even">
-<td></td>
-<td>main.sh</td>
-<td>Main file</td>
-</tr>
 <tr class="odd">
 <td></td>
-<td>helper.sh</td>
-<td>expect script helper file</td>
+<td>main.sh</td>
+<td>Main file (launch file)</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>testcases.sh</td>
 <td>Contains all of the test cases</td>
 </tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>/Backend/tests/test_cases</em></td>
+<td></td>
+<td>Actual programs to test</td>
+</tr>
+<tr class="odd">
+<td><em>/Backend/tests/test_cases/old</em></td>
+<td></td>
+<td>Test programs lifted from Frankjnr</td>
+</tr>
+<tr class="even">
+<td><em>/Backend/tests/test_cases/new</em></td>
+<td></td>
+<td>New test programs</td>
+</tr>
 </tbody>
 </table>
-<h2 id="abstract-machine-1"><span class="header-section-number">5.3</span> Abstract machine</h2>
-<h2 id="compiler-1"><span class="header-section-number">5.4</span> Compiler</h2>
+<h2 id="compiler-1"><span class="header-section-number">5.3</span> Compiler</h2>
+<p>Compiler is located in <em>final_implementation/Backend/Compiler.hs</em> and it is written in Haskell. It is initiated when frank program compilation is called with flag &quot;output-js&quot;. Example with program named &quot;foo.fk&quot;:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> foo.fk --output-js</code></pre></div>
+<p>Compiler receives list of program definitions from Frankjnr compiler in a form of Shonky syntax data type - [Def Exp].</p>
+<p>Then it has to compile the environment followed by expressions. Compiler receives</p>
+<h3 id="built-in-functions"><span class="header-section-number">5.3.1</span> Built in functions</h3>
+<p>Current built in functions are &quot;plus&quot; and &quot;minus&quot;, in order to make integer manipulation possible. They are defined before the top-level function compilation begins in function <em>operatorCompile</em> and then just initialized together with them, like this:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> fs <span class="fu">=</span> [(f, (h, pse)) <span class="fu">|</span> <span class="dt">DF</span> f h pse <span class="ot">&lt;-</span> ds] <span class="fu">++</span> builtins</code></pre></div>
+<p>However their current definitions are a bit different compared to others which are generated. Compiler is not able to give them meaning because he does not know how to manipulate two integer expressions; instead compiler must pass this functionality to the abstract machine, which can interpret those expressions and apply wanted arithmetic operation. Compiler codes wanted arithmetic operation into the function definition, like this:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DF</span> <span class="st">&quot;minus&quot;</span> [] [<span class="fu">...</span>], <span class="dt">EV</span> <span class="st">&quot;x&quot;</span> <span class="fu">:$</span> [<span class="dt">EV</span> <span class="st">&quot;y&quot;</span>, <span class="dt">EV</span> <span class="st">&quot;y&quot;</span>]</code></pre></div>
+<p>&quot;:$&quot; means application, compiler tries to apply integer variable &quot;x&quot; to list of integer variables &quot;y&quot;, which initially does not make any sense. However, machine has encoded semantics for this situation, therefore if integer is applied to a list of arguments that could only mean one of two things, either that integer needs to be added to first element of the list or substracted from it. Machine determinse this by looking how many elements are in the list and applies the correct opperation accordingly.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">if</span> (<span class="va">args</span>.<span class="at">length</span> <span class="op">===</span> <span class="dv">2</span>) <span class="op">{</span> <span class="co">// minus</span>
+  answ <span class="op">=</span> <span class="va">fun</span>.<span class="at">int</span> <span class="op">-</span> args[<span class="dv">0</span>].<span class="va">value</span>.<span class="at">int</span><span class="op">;</span>
+<span class="op">}</span> <span class="cf">else</span> <span class="op">{</span> <span class="co">// plus</span>
+  answ <span class="op">=</span> <span class="va">fun</span>.<span class="at">int</span> <span class="op">+</span> args[<span class="dv">0</span>].<span class="va">value</span>.<span class="at">int</span><span class="op">;</span>
+<span class="op">}</span></code></pre></div>
+<p>Those were special cases when compiler is not able to deal with them, however other built in functions, which do not require arithmetic operations can easily be added without machine knowing about them. Such as, pairing two elements or getting first element out of a pair.</p>
+<h2 id="abstract-machine-1"><span class="header-section-number">5.4</span> Abstract machine</h2>
 <h2 id="testing-framework-1"><span class="header-section-number">5.5</span> Testing framework</h2>
-<h2 id="possible-improvements"><span class="header-section-number">5.6</span> Possible improvements</h2>
+<p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is design to launch number of programs, located in <em>test_cases</em> folder, and give back results to the user, which test programs succeeded and which failed. It eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
+<p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect Script (previously located in <em>helper.sh</em> file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their output.</p>
+<p>For all test case programs, usage &amp; installation instructions check Github or see Appendix.</p>
+<h3 id="implementation"><span class="header-section-number">5.5.1</span> Implementation</h3>
+<p>Similarly like in experimental systems test framework, test cases are stored in array. Each of them are objects which store three values: path of the test program, name of the test and expected output. They are looped through on by one displaying the name of the test to the user and recompiling the test with:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
+<p>It generates the <em>gen.js</em> in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be recompiled to include new <em>gen.js</em> file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules</code></pre></div>
+<p>Then it just retrieves the output with <em>Node</em> and checks if it as expected or not; letting the user know if test failed or passed. Finally, some statistics are shown: how many tests in total have passed and failed with corresponding percentages.</p>
+<h3 id="possible-improvements"><span class="header-section-number">5.5.2</span> Possible improvements</h3>
+<ul>
+<li>Providing more statistics at the end;</li>
+<li>Timestamping tests, letting the user know how much time it took to run individual tests and all of them together;</li>
+<li>Improve performance by not trying to launch programs which do not compile.</li>
+</ul>
+<h2 id="possible-improvements-1"><span class="header-section-number">5.6</span> Possible improvements</h2>
 <p>use chunks of stacks when top of the chunk is possible needed stack frame and others are not (speedup)</p>
 <p>turn local functions into top level operators is called &quot;Lambda-lifting&quot; it was invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC</p>
 <p>Match-this-or-bust pattern matching is late 60s technology:</p>
@@ -1010,7 +1066,158 @@ Requirement analysis section<br />
 Frankjnr now uses new back end</p>
 <p>March 15:<br />
 </p>
-<h1 id="appendix-2-some-more-extra-stuff" class="unnumbered">Appendix 2: Some more extra stuff</h1>
+<p>March 16:<br />
+</p>
+<p>March 17:<br />
+Test framework development<br />
+Compiler and Machine - added Built in function support<br />
+Machine Print function development</p>
+<p>March 18:<br />
+Report work - Final implementation section and appendixes</p>
+<h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
+<p><strong>Experimental test framework</strong></p>
+<p><em>Pre-requirements</em></p>
+<ul>
+<li>Node;</li>
+<li>npm;</li>
+<li>Webpack;</li>
+<li>GHC;</li>
+<li>Expect Script - install by typing this command:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">apt-get</span> install expect</code></pre></div>
+<p><em>Usage</em></p>
+<p>To run simply type in the terminal window:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
+<p><em>Troubleshooting</em></p>
+<p>If files don't have permission, do:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
+<span class="fu">chmod</span> +x helper.sh</code></pre></div>
+<p><strong>Final test framework</strong></p>
+<p><em>Pre-requirements</em></p>
+<ul>
+<li>Node;</li>
+<li>npm;</li>
+<li>Webpack;</li>
+<li>GHC;</li>
+<li>Frank - instructions how to setup are on Frankjnr Github <em>readme.md</em> fie or in the Appendix 4 of this report.</li>
+</ul>
+<p><em>Usage</em></p>
+<p>To run simply type in the terminal window:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
+<p>You should be able to see tests going through with some feedback.</p>
+<p><em>Troubleshooting</em></p>
+<p>If <em>tester.sh</em> have issues with permission, do:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh</code></pre></div>
+<h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
+<p><strong>Experimental system</strong></p>
+<p>declare -A test0=( [expr]='let xpr = Val 10' [name]='test_num' [expected]='10' ) declare -A test1=( #addition [expr]='let xpr = Val 2 :+: (Val 4 :+: Val 8)' [name]='test_sum' [expected]='14' ) declare -A test2=( # Throw [expr]='let xpr = Val 2 :+: (Val 4 :+: Throw)' [name]='test_throw' [expected]='Unhandled exception!' ) declare -A test3=( # Catch [expr]='let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)' [name]='test_catch' [expected]='2' ) declare -A test4=( # Catch with previous stack [expr]='let xpr = ((Val 5) :+: (Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)))' [name]='test_catch_stack' [expected]='7' )</p>
+<p>declare -A test5=( # Simple WithRef, value is not used [expr]=&quot;let xpr = WithRef &quot;x&quot; (Val 2) (Val 5 :+: Val 3)&quot; [name]='test_simple_withref' [expected]='8' ) declare -A test6=( # [expr]='let xpr = Get &quot;x&quot; :+: Val 2' [name]='test_get_false' [expected]='Exception: Undifined expression: x' ) declare -A test7=( # [expr]='let xpr = WithRef &quot;x&quot; (Val 2) (Val 5 :+: (Get &quot;x&quot;))' [name]='test_withref_get' [expected]='7' ) declare -A test8=( # might need to adjust this [expr]='let xpr = WithRef &quot;x&quot; (Val 2) ((&quot;x&quot; := (Get &quot;x&quot; :+: Val 11)) :&gt; Get &quot;x&quot;)' [name]='test_withref_get_set' [expected]='13' ) declare -A test9=( # [expr]='let xpr = WithRef &quot;x&quot; (Val 22) (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11) :&gt; (Get &quot;x&quot; :+: Val 30))' [name]='test_withref_get_set_next' [expected]='63' ) declare -A test10=( # [expr]='let xpr = Val 2 :&gt; Val 5 :+: Val 8 :&gt; Val 1000 :&gt; Val 20 :+: Val 3' [name]='test_next' [expected]='23' )</p>
+<p><strong>Final system</strong></p>
+<h1 id="appendix-4-project-readme.md-files"><span class="header-section-number">8</span> Appendix 4: Project readme.md files</h1>
+<p><strong>Run Frank in Browser</strong></p>
+<p><strong>Frankjnr</strong></p>
+<p>An implementation of the Frank programming language described in the paper ``Do be do be do'' by Sam Lindley, Conor McBride, and Craig McLaughlin, to appear at POPL 2017; preprint: https://arxiv.org/abs/1611.09259</p>
+<p>Installation procedure</p>
+<p>The easiest way to install <code>frank</code> is to use stack https://www.haskellstack.org), https://github.com/commercialhaskell/stack):</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">stack</span> setup</code></pre></div>
+<p>The above command will setup a sandboxed GHC system with the required dependencies for the project.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">stack</span> install</code></pre></div>
+<p>The above command builds the project locally (<code>./.stack-work/...</code>) and then installs the executable <code>frank</code> to the local bin path (executing <code>stack path --local-bin</code> will display the path).</p>
+<p>Running a Frank program</p>
+<p>To run a <code>frank</code> program <code>foo.fk</code>:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> foo.fk</code></pre></div>
+<p>By default the entry point is <code>main</code>. Alternative entry points can be selected using the <code>--entry-point</code> option.</p>
+<p>Some example <code>frank</code> programs can be found in <code>examples</code>. They should each be invoked with <code>--entry-point tXX</code> for an appropriate number <code>XX</code>. See the source code for details.</p>
+<p>Optionally a https://github.com/pigworker/shonky file can be output with the <code>--output-shonky</code> option.</p>
+<p>Limitations with respect to the paper</p>
+<ul>
+<li><p>Only top-level mutually recursive computation bindings are supported</p></li>
+<li><p>Coverage checking is not implemented</p></li>
+</ul>
+<p><strong>Report template</strong></p>
+<p>Template for writing a PhD thesis in Markdown</p>
+<p>This repository provides a framework for writing a PhD thesis in Markdown. I used the template for my PhD submission to University College London (UCL), but it should be straightforward to adapt suit other universities too.</p>
+<p>Citing the template</p>
+<p>If you have used this template in your work, please cite the following publication:</p>
+<blockquote>
+<p>Tom Pollard et al. (2016). Template for writing a PhD thesis in Markdown. Zenodo. http://dx.doi.org/10.5281/zenodo.58490</p>
+</blockquote>
+<p>Why write my thesis in Markdown?</p>
+<p>Markdown is a super-friendly plain text format that can be easily converted to a bunch of other formats like PDF, Word and Latex. You'll enjoy working in Markdown because:</p>
+<ul>
+<li>it is a clean, plain-text format...</li>
+<li>...but you can use Latex when you need it (for example, in laying out mathematical formula).</li>
+<li>it doesn't suffer from the freezes and crashes that some of us experience when working with large, image-heavy Word documents.</li>
+<li>it automatically handles the table of contents, bibliography etc with Pandoc.</li>
+<li>comments, drafts of text, etc can be added to the document by wrapping them in &lt;!-- --&gt;</li>
+<li>it works well with Git, so keeping backups is straightforward. Just commit the changes and then push them to your repository.</li>
+<li>there is no lock-in. If you decide that Markdown isn't for you, then just output to Word, or whatever, and continue working in the new format.</li>
+</ul>
+<p>Are there any reasons not to use Markdown?</p>
+<p>There are some minor annoyances:</p>
+<ul>
+<li>if you haven't worked with Markdown before then you'll find yourself referring to the style-guide fairly often at first.</li>
+<li>it isn't possible to add a short caption to tables <del>and figures</del> (<a href="https://github.com/tompollard/phd_thesis_markdown/pull/47">figures are now fixed</a>). This means that /listoftables includes the long-caption, which probably isn't what you want. If you want to include the list of tables, then you'll need to write it manually.</li>
+<li>the style documents in this framework could be improved. The PDF and HTML outputs are acceptable, but <del>HTML and</del> Word needs work if you plan to output to this format.</li>
+<li>... if there are more, please add them here.</li>
+</ul>
+<p>How is the template organised?</p>
+<ul>
+<li>README.md =&gt; these instructions.</li>
+<li>License.md =&gt; terms of reuse (MIT license).</li>
+<li>Makefile =&gt; contains instructions for using Pandoc to produce the final thesis.</li>
+<li>output/ =&gt; directory to hold the final version.</li>
+<li>source/ =&gt; directory to hold the thesis content. Includes the references.bib file.</li>
+<li>source/figures/ =&gt; directory to hold the figures.</li>
+<li>style/ =&gt; directory to hold the style documents.</li>
+</ul>
+<p>How do I get started?</p>
+<ol style="list-style-type: decimal">
+<li>Install the following software:
+<ul>
+<li>A text editor, like Sublime, which is what you'll use write the thesis.</li>
+<li>A LaTex distribution.</li>
+<li>Pandoc, for converting the Markdown to the output format of your choice. You may also need to install <a href="http://pandoc.org/demo/example19/Extension-citations.html">Pandoc cite-proc</a> to create the bibliography.</li>
+<li>Install shortcaption module for Pandoc, with <code>pip install pandoc-shortcaption</code></li>
+<li>Git, for version control.</li>
+</ul></li>
+<li>https://github.com/tompollard/phd_thesis_markdown/fork<br />
+</li>
+<li>Clone the repository onto your local computer (or <a href="https://github.com/tompollard/phd_thesis_markdown/archive/master.zip">download the Zip file</a>).<br />
+</li>
+<li><p>Navigate to the directory that contains the Makefile and type &quot;make pdf&quot; (or &quot;make html&quot;) at the command line to update the PDF (or HTML) in the output directory.<br />
+<strong>In case of an error</strong> (e.g. <code>make: *** [pdf] Error 43</code>) run the following commands:</p>
+<pre><code>sudo tlmgr install truncate
+sudo tlmgr install tocloft
+sudo tlmgr install wallpaper
+sudo tlmgr install morefloats
+sudo tlmgr install sectsty
+sudo tlmgr install siunitx
+sudo tlmgr install threeparttable
+sudo tlmgr update l3packages
+sudo tlmgr update l3kernel
+sudo tlmgr update l3experimental</code></pre></li>
+<li><p>Edit the files in the 'source' directory, then goto step 4.</p></li>
+</ol>
+<p>What else do I need to know?</p>
+<p>Some useful points, in a random order:</p>
+<ul>
+<li>each chapter must finish with at least one blank line, otherwise the header of the following chapter may not be picked up.</li>
+<li>add two spaces at the end of a line to force a line break.</li>
+<li>the template uses <a href="http://johnmacfarlane.net/pandoc/README.html">John Macfarlane's Pandoc</a> to generate the output documents. Refer to this page for Markdown formatting guidelines.</li>
+<li>PDFs are generated using the Latex templates in the style directory. Fonts etc can be changed in the tex templates.</li>
+<li>To change the citation style, just overwrite ref_format.csl with the new style. Style files can be obtained from <a href="http://citationstyles.org/">citationstyles.org/</a></li>
+<li>For fellow web developers, there is a Grunt task file (Gruntfile.js) which can be used to 'watch' the markdown files. By running <code>$ npm install</code> and then <code>$ npm run watch</code> the PDF and HTML export is done automatically when saving a Markdown file.</li>
+<li>You can automatically reload the HTML page on your browser using LiveReload with the command <code>$ npm run livereload</code>. The HTML page will automatically reload when saving a Markdown file after the export is done.</li>
+</ul>
+<p>Contributing</p>
+<p>Contributions to the template are encouraged! There are lots of things that could improved, like:</p>
+<ul>
+<li>finding a way to add short captions for the tables, so that the lists of tables can be automatically generated.</li>
+<li>cleaning up the Latex templates, which are messy at the moment.</li>
+<li>improving the style of Word and Tex outputs.</li>
+</ul>
+<p>Please fork and edit the project, then send a pull request.</p>
 
 <!-- 
 Do not edit this page.

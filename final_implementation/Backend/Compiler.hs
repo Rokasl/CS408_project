@@ -295,6 +295,8 @@ jsWrite code = writeFile "Backend/machine/dist/gen.js" code
 jsComplete :: String -> CodeGen (FTable, JSStmt) -> IO()
 jsComplete  arr comp = jsWrite (jsSetup arr comp)
 
+
+-- Shonky .uf syntax parser 
 parseShonky :: String -> String -> IO()
 parseShonky name path = do
   contents <- readFile path

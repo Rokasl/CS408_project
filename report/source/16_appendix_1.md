@@ -225,4 +225,14 @@ Frankjnr now uses new back end
 March 15:\
 
 
+March 16:\
+
+
+March 17:\
+Test framework development\
+Compiler and Machine - added Built in function support\
+Machine Print function development
+
+March 18:\
+Report work - Final implementation section and appendixes
 
