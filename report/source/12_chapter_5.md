@@ -77,12 +77,114 @@ named "foo.fk":
 frank foo.fk --output-js
 ```
 
-Compiler receives list of program definitions from Frankjnr compiler in a form of Shonky
-syntax data type - [Def Exp]. 
+Developed compiler constatly uses Shonky data sctructures, located in *Syntax.hs* file, because it
+receives a list of program definitions from Frankjnr compiler in a form of Shonky
+syntax data structure, in particular - "[Def Exp]".  "Def Exp" can be either ":=" or "DF", however
+Frank compiler always gives back list of "DF", thus this compiler will only support them as well. 
+"DF" means functions definitions and they consist of:
 
- Then it has to compile the 
-environment followed by expressions. 
-Compiler receives 
+```haskell
+DF String   -- name of operator being defined
+  [[String]]    -- list of commands handled on each port
+  [([Pat], Exp)]  -- list of pattern matching rules
+```
+
+Goal for the compiler is to compile data type "Exp" (type of expression, such as atom or application) to 
+working JavaScript, generating functions that do intermediate steps. The code for compiling "Exp" will
+expect a lookup table which maps the "environment" array (stores values of pattern values) to 
+array indices. In order to find out if certain values are in scope, otherwise compilation will fail.
+
+```haskell
+type EnvTable = [(String, Int)]
+```
+
+Furthermore, there are two types of patterns. Pattern for computation - "Pat" and pattern
+for value - "VPat". Patterns for computation can be thunk, command or "VPat", such as variable "VPV",
+pair "VPat :&: VPat" and so on. Compiler has to build an "EnvTable" from these patterns, hence
+these two functions: "patCompile" and "vpatCompile". They have been implemented using counter monad
+"Counter", which is there to count each patern and is used for "environment" lookup table.
+And the core pattern maching priciple
+used was "match-this-or-bust" described in PhD thesis "Computer Aided Manipulation of Symbols" 
+[@Match-bust]. Therefore, these functions will generate series of checks for each individual pattern and
+if everything is fine and the pattern is a variable and not, for example, an atom or integer,
+add them to the "environment", else it will throw an expection. In the code snippet below the patern
+is an integer so we don't need to add them to the environemnt, but it still has to pass these tests
+in order to match. Value "next" is just a counter to arange correct indeces for "environment"
+lookup table:
+
+```haskell
+vpatCompile v (VPI x) = do -- integer value
+  i <- next
+  return ([],
+    "if (" ++ v ++ ".tag!==\"int\") ++
+        {" ++ matchFail ++"};\n" ++
+    "if (" ++ v ++ ".int!==" ++ show x ++ ") ++
+        {" ++ matchFail ++"};\n"
+    )
+```
+
+After "environment" lookup table is compiled and ready to go, compiler now needs to use it to 
+compile expressions - "Exp". This is achieved in "expCompile" function, which takes in an 
+"environment" lookup table, function lookup table, stack (string data structure), expression and 
+outputs an JavaScript data structure encapsulated in monad "CodeGen". This monad is lifted from earlier
+experiment and it is used here for the same reason, to construct function definitions and track their 
+indeces in "funCompile" function. The compilation process will differ for each type of expression,
+because each of them have to follow different rules to be compiled correctly, for
+instance "EA" (atoms) type is straightforward, because atoms are simple and compiler only needs to compile
+the actual atom. It looks like this:
+
+```haskell
+return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\"," ++
+           "value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
+``` 
+
+However, for example "pair" type of expressions are more complicated, because the "pair" contains
+two expressions, so the compiler has to compile them both separately:
+
+```haskell
+expCompile xis ftable stk (ecar :& ecdr) = do
+  fcdr <- expFun xis ftable ecdr
+  expCompile xis ftable 
+    ("{prev: " ++ stk ++ ", frame:{ tag:\"car\", env:env, cdr:"
+     ++ show fcdr ++ "}}")
+    ecar
+```
+
+Another interesting and crucial type of expression compilation is function application. Here,
+because the function is applied to list of arguments, compiler has to compile each of the arguments
+by forming a linked list data structure. And to do this it utilizes the helper function named
+"tailCompile", which recursivly builds a linked list. 
+
+
+However, before any of individual expression compilation or "environement" building can begin,
+compiler needs to 
+combine everything into one JavaScript data structure, forming resumptions and operators arrays in the
+process. The function for this is "operatorCompile",
+which initiates chain reaction of function calls for each function definision and concatines the 
+results into one data structure. This chain reaction of function calls consist of 
+"oneCompile", which starts to compile single fuction definition and forms an "operators" array entry.
+Then it calls
+"makeOperator", which sets the "interface" (all available commands for given operator) by calling
+"availableCommands" and "implementation" (JavaScript function definision) by calling "funCompile".
+"funCompile" is responsible for 
+forming the actual function definition of the operator and it procedes to initiate "linesCompile",
+which forms a "try" and "catch" blocks and calls the final function "lineCompile", who fills the lines
+with compiled expression data by actually calling "patCompile" and "expCompile" functions with 
+data on functions patterns and expressions; finally, "lineCompile" forms a return statement of the
+function. To see how these expressions and paterns look compiled, see "gen.js" file.
+
+
+### Helper functions
+
+This section will briefly explain functionality of few helper functions. 
+
+**parseShonky** - is used for testing purposes, it takes Shonky syntax file (ending with "uf"), reads it,
+parses it utilizing the parse function located in *Syntax.hs* and runs the compiler on the result. Thus,
+generating new "gen.js" file.
+
+**jsComplete** - wraps everything into one function, it takes the output of "operatorCompile", formats
+it and writes the result of the compilation to the "gen.js" file.
+
 
 ### Built in functions
 
@@ -287,8 +389,9 @@ the stack successfully after finding required command in the stack. Thus new mod
       }
 ```
 
-* **"thunk"** - Application of thunk pattern. Constructs a mode while ignoring any arguments; 
-computation expression comes from "fun.thunk". New mode is equal to:
+* **"thunk"** - Application of thunk pattern (suspended computation).
+Constructs a mode while ignoring any arguments; computation expression comes from "fun.thunk".
+New mode is equal to:
 
 ```javascript
       stack: stk,
@@ -370,7 +473,7 @@ These are the types of what value can be. "atom" is just an value that cannot be
 any further. "int" represents an integer value. "pair" is a pair of two values, one is held in 
 "car" object and the other is in "cdr". "operator" is a top level function. "callback" holds a 
 "callback" object which has stack frames waiting to be restored after machine finds definition of
-command that it was looking for. "thunk" represents a thunk pattern. And "local" means local function, 
+command that it was looking for. "thunk" represents a suspended computation. And "local" means local function, 
 which do to procedure called "Lambda Lifting" [@LambdaLifting], abstract machine will turn it into a top
 level function and execute. 
  
@@ -447,11 +550,6 @@ turn local functions into top level operators is called "Lambda-lifting" it was
 invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC
 
 
-Match-this-or-bust pattern matching is late 60s technology:
-
-  Computer Aided Manipulation of Symbols
-  F.V. McBride
-  PhD thesis, 1970, Queen's University Belfast
 
 The more efficient compilation by building a tree of switches is
 

@@ -99,7 +99,7 @@ expressions.
 Purpose of the Compiler is to take an expression of the simple, experimental language described above and
 output a JavaScript working program, array of functions, which could be used by the Abstract Machine.
 
-Below is a definition of code generation monad. It contains a constructor MkCodeGen and deconstructor
+Below is a definition of code generation monad. It contains a constructor MkCodeGen and a deconstructor
 codeGen. 
 
 ```haskell

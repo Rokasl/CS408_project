@@ -91,7 +91,7 @@ compileProg progName p args =
                  loadFile progName
             else if ("output-js","") `elem` args then
               do compileToJS p
-                 die "Compilation complete!"     
+                 die "Compilation complete! File generated - Backend/machine/dist/gen.js"     
             else return $ load $ compile p
      return env
 
