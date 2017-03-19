@@ -236,3 +236,7 @@ Machine Print function development
 March 18:\
 Report work - Final implementation section and appendixes
 
+March 19:\
+Report:\
+Abstract machine sections\
+

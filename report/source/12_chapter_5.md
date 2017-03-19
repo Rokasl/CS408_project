@@ -147,12 +147,12 @@ here the machine defines initial mode with initial empty stack, no arguments and
 var mode = operators[0].implementation(null, [], []);
 ```
 
-The machine will keep executing in a while loop until stack becomes empty and before halting
-it will return the final mode and call printer function to display the output. In each while cycle
+The machine will keep executing in a while loop until stack becomes empty; before halting
+it will return the final mode and call printer helper function to display the output. In each while cycle
 machine check the current computation tag, it can either be a "value" or a "command" and depending on 
 which one it is, machine will act accordingly.
 
-**Value** 
+#### Computation - "value" 
 
 If the "mode.comp.tag" is equal to "value" then machine will look at the first frame of the stack
 to receive information on what to do next. There are four options depending on the frame tags, each
@@ -204,8 +204,47 @@ definitions* section to see their structure):
   "argRight" which will return new mode (its functionality in detail
    is described in "Helper functions" section).
 
-**Command**
- 
+#### Computation - "command"
+
+Because of "command" type of computations Frank is different from other functional languages. When command
+computation appears the current execution is interrupted and the control is given to the handler,
+which looks for
+the requested command in the stack while building a callback (checked stack frames) to restore the stack
+when the command is found and finished executing.
+
+In this implementation, computations with tag equal to "command" are created in a case when an atom
+is applied to a list arguments. Then the abstract machine goes down the stack while looking for the
+command. Each time it doesn't find it, it will place top frame in the callback and move down by
+one frame:
+
+```javascript
+mode.comp.callback = {
+  frame: mode.stack.frame,
+  callback: mode.comp.callback
+}
+mode.stack = mode.stack.prev
+```  
+
+For the machine to find a command in a frame, it must be an "arg" frame. And it must contain the command 
+that the handler is looking for in its "handles" list (it indicates which commands does given "arg"
+handle).
+
+```javascript
+if (mode.stack.frame.tag === "arg") {
+  for (var i = 0; i < mode.stack.frame.handles.length; i++) {
+    if (mode.stack.frame.handles[i] === mode.comp.command) {
+      ...
+```
+
+When these conditions are met, the command handler is found. Therefore it will place the computation
+of the command on the "ready" argument list and will try to apply it by calling "argRight" helper
+function, which in turn will call "apply" helper function if there are no waiting resumptions. 
+
+#### Posible improvement
+
+To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially
+handle a command. This would skip checking all frames, which tags are not equal to "arg",
+therefore improving performance.  
 
 ### Helper functions
 
@@ -220,8 +259,8 @@ same fashion as in "fun" option. The key difference is that "fun" could be insta
 have any arguments, thus not creating any "arg" frames. Moreover, there is potential to move all logic
 to "argRight" function without having any in "fun" case, improving code reuse and optimization.  
 
-**apply** - Depending on a "fun" variable, which is some value, constructs a mode from which to continue 
-execution. "fun" variable could be:
+**apply** - Depending on a "fun" computation value, constructs a mode from which to continue 
+execution. "fun" computation could be one of the following:
 
 * **"int"** - Applying int to an argument is not really sensible, however in this case it is possible 
 because of built in operations (see *Built in functions* section). This custom functionality lets machine
@@ -234,8 +273,8 @@ an operator variable.
 * **"operator"** - Means top level function, mode is constructed from an operator depending on 
 "fun.operator" value which is an index for operators array. 
 
-* **"atom"** - Applications of atoms mean a command is initiated, so mode with command tag and command
-value must be created. It, also keeps the arguments and creates a "callback" value to be able to restore
+* **"atom"** - Applications of atoms mean a command is initiated; mode with command tag and command
+value should be created. It, also keeps the arguments and creates a "callback" value to be able to restore
 the stack successfully after finding required command in the stack. Thus new mode looks like this:
 
 ```javascript
@@ -248,7 +287,7 @@ the stack successfully after finding required command in the stack. Thus new mod
       }
 ```
 
-* **"thunk"** - Application of thunk pattern. Constructs a mode while ignoring any arguments and 
+* **"thunk"** - Application of thunk pattern. Constructs a mode while ignoring any arguments; 
 computation expression comes from "fun.thunk". New mode is equal to:
 
 ```javascript
@@ -266,10 +305,92 @@ first argument.
       comp: args[0]
 ```
 
+**printer** - takes the mode of finished execution, parses it to make it readable and displays it on 
+the screen.
+
 ### JavaScript type definitions
 
+This section explains the JavaScript types used to enforce the data structure of programs.
 
+"JSRun" is an operator, who always return mode. They are located in operators array in the generated
+program ("gen.js"). Mode has a stack and current computation; top stack frame and current computation
+both determine what to do next. 
 
+```javascript
+jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
+jstype JSMode = {stack: JSStack, comp: JSComp}     
+```
+
+Stack could be empty or consist of a frame and a link to previous frame. The idea of these links 
+are applied from linked list data structure, where each element of the list has a link to the next 
+element. This structure is used regularly throughout the project.
+
+```javascript
+jstype JSStack 
+  = null
+  | {prev: JSStack, frame: JSFrame }
+```
+
+Stacks frame type, which determines the operation that needs to be done when current computation is 
+equal to "value". 
+
+```javascript
+jstype JSFrame 
+  = null
+  | {tag:"car", env: JSEnv, cdr: Int }
+  | {tag:"cdr", car: JSVal }
+  | {tag:"fun", env: JSEnv, args: JSList Int }
+  | {tag:"arg", fun: JSVal, ready: JSComp[], env: JSEnv, waiting: JSList Int,
+     headles: Int, waitingHandles: JSList Int }
+```
+
+List data structure, where it could be empty or have an current element and tailing list of elements. 
+
+```javascript
+jstype JSList x
+  = null
+  | {head : x, tail : JSList x}    
+```
+
+Computation could either be a "value" or a "command". 
+
+```javascript
+jstype JSComp
+  = {tag:"value", value: JSVal}
+  | {tag:"command", command: String, args: JSVal[], callback:JSCallBack}
+```
+
+```javascript
+jstype JSCallBack
+  = null
+  | {frame: JSFrame, callback:JSCallBack}
+```
+
+These are the types of what value can be. "atom" is just an value that cannot be deconstructed 
+any further. "int" represents an integer value. "pair" is a pair of two values, one is held in 
+"car" object and the other is in "cdr". "operator" is a top level function. "callback" holds a 
+"callback" object which has stack frames waiting to be restored after machine finds definition of
+command that it was looking for. "thunk" represents a thunk pattern. And "local" means local function, 
+which do to procedure called "Lambda Lifting" [@LambdaLifting], abstract machine will turn it into a top
+level function and execute. 
+ 
+
+```javascript
+jstype JSVal
+  = {tag:"atom", atom: String}
+  | {tag:"int", int: Int}
+  | {tag:"pair", car: JSVal, cdr: JSVal}
+  | {tag:"operator", operator: Int, env:JSEnv}
+  | {tag:"callback", callback: JSCallBack}
+  | {tag:"thunk", thunk:JSComp}
+  | {tag:"local", env:JSEnv, operator: JSVal}
+```
+
+#### Possible improvement
+
+Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts 
+the programmer to encode them correctly. The improvement would be to enforce types with Haskell
+data structures, thus minimizing the risk of bugs in production. 
 
 ## Testing framework
 
@@ -312,10 +433,10 @@ and failed with corresponding percentages.
 
 ### Possible improvements
 
-* Providing more statistics at the end;
-* Timestamping tests, letting the user know how much time it took to run individual tests and all of 
+* Providing more statistics when all tests are finished running;
+* Timestamp tests, letting the user know how much time it took to run individual tests and all of 
   them together;
-* Improve performance by not trying to launch programs which do not compile.
+* Improve performance by not trying to launch programs which fail to compile by Frankjnr compiler.
 
 
 ## Possible improvements

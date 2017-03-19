@@ -310,7 +310,7 @@ parser contents = case (parse pProg contents) of
 
 
 -- Type definitions!!! 
--- Possible improvement - code them into haskell, so that the haskell would enforce them.
+-- Possible improvement - code them into haskell, so that the haskell would enforce these types
 
 -- jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
 -- jstype JSMode = {stack: JSStack, comp: JSComp}     
@@ -347,11 +347,4 @@ parser contents = case (parse pProg contents) of
 --   | {tag:"callback", callback: JSCallBack}
 --   | {tag:"thunk", thunk:JSComp}
 --   | {tag:"local", env:JSEnv, operator: JSVal}
-
--- jstype JSMatch
---   = null  -- bad news
---   | {branch: int, env: JSVal[]}
-
--- if we know the EnvTable for each case in a match, we can compile the
--- expressions as JSRun things, then collect them in a "branches" array.
 

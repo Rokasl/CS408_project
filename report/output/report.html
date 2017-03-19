@@ -862,8 +862,8 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <h3 id="implementation"><span class="header-section-number">5.4.1</span> Implementation</h3>
 <p>Abstract machine takes contents of gen.js as an input, which contains two different arrays: operators and resumptions. Operators are equivalent to functions in Haskell, resumptions are computations waiting to be executed. In current implementation starting operator is always the first function, so main method should be at the top of file. And they return modes which are computation who store stack, here the machine defines initial mode with initial empty stack, no arguments and no environment:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> operators[<span class="dv">0</span>].<span class="at">implementation</span>(<span class="kw">null</span><span class="op">,</span> []<span class="op">,</span> [])<span class="op">;</span></code></pre></div>
-<p>The machine will keep executing in a while loop until stack becomes empty and before halting it will return the final mode and call printer function to display the output. In each while cycle machine check the current computation tag, it can either be a &quot;value&quot; or a &quot;command&quot; and depending on which one it is, machine will act accordingly.</p>
-<p><strong>Value</strong></p>
+<p>The machine will keep executing in a while loop until stack becomes empty; before halting it will return the final mode and call printer helper function to display the output. In each while cycle machine check the current computation tag, it can either be a &quot;value&quot; or a &quot;command&quot; and depending on which one it is, machine will act accordingly.</p>
+<h4 id="computation---value"><span class="header-section-number">5.4.1.1</span> Computation - &quot;value&quot;</h4>
 <p>If the &quot;mode.comp.tag&quot; is equal to &quot;value&quot; then machine will look at the first frame of the stack to receive information on what to do next. There are four options depending on the frame tags, each of them will construct new mode building or reducing the stack in the process (look at <em>JavaScript type definitions</em> section to see their structure):</p>
 <ul>
 <li><p><strong>&quot;car&quot;</strong> - will construct mode out of calling a resumption based on &quot;mode.stack.frame.cdr&quot; value. For resumption to construct a new mode they need two values, stack and an environment. Therefore, machine will pass in the stack and the environment as well. Although, it will alter the stack by removing top stack frame and creating a new one with a &quot;cdr&quot; tag and a car value.</p>
@@ -885,16 +885,31 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <p>&quot;fun&quot; field to keep the function that will be applied when the arguments &quot;waiting&quot; list is empty. &quot;env&quot; to keep the environment, &quot;ready&quot; list to know which arguments have been parsed, initially it is empty. &quot;waiting&quot; to keep track of list of arguments that are left unchecked. And, lastly, &quot;handles&quot; with &quot;waitingHandles&quot; to keep track which argument handle what commands, so if handles list is empty it means that this argument doesn't handle any commands. It gets these values by applying helper functions, which return head and tail of the list. And the initial handle list is extracted from operators interface with helper function &quot;interfaceF&quot;, which simply returns given operators interface (list of commands that it can handle).</p></li>
 <li><p><strong>&quot;arg&quot;</strong> - simply adds current head of arguments to the ready list and initiates helper function &quot;argRight&quot; which will return new mode (its functionality in detail is described in &quot;Helper functions&quot; section).</p></li>
 </ul>
-<p><strong>Command</strong></p>
+<h4 id="computation---command"><span class="header-section-number">5.4.1.2</span> Computation - &quot;command&quot;</h4>
+<p>Because of &quot;command&quot; type of computations Frank is different from other functional languages. When command computation appears the current execution is interrupted and the control is given to the handler, which looks for the requested command in the stack while building a callback (checked stack frames) to restore the stack when the command is found and finished executing.</p>
+<p>In this implementation, computations with tag equal to &quot;command&quot; are created in a case when an atom is applied to a list arguments. Then the abstract machine goes down the stack while looking for the command. Each time it doesn't find it, it will place top frame in the callback and move down by one frame:</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">mode</span>.<span class="va">comp</span>.<span class="at">callback</span> <span class="op">=</span> <span class="op">{</span>
+  <span class="dt">frame</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">frame</span><span class="op">,</span>
+  <span class="dt">callback</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">comp</span>.<span class="at">callback</span>
+<span class="op">}</span>
+<span class="va">mode</span>.<span class="at">stack</span> <span class="op">=</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">prev</span></code></pre></div>
+<p>For the machine to find a command in a frame, it must be an &quot;arg&quot; frame. And it must contain the command that the handler is looking for in its &quot;handles&quot; list (it indicates which commands does given &quot;arg&quot; handle).</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">if</span> (<span class="va">mode</span>.<span class="va">stack</span>.<span class="va">frame</span>.<span class="at">tag</span> <span class="op">===</span> <span class="st">&quot;arg&quot;</span>) <span class="op">{</span>
+  <span class="cf">for</span> (<span class="kw">var</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="va">frame</span>.<span class="va">handles</span>.<span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) <span class="op">{</span>
+    <span class="cf">if</span> (<span class="va">mode</span>.<span class="va">stack</span>.<span class="va">frame</span>.<span class="at">handles</span>[i] <span class="op">===</span> <span class="va">mode</span>.<span class="va">comp</span>.<span class="at">command</span>) <span class="op">{</span>
+      ...</code></pre></div>
+<p>When these conditions are met, the command handler is found. Therefore it will place the computation of the command on the &quot;ready&quot; argument list and will try to apply it by calling &quot;argRight&quot; helper function, which in turn will call &quot;apply&quot; helper function if there are no waiting resumptions.</p>
+<h4 id="posible-improvement"><span class="header-section-number">5.4.1.3</span> Posible improvement</h4>
+<p>To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially handle a command. This would skip checking all frames, which tags are not equal to &quot;arg&quot;, therefore improving performance.</p>
 <h3 id="helper-functions"><span class="header-section-number">5.4.2</span> Helper functions</h3>
 <p>This section will describe the functionality of two main helper functions.</p>
 <p><strong>argRight</strong> - takes in stack tail, function to be applied, list of arguments that are ready, environment, list of arguments which are still waiting to be checked and list of handled commands. List of handled commands is kept for the machine to know what commands does the resumption handle. Same as in the &quot;fun&quot; case if the waiting list of resumptions (arguments) is empty then the machine is ready to apply the function, thus call apply function, if it is not then create new &quot;arg&quot; frame in the same fashion as in &quot;fun&quot; option. The key difference is that &quot;fun&quot; could be instantly applied if it didn't have any arguments, thus not creating any &quot;arg&quot; frames. Moreover, there is potential to move all logic to &quot;argRight&quot; function without having any in &quot;fun&quot; case, improving code reuse and optimization.</p>
-<p><strong>apply</strong> - Depending on a &quot;fun&quot; variable, which is some value, constructs a mode from which to continue execution. &quot;fun&quot; variable could be:</p>
+<p><strong>apply</strong> - Depending on a &quot;fun&quot; computation value, constructs a mode from which to continue execution. &quot;fun&quot; computation could be one of the following:</p>
 <ul>
 <li><p><strong>&quot;int&quot;</strong> - Applying int to an argument is not really sensible, however in this case it is possible because of built in operations (see <em>Built in functions</em> section). This custom functionality lets machine add and subtract integer values.</p></li>
 <li><p><strong>&quot;local&quot;</strong> - Means a local function, and the machine is turning it into top level operator, concept introduced by <span class="citation">(Thomas Jonson 1985)</span> and it is named &quot;Lambda Lifting&quot;. Therefore, mode is constructed out of an operator variable.</p></li>
 <li><p><strong>&quot;operator&quot;</strong> - Means top level function, mode is constructed from an operator depending on &quot;fun.operator&quot; value which is an index for operators array.</p></li>
-<li><p><strong>&quot;atom&quot;</strong> - Applications of atoms mean a command is initiated, so mode with command tag and command value must be created. It, also keeps the arguments and creates a &quot;callback&quot; value to be able to restore the stack successfully after finding required command in the stack. Thus new mode looks like this:</p></li>
+<li><p><strong>&quot;atom&quot;</strong> - Applications of atoms mean a command is initiated; mode with command tag and command value should be created. It, also keeps the arguments and creates a &quot;callback&quot; value to be able to restore the stack successfully after finding required command in the stack. Thus new mode looks like this:</p></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">      stack<span class="op">:</span> stk<span class="op">,</span>
       comp<span class="op">:</span> <span class="op">{</span>
@@ -904,7 +919,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
         <span class="dt">callback</span><span class="op">:</span> <span class="kw">null</span>
       <span class="op">}</span></code></pre></div>
 <ul>
-<li><strong>&quot;thunk&quot;</strong> - Application of thunk pattern. Constructs a mode while ignoring any arguments and computation expression comes from &quot;fun.thunk&quot;. New mode is equal to:</li>
+<li><strong>&quot;thunk&quot;</strong> - Application of thunk pattern. Constructs a mode while ignoring any arguments; computation expression comes from &quot;fun.thunk&quot;. New mode is equal to:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">      stack<span class="op">:</span> stk<span class="op">,</span>
       comp<span class="op">:</span> <span class="va">fun</span>.<span class="at">thunk</span></code></pre></div>
@@ -913,7 +928,46 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 </ul>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">      stack<span class="op">:</span> stack<span class="op">,</span>
       comp<span class="op">:</span> args[<span class="dv">0</span>]</code></pre></div>
+<p><strong>printer</strong> - takes the mode of finished execution, parses it to make it readable and displays it on the screen.</p>
 <h3 id="javascript-type-definitions"><span class="header-section-number">5.4.3</span> JavaScript type definitions</h3>
+<p>This section explains the JavaScript types used to enforce the data structure of programs.</p>
+<p>&quot;JSRun&quot; is an operator, who always return mode. They are located in operators array in the generated program (&quot;gen.js&quot;). Mode has a stack and current computation; top stack frame and current computation both determine what to do next.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSRun <span class="op">=</span> (JSStack<span class="op">,</span> JSEnv<span class="op">,</span> JSVal[]) <span class="op">-&gt;</span> JSMode
+jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt">stack</span><span class="op">:</span> JSStack<span class="op">,</span> <span class="dt">comp</span><span class="op">:</span> JSComp<span class="op">}</span>     </code></pre></div>
+<p>Stack could be empty or consist of a frame and a link to previous frame. The idea of these links are applied from linked list data structure, where each element of the list has a link to the next element. This structure is used regularly throughout the project.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSStack 
+  <span class="op">=</span> <span class="kw">null</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">prev</span><span class="op">:</span> JSStack<span class="op">,</span> <span class="dt">frame</span><span class="op">:</span> JSFrame <span class="op">}</span></code></pre></div>
+<p>Stacks frame type, which determines the operation that needs to be done when current computation is equal to &quot;value&quot;.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSFrame 
+  <span class="op">=</span> <span class="kw">null</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;car&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">cdr</span><span class="op">:</span> Int <span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;cdr&quot;</span><span class="op">,</span> <span class="dt">car</span><span class="op">:</span> JSVal <span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;fun&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">args</span><span class="op">:</span> JSList Int <span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;arg&quot;</span><span class="op">,</span> <span class="dt">fun</span><span class="op">:</span> JSVal<span class="op">,</span> <span class="dt">ready</span><span class="op">:</span> JSComp[]<span class="op">,</span> <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">waiting</span><span class="op">:</span> JSList Int<span class="op">,</span>
+     <span class="dt">headles</span><span class="op">:</span> Int<span class="op">,</span> <span class="dt">waitingHandles</span><span class="op">:</span> JSList Int <span class="op">}</span></code></pre></div>
+<p>List data structure, where it could be empty or have an current element and tailing list of elements.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSList x
+  <span class="op">=</span> <span class="kw">null</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">head </span><span class="op">:</span> x<span class="op">,</span> <span class="dt">tail </span><span class="op">:</span> JSList x<span class="op">}</span>    </code></pre></div>
+<p>Computation could either be a &quot;value&quot; or a &quot;command&quot;.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSComp
+  <span class="op">=</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;value&quot;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> JSVal<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;command&quot;</span><span class="op">,</span> <span class="dt">command</span><span class="op">:</span> String<span class="op">,</span> <span class="dt">args</span><span class="op">:</span> JSVal[]<span class="op">,</span> <span class="dt">callback</span><span class="op">:</span>JSCallBack<span class="op">}</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSCallBack
+  <span class="op">=</span> <span class="kw">null</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">frame</span><span class="op">:</span> JSFrame<span class="op">,</span> <span class="dt">callback</span><span class="op">:</span>JSCallBack<span class="op">}</span></code></pre></div>
+<p>These are the types of what value can be. &quot;atom&quot; is just an value that cannot be deconstructed any further. &quot;int&quot; represents an integer value. &quot;pair&quot; is a pair of two values, one is held in &quot;car&quot; object and the other is in &quot;cdr&quot;. &quot;operator&quot; is a top level function. &quot;callback&quot; holds a &quot;callback&quot; object which has stack frames waiting to be restored after machine finds definition of command that it was looking for. &quot;thunk&quot; represents a thunk pattern. And &quot;local&quot; means local function, which do to procedure called &quot;Lambda Lifting&quot; <span class="citation">(Thomas Jonson 1985)</span>, abstract machine will turn it into a top level function and execute.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSVal
+  <span class="op">=</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;atom&quot;</span><span class="op">,</span> <span class="dt">atom</span><span class="op">:</span> String<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;int&quot;</span><span class="op">,</span> <span class="dt">int</span><span class="op">:</span> Int<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;pair&quot;</span><span class="op">,</span> <span class="dt">car</span><span class="op">:</span> JSVal<span class="op">,</span> <span class="dt">cdr</span><span class="op">:</span> JSVal<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;operator&quot;</span><span class="op">,</span> <span class="dt">operator</span><span class="op">:</span> Int<span class="op">,</span> <span class="dt">env</span><span class="op">:</span>JSEnv<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;callback&quot;</span><span class="op">,</span> <span class="dt">callback</span><span class="op">:</span> JSCallBack<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;thunk&quot;</span><span class="op">,</span> <span class="dt">thunk</span><span class="op">:</span>JSComp<span class="op">}</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;local&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span>JSEnv<span class="op">,</span> <span class="dt">operator</span><span class="op">:</span> JSVal<span class="op">}</span></code></pre></div>
+<h4 id="possible-improvement"><span class="header-section-number">5.4.3.1</span> Possible improvement</h4>
+<p>Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts the programmer to encode them correctly. The improvement would be to enforce types with Haskell data structures, thus minimizing the risk of bugs in production.</p>
 <h2 id="testing-framework-1"><span class="header-section-number">5.5</span> Testing framework</h2>
 <p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is design to launch number of programs, located in <em>test_cases</em> folder, and give back results to the user, which test programs succeeded and which failed. It eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
 <p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect Script (previously located in <em>helper.sh</em> file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their output.</p>
@@ -926,9 +980,9 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <p>Then it just retrieves the output with <em>Node</em> and checks if it as expected or not; letting the user know if test failed or passed. Finally, some statistics are shown: how many tests in total have passed and failed with corresponding percentages.</p>
 <h3 id="possible-improvements"><span class="header-section-number">5.5.2</span> Possible improvements</h3>
 <ul>
-<li>Providing more statistics at the end;</li>
-<li>Timestamping tests, letting the user know how much time it took to run individual tests and all of them together;</li>
-<li>Improve performance by not trying to launch programs which do not compile.</li>
+<li>Providing more statistics when all tests are finished running;</li>
+<li>Timestamp tests, letting the user know how much time it took to run individual tests and all of them together;</li>
+<li>Improve performance by not trying to launch programs which fail to compile by Frankjnr compiler.</li>
 </ul>
 <h2 id="possible-improvements-1"><span class="header-section-number">5.6</span> Possible improvements</h2>
 <p>use chunks of stacks when top of the chunk is possible needed stack frame and others are not (speedup)</p>
@@ -1133,6 +1187,10 @@ Compiler and Machine - added Built in function support<br />
 Machine Print function development</p>
 <p>March 18:<br />
 Report work - Final implementation section and appendixes</p>
+<p>March 19:<br />
+Report:<br />
+Abstract machine sections<br />
+</p>
 <h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
 <p><strong>Experimental test framework</strong></p>
 <p><em>Pre-requirements</em></p>

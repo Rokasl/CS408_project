@@ -138,7 +138,6 @@ var Machine = function Machine(resumptions, operators) {
                                 },
                             }, mode.stack.frame.env);
                         break;
-
                     case "cdr":
                         mode = {
                             comp: {
@@ -171,7 +170,6 @@ var Machine = function Machine(resumptions, operators) {
                             }, mode.stack.frame.env);
                         }
                         break;
-
                     case "arg":
                         var ready = mode.stack.frame.ready.concat([mode.comp]);
                         mode = argRight(
@@ -185,11 +183,9 @@ var Machine = function Machine(resumptions, operators) {
                         break;
                 }
                 break;
-
             case ("command"):
                 var found = false;
                 if (mode.stack.frame.tag === "arg") {
-
                     for (var i = 0; i < mode.stack.frame.handles.length; i++) {
                         if (mode.stack.frame.handles[i] === mode.comp.command) {
                             found = true;
@@ -205,7 +201,6 @@ var Machine = function Machine(resumptions, operators) {
                             break;
                         }
                     }
-
                 }
                 if (!found) {
                     mode.comp.callback = {
@@ -214,13 +209,10 @@ var Machine = function Machine(resumptions, operators) {
                     }
                     mode.stack = mode.stack.prev
                 }
-
                 break;
         }
     }
-
     return mode;
-
 }
 
 module.exports = Machine;
