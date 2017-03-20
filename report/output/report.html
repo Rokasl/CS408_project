@@ -207,8 +207,7 @@
                 <li><a href="#frankjnr"><span class="toc-section-number">2.3</span> Frankjnr</a><ul>
                 <li><a href="#frankjnr-limitations"><span class="toc-section-number">2.3.1</span> Frankjnr limitations</a></li>
                 </ul></li>
-                <li><a href="#haste"><span class="toc-section-number">2.4</span> Haste</a></li>
-                <li><a href="#conclusion"><span class="toc-section-number">2.5</span> Conclusion</a></li>
+                <li><a href="#conclusion"><span class="toc-section-number">2.4</span> Conclusion</a></li>
                 </ul></li>
                 <li><a href="#problem-description-and-specification"><span class="toc-section-number">3</span> Problem Description and Specification</a><ul>
                 <li><a href="#problem-overview"><span class="toc-section-number">3.1</span> Problem overview</a><ul>
@@ -235,7 +234,6 @@
                 <li><a href="#language"><span class="toc-section-number">4.2.1</span> Language</a></li>
                 <li><a href="#compiler"><span class="toc-section-number">4.2.2</span> Compiler</a></li>
                 <li><a href="#abstract-machine"><span class="toc-section-number">4.2.3</span> Abstract machine</a></li>
-                <li><a href="#testing-framework"><span class="toc-section-number">4.2.4</span> Testing framework</a></li>
                 </ul></li>
                 <li><a href="#conclusion-1"><span class="toc-section-number">4.3</span> Conclusion</a></li>
                 </ul></li>
@@ -253,21 +251,28 @@
                 <li><a href="#helper-functions-1"><span class="toc-section-number">5.4.2</span> Helper functions</a></li>
                 <li><a href="#javascript-type-definitions"><span class="toc-section-number">5.4.3</span> JavaScript type definitions</a></li>
                 </ul></li>
-                <li><a href="#testing-framework-1"><span class="toc-section-number">5.5</span> Testing framework</a><ul>
-                <li><a href="#implementation-1"><span class="toc-section-number">5.5.1</span> Implementation</a></li>
-                <li><a href="#possible-improvements"><span class="toc-section-number">5.5.2</span> Possible improvements</a></li>
+                <li><a href="#possible-improvements"><span class="toc-section-number">5.5</span> Possible improvements</a></li>
                 </ul></li>
-                <li><a href="#possible-improvements-1"><span class="toc-section-number">5.6</span> Possible improvements</a></li>
+                <li><a href="#verification-and-validation"><span class="toc-section-number">6</span> Verification and Validation</a><ul>
+                <li><a href="#experimental-testing-framework"><span class="toc-section-number">6.1</span> Experimental testing framework</a><ul>
+                <li><a href="#bash-script"><span class="toc-section-number">6.1.1</span> Bash script</a></li>
+                <li><a href="#expect-script"><span class="toc-section-number">6.1.2</span> Expect script</a></li>
+                <li><a href="#possible-improvements-1"><span class="toc-section-number">6.1.3</span> Possible improvements</a></li>
                 </ul></li>
-                <li><a href="#results-and-evaluation"><span class="toc-section-number">6</span> Results and Evaluation</a></li>
-                <li><a href="#summary-conclusion"><span class="toc-section-number">7</span> Summary &amp; Conclusion</a><ul>
-                <li><a href="#summary"><span class="toc-section-number">7.1</span> Summary</a></li>
-                <li><a href="#future-work"><span class="toc-section-number">7.2</span> Future work</a></li>
+                <li><a href="#final-testing-framework"><span class="toc-section-number">6.2</span> Final testing framework</a><ul>
+                <li><a href="#implementation-1"><span class="toc-section-number">6.2.1</span> Implementation</a></li>
+                <li><a href="#possible-improvements-2"><span class="toc-section-number">6.2.2</span> Possible improvements</a></li>
+                </ul></li>
+                </ul></li>
+                <li><a href="#results-and-evaluation"><span class="toc-section-number">7</span> Results and Evaluation</a></li>
+                <li><a href="#summary-conclusion"><span class="toc-section-number">8</span> Summary &amp; Conclusion</a><ul>
+                <li><a href="#summary"><span class="toc-section-number">8.1</span> Summary</a></li>
+                <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
                 <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a></li>
                 <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a></li>
-                <li><a href="#appendix-4-project-readme.md-files"><span class="toc-section-number">8</span> Appendix 4: Project readme.md files</a></li>
+                <li><a href="#appendix-4-project-readme.md-files"><span class="toc-section-number">9</span> Appendix 4: Project readme.md files</a></li>
                 <li><a href="#references">References</a></li>
                 </ul>
             </div>
@@ -352,10 +357,7 @@ Table x.x Short title of the figure . . . </p>
 <li>Only top-level mutually recursive computation bindings are supported;</li>
 <li>Coverage checking is not implemented;</li>
 </ul>
-<h2 id="haste"><span class="header-section-number">2.4</span> Haste</h2>
-<!--http://haste-lang.org/ -->
-<p>Haste is an implementation of the Haskell functional programming language, designed for web applications and it is being used in the industry. It supports the full Haskell language, including GHC extensions because it is based on GHC compiler. Haste support modern web technologies such as WebSockets, LocalStorage, Canvas, etc. . Haste, also, has support for effects and handlers. Furthermore, Haste programs can be compiled to a single JavaScript file. Haste wasn't used as a direct resource, however it provided Author with detailed description of another solution to similar problem.</p>
-<h2 id="conclusion"><span class="header-section-number">2.5</span> Conclusion</h2>
+<h2 id="conclusion"><span class="header-section-number">2.4</span> Conclusion</h2>
 <p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's interpreter with new Compiler and Abstract Machine which would support web development while keeping Shonky's syntax data structures. Other related work were used as examples of different solutions to overcome similar obstacles.</p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
 <p>This section discusses the project problem, challenges, requirements and involved risks.</p>
@@ -592,60 +594,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <li>Documentation;</li>
 <li>Functionality;</li>
 </ul>
-<p>All of these are addressed in the final implementation.</p>
-<h3 id="testing-framework"><span class="header-section-number">4.2.4</span> Testing framework</h3>
-<p>Testing framework consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
-<h4 id="bash-script"><span class="header-section-number">4.2.4.1</span> Bash script</h4>
-<p>Bash script is the main script in the testing framework which stores all test cases, then goes through them one by one.</p>
-<p>Sample test case:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
-    [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
-    [<span class="ex">expected</span>]=<span class="st">&#39;10&#39;</span>
-)</code></pre></div>
-<p>Complex test case:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test9=(</span>  
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 22) (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11) :&gt; (Get &quot;x&quot; :+: Val 30))&#39;</span>
-    [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get_set_next&#39;</span>
-    [<span class="ex">expected</span>]=<span class="st">&#39;63&#39;</span>
-)</code></pre></div>
-<p>Each test case must store three values: expression to be tested, the name of the test and expected output.</p>
-<p>For each test case it launches Expect script and passes parameters to it. It passes the expression to be tested and the name of the test.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]</span></code></pre></div>
-<p>After, Expect script &quot;helper.sh&quot; finishes computing and generates new program, system must recompile Abstract Machines code to use newly generated program. Webpack is used for all JavaScript code compilations, dependencies and overall structure.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules <span class="co">#recompile code to output.js </span></code></pre></div>
-<p>After successful recompilation of JavaScript Bash script has to retrieve the output of the program by retrieving the last line of the console output utilizing Node functionality and some string manipulation.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
-<span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span></code></pre></div>
-<p>Finally, Bash script just compares the expected output with actual output and gives back the result for the user to see.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$output</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">${test[expected]}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
-    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${GREEN}</span><span class="st">Test passed</span><span class="va">${NC}</span><span class="st">&quot;</span>
-<span class="kw">else</span> 
-    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${RED}</span><span class="st">Test failed</span><span class="va">${NC}</span><span class="st">&quot;</span>
-<span class="kw">fi</span></code></pre></div>
-<h4 id="expect-script"><span class="header-section-number">4.2.4.2</span> Expect script</h4>
-<p>Expect script is used because of its ability to send and receive commands to programs which have their own terminal, in this case GHCI.</p>
-<p>Expect script takes the name of the test and the expression to be tested. Because it is only possible to pass one array to Expect script, the script performs some array manipulation to retrieve the name and the expression.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">set</span> <span class="fu">expr</span> [lrange <span class="va">$argv</span> 0 end-1]
-<span class="kw">set</span> <span class="ex">name</span> [lindex <span class="va">$argv</span> end 0]</code></pre></div>
-<p>After that it launches GHCI terminal.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">spawn</span> ghci</code></pre></div>
-<p>And waits for &quot;&gt;&quot; character before sending the command to load the Compiler.hs file.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;&gt;&quot;</span>
-<span class="ex">send</span> <span class="st">&quot;:load Compiler.hs\r&quot;</span></code></pre></div>
-<p>Finally, Expect script sends the two following commands to generate the output of the Compiler and quits to resume the Bash script execution.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
-<span class="ex">send</span> <span class="st">&quot;</span><span class="va">$b</span><span class="st">\r&quot;</span>
-
-<span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
-<span class="ex">send</span> <span class="st">&quot;jsWrite (jsSetup </span><span class="dt">\&quot;</span><span class="va">$name</span><span class="dt">\&quot;</span><span class="st"> (compile xpr))\r&quot;</span> </code></pre></div>
-<p>Possible improvements for the final testing framework:</p>
-<ul>
-<li>Speed &amp; efficiency;</li>
-<li>Move test cases into separate file;</li>
-<li>More useful statistics at the end of computation;</li>
-</ul>
-<p>For usage and installation instructions go to Appendix 2 section.</p>
+<p>All of these points are addressed in the final implementation.</p>
 <h2 id="conclusion-1"><span class="header-section-number">4.3</span> Conclusion</h2>
 <p>A preliminary experiment, implementing the essence of Frank-like execution for much simpler language, has been completed successfully. The key lessons were:</p>
 <ul>
@@ -995,35 +944,81 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;local&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span>JSEnv<span class="op">,</span> <span class="dt">operator</span><span class="op">:</span> JSVal<span class="op">}</span></code></pre></div>
 <h4 id="possible-improvement"><span class="header-section-number">5.4.3.1</span> Possible improvement</h4>
 <p>Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts the programmer to encode them correctly. The improvement would be to enforce types with Haskell data structures, thus minimizing the risk of bugs in production.</p>
-<h2 id="testing-framework-1"><span class="header-section-number">5.5</span> Testing framework</h2>
-<p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is design to launch number of programs, located in <em>test_cases</em> folder, and give back results to the user, which test programs succeeded and which failed. It eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
-<p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect Script (previously located in <em>helper.sh</em> file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their output.</p>
-<p>For all test case programs, usage &amp; installation instructions check Github or see Appendix.</p>
-<h3 id="implementation-1"><span class="header-section-number">5.5.1</span> Implementation</h3>
-<p>Similarly like in experimental systems test framework, test cases are stored in array. Each of them are objects which store three values: path of the test program, name of the test and expected output. They are looped through on by one displaying the name of the test to the user and recompiling the test with:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
-<p>It generates the <em>gen.js</em> in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be recompiled to include new <em>gen.js</em> file.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules</code></pre></div>
-<p>Then it just retrieves the output with <em>Node</em> and checks if it as expected or not; letting the user know if test failed or passed. Finally, some statistics are shown: how many tests in total have passed and failed with corresponding percentages.</p>
-<h3 id="possible-improvements"><span class="header-section-number">5.5.2</span> Possible improvements</h3>
-<ul>
-<li>Providing more statistics when all tests are finished running;</li>
-<li>Timestamp tests, letting the user know how much time it took to run individual tests and all of them together;</li>
-<li>Improve performance by not trying to launch programs which fail to compile by Frankjnr compiler.</li>
-</ul>
-<h2 id="possible-improvements-1"><span class="header-section-number">5.6</span> Possible improvements</h2>
+<h2 id="possible-improvements"><span class="header-section-number">5.5</span> Possible improvements</h2>
 <p>use chunks of stacks when top of the chunk is possible needed stack frame and others are not (speedup)</p>
 <p>turn local functions into top level operators is called &quot;Lambda-lifting&quot; it was invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC</p>
 <p>The more efficient compilation by building a tree of switches is</p>
-<p>Compiling Pattern Matching Lennart Augustsson in Functional Programming and Computer Architecture 1985 Springer LNCS 209 # Verification and Validation</p>
-<h1 id="results-and-evaluation"><span class="header-section-number">6</span> Results and Evaluation</h1>
-<h1 id="summary-conclusion"><span class="header-section-number">7</span> Summary &amp; Conclusion</h1>
-<!-- 
-A chapter that concludes the thesis by summarising the learning points
-and outlining future areas for research
--->
-<h2 id="summary"><span class="header-section-number">7.1</span> Summary</h2>
-<h2 id="future-work"><span class="header-section-number">7.2</span> Future work</h2>
+<p>Compiling Pattern Matching Lennart Augustsson in Functional Programming and Computer Architecture 1985 Springer LNCS 209</p>
+<h1 id="verification-and-validation"><span class="header-section-number">6</span> Verification and Validation</h1>
+<p>This project's verification and validation were done strictly throughout testing. Development was done in two parts, development of experimental system (for learning purposes) and development of final system. Initial testing started at very early stage of the project, by testing experimental system's abstract machine behavior without the interaction of the compiler. At that point it was done manually, by the author typing in expressions and looking through the output, however as development went on it quickly became too inefficient. Thus a experimental testing framework was developed (February 10th, 2017), which would go through pre-set test cases one by one without any human interaction; giving feedback for the user in the process. Author then adapted the system and applied lessons learned to create similar but improved framework for the final system.</p>
+<p>During the implementation of both systems test cases were added regularly, after each newly developed component. Moreover, on account of iterative and incremental development methodology (IDD) author was able to write targeted test cases for every component of the system. Because of this, new bugs were identified and tracked faster, thus leading for faster software development. Test cases were initiated before every content push to git and during development to check for any broken parts of the system.</p>
+<p>After the implementation has ended, test framework was initiated one last time to see if all tests still pass, as well as some manual testing was done by the author to verify the state of the system. Furthermore, test programs from &quot;Frankjnr&quot; implementation were lifted and used to verify the behavior of the final system by confirming that the output of the tests are the same in both systems. More on this in <strong>Chapter 7</strong>.</p>
+<p>Possible improvement would to be to use service similar to <em>Jenkins</em>, in order to automate tests even more by automatically launching them and giving back feedback. But only on certain conditions, for example, after every push to git or once a day regularly.</p>
+<p>For all test cases see <strong>Appendix 3</strong>.</p>
+<h2 id="experimental-testing-framework"><span class="header-section-number">6.1</span> Experimental testing framework</h2>
+<p>This section will describe the implementation of the experimental testing framework. It consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
+<h3 id="bash-script"><span class="header-section-number">6.1.1</span> Bash script</h3>
+<p>Bash script is the main script in the testing framework which stores all test cases, then goes through them one by one. To launch it simply type <em>./tester.sh</em> in the terminal window. For full guide on installation and usage see <strong>Appendix 2</strong>.</p>
+<p>Test cases are arrays which store free values: expression to be tested, the name of the test and expected output. Below sample test case is displayed:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;10&#39;</span>
+)</code></pre></div>
+<p>For each test case Bash script launches Expect script and passes test case parameters to it, in particular it passes the expression to be tested and the name of the test:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]</span></code></pre></div>
+<p>After, Expect script &quot;helper.sh&quot; finishes computing new program is generated, system must recompile abstract machine's code to use newly generated program. <em>Webpack</em> is used to compile JavaScript files to one and to manage their structure.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules <span class="co">#recompile to output.js </span></code></pre></div>
+<p>After successful recompilation of JavaScript Bash script has to retrieve the output of the program by getting the last line of the console output, it does this by utilizing Node functionality and some string manipulation.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
+<span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span></code></pre></div>
+<p>Finally, Bash script just compares the expected output with actual output and gives back the result for the user to see.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$output</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">${test[expected]}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
+    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${GREEN}</span><span class="st">Test passed</span><span class="va">${NC}</span><span class="st">&quot;</span>
+<span class="kw">else</span> 
+    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${RED}</span><span class="st">Test failed</span><span class="va">${NC}</span><span class="st">&quot;</span>
+<span class="kw">fi</span></code></pre></div>
+<h3 id="expect-script"><span class="header-section-number">6.1.2</span> Expect script</h3>
+<p>Expect script is used because of its ability to send and receive commands to systems which have their own terminal, in this case <em>GHCI</em>. Developed script takes the name of the test and the expression to be tested. Since it is only possible to pass one array to Expect script, the script performs some array manipulation to retrieve the name and the expression which was passed by the Bash script.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">set</span> <span class="fu">expr</span> [lrange <span class="va">$argv</span> 0 end-1]
+<span class="kw">set</span> <span class="ex">name</span> [lindex <span class="va">$argv</span> end 0]</code></pre></div>
+<p>After that it launches <em>GHCI</em> terminal.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">spawn</span> ghci</code></pre></div>
+<p>And waits for &quot;&gt;&quot; character before sending the command to load the &quot;Compiler.hs&quot; file, which is experimental system's compiler.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;&gt;&quot;</span>
+<span class="ex">send</span> <span class="st">&quot;:load Compiler.hs\r&quot;</span></code></pre></div>
+<p>Finally, Expect script sends the two following commands with some variables (taken form the array) to generate the output of the compiler and quits to resume the Bash script execution.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
+<span class="ex">send</span> <span class="st">&quot;</span><span class="va">$b</span><span class="st">\r&quot;</span>
+
+<span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
+<span class="ex">send</span> <span class="st">&quot;jsWrite (jsSetup </span><span class="dt">\&quot;</span><span class="va">$name</span><span class="dt">\&quot;</span><span class="st"> (compile xpr))\r&quot;</span> </code></pre></div>
+<h3 id="possible-improvements-1"><span class="header-section-number">6.1.3</span> Possible improvements</h3>
+<ul>
+<li>Speed and efficiency;</li>
+<li>Move test cases into separate file to improve structure;</li>
+<li>More useful statistics at the end of test framework computation;</li>
+</ul>
+<h2 id="final-testing-framework"><span class="header-section-number">6.2</span> Final testing framework</h2>
+<p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is designed to launch number of programs, located in <em>test_cases</em> folder, and give back feedback to the user, which test programs succeeded and which ones failed. This framework eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
+<p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect script (previously located in &quot;helper.sh&quot; file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their outputs.</p>
+<p>For all test case programs see <strong>Appendix 3</strong>. For usage and installation instructions see <strong>Appendix 2</strong>.</p>
+<h3 id="implementation-1"><span class="header-section-number">6.2.1</span> Implementation</h3>
+<p>Similarly like in experimental system's testing framework, test cases are stored in array. Each of them are objects which store three values: path of the test program, name of the test and expected output. They are looped through one by one, displaying the name of the test to the user and recompiling the test with:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
+<p>It generates the &quot;gen.js&quot; in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be recompiled to include new &quot;gen.js&quot; file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules</code></pre></div>
+<p>Then it just retrieves the output with <em>Node</em> and checks if it as expected or not; letting the user know if test failed or passed (same way as in experimental testing framework). Finally, some statistics are shown on how many tests in total have passed and failed with corresponding percentages.</p>
+<h3 id="possible-improvements-2"><span class="header-section-number">6.2.2</span> Possible improvements</h3>
+<ul>
+<li>Providing more statistics when all tests are executed;</li>
+<li>Timestamp tests, letting the user know how much time it took to run individual tests and all of them together;</li>
+<li>Improve performance by not trying to launch programs which fail to compile by &quot;Frankjnr&quot; compiler.</li>
+</ul>
+<h1 id="results-and-evaluation"><span class="header-section-number">7</span> Results and Evaluation</h1>
+<h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
+<h2 id="summary"><span class="header-section-number">8.1</span> Summary</h2>
+<h2 id="future-work"><span class="header-section-number">8.2</span> Future work</h2>
 <h1 id="appendix-1-progress-log" class="unnumbered">Appendix 1: Progress log</h1>
 <p><strong>JANUARY</strong></p>
 <p>January 4th:<br />
@@ -1252,10 +1247,63 @@ Abstract machine sections<br />
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh</code></pre></div>
 <h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
 <p><strong>Experimental system</strong></p>
-<p>declare -A test0=( [expr]='let xpr = Val 10' [name]='test_num' [expected]='10' ) declare -A test1=( #addition [expr]='let xpr = Val 2 :+: (Val 4 :+: Val 8)' [name]='test_sum' [expected]='14' ) declare -A test2=( # Throw [expr]='let xpr = Val 2 :+: (Val 4 :+: Throw)' [name]='test_throw' [expected]='Unhandled exception!' ) declare -A test3=( # Catch [expr]='let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)' [name]='test_catch' [expected]='2' ) declare -A test4=( # Catch with previous stack [expr]='let xpr = ((Val 5) :+: (Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)))' [name]='test_catch_stack' [expected]='7' )</p>
-<p>declare -A test5=( # Simple WithRef, value is not used [expr]=&quot;let xpr = WithRef &quot;x&quot; (Val 2) (Val 5 :+: Val 3)&quot; [name]='test_simple_withref' [expected]='8' ) declare -A test6=( # [expr]='let xpr = Get &quot;x&quot; :+: Val 2' [name]='test_get_false' [expected]='Exception: Undifined expression: x' ) declare -A test7=( # [expr]='let xpr = WithRef &quot;x&quot; (Val 2) (Val 5 :+: (Get &quot;x&quot;))' [name]='test_withref_get' [expected]='7' ) declare -A test8=( # might need to adjust this [expr]='let xpr = WithRef &quot;x&quot; (Val 2) ((&quot;x&quot; := (Get &quot;x&quot; :+: Val 11)) :&gt; Get &quot;x&quot;)' [name]='test_withref_get_set' [expected]='13' ) declare -A test9=( # [expr]='let xpr = WithRef &quot;x&quot; (Val 22) (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11) :&gt; (Get &quot;x&quot; :+: Val 30))' [name]='test_withref_get_set_next' [expected]='63' ) declare -A test10=( # [expr]='let xpr = Val 2 :&gt; Val 5 :+: Val 8 :&gt; Val 1000 :&gt; Val 20 :+: Val 3' [name]='test_next' [expected]='23' )</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span> <span class="co">#value</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;10&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test1=(</span> <span class="co">#addition</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 2 :+: (Val 4 :+: Val 8)&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_sum&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;14&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test2=(</span> <span class="co"># Throw</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 2 :+: (Val 4 :+: Throw)&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_throw&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;Unhandled exception!&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test3=(</span> <span class="co"># Catch</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_catch&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;2&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test4=(</span> <span class="co"># Catch with previous stack</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = ((Val 5) :+: (Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)))&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_catch_stack&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;7&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test5=(</span> <span class="co"># Simple WithRef, value is not used</span>
+    [<span class="ex">expr</span>]=<span class="st">&quot;let xpr = WithRef </span><span class="dt">\&quot;</span><span class="st">x</span><span class="dt">\&quot;</span><span class="st"> (Val 2) (Val 5 :+: Val 3)&quot;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_simple_withref&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;8&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test6=(</span> <span class="co">#undifined variable</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Get &quot;x&quot; :+: Val 2&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_get_false&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;Exception: Undifined expression: x&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test7=(</span> <span class="co">#adding defined variable </span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2) (Val 5 :+: (Get &quot;x&quot;))&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;7&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test8=(</span> <span class="co"># composition and variable defintion</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2) ((&quot;x&quot; := (Get &quot;x&quot; :+: Val 11)) :&gt; Get &quot;x&quot;)&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get_set&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;13&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test9=(</span> <span class="co"># same as test 8 but plus addition </span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 22) (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11) :&gt; (Get &quot;x&quot; :+: Val 30))&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get_set_next&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;63&#39;</span>
+)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test10=(</span> <span class="co"># composition test</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 2 :&gt; Val 5 :+: Val 8 :&gt; Val 1000 :&gt; Val 20 :+: Val 3&#39;</span>
+    [<span class="ex">name</span>]=<span class="st">&#39;test_next&#39;</span>
+    [<span class="ex">expected</span>]=<span class="st">&#39;23&#39;</span>
+)</code></pre></div>
 <p><strong>Final system</strong></p>
-<h1 id="appendix-4-project-readme.md-files"><span class="header-section-number">8</span> Appendix 4: Project readme.md files</h1>
+<h1 id="appendix-4-project-readme.md-files"><span class="header-section-number">9</span> Appendix 4: Project readme.md files</h1>
 <p><strong>Run Frank in Browser</strong></p>
 <p><strong>Frankjnr</strong></p>
 <p>An implementation of the Frank programming language described in the paper ``Do be do be do'' by Sam Lindley, Conor McBride, and Craig McLaughlin, to appear at POPL 2017; preprint: https://arxiv.org/abs/1611.09259</p>

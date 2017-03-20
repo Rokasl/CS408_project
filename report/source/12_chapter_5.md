@@ -495,52 +495,6 @@ Current state of JavaScript type definitions are not enforced by the compiler; s
 the programmer to encode them correctly. The improvement would be to enforce types with Haskell
 data structures, thus minimizing the risk of bugs in production. 
 
-## Testing framework
-
-Contained in *final_implementation/Backend/tests* folder. Framework is design to launch number of 
-programs, located in *test_cases* folder, and give back results to the user, which test programs
-succeeded and which failed. It eliminates manual testing, lets identify bugs faster, thus 
-speeding up development process and easing maintenance. And it is fully written in Bash Script.
-
-Some parts of the test framework were lifted from earlier experiment, however the key differences are 
-that it is not using GHC compiler directly; so it eliminates the need for Expect Script (previously
-located in *helper.sh* file),thus improving performance of the framework. Another change is that
-test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore
-providing ability to launch them and check their output.
-
-For all test case programs, usage & installation instructions check Github or see Appendix.
-
-### Implementation
-
-Similarly like in experimental systems test framework, test cases are stored in array. Each of them are
-objects which store three values: path of the test program, name of the test and expected output.
-They are looped through on by one displaying the name of the test to the user and recompiling the
-test with:
-
-```bash
-frank ${test[path]} --output-js
-```
-
-It generates the *gen.js* in *Backend/machine/dist* folder. At this point *Backend/machine/dist/output.js*
-needs to be recompiled to include new *gen.js* file. 
-
-```bash
-webpack --hide-modules
-```
-
-Then it just retrieves the output with *Node* and checks if it as expected or not; letting the user 
-know if test failed or passed. Finally, some statistics are shown: how many tests in total have passed
-and failed with corresponding percentages.
-
-
-
-### Possible improvements
-
-* Providing more statistics when all tests are finished running;
-* Timestamp tests, letting the user know how much time it took to run individual tests and all of 
-  them together;
-* Improve performance by not trying to launch programs which fail to compile by Frankjnr compiler.
-
 
 ## Possible improvements
 
@@ -557,3 +511,6 @@ The more efficient compilation by building a tree of switches is
   Lennart Augustsson
   in Functional Programming and Computer Architecture 1985
   Springer LNCS 209
+
+
+  

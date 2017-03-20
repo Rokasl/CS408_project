@@ -42,16 +42,7 @@ which are then used by Shonky interpreter to run Frank.
 
 * Only top-level mutually recursive computation bindings are supported;
 * Coverage checking is not implemented;
-
-
-## Haste 
-<!--http://haste-lang.org/ -->
-Haste is an implementation of the Haskell functional programming language,
-designed for web applications and it is being used in the industry. It supports the full Haskell language,
-including GHC extensions because it is based on GHC compiler. Haste support modern web technologies
-such as WebSockets, LocalStorage, Canvas, etc. . Haste, also, has support for effects and handlers.
-Furthermore, Haste programs can be compiled to a single JavaScript file. Haste wasn't used as a direct 
-resource, however it provided Author with detailed description of another solution to similar problem. 
+ 
 
 ## Conclusion
 
