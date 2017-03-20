@@ -202,11 +202,11 @@
                 <li><a href="#summary-of-chapters"><span class="toc-section-number">1.4</span> Summary of chapters</a></li>
                 </ul></li>
                 <li><a href="#related-work"><span class="toc-section-number">2</span> Related Work</a><ul>
-                <li><a href="#vole"><span class="toc-section-number">2.1</span> Vole</a></li>
-                <li><a href="#shonky"><span class="toc-section-number">2.2</span> Shonky</a></li>
-                <li><a href="#frankjnr"><span class="toc-section-number">2.3</span> Frankjnr</a><ul>
-                <li><a href="#frankjnr-limitations"><span class="toc-section-number">2.3.1</span> Frankjnr limitations</a></li>
+                <li><a href="#shonky"><span class="toc-section-number">2.1</span> Shonky</a></li>
+                <li><a href="#frankjnr"><span class="toc-section-number">2.2</span> Frankjnr</a><ul>
+                <li><a href="#frankjnr-limitations"><span class="toc-section-number">2.2.1</span> Frankjnr limitations</a></li>
                 </ul></li>
+                <li><a href="#vole"><span class="toc-section-number">2.3</span> Vole</a></li>
                 <li><a href="#conclusion"><span class="toc-section-number">2.4</span> Conclusion</a></li>
                 </ul></li>
                 <li><a href="#problem-description-and-specification"><span class="toc-section-number">3</span> Problem Description and Specification</a><ul>
@@ -244,14 +244,14 @@
                 <li><a href="#project-folder-structure"><span class="toc-section-number">5.2</span> Project folder structure</a></li>
                 <li><a href="#compiler-1"><span class="toc-section-number">5.3</span> Compiler</a><ul>
                 <li><a href="#helper-functions"><span class="toc-section-number">5.3.1</span> Helper functions</a></li>
-                <li><a href="#built-in-functions"><span class="toc-section-number">5.3.2</span> Built in functions</a></li>
                 </ul></li>
                 <li><a href="#abstract-machine-1"><span class="toc-section-number">5.4</span> Abstract machine</a><ul>
-                <li><a href="#implementation"><span class="toc-section-number">5.4.1</span> Implementation</a></li>
+                <li><a href="#implementation-1"><span class="toc-section-number">5.4.1</span> Implementation</a></li>
                 <li><a href="#helper-functions-1"><span class="toc-section-number">5.4.2</span> Helper functions</a></li>
                 <li><a href="#javascript-type-definitions"><span class="toc-section-number">5.4.3</span> JavaScript type definitions</a></li>
                 </ul></li>
-                <li><a href="#possible-improvements"><span class="toc-section-number">5.5</span> Possible improvements</a></li>
+                <li><a href="#built-in-functions"><span class="toc-section-number">5.5</span> Built in functions</a></li>
+                <li><a href="#possible-improvements"><span class="toc-section-number">5.6</span> Possible improvements</a></li>
                 </ul></li>
                 <li><a href="#verification-and-validation"><span class="toc-section-number">6</span> Verification and Validation</a><ul>
                 <li><a href="#experimental-testing-framework"><span class="toc-section-number">6.1</span> Experimental testing framework</a><ul>
@@ -260,7 +260,7 @@
                 <li><a href="#possible-improvements-1"><span class="toc-section-number">6.1.3</span> Possible improvements</a></li>
                 </ul></li>
                 <li><a href="#final-testing-framework"><span class="toc-section-number">6.2</span> Final testing framework</a><ul>
-                <li><a href="#implementation-1"><span class="toc-section-number">6.2.1</span> Implementation</a></li>
+                <li><a href="#implementation-2"><span class="toc-section-number">6.2.1</span> Implementation</a></li>
                 <li><a href="#possible-improvements-2"><span class="toc-section-number">6.2.2</span> Possible improvements</a></li>
                 </ul></li>
                 </ul></li>
@@ -352,20 +352,19 @@ Table x.x Short title of the figure . . . </p>
 <p><strong>Chapter 7 - Results and Evaluation</strong></p>
 <p>The principal intention of the chapter is to summarize the outcome of the project, describing how it was evaluated and to propose relevant future work.</p>
 <h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
-<!-- Literature review ??? -->
-<h2 id="vole"><span class="header-section-number">2.1</span> Vole</h2>
-<p>Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local machine. Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs on the web, there are few working examples in the Git repository of Vole. It, also, has some support for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and application front-end on run-time.</p>
-<p>In the context of this project - Vole is a useful resource, because it essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of Compilers and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
-<h2 id="shonky"><span class="header-section-number">2.2</span> Shonky</h2>
+<h2 id="shonky"><span class="header-section-number">2.1</span> Shonky</h2>
 <p>Shonky is untyped and impure functional programming language. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
 <p>In the context of the project Shonky language data structures are used by the Abstract Machine, in Chapter 5 it is explained in great detail of how exactly were they used and for what purpose. However, Shonky interpreter is completely scrapped and is only used as a reference in solving any Abstract Machine or Compiler difficulties.</p>
-<h2 id="frankjnr"><span class="header-section-number">2.3</span> Frankjnr</h2>
+<h2 id="frankjnr"><span class="header-section-number">2.2</span> Frankjnr</h2>
 <p>Frankjnr is an newest implementation of Frank functional programming language described in &quot;<em>Do be do be do</em>&quot; <span class="citation">(Sam Lindley, Conor McBride &amp; Craig McLaughlin 2016)</span> paper. Frankjnr has a parser for Frank syntax, thus the user is able to use Frank to write expressions. After parsing Frank code it performs type check and other necessary operations followed by compilation to Shonky supported data structures which are then used by Shonky interpreter to run Frank.</p>
-<h3 id="frankjnr-limitations"><span class="header-section-number">2.3.1</span> Frankjnr limitations</h3>
+<h3 id="frankjnr-limitations"><span class="header-section-number">2.2.1</span> Frankjnr limitations</h3>
 <ul>
 <li>Only top-level mutually recursive computation bindings are supported;</li>
 <li>Coverage checking is not implemented;</li>
 </ul>
+<h2 id="vole"><span class="header-section-number">2.3</span> Vole</h2>
+<p>Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local machine. Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs on the web, there are few working examples in the Git repository of Vole. It, also, has some support for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and application front-end on run-time.</p>
+<p>In the context of this project - Vole is a useful resource, because it essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of Compilers and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
 <h2 id="conclusion"><span class="header-section-number">2.4</span> Conclusion</h2>
 <p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's interpreter with new Compiler and Abstract Machine which would support web development while keeping Shonky's syntax data structures. Other related work were used as examples of different solutions to overcome similar obstacles.</p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
@@ -384,7 +383,7 @@ Table x.x Short title of the figure . . . </p>
 <li>Authors lack of experience with languages being used and overall analyzed concepts (compiler and virtual machines).</li>
 </ul>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
-<p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel Wrigh 2004)</span>,to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
+<p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel Wrigh 2004)</span>, to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
 <h3 id="development-tools-and-languages"><span class="header-section-number">3.2.1</span> Development Tools and Languages</h3>
 <p>This section will briefly explain used tools and languages and reasoning behind each of them.</p>
 <h3 id="vagrant"><span class="header-section-number">3.2.2</span> Vagrant</h3>
@@ -402,11 +401,11 @@ Table x.x Short title of the figure . . . </p>
 <!--https://wiki.haskell.org
 https://www.haskell.org/-->
 <p>Haskell is a statically, implicitly typed, lazy, standardized functional programming language with non-strict semantics. Haskell features include support for recursive functions, data types, pattern matching, and list comprehensions.</p>
-<p>Haskell was a clear choice for compiler development because of its functional language features, like pattern-matching, efficient recursion, support for monadic structures. Moreover, Frankjnr and Shonky are written in Haskell, so it was easy to cooperate with those projects.</p>
+<p>Haskell was chosen for compiler development because of its functional language features, like pattern-matching, efficient recursion, support for monadic structures. Moreover, &quot;Frankjnr&quot; and &quot;Shonky&quot; are written in Haskell as well, thus, using Haskell would provide easier compatibility with those projects.</p>
 <h3 id="report-markdown"><span class="header-section-number">3.2.6</span> Report Markdown</h3>
 <!--https://github.com/tompollard/phd_thesis_markdown-->
 <!--http://pandoc.org/-->
-<p>This report adapted the template of markdown developed by Tom Pollard, because of its flexible structure and features, such as support for Pandoc markdown and latex expressions. Everything is compiled to a single PDF by utilizing npm.</p>
+<p>This report adapted the template of markdown developed by Tom Pollard, because of its flexible structure and features, such as support for Pandoc markdown and latex expressions. Report is divided into separate source files, which creates strong project structure and every source file is compiled to a single pdf file with compiler powered by <em>npm</em>.</p>
 <h2 id="specification"><span class="header-section-number">3.3</span> Specification</h2>
 <h3 id="functional-requirements"><span class="header-section-number">3.3.1</span> Functional requirements</h3>
 <ul>
@@ -439,84 +438,80 @@ https://www.haskell.org/-->
 <p>Another big decision was to start with simpler system, an experimental throughout which the author could learn the basics and adapt gained knowledge in the development of the final system. The experiment took about four weeks and used the same methodology - iterative and incremental development.</p>
 <h1 id="initial-development-experimental-system"><span class="header-section-number">4</span> Initial development &amp; experimental system</h1>
 <h2 id="introduction-1"><span class="header-section-number">4.1</span> Introduction</h2>
-<p>Because of the complexity of overall project and the lack of initial author knowledge in the field the most optimal plan was to start with something small and expand gradually. The intricacies consist of:</p>
+<p>Because of the complexity of the project and the lack of initial author knowledge in the field, the most optimal plan was to start with small, less demanding development and expand gradually. The intricacies consist of:</p>
 <ul>
 <li>Frank is a complex functional language;</li>
-<li>Frankjnr adds another layer of complexity, since author needs to be aware of the implementation and compilation process;</li>
-<li>Dependence on Shonky's language, because the final implementation of the Compiler must be able to understand and compile Shonky language;</li>
-<li>Complexity of the Compilers and their implementation;</li>
-<li>Complexity of Abstract Machines and their implementation;</li>
+<li>&quot;Frankjnr&quot; adds another layer of complexity, since author needs to be aware of the implementation and compilation process;</li>
+<li>Dependence on Shonky's language, because the final implementation of the Compiler must be able to understand and compile Shonky's data structures;</li>
+<li>Complexity of the compilers and their implementation;</li>
+<li>Complexity of abstract machines and their implementation;</li>
 </ul>
-<p>Thus, simpler language was developed with matching Compiler and Abstract Machine. Both, the Compiler and the Machine were developed while keeping in mind that their key parts will be used for the final product. So efficiency, reliability, structure were all key factors.</p>
+<p>Thus, simpler language was developed with matching compiler and abstract machine. Both, the compiler and the machine were developed while keeping in mind that their key parts will be reused for the final system. So efficiency, reliability, structure were all important factors.</p>
 <h2 id="simple-system"><span class="header-section-number">4.2</span> Simple system</h2>
 <p>System consists of:</p>
 <ul>
 <li>Compiler - written in Haskell;</li>
 <li>Language - written in Haskell;</li>
-<li>Machine - written in JavaScript, compiled with Webpack;</li>
-<li>Testing Framework - written in Bash and Expect scripts;</li>
+<li>Machine - written in JavaScript, compiled with <em>webpack</em>;</li>
+<li>Testing Framework - written in Bash and Expect scripts, overview of the framework can be found in <strong>Chapter 6</strong>;</li>
 </ul>
 <h3 id="language"><span class="header-section-number">4.2.1</span> Language</h3>
-<p>A simple language written in Haskell, which syntax supports few specific operations, such as, sum of two expressions, Throw &amp; Catch, Set, Next, Get, new reference.</p>
+<p>A simple language written in Haskell, which syntax supports few specific operations, such as, sum of two expressions, Throw &amp; Catch, Set, Next, Get, new reference. Each of the operations were carefully selected, where their implementation in the abstract machine varies significantly. Thus, offering broad and important learning experience.</p>
 <p><strong>Full language definition</strong></p>
-<p>This section will focus on the exact definition of the language. Language is defined as Haskell data type. In this case it supports only different types of expressions.</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Expr</span> <span class="fu">=</span> </code></pre></div>
-<p>Experimental language is focused on Integer manipulation, thus it only supports integer values. Here is a definition of a Integer value.</p>
+<p>Language is defined as Haskell data type &quot;Expr&quot;. In this case it supports only different types of expressions. Experimental language is focused on Integer manipulation, thus it only supports integer values. Here is a definition of a Integer value.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Val</span> <span class="dt">Int</span></code></pre></div>
 <p>Definition of sum of two expressions.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:+:</span> <span class="dt">Expr</span></code></pre></div>
-<p>Syntax definition of a Throw and Catch commands. If the first expression of Catch is equal to Throw, meaning something went wrong then the second expression will be evaluated.</p>
+<p>Syntax definition of a &quot;Throw&quot; and &quot;Catch&quot; commands. If the first expression of Catch is equal to Throw, meaning an exception was raised (something went wrong), then the second expression will be evaluated.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Throw</span>
         <span class="fu">|</span> <span class="dt">Catch</span> <span class="dt">Expr</span> <span class="dt">Expr</span></code></pre></div>
-<p>Syntax definition of WithRef command. It creates new reference with a given value. First string variable of the command defines name of new reference. Second value is an expression which defines how to compute initial value of new reference. And the third value is the context in which the reference is valid. WithRef stack frame is the handler for &quot;Get&quot; and &quot;:=&quot; commands.</p>
+<p>Syntax definition of &quot;WithRef&quot; command. It creates new reference with a given value. First string variable of the command defines name of new reference, second value is an expression which defines how to compute initial value of new reference and the third value is the context in which the reference is valid. &quot;WithRef&quot; stack frame is the handler for &quot;Get&quot; and &quot;:=&quot; commands.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">WithRef</span> <span class="dt">String</span> <span class="dt">Expr</span> <span class="dt">Expr</span></code></pre></div>
 <p>Syntax definition of getting the value of a defined reference.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Get</span> <span class="dt">String</span> </code></pre></div>
-<p>Syntax definition of setting defined reference value to new expression.</p>
+<p>Syntax definition of setting defined reference value to be equal to some new expression.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">String</span> <span class="fu">:=</span> <span class="dt">Expr</span> </code></pre></div>
 <p>Syntax definition for evaluating two expressions one by one and taking value of the second. In most programming languages it is defined as &quot;;&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:&gt;</span> <span class="dt">Expr</span></code></pre></div>
-<p>Each of the operations were carefully selected, where their implementation in the Abstract Machine varies significantly. Because the implementation of these operations will be generalized in the final system, for instance, code for sum of two expressions will cope with all arithmetic calculations of two expressions.</p>
 <h3 id="compiler"><span class="header-section-number">4.2.2</span> Compiler</h3>
-<p>Purpose of the Compiler is to take an expression of the simple, experimental language described above and output a JavaScript working program, array of functions, which could be used by the Abstract Machine.</p>
-<p>Below is a definition of code generation monad. It contains a constructor MkCodeGen and a deconstructor codeGen.</p>
+<p>Purpose of the Compiler is to take in an formatted expression of the experimental language described above and output a JavaScript compiling data structure (array of functions), which could be used by the abstract machine.</p>
+<p>Below is a definition of code generation monad. It contains a constructor &quot;MkCodeGen&quot; and a deconstructor &quot;codeGen&quot;. It takes in an next available integer value and outputs a data structure which holds a list of integer which map to JavaScript code (string), next available number after the compilation and result of the compilation &quot;val&quot;. Usually the list of definitions will start with the input &quot;next number&quot; and go up to just before the output &quot;next number&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">CodeGen</span> val <span class="fu">=</span> <span class="dt">MkCodeGen</span> {
-<span class="ot">            codeGen ::</span> <span class="dt">Int</span> <span class="co">-- next available number (for naming helper functions)</span>
-                       <span class="ot">-&gt;</span> ([(  <span class="dt">Int</span>        <span class="co">-- this number...</span>
-                            ,  <span class="dt">String</span>     <span class="co">-- ...defined as this JS code</span>
-                           )]
-                          ,  <span class="dt">Int</span>       <span class="co">-- next available number after compilation</span>
-                          ,  val       <span class="co">-- result of compilation process</span>
-                          )  <span class="co">-- usually the list of definitions will start with</span>
-        }                    <span class="co">-- the input &quot;next number&quot; and go up to just before</span>
-                             <span class="co">-- the output &quot;next number&quot;</span></code></pre></div>
-<p>MkCodeGen is used to construct a definition in genDef function displayed below. genDef returns the definition number.</p>
+<span class="ot">            codeGen ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> ([(<span class="dt">Int</span>, <span class="dt">String</span>)], <span class="dt">Int</span>, val) 
+        }                </code></pre></div>
+<p>&quot;MkCodeGen&quot; is used to construct a definition in &quot;genDef&quot; function displayed below. &quot;genDef&quot; returns the definition number and it is used by compile function to make new function definitions.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">genDef ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> 
-genDef code <span class="fu">=</span> <span class="dt">MkCodeGen</span> <span class="fu">$</span> \ next <span class="ot">-&gt;</span> ([(next, code)],next <span class="fu">+</span> <span class="dv">1</span>, next)</code></pre></div>
-<p>genDef is used by compile function to make new function definitions. Below is the type of compile function. compile function takes in a valid language expression and outputs entry point of the compilation as well as compilation process which can be separated into chucks of JavaScript code.</p>
+genDef code <span class="fu">=</span> <span class="dt">MkCodeGen</span> <span class="fu">$</span> \ next <span class="ot">-&gt;</span> ([(next, code)]
+                            , next <span class="fu">+</span> <span class="dv">1</span>, next)</code></pre></div>
+<p>Below the type of &quot;compile&quot; function is shown. &quot;compile&quot; function takes in a valid language expression and outputs entry point of the compilation as well as compilation process which can be separated into chucks of generated JavaScript code.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">compile ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span></code></pre></div>
-<p>compile function is either used to create new function definitions...</p>
+<p>&quot;compile&quot; function is either used to create new function definitions or to compile expressions to JavaScript depending on the type of &quot;Expr&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">help s (<span class="dt">Val</span> n) <span class="fu">=</span> genDef <span class="fu">$</span>
-        <span class="st">&quot;function(s){return{stack:&quot;</span><span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;num\&quot;, data:&quot;</span><span class="fu">++</span> show n <span class="fu">++</span><span class="st">&quot;}}&quot;</span></code></pre></div>
-<p>or to compile expressions to JavaScript.</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">help s (e1 <span class="fu">:+:</span> e2) <span class="fu">=</span> <span class="kw">do</span> 
+        <span class="st">&quot;function(s){return{stack:&quot;</span><span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;,</span>
+<span class="st">                     tag:\&quot;num\&quot;, data:&quot;</span><span class="fu">++</span> show n <span class="fu">++</span><span class="st">&quot;}}&quot;</span>
+
+help s (e1 <span class="fu">:+:</span> e2) <span class="fu">=</span> <span class="kw">do</span> 
     f2 <span class="ot">&lt;-</span> compile e2
-    help (<span class="st">&quot;{prev:&quot;</span> <span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;left\&quot;, data:&quot;</span><span class="fu">++</span> show f2 <span class="fu">++</span><span class="st">&quot;}&quot;</span>) e1</code></pre></div>
-<p><strong>Formating and outputting to file</strong></p>
-<p>jsSetup takes a name of the array, the output of compile function and outputs a JavaScript formatted string.</p>
+    help (<span class="st">&quot;{prev:&quot;</span> <span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;left\&quot;,</span>
+<span class="st">                     data:&quot;</span><span class="fu">++</span> show f2 <span class="fu">++</span><span class="st">&quot;}&quot;</span>) e1</code></pre></div>
+<h4 id="formating-and-outputting-to-file"><span class="header-section-number">4.2.2.1</span> Formating and outputting to file</h4>
+<p>Output formating is done by &quot;jsSetup&quot; function. It takes the name of the array, the output of &quot;compile&quot; function and outputs a JavaScript formatted string.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">jsSetup  ::</span>  <span class="dt">String</span>       <span class="co">-- array name</span>
          <span class="ot">-&gt;</span>  <span class="dt">CodeGen</span> x    <span class="co">-- compilation process</span>
          <span class="ot">-&gt;</span>  (  <span class="dt">String</span>    <span class="co">-- JavaScript code</span>
              ,  x         <span class="co">-- result</span>
              )</code></pre></div>
-<p>jsWrite takes an output of jsSetup and writes everything to a file &quot;generated.js&quot; which can be safely used by Abstract Machine.</p>
+<p>&quot;jsWrite&quot; takes an output of &quot;jsSetup&quot; and writes everything to a file - &quot;generated.js&quot;, which can be safely used by the abstract machine.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">jsWrite ::</span> (<span class="dt">String</span>, x) <span class="ot">-&gt;</span> <span class="dt">IO</span>()
 jsWrite (code, x) <span class="fu">=</span> writeFile <span class="st">&quot;dist/generated.js&quot;</span> code</code></pre></div>
+<p>Example usage:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> xpr <span class="fu">=</span> <span class="dt">Val</span> <span class="dv">2</span> <span class="fu">:+:</span> (<span class="dt">Val</span> <span class="dv">4</span> <span class="fu">:+:</span> <span class="dt">Val</span> <span class="dv">8</span>)
+jsWrite (jsSetup <span class="st">&quot;Add&quot;</span> (compile xpr))</code></pre></div>
 <h3 id="abstract-machine"><span class="header-section-number">4.2.3</span> Abstract machine</h3>
-<p>Purpose of the Abstract Machine is to take in a compiled program and run it in the browser. It gradually builds a stack from the given program, where each frame of the stack has a link to another frame. The elegant part of this is that, stack frames can be saved, updated, deleted and restored; thus, making the Machines data structure flexible.</p>
-<p><strong>Program Structure</strong></p>
-<p>Each program is an array and its entries are functions which take in a stack. This way it is possible to nest them while keeping track of the stack.</p>
-<p>Below is an example of a compiled program ready to be used by Abstract Machine. This particular program is simple, it only adds two numbers &quot;2 + 3&quot;, so the expected output is &quot;5&quot;.</p>
+<p>Purpose of the abstract machine is to take in a compiled program and provide semantics for the file to be runnable in the browser. It gradually builds a stack from a given data structure (located in &quot;generated.js&quot;), where each frame of the stack has a link to another frame. The elegant part of this structure is that, stack frames can be saved, updated, deleted and restored, thus, making the machine's structure flexible.</p>
+<p><strong>Data Structure of compiled expression</strong></p>
+<p>Each generated data structure by the compiler is an array and its entries are functions which take in a stack. This way it is possible to nest them while keeping track of the stack.</p>
+<p>Below is an example of a compiled expression ready to be used by the abstract machine. This particular program is simple, it adds two numbers &quot;2 + 3&quot;, so the expected output is &quot;5&quot;. Comments are added to explain meaning of different variables. For more complicated examples see <em>main/example_programs</em>.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> ProgramFoo <span class="op">=</span> []<span class="op">;</span>
 
 ProgramFoo[<span class="dv">0</span>] <span class="op">=</span> <span class="kw">function</span> (s) <span class="op">{</span>
@@ -537,7 +532,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
         <span class="dt">data</span><span class="op">:</span> <span class="dv">2</span> <span class="co">// expression value</span>
     <span class="op">}</span>
 <span class="op">};</span></code></pre></div>
-<p><strong>Abstract Machine Implementation</strong></p>
+<h4 id="implementation"><span class="header-section-number">4.2.3.1</span> Implementation</h4>
 <p>This section will explain detailed implementation of the experimental Abstract Machine. It is defined as a function which takes in a compiled program as an argument.</p>
 <p>Initial definition of mode with starting values. Because the starting stack is empty the &quot;stack&quot; parameter is defined as &quot;null&quot;; the tag is an expression type and if it is equal to &quot;go&quot;, the Machine must evaluate next function. Finally, the &quot;data&quot; parameter holds an index of next function, so the initial value is the index of last function in a program array.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> <span class="op">{</span>
@@ -595,7 +590,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <ul>
 <li>Only one Stack save can exist at a given time.</li>
 </ul>
-<p><strong>Final Remarks</strong></p>
+<h4 id="final-remarks"><span class="header-section-number">4.2.3.2</span> Final Remarks</h4>
 <p>The Abstract Machine currently supports functionality for adding expressions, creating a reference, getting the value of a reference, setting new value of a given reference, throwing &amp; catching an exception.</p>
 <p>Room for improvement:</p>
 <ul>
@@ -621,7 +616,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <h3 id="disclaimer"><span class="header-section-number">5.1.1</span> Disclaimer</h3>
 <p>Final system uses two other systems in its code base, thus not all of the code is written by the author of this project. Author's code will be clearly indicated. Two projects connected to the system are:</p>
 <ul>
-<li><strong>Frankjnr</strong> - developed by Craig???. Final system is essentially new back end for Frankjnr. So the whole Frankjnr project was used and new back end was placing in 'Backend' folder. Parts of Frankjnr code were slightly updated to let the user choose between the old back end and the new one. Updated files were: Compile.hs and Frank.hs, updates are clearly indicated with comments;</li>
+<li><strong>Frankjnr</strong> - developed by Sam Lindley, Craig McLaughlin and Conor McBride. Final system is essentially new back end for Frankjnr. So the whole Frankjnr project was used and new back end was placing in 'Backend' folder. Parts of Frankjnr code were slightly updated to let the user choose between the old back end and the new one. Updated files were: Compile.hs and Frank.hs, updates are clearly indicated with comments;</li>
 <li><strong>Shonky</strong> - developed by Conor McBride. Final compiler uses Shonky's syntax file for its supported data structures and parse functions;</li>
 </ul>
 <p>More detailed descriptions can be found at 'Related work' section of the report or at their respective Github pages.</p>
@@ -829,22 +824,12 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <p>This section will briefly explain functionality of few helper functions.</p>
 <p><strong>parseShonky</strong> - is used for testing purposes, it takes Shonky syntax file (ending with &quot;uf&quot;), reads it, parses it utilizing the parse function located in <em>Syntax.hs</em> and runs the compiler on the result. Thus, generating new &quot;gen.js&quot; file.</p>
 <p><strong>jsComplete</strong> - wraps everything into one function, it takes the output of &quot;operatorCompile&quot;, formats it and writes the result of the compilation to the &quot;gen.js&quot; file.</p>
-<h3 id="built-in-functions"><span class="header-section-number">5.3.2</span> Built in functions</h3>
-<p>Current built in functions are &quot;plus&quot; and &quot;minus&quot;, in order to make integer manipulation possible. They are defined before the top-level function compilation begins in function <em>operatorCompile</em> and then just initialized together with them, like this:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> fs <span class="fu">=</span> [(f, (h, pse)) <span class="fu">|</span> <span class="dt">DF</span> f h pse <span class="ot">&lt;-</span> ds] <span class="fu">++</span> builtins</code></pre></div>
-<p>However their current definitions are a bit different compared to others which are generated. Compiler is not able to give them meaning because he does not know how to manipulate two integer expressions; instead compiler must pass this functionality to the abstract machine, which can interpret those expressions and apply wanted arithmetic operation. Compiler codes wanted arithmetic operation into the function definition, like this:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DF</span> <span class="st">&quot;minus&quot;</span> [] [<span class="fu">...</span>], <span class="dt">EV</span> <span class="st">&quot;x&quot;</span> <span class="fu">:$</span> [<span class="dt">EV</span> <span class="st">&quot;y&quot;</span>, <span class="dt">EV</span> <span class="st">&quot;y&quot;</span>]</code></pre></div>
-<p>&quot;:$&quot; means application, compiler tries to apply integer variable &quot;x&quot; to list of integer variables &quot;y&quot;, which initially does not make any sense. However, machine has encoded semantics for this situation, therefore if integer is applied to a list of arguments that could only mean one of two things, either that integer needs to be added to first element of the list or substracted from it. Machine determinse this by looking how many elements are in the list and applies the correct opperation accordingly.</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">if</span> (<span class="va">args</span>.<span class="at">length</span> <span class="op">===</span> <span class="dv">2</span>) <span class="op">{</span> <span class="co">// minus</span>
-  answ <span class="op">=</span> <span class="va">fun</span>.<span class="at">int</span> <span class="op">-</span> args[<span class="dv">0</span>].<span class="va">value</span>.<span class="at">int</span><span class="op">;</span>
-<span class="op">}</span> <span class="cf">else</span> <span class="op">{</span> <span class="co">// plus</span>
-  answ <span class="op">=</span> <span class="va">fun</span>.<span class="at">int</span> <span class="op">+</span> args[<span class="dv">0</span>].<span class="va">value</span>.<span class="at">int</span><span class="op">;</span>
-<span class="op">}</span></code></pre></div>
-<p>Those were special cases when compiler is not able to deal with them, however other built in functions, which do not require arithmetic operations can easily be added without machine knowing about them. Such as, pairing two elements or getting first element out of a pair.</p>
 <h2 id="abstract-machine-1"><span class="header-section-number">5.4</span> Abstract machine</h2>
 <p>Purpose of the abstract machine is to take in generated output of the compiler and run it in the web, thus completing the task of running Frank code in the browser. For full usage &amp; installation instructions see Appendix 2.</p>
-<p>Abstract machine modules are located in <em>final_implementation/Backend/machine</em> folder. They are written in JavaScript and are compiled to a single file <em>final_implementation/Backend/machine/dist/output.js</em> by utilizing webpack.</p>
-<h3 id="implementation"><span class="header-section-number">5.4.1</span> Implementation</h3>
+<p>Abstract machine modules are located in<br />
+<em>final_implementation/Backend/machine</em> folder. They are written in JavaScript and are compiled to a single file<br />
+<em>final_implementation/Backend/machine/dist/output.js</em> by utilizing webpack.</p>
+<h3 id="implementation-1"><span class="header-section-number">5.4.1</span> Implementation</h3>
 <p>Abstract machine takes contents of gen.js as an input, which contains two different arrays: operators and resumptions. Operators are equivalent to functions in Haskell, resumptions are computations waiting to be executed. In current implementation starting operator is always the first function, so main method should be at the top of file. And they return modes which are computation who store stack, here the machine defines initial mode with initial empty stack, no arguments and no environment:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> operators[<span class="dv">0</span>].<span class="at">implementation</span>(<span class="kw">null</span><span class="op">,</span> []<span class="op">,</span> [])<span class="op">;</span></code></pre></div>
 <p>The machine will keep executing in a while loop until stack becomes empty; before halting it will return the final mode and call printer helper function to display the output. In each while cycle machine check the current computation tag, it can either be a &quot;value&quot; or a &quot;command&quot; and depending on which one it is, machine will act accordingly.</p>
@@ -884,8 +869,6 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
     <span class="cf">if</span> (<span class="va">mode</span>.<span class="va">stack</span>.<span class="va">frame</span>.<span class="at">handles</span>[i] <span class="op">===</span> <span class="va">mode</span>.<span class="va">comp</span>.<span class="at">command</span>) <span class="op">{</span>
       ...</code></pre></div>
 <p>When these conditions are met, the command handler is found. Therefore it will place the computation of the command on the &quot;ready&quot; argument list and will try to apply it by calling &quot;argRight&quot; helper function, which in turn will call &quot;apply&quot; helper function if there are no waiting resumptions.</p>
-<h4 id="posible-improvement"><span class="header-section-number">5.4.1.3</span> Posible improvement</h4>
-<p>To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially handle a command. This would skip checking all frames, which tags are not equal to &quot;arg&quot;, therefore improving performance.</p>
 <h3 id="helper-functions-1"><span class="header-section-number">5.4.2</span> Helper functions</h3>
 <p>This section will describe the functionality of two main helper functions.</p>
 <p><strong>argRight</strong> - takes in stack tail, function to be applied, list of arguments that are ready, environment, list of arguments which are still waiting to be checked and list of handled commands. List of handled commands is kept for the machine to know what commands does the resumption handle. Same as in the &quot;fun&quot; case if the waiting list of resumptions (arguments) is empty then the machine is ready to apply the function, thus call apply function, if it is not then create new &quot;arg&quot; frame in the same fashion as in &quot;fun&quot; option. The key difference is that &quot;fun&quot; could be instantly applied if it didn't have any arguments, thus not creating any &quot;arg&quot; frames. Moreover, there is potential to move all logic to &quot;argRight&quot; function without having any in &quot;fun&quot; case, improving code reuse and optimization.</p>
@@ -929,7 +912,8 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;car&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">cdr</span><span class="op">:</span> Int <span class="op">}</span>
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;cdr&quot;</span><span class="op">,</span> <span class="dt">car</span><span class="op">:</span> JSVal <span class="op">}</span>
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;fun&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">args</span><span class="op">:</span> JSList Int <span class="op">}</span>
-  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;arg&quot;</span><span class="op">,</span> <span class="dt">fun</span><span class="op">:</span> JSVal<span class="op">,</span> <span class="dt">ready</span><span class="op">:</span> JSComp[]<span class="op">,</span> <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">waiting</span><span class="op">:</span> JSList Int<span class="op">,</span>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;arg&quot;</span><span class="op">,</span> <span class="dt">fun</span><span class="op">:</span> JSVal<span class="op">,</span> <span class="dt">ready</span><span class="op">:</span> JSComp[]<span class="op">,</span>
+     <span class="dt">env</span><span class="op">:</span> JSEnv<span class="op">,</span> <span class="dt">waiting</span><span class="op">:</span> JSList Int<span class="op">,</span>
      <span class="dt">headles</span><span class="op">:</span> Int<span class="op">,</span> <span class="dt">waitingHandles</span><span class="op">:</span> JSList Int <span class="op">}</span></code></pre></div>
 <p>List data structure, where it could be empty or have an current element and tailing list of elements.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSList x
@@ -938,7 +922,8 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <p>Computation could either be a &quot;value&quot; or a &quot;command&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSComp
   <span class="op">=</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;value&quot;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> JSVal<span class="op">}</span>
-  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;command&quot;</span><span class="op">,</span> <span class="dt">command</span><span class="op">:</span> String<span class="op">,</span> <span class="dt">args</span><span class="op">:</span> JSVal[]<span class="op">,</span> <span class="dt">callback</span><span class="op">:</span>JSCallBack<span class="op">}</span></code></pre></div>
+  <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;command&quot;</span><span class="op">,</span> <span class="dt">command</span><span class="op">:</span> String<span class="op">,</span>
+     <span class="dt">args</span><span class="op">:</span> JSVal[]<span class="op">,</span> <span class="dt">callback</span><span class="op">:</span>JSCallBack<span class="op">}</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">jstype JSCallBack
   <span class="op">=</span> <span class="kw">null</span>
   <span class="op">|</span> <span class="op">{</span><span class="dt">frame</span><span class="op">:</span> JSFrame<span class="op">,</span> <span class="dt">callback</span><span class="op">:</span>JSCallBack<span class="op">}</span></code></pre></div>
@@ -951,13 +936,28 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;callback&quot;</span><span class="op">,</span> <span class="dt">callback</span><span class="op">:</span> JSCallBack<span class="op">}</span>
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;thunk&quot;</span><span class="op">,</span> <span class="dt">thunk</span><span class="op">:</span>JSComp<span class="op">}</span>
   <span class="op">|</span> <span class="op">{</span><span class="dt">tag</span><span class="op">:</span><span class="st">&quot;local&quot;</span><span class="op">,</span> <span class="dt">env</span><span class="op">:</span>JSEnv<span class="op">,</span> <span class="dt">operator</span><span class="op">:</span> JSVal<span class="op">}</span></code></pre></div>
-<h4 id="possible-improvement"><span class="header-section-number">5.4.3.1</span> Possible improvement</h4>
-<p>Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts the programmer to encode them correctly. The improvement would be to enforce types with Haskell data structures, thus minimizing the risk of bugs in production.</p>
-<h2 id="possible-improvements"><span class="header-section-number">5.5</span> Possible improvements</h2>
-<p>use chunks of stacks when top of the chunk is possible needed stack frame and others are not (speedup)</p>
-<p>turn local functions into top level operators is called &quot;Lambda-lifting&quot; it was invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC</p>
-<p>The more efficient compilation by building a tree of switches is</p>
-<p>Compiling Pattern Matching Lennart Augustsson in Functional Programming and Computer Architecture 1985 Springer LNCS 209</p>
+<h2 id="built-in-functions"><span class="header-section-number">5.5</span> Built in functions</h2>
+<p>Current built in functions are &quot;plus&quot; and &quot;minus&quot;, in order to make integer manipulation possible. They are defined before the top-level function compilation begins in function <em>operatorCompile</em> and then just initialized together with them, like this:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> fs <span class="fu">=</span> [(f, (h, pse)) <span class="fu">|</span> <span class="dt">DF</span> f h pse <span class="ot">&lt;-</span> ds] <span class="fu">++</span> builtins</code></pre></div>
+<p>However their current definitions are a bit different compared to others which are generated. Compiler is not able to give them meaning because he does not know how to manipulate two integer expressions; instead compiler must pass this functionality to the abstract machine, which can interpret those expressions and apply wanted arithmetic operation. Compiler codes wanted arithmetic operation into the function definition, like this:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">DF</span> <span class="st">&quot;minus&quot;</span> [] [<span class="fu">...</span>], <span class="dt">EV</span> <span class="st">&quot;x&quot;</span> <span class="fu">:$</span> [<span class="dt">EV</span> <span class="st">&quot;y&quot;</span>, <span class="dt">EV</span> <span class="st">&quot;y&quot;</span>]</code></pre></div>
+<p>&quot;:$&quot; means application, compiler tries to apply integer variable &quot;x&quot; to list of integer variables &quot;y&quot;, which initially does not make any sense. However, machine has encoded semantics for this situation, therefore if integer is applied to a list of arguments that could only mean one of two things, either that integer needs to be added to first element of the list or substracted from it. Machine determinse this by looking how many elements are in the list and applies the correct opperation accordingly.</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">if</span> (<span class="va">args</span>.<span class="at">length</span> <span class="op">===</span> <span class="dv">2</span>) <span class="op">{</span> <span class="co">// minus</span>
+  answ <span class="op">=</span> <span class="va">fun</span>.<span class="at">int</span> <span class="op">-</span> args[<span class="dv">0</span>].<span class="va">value</span>.<span class="at">int</span><span class="op">;</span>
+<span class="op">}</span> <span class="cf">else</span> <span class="op">{</span> <span class="co">// plus</span>
+  answ <span class="op">=</span> <span class="va">fun</span>.<span class="at">int</span> <span class="op">+</span> args[<span class="dv">0</span>].<span class="va">value</span>.<span class="at">int</span><span class="op">;</span>
+<span class="op">}</span></code></pre></div>
+<p>Those were special cases when compiler is not able to deal with them, however other built in functions, which do not require arithmetic operations can easily be added without machine knowing about them. Such as, pairing two elements or getting first element out of a pair.</p>
+<h2 id="possible-improvements"><span class="header-section-number">5.6</span> Possible improvements</h2>
+<p><strong>Abstract machine</strong></p>
+<ul>
+<li>To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially handle a command. This would skip checking all frames, which tags are not equal to &quot;arg&quot;, therefore improving performance.</li>
+</ul>
+<p><strong>Compiler</strong></p>
+<ul>
+<li><p>Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts the programmer to encode them correctly. The improvement would be to enforce types with Haskell data structures, thus minimizing the risk of bugs in production.</p></li>
+<li><p>To change pattern matching procedures from &quot;match-this-or-bust&quot; <span class="citation">(F.V. McBride 1970)</span> to building a tree of switches described in &quot;Functional Programming and Computer Architecture&quot; <span class="citation">(Lennart Augustsson 1985)</span>, in order to increase efficiency.</p></li>
+</ul>
 <h1 id="verification-and-validation"><span class="header-section-number">6</span> Verification and Validation</h1>
 <p>This project's verification and validation were done strictly throughout testing. Development was done in two parts, development of experimental system (for learning purposes) and development of final system. Initial testing started at very early stage of the project, by testing experimental system's abstract machine behavior without the interaction of the compiler. At that point it was done manually, by the author typing in expressions and looking through the output, however as development went on it quickly became too inefficient. Thus a experimental testing framework was developed (February 10th, 2017), which would go through pre-set test cases one by one without any human interaction; giving feedback for the user in the process. Author then adapted the system and applied lessons learned to create similar but improved framework for the final system.</p>
 <p>During the implementation of both systems test cases were added regularly, after each newly developed component. Moreover, on account of iterative and incremental development methodology (IDD) author was able to write targeted test cases for every component of the system. Because of this, new bugs were identified and tracked faster, thus leading for faster software development. Test cases were initiated before every content push to git and during development to check for any broken parts of the system.</p>
@@ -1012,7 +1012,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is designed to launch number of programs, located in <em>test_cases</em> folder, and give back feedback to the user, which test programs succeeded and which ones failed. This framework eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
 <p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect script (previously located in &quot;helper.sh&quot; file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their outputs.</p>
 <p>For all test case programs see <strong>Appendix 3</strong>. For usage and installation instructions see <strong>Appendix 2</strong>.</p>
-<h3 id="implementation-1"><span class="header-section-number">6.2.1</span> Implementation</h3>
+<h3 id="implementation-2"><span class="header-section-number">6.2.1</span> Implementation</h3>
 <p>Similarly like in experimental system's testing framework, test cases are stored in array. Each of them are objects which store three values: path of the test program, name of the test and expected output. They are looped through one by one, displaying the name of the test to the user and recompiling the test with:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
 <p>It generates the &quot;gen.js&quot; in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be recompiled to include new &quot;gen.js&quot; file.</p>
@@ -1730,6 +1730,9 @@ References are automatically generated from the BibTex file (References.bib)
 </div>
 <div id="ref-CompilingCorrectly">
 <p>Graham Hutton and Joel Wrigh, 2004. <em>Compiling Exceptions Correctly</em>,</p>
+</div>
+<div id="ref-Tree-switching">
+<p>Lennart Augustsson, 1985. <em>Functional Programming and Computer Architecture</em>,</p>
 </div>
 <div id="ref-FrankPaper">
 <p>Sam Lindley, Conor McBride &amp; Craig McLaughlin, 2016. <em>Do be do be do</em>,</p>

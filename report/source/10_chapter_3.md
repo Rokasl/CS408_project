@@ -60,7 +60,7 @@ Before any development could begin requirements needed to be gathered, author di
 how the system should behave and what technologies it should utilize with the supervisor. He, also,
 attended programming languages seminar where Frank language was discussed, gaining different perspective
 on the whole project. Lastly, author read papers on relevant topics, such as "Compiling Exceptions
-Correctly" [@CompilingCorrectly],to expand his knowledge and gain more insight in what to do.
+Correctly" [@CompilingCorrectly], to expand his knowledge and gain more insight in what to do.
 Further research was made to ensure the appropriateness of chosen languages and technologies. 
 
 ### Development Tools and Languages
@@ -114,16 +114,18 @@ non-strict semantics.
 Haskell features include support for recursive functions, data types, pattern matching,
 and list comprehensions. 
 
-Haskell was a clear choice for compiler development because of its functional language features, like 
-pattern-matching, efficient recursion, support for monadic structures. Moreover, Frankjnr and Shonky are
-written in Haskell, so it was easy to cooperate with those projects.  
+Haskell was chosen for compiler development because of its functional language features, like 
+pattern-matching, efficient recursion, support for monadic structures. Moreover, "Frankjnr" and "Shonky"
+are written in Haskell as well, thus, using Haskell would provide easier compatibility with those
+projects.  
 
 ### Report Markdown 
 <!--https://github.com/tompollard/phd_thesis_markdown-->
 <!--http://pandoc.org/-->
 This report adapted the template of markdown developed by Tom Pollard, because of its flexible structure
-and features, such as support for Pandoc markdown and latex expressions. Everything is compiled to a single
-PDF by utilizing npm. 
+and features, such as support for Pandoc markdown and latex expressions. Report is divided into separate
+source files, which creates strong project structure and every source file is compiled to a single pdf
+file with compiler powered by *npm*. 
 
 ## Specification
 

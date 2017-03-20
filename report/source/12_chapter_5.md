@@ -15,7 +15,8 @@ Final system uses two other systems in its code base, thus not all of the code i
 the author of this project. Author's code will be clearly indicated. Two projects connected to the 
 system are:
 
-* **Frankjnr** - developed by Craig???. Final system is essentially new back end for Frankjnr. So the whole
+* **Frankjnr** - developed by Sam Lindley, Craig McLaughlin and Conor McBride. Final system is
+  essentially new back end for Frankjnr. So the whole
   Frankjnr project was used and new back end was placing in 'Backend' folder. Parts of Frankjnr code were
   slightly updated to let the user choose between the old back end and the new one. Updated files were:
   Compile.hs and Frank.hs, updates are clearly indicated with comments;
@@ -186,56 +187,17 @@ generating new "gen.js" file.
 it and writes the result of the compilation to the "gen.js" file.
 
 
-### Built in functions
-
-Current built in functions are "plus" and "minus", in order to make integer manipulation possible. 
-They are defined before the top-level function compilation begins in function *operatorCompile*
-and then just initialized together with them, like this:
-
-```haskell
-let fs = [(f, (h, pse)) | DF f h pse <- ds] ++ builtins
-```
-
-However their current definitions are a bit different compared to others which are generated. 
-Compiler is not able to 
-give them meaning because he does not know how to manipulate two integer expressions; instead compiler
-must pass this functionality 
-to the abstract machine, which can interpret those expressions and apply wanted arithmetic operation.
-Compiler codes wanted arithmetic operation into the function definition, like this:
-
-```haskell
-DF "minus" [] [...], EV "x" :$ [EV "y", EV "y"]
-```
-
-":$" means application, compiler tries to apply integer variable "x" to list of integer variables "y",
-which initially does not make any sense. However, machine has encoded semantics for this situation,
-therefore if integer is applied to a list of arguments that could only mean one of 
-two things, either that integer needs to be added to first element of the list or substracted from it.
-Machine determinse this by looking how many elements are in the list and applies the correct opperation
-accordingly.
-
-```javascript
-if (args.length === 2) { // minus
-  answ = fun.int - args[0].value.int;
-} else { // plus
-  answ = fun.int + args[0].value.int;
-}
-```
-
-Those were special cases when compiler is not able to deal with them, however other built in functions,
-which do not require arithmetic operations can easily be added without machine knowing about them.
-Such as, pairing two elements or getting first element out of a pair.
-
 ## Abstract machine
 
 Purpose of the abstract machine is to take in generated output of the compiler and run it in the 
 web, thus completing the task of running Frank code in the browser.
 For full usage & installation instructions see Appendix 2.
 
-Abstract machine modules are located in *final_implementation/Backend/machine* folder. They are written in
-JavaScript and are compiled to a single file *final_implementation/Backend/machine/dist/output.js*
-by utilizing
-webpack.
+Abstract machine modules are located in\
+*final_implementation/Backend/machine* folder. They are written in
+JavaScript and are compiled to a single file\
+*final_implementation/Backend/machine/dist/output.js*
+by utilizing webpack.
 
 ### Implementation
 
@@ -342,11 +304,6 @@ When these conditions are met, the command handler is found. Therefore it will p
 of the command on the "ready" argument list and will try to apply it by calling "argRight" helper
 function, which in turn will call "apply" helper function if there are no waiting resumptions. 
 
-#### Posible improvement
-
-To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially
-handle a command. This would skip checking all frames, which tags are not equal to "arg",
-therefore improving performance.  
 
 ### Helper functions
 
@@ -443,7 +400,8 @@ jstype JSFrame
   | {tag:"car", env: JSEnv, cdr: Int }
   | {tag:"cdr", car: JSVal }
   | {tag:"fun", env: JSEnv, args: JSList Int }
-  | {tag:"arg", fun: JSVal, ready: JSComp[], env: JSEnv, waiting: JSList Int,
+  | {tag:"arg", fun: JSVal, ready: JSComp[],
+     env: JSEnv, waiting: JSList Int,
      headles: Int, waitingHandles: JSList Int }
 ```
 
@@ -460,7 +418,8 @@ Computation could either be a "value" or a "command".
 ```javascript
 jstype JSComp
   = {tag:"value", value: JSVal}
-  | {tag:"command", command: String, args: JSVal[], callback:JSCallBack}
+  | {tag:"command", command: String,
+     args: JSVal[], callback:JSCallBack}
 ```
 
 ```javascript
@@ -489,28 +448,63 @@ jstype JSVal
   | {tag:"local", env:JSEnv, operator: JSVal}
 ```
 
-#### Possible improvement
+## Built in functions
 
-Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts 
-the programmer to encode them correctly. The improvement would be to enforce types with Haskell
-data structures, thus minimizing the risk of bugs in production. 
+Current built in functions are "plus" and "minus", in order to make integer manipulation possible. 
+They are defined before the top-level function compilation begins in function *operatorCompile*
+and then just initialized together with them, like this:
+
+```haskell
+let fs = [(f, (h, pse)) | DF f h pse <- ds] ++ builtins
+```
+
+However their current definitions are a bit different compared to others which are generated. 
+Compiler is not able to 
+give them meaning because he does not know how to manipulate two integer expressions; instead compiler
+must pass this functionality 
+to the abstract machine, which can interpret those expressions and apply wanted arithmetic operation.
+Compiler codes wanted arithmetic operation into the function definition, like this:
+
+```haskell
+DF "minus" [] [...], EV "x" :$ [EV "y", EV "y"]
+```
+
+":$" means application, compiler tries to apply integer variable "x" to list of integer variables "y",
+which initially does not make any sense. However, machine has encoded semantics for this situation,
+therefore if integer is applied to a list of arguments that could only mean one of 
+two things, either that integer needs to be added to first element of the list or substracted from it.
+Machine determinse this by looking how many elements are in the list and applies the correct opperation
+accordingly.
+
+```javascript
+if (args.length === 2) { // minus
+  answ = fun.int - args[0].value.int;
+} else { // plus
+  answ = fun.int + args[0].value.int;
+}
+```
+
+Those were special cases when compiler is not able to deal with them, however other built in functions,
+which do not require arithmetic operations can easily be added without machine knowing about them.
+Such as, pairing two elements or getting first element out of a pair.
 
 
 ## Possible improvements
 
-use chunks of stacks when top of the chunk is possible needed stack frame and others are not (speedup)
+**Abstract machine**
 
-turn local functions into top level operators is called "Lambda-lifting" it was 
-invented by Thomas Jonson in 1985 (Springer LNCS 201). it's used in eg. GHC
+* To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially
+handle a command. This would skip checking all frames, which tags are not equal to "arg",
+therefore improving performance.  
 
+**Compiler**
 
+* Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts 
+the programmer to encode them correctly. The improvement would be to enforce types with Haskell
+data structures, thus minimizing the risk of bugs in production. 
 
-The more efficient compilation by building a tree of switches is
-
-  Compiling Pattern Matching
-  Lennart Augustsson
-  in Functional Programming and Computer Architecture 1985
-  Springer LNCS 209
-
+* To change pattern matching procedures from "match-this-or-bust" [@Match-bust] to building a tree of 
+switches described in "Functional Programming and Computer Architecture" [@Tree-switching], in order
+to increase efficiency. 
 
   

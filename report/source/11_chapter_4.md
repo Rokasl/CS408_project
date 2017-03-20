@@ -2,20 +2,21 @@
 
 ## Introduction
 
-Because of the complexity of overall project and the lack of initial author knowledge in the field
-the most optimal plan was to start with something small and expand gradually. The intricacies consist of:
+Because of the complexity of the project and the lack of initial author knowledge in the field,
+the most optimal plan was to start with small, less demanding development and expand gradually.
+The intricacies consist of:
 
 * Frank is a complex functional language;
-* Frankjnr adds another layer of complexity, since author needs to be aware of the implementation and
+* "Frankjnr" adds another layer of complexity, since author needs to be aware of the implementation and
   compilation process; 
 * Dependence on Shonky's language, because the final implementation of the Compiler must be able to 
-  understand and compile Shonky language; 
-* Complexity of the Compilers and their implementation;
-* Complexity of Abstract Machines and their implementation;
+  understand and compile Shonky's data structures; 
+* Complexity of the compilers and their implementation;
+* Complexity of abstract machines and their implementation;
 
-Thus, simpler language was developed with matching Compiler and Abstract Machine. Both, the Compiler
-and the Machine were developed while keeping in mind that their key parts will be used for the final
-product. So efficiency, reliability, structure were all key factors.
+Thus, simpler language was developed with matching compiler and abstract machine. Both, the compiler
+and the machine were developed while keeping in mind that their key parts will be reused for the final
+system. So efficiency, reliability, structure were all important factors.
 
 ## Simple system
 
@@ -23,23 +24,21 @@ System consists of:
 
 * Compiler - written in Haskell;
 * Language - written in Haskell;
-* Machine - written in JavaScript, compiled with Webpack;
-* Testing Framework - written in Bash and Expect scripts;
+* Machine - written in JavaScript, compiled with *webpack*;
+* Testing Framework - written in Bash and Expect scripts, overview of the framework can be found in
+  **Chapter 6**;
 
 ### Language
 
 A simple language written in Haskell, which syntax supports few specific operations, such as, sum of two
-expressions, Throw & Catch, Set, Next, Get, new reference. 
+expressions, Throw & Catch, Set, Next, Get, new reference. Each of the operations were carefully selected,
+where their implementation in the abstract machine
+varies significantly. Thus, offering broad and important learning experience.
 
 **Full language definition**
 
-This section will focus on the exact definition of the language.
-Language is defined as Haskell data type. In this case it supports only different types of expressions. 
-
-```haskell
-data Expr = 
-```
-
+Language is defined as Haskell data type "Expr". In this case it supports only different
+types of expressions. 
 Experimental language is focused on Integer manipulation, thus it only supports integer values.
 Here is a definition of a Integer value.
 
@@ -53,18 +52,18 @@ Definition of sum of two expressions.
         | Expr :+: Expr
 ```
 
-Syntax definition of a Throw and Catch commands. If the first expression of Catch is equal to Throw, meaning
-something went wrong then the second expression will be evaluated. 
+Syntax definition of a "Throw" and "Catch" commands. If the first expression of Catch is equal to Throw,
+meaning an exception was raised (something went wrong), then the second expression will be evaluated. 
 
 ```haskell         
         | Throw
         | Catch Expr Expr
 ```
 
-Syntax definition of WithRef command. It creates new reference with a given value. First string variable
-of the command defines name of new reference. Second value is an expression which defines how to compute
-initial value of new reference. And the third value is the context in which the reference is valid. 
-WithRef stack frame is the handler for "Get" and ":=" commands.
+Syntax definition of "WithRef" command. It creates new reference with a given value. First string variable
+of the command defines name of new reference, second value is an expression which defines how to compute
+initial value of new reference and the third value is the context in which the reference is valid. 
+"WithRef" stack frame is the handler for "Get" and ":=" commands.
 
 ```haskell
         | WithRef String Expr Expr
@@ -76,7 +75,7 @@ Syntax definition of getting the value of a defined reference.
         | Get String 
 ```
 
-Syntax definition of setting defined reference value to new expression. 
+Syntax definition of setting defined reference value to be equal to some new expression. 
 
 ```haskell
         | String := Expr 
@@ -89,65 +88,59 @@ programming languages it is defined as ";".
         | Expr :> Expr
 ```
 
-Each of the operations were carefully selected, where their implementation in the Abstract Machine
-varies significantly. Because the implementation of these operations will be generalized in the final
-system, for instance, code for sum of two expressions will cope with all arithmetic calculations of two
-expressions.   
-
 ### Compiler
 
-Purpose of the Compiler is to take an expression of the simple, experimental language described above and
-output a JavaScript working program, array of functions, which could be used by the Abstract Machine.
+Purpose of the Compiler is to take in an formatted expression of the experimental language described
+above and output a JavaScript compiling data structure (array of functions), which could be used by
+the abstract machine.
 
-Below is a definition of code generation monad. It contains a constructor MkCodeGen and a deconstructor
-codeGen. 
+Below is a definition of code generation monad. It contains a constructor "MkCodeGen" and a 
+deconstructor "codeGen". It takes in an next available integer value and outputs a data structure
+which holds a list of integer which map to JavaScript code (string), next available number after
+the compilation and result of the compilation "val". Usually the list of definitions will start with
+the input "next number" and go up to just before the output "next number". 
 
 ```haskell
 newtype CodeGen val = MkCodeGen {
-            codeGen :: Int -- next available number (for naming helper functions)
-                       -> ([(  Int        -- this number...
-                            ,  String     -- ...defined as this JS code
-                           )]
-                          ,  Int       -- next available number after compilation
-                          ,  val       -- result of compilation process
-                          )  -- usually the list of definitions will start with
-        }                    -- the input "next number" and go up to just before
-                             -- the output "next number"
+            codeGen :: Int -> ([(Int, String)], Int, val) 
+        }                
 ```
 
-MkCodeGen is used to construct a definition in genDef function displayed below. genDef returns the 
-definition number.
+"MkCodeGen" is used to construct a definition in "genDef" function displayed below. "genDef" returns
+the definition number and it is used by compile function to make new function definitions. 
 
 ```haskell
 genDef :: String -> CodeGen Int 
-genDef code = MkCodeGen $ \ next -> ([(next, code)],next + 1, next)
+genDef code = MkCodeGen $ \ next -> ([(next, code)]
+                            , next + 1, next)
 ```
 
-genDef is used by compile function to make new function definitions. Below is the type of compile function.
-compile function takes in a valid language expression and outputs entry point of the compilation as well
-as compilation process which can be separated into chucks of JavaScript code.  
+Below the type of "compile" function is shown.
+"compile" function takes in a valid language expression and outputs entry point of the compilation as well
+as compilation process which can be separated into chucks of generated JavaScript code.  
 
 ```haskell
 compile :: Expr -> CodeGen Int
 ```
 
-compile function is either used to create new function definitions...
+"compile" function is either used to create new function definitions 
+or to compile expressions to JavaScript depending on the type of "Expr". 
 
 ```haskell
 help s (Val n) = genDef $
-        "function(s){return{stack:"++ s ++ ", tag:\"num\", data:"++ show n ++"}}"
-```
-or to compile expressions to JavaScript. 
+        "function(s){return{stack:"++ s ++ ",
+                     tag:\"num\", data:"++ show n ++"}}"
 
-```haskell
 help s (e1 :+: e2) = do 
     f2 <- compile e2
-    help ("{prev:" ++ s ++ ", tag:\"left\", data:"++ show f2 ++"}") e1
+    help ("{prev:" ++ s ++ ", tag:\"left\",
+                     data:"++ show f2 ++"}") e1
 ```
 
-**Formating and outputting to file**
+#### Formating and outputting to file
 
-jsSetup takes a name of the array, the output of compile function and outputs a JavaScript formatted
+Output formating is done by "jsSetup" function.
+It takes the name of the array, the output of "compile" function and outputs a JavaScript formatted
 string. 
 
 ```haskell
@@ -158,28 +151,40 @@ jsSetup  ::  String       -- array name
              )
 ```
 
-jsWrite takes an output of jsSetup and writes everything to a file "generated.js" which can be safely
-used by Abstract Machine.
+"jsWrite" takes an output of "jsSetup" and writes everything to a file - "generated.js", which can
+be safely used by the abstract machine.
 
 ```haskell
 jsWrite :: (String, x) -> IO()
 jsWrite (code, x) = writeFile "dist/generated.js" code
 ```
 
+Example usage: 
+
+```haskell
+let xpr = Val 2 :+: (Val 4 :+: Val 8)
+jsWrite (jsSetup "Add" (compile xpr))
+```
+
+
 ### Abstract machine
 
-Purpose of the Abstract Machine is to take in a compiled program and run it in the browser.
-It gradually builds a stack from the given program, where each frame of the stack has a link to
-another frame. The elegant part of this is that, stack frames can be saved, updated, deleted and
-restored; thus, making the Machines data structure flexible.
+Purpose of the abstract machine is to take in a compiled program and provide semantics for the 
+file to be runnable in the browser.
+It gradually builds a stack from a given data structure (located in "generated.js"), where each
+frame of the stack has a link to
+another frame. The elegant part of this structure is that, stack frames can be saved, updated,
+deleted and restored, thus, making the machine's structure flexible.
 
-**Program Structure**
+**Data Structure of compiled expression**
 
-Each program is an array and its entries are functions which take in a stack. This way it is possible to
-nest them while keeping track of the stack. 
+Each generated data structure by the compiler is an array and its entries are functions which take in
+a stack. This way it is possible to nest them while keeping track of the stack. 
 
-Below is an example of a compiled program ready to be used by Abstract Machine. This particular
-program is simple, it only adds two numbers "2 + 3", so the expected output is "5".
+Below is an example of a compiled expression ready to be used by the abstract machine. This particular
+program is simple, it adds two numbers "2 + 3", so the expected output is "5". Comments are added to 
+explain meaning of different variables. For more complicated
+examples see *main/example_programs*. 
 
 ```javascript
 var ProgramFoo = [];
@@ -204,7 +209,7 @@ ProgramFoo[1] = function (s) {
 };
 ```
 
-**Abstract Machine Implementation**
+#### Implementation
 
 This section will explain detailed implementation of the experimental Abstract Machine. It is defined
 as a function which takes in a compiled program as an argument.
@@ -329,7 +334,7 @@ Limitations:
 * Only one Stack save can exist at a given time. 
  
 
-**Final Remarks**
+#### Final Remarks
 
 The Abstract Machine currently supports functionality for adding expressions,
 creating a reference, getting the value of a reference, setting new value of a given reference,

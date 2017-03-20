@@ -1,21 +1,4 @@
 # Related Work
-<!-- Literature review ??? -->
-
-## Vole
-
-Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. 
-One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local 
-machine.
-Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs
-on the web, there are few working examples in the Git repository of Vole. It, also, has some support
-for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and
-application front-end on run-time.
-
-In the context of this project - Vole is a useful resource, because it essentially tries to
-solve the same problem but for a different language. Author had to study Vole, to 
-understand its technical implementation, usage of resources and to expand his knowledge of Compilers 
-and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison. 
-
 
 ## Shonky
 
@@ -42,7 +25,22 @@ which are then used by Shonky interpreter to run Frank.
 
 * Only top-level mutually recursive computation bindings are supported;
 * Coverage checking is not implemented;
- 
+
+
+## Vole
+
+Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. 
+One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local 
+machine.
+Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs
+on the web, there are few working examples in the Git repository of Vole. It, also, has some support
+for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and
+application front-end on run-time.
+
+In the context of this project - Vole is a useful resource, because it essentially tries to
+solve the same problem but for a different language. Author had to study Vole, to 
+understand its technical implementation, usage of resources and to expand his knowledge of Compilers 
+and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison. 
 
 ## Conclusion
 
