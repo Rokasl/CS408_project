@@ -1,8 +1,8 @@
-main : []Unit
-main! = unit
-
 -- #desc Issue with recursive call in suspended comp.
 -- #return unit
+
+main : []Unit
+main! = unit
 
 interface Receive X = receive : X
 

@@ -1,3 +1,6 @@
+-- #desc Command test with integer values
+-- #return pr 0   1
+
 main : {Pair Int Int}
 main! = state 0 (pr next! next!)
 

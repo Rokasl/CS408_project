@@ -1,12 +1,12 @@
-main : [Abort]List Char
-main! = eg2!
-
-
 -- #desc Examples from the paper
 -- #return "do be "
 -- Examples from the paper
 
 -- Section 2.1
+
+
+main : [Abort]List Char
+main! = eg2!
 
 data Zero =
 

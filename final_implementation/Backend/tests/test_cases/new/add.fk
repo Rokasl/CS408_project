@@ -1,8 +1,10 @@
+-- #desc Peano number addition
+-- #return suc suc zero
+
 main : {Nat}
 main! = add (suc zero) (suc zero) 
 
 data Nat = zero | suc Nat
-
 
 add : {Nat -> Nat -> Nat}
 add zero b = b

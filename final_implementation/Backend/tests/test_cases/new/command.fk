@@ -1,3 +1,6 @@
+-- #desc Command test
+-- #return pr zero   suc zero
+
 main : {Pair Nat Nat}
 main! = state zero (pr next! next!)
 

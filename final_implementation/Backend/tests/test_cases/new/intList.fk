@@ -1,2 +1,5 @@
+-- #desc Int list test
+-- #return 1  2  3
+
 main : {List Int}
 main! = [1, 2, 3]

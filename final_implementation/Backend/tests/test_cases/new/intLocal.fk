@@ -1,16 +1,14 @@
--- #desc Local function test
--- #return pr zero, suc zero, suc suc zero      zero, suc zero, suc suc zero
+-- #desc Local function test with integer values
+-- #return pr ([0, 1, 2]) ([0, 1, 2])
 
-main : {Pair (List Nat) (List Nat)}
-main! = pr (state zero (map {_ -> next!} [unit, unit, unit])) (state zero (map {_ -> next!} [unit, unit, unit]))
+main : {Pair (List Int) (List Int)}
+main! = pr (state 0 (map {_ -> next!} [unit, unit, unit])) (state 0 (map {_ -> next!} [unit, unit, unit]))
 
 interface State S = get : S
                   | put : S -> Unit
 
 data Pair X Y = pr X Y
 
-data Nat = zero 
-         | suc Nat
 
 fst : X -> Y -> X
 fst x y = x
@@ -18,8 +16,8 @@ fst x y = x
 snd : X -> Y -> Y
 snd  x y = y
 
-next : [State Nat]Nat
-next! = fst get! (put (suc get!))
+next : [State Int]Int
+next! = fst get! (put (1 + get!))
 
 state : S -> <State S>X -> X
 state _ x = x

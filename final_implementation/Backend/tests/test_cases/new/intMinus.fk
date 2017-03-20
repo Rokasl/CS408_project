@@ -1,0 +1,5 @@
+-- #desc Integer subtraction test
+-- #return 10
+
+main : {Int}
+main! = 20 - 10

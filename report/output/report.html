@@ -270,9 +270,18 @@
                 <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
-                <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a></li>
-                <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a></li>
-                <li><a href="#appendix-4-project-readme.md-files"><span class="toc-section-number">9</span> Appendix 4: Project readme.md files</a></li>
+                <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a><ul>
+                <li><a href="#experimental-system">Experimental system</a></li>
+                <li><a href="#final-system">Final system</a><ul>
+                <li><a href="#new-test-programs">New test programs</a></li>
+                <li><a href="#old-test-programs">Old test programs</a></li>
+                </ul></li>
+                </ul></li>
+                <li><a href="#appendix-4-relevant-readme-files">Appendix 4: Relevant README files</a><ul>
+                <li><a href="#run-frank-in-browser">Run Frank in Browser</a></li>
+                <li><a href="#frankjnr-1">Frankjnr</a></li>
+                <li><a href="#report-template">Report template</a></li>
+                </ul></li>
                 <li><a href="#references">References</a></li>
                 </ul>
             </div>
@@ -954,7 +963,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <p>During the implementation of both systems test cases were added regularly, after each newly developed component. Moreover, on account of iterative and incremental development methodology (IDD) author was able to write targeted test cases for every component of the system. Because of this, new bugs were identified and tracked faster, thus leading for faster software development. Test cases were initiated before every content push to git and during development to check for any broken parts of the system.</p>
 <p>After the implementation has ended, test framework was initiated one last time to see if all tests still pass, as well as some manual testing was done by the author to verify the state of the system. Furthermore, test programs from &quot;Frankjnr&quot; implementation were lifted and used to verify the behavior of the final system by confirming that the output of the tests are the same in both systems. More on this in <strong>Chapter 7</strong>.</p>
 <p>Possible improvement would to be to use service similar to <em>Jenkins</em>, in order to automate tests even more by automatically launching them and giving back feedback. But only on certain conditions, for example, after every push to git or once a day regularly.</p>
-<p>For all test cases see <strong>Appendix 3</strong>.</p>
+<p>For full list of test case expressions and programs see <strong>Appendix 3</strong>.</p>
 <h2 id="experimental-testing-framework"><span class="header-section-number">6.1</span> Experimental testing framework</h2>
 <p>This section will describe the implementation of the experimental testing framework. It consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
 <h3 id="bash-script"><span class="header-section-number">6.1.1</span> Bash script</h3>
@@ -1210,8 +1219,10 @@ Report work - Final implementation section and appendixes</p>
 <p>March 19:<br />
 Report:<br />
 Abstract machine sections<br />
-</p>
-<h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
+March 20:<br />
+Report:<br />
+Testing and validation sections<br />
+# Appendix 2: Usage &amp; installation instructions {.unnumbered}</p>
 <p><strong>Experimental test framework</strong></p>
 <p><em>Pre-requirements</em></p>
 <ul>
@@ -1246,7 +1257,8 @@ Abstract machine sections<br />
 <p>If <em>tester.sh</em> have issues with permission, do:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh</code></pre></div>
 <h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
-<p><strong>Experimental system</strong></p>
+<h2 id="experimental-system" class="unnumbered">Experimental system</h2>
+<p>This is a full list of experimental system's test cases. &quot;expr&quot; - is expression to be tested, &quot;name&quot; - the name of the test and &quot;expected&quot; is expected output.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span> <span class="co">#value</span>
     [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
@@ -1263,17 +1275,20 @@ Abstract machine sections<br />
     [<span class="ex">expected</span>]=<span class="st">&#39;Unhandled exception!&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test3=(</span> <span class="co"># Catch</span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)&#39;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Catch (Val 2 :+:</span>
+<span class="st">             (Val 4 :+: Throw)) (Val 2)&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_catch&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;2&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test4=(</span> <span class="co"># Catch with previous stack</span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = ((Val 5) :+: (Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)))&#39;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = ((Val 5) :+: (Catch (Val 2 :+:</span>
+<span class="st">                         (Val 4 :+: Throw)) (Val 2)))&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_catch_stack&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;7&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test5=(</span> <span class="co"># Simple WithRef, value is not used</span>
-    [<span class="ex">expr</span>]=<span class="st">&quot;let xpr = WithRef </span><span class="dt">\&quot;</span><span class="st">x</span><span class="dt">\&quot;</span><span class="st"> (Val 2) (Val 5 :+: Val 3)&quot;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2) </span>
+<span class="st">                            (Val 5 :+: Val 3)&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_simple_withref&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;8&#39;</span>
 )</code></pre></div>
@@ -1283,29 +1298,300 @@ Abstract machine sections<br />
     [<span class="ex">expected</span>]=<span class="st">&#39;Exception: Undifined expression: x&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test7=(</span> <span class="co">#adding defined variable </span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2) (Val 5 :+: (Get &quot;x&quot;))&#39;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2)</span>
+<span class="st">                         (Val 5 :+: (Get &quot;x&quot;))&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;7&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test8=(</span> <span class="co"># composition and variable defintion</span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2) ((&quot;x&quot; := (Get &quot;x&quot; :+: Val 11)) :&gt; Get &quot;x&quot;)&#39;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 2)</span>
+<span class="st">                 ((&quot;x&quot; := (Get &quot;x&quot; :+: Val 11))</span>
+<span class="st">                  :&gt; Get &quot;x&quot;)&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get_set&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;13&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test9=(</span> <span class="co"># same as test 8 but plus addition </span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 22) (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11) :&gt; (Get &quot;x&quot; :+: Val 30))&#39;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = WithRef &quot;x&quot; (Val 22)</span>
+<span class="st">                         (&quot;x&quot; := (Get &quot;x&quot; :+: Val 11)</span>
+<span class="st">                             :&gt; (Get &quot;x&quot; :+: Val 30))&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_withref_get_set_next&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;63&#39;</span>
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test10=(</span> <span class="co"># composition test</span>
-    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 2 :&gt; Val 5 :+: Val 8 :&gt; Val 1000 :&gt; Val 20 :+: Val 3&#39;</span>
+    [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 2 :&gt; Val 5 :+: Val 8</span>
+<span class="st">                     :&gt; Val 1000 :&gt; Val 20 :+: Val 3&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_next&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;23&#39;</span>
 )</code></pre></div>
-<p><strong>Final system</strong></p>
-<h1 id="appendix-4-project-readme.md-files"><span class="header-section-number">9</span> Appendix 4: Project readme.md files</h1>
-<p><strong>Run Frank in Browser</strong></p>
-<p><strong>Frankjnr</strong></p>
+<h2 id="final-system" class="unnumbered">Final system</h2>
+<p>Below is a list of all test programs for the final system:</p>
+<h3 id="new-test-programs" class="unnumbered">New test programs</h3>
+<p><strong>Test program 1:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/add.fk&quot;.<br />
+Description: Peano number addition.<br />
+Expected result: suc suc zero.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Nat</span>}
+main<span class="fu">!</span> <span class="fu">=</span> add (suc zero) (suc zero) 
+
+<span class="kw">data</span> <span class="dt">Nat</span> <span class="fu">=</span> zero <span class="fu">|</span> suc <span class="dt">Nat</span>
+
+add <span class="fu">:</span> {<span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span>}
+add zero b <span class="fu">=</span> b
+add (suc a) b <span class="fu">=</span> suc (add a b)   </code></pre></div>
+<p><strong>Test program 2:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/command.fk&quot;.<br />
+Description: command test.<br />
+Expected result: pr zero (suc zero).<br />
+<em>Test program is too long to show, check provided path for the code.</em></p>
+<p><strong>Test program 3:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/int.fk&quot;.<br />
+Description: integer value test.<br />
+Expected result: 1.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Int</span>}
+main<span class="fu">!</span> <span class="fu">=</span> <span class="dv">1</span></code></pre></div>
+<p><strong>Test program 4:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/intAdd.fk&quot;.<br />
+Description: integer addition test.<br />
+Expected result: 20.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Int</span>}
+main<span class="fu">!</span> <span class="fu">=</span> <span class="dv">10</span> <span class="fu">+</span> <span class="dv">10</span></code></pre></div>
+<p><strong>Test program 5:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/intMinus.fk&quot;.<br />
+Description: integer minus test.<br />
+Expected result: 10.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Int</span>}
+main<span class="fu">!</span> <span class="fu">=</span> <span class="dv">20</span> <span class="fu">-</span> <span class="dv">10</span></code></pre></div>
+<p><strong>Test program 6:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/intCommand.fk&quot;.<br />
+Description: integer values with commands.<br />
+Expected result: pr 0 1.<br />
+<em>Test program is too long to show, check provided path for the code.</em></p>
+<p><strong>Test program 7:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/intList.fk&quot;.<br />
+Description: list with integer values.<br />
+Expected result: 1 2 3.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">List</span> <span class="dt">Int</span>}
+main<span class="fu">!</span> <span class="fu">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
+<p><strong>Test program 8:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/intLocal.fk&quot;.<br />
+Description: local functions with integer values.<br />
+Expected result: pr [0, 1, 2] [0, 1, 2].<br />
+<em>Test program is too long to show, check provided path for the code.</em></p>
+<p><strong>Test program 9:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/intOperator.fk&quot;.<br />
+Description: operator call with integer value.<br />
+Expected result: 3.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Int</span>}
+main<span class="fu">!</span> <span class="fu">=</span> plusOne(<span class="dv">2</span>)
+
+plusOne <span class="fu">:</span> {<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>}
+plusOne x <span class="fu">=</span> x <span class="fu">+</span> <span class="dv">1</span></code></pre></div>
+<p><strong>Test program 10:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/lists.fk&quot;.<br />
+Description: list test.<br />
+Expected result: zero, suc zero, suc suc zero.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">List</span> <span class="dt">Nat</span>}
+main<span class="fu">!</span> <span class="fu">=</span> [zero, suc zero, zero]
+
+<span class="kw">data</span> <span class="dt">Nat</span> <span class="fu">=</span> zero 
+         <span class="fu">|</span> suc <span class="dt">Nat</span></code></pre></div>
+<p><strong>Test program 11:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/local.fk&quot;.<br />
+Description: local function test.<br />
+Expected result:<br />
+pr [zero, suc zero, suc suc zero] [zero, suc zero, suc suc zero].<br />
+<em>Test program is too long to show, check provided path for the code.</em></p>
+<p><strong>Test program 12:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/new/operator.fk&quot;.<br />
+Description: list test.<br />
+Expected result: suc zero.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Nat</span>}
+main<span class="fu">!</span> <span class="fu">=</span> plusOne(zero)
+
+plusOne <span class="fu">:</span> {<span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span>}
+plusOne x <span class="fu">=</span> suc x
+
+<span class="kw">data</span> <span class="dt">Nat</span> <span class="fu">=</span> zero 
+         <span class="fu">|</span> suc <span class="dt">Nat</span></code></pre></div>
+<h3 id="old-test-programs" class="unnumbered">Old test programs</h3>
+<p>These programs are all lifted from &quot;Frankjnr&quot; implementation tests folder.</p>
+<p><strong>Test program 13:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/app.fk&quot;.<br />
+Description: application test.<br />
+Expected result: 42.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Int</span>}
+main<span class="fu">!</span> <span class="fu">=</span> app {f <span class="ot">-&gt;</span> f <span class="dv">42</span>} {x <span class="ot">-&gt;</span> x}
+
+app <span class="fu">:</span> {{<span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">Y</span>} <span class="ot">-&gt;</span> <span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">Y</span>}
+app f x <span class="fu">=</span> f x</code></pre></div>
+<p><strong>Test program 14:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/evalState.fk&quot;.<br />
+Description: hello world.<br />
+Expected result: &quot;Hello World!&quot;.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">String</span>
+main<span class="fu">!</span> <span class="fu">=</span> evalState <span class="st">&quot;Hello&quot;</span> (put (append get<span class="fu">!</span> <span class="st">&quot; World!&quot;</span>); get<span class="fu">!</span>)
+
+append <span class="fu">:</span> <span class="dt">List</span> <span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">List</span> <span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">List</span> <span class="dt">X</span>
+append nil ys <span class="fu">=</span> ys
+append (cons x xs) ys <span class="fu">=</span> cons x (append xs ys)
+
+interface <span class="dt">State</span> <span class="dt">X</span> <span class="fu">=</span> get <span class="fu">:</span> <span class="dt">X</span>
+              <span class="fu">|</span> put <span class="fu">:</span> <span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">Unit</span>
+
+evalState <span class="fu">:</span> <span class="dt">X</span> <span class="ot">-&gt;</span> <span class="fu">&lt;</span><span class="dt">State</span> <span class="dt">X</span><span class="fu">&gt;</span><span class="dt">Y</span>    <span class="ot">-&gt;</span> <span class="dt">Y</span>
+evalState   x    <span class="fu">&lt;</span>put x&#39; <span class="ot">-&gt;</span> k<span class="fu">&gt;</span>  <span class="fu">=</span> evalState x&#39; (k unit)
+evalState   x    <span class="fu">&lt;</span>get    <span class="ot">-&gt;</span> k<span class="fu">&gt;</span>  <span class="fu">=</span> evalState x (k x)
+evalState   x         y         <span class="fu">=</span> y</code></pre></div>
+<p><strong>Test program 15:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/fact.fk&quot;.<br />
+Description: factorial.<br />
+Expected result: 120.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Int</span>
+main<span class="fu">!</span> <span class="fu">=</span> fact <span class="dv">5</span>
+
+mult <span class="fu">:</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+mult <span class="dv">0</span> y <span class="fu">=</span> <span class="dv">0</span>
+mult x y <span class="fu">=</span> y <span class="fu">+</span> mult (x<span class="fu">-</span><span class="dv">1</span>) y
+
+fact <span class="fu">:</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+fact <span class="dv">0</span> <span class="fu">=</span> <span class="dv">1</span>
+fact n <span class="fu">=</span> mult n (fact (n <span class="fu">-</span> <span class="dv">1</span>))</code></pre></div>
+<p><strong>Test program 16:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/fib.fk&quot;.<br />
+Description: Fibonacci generation and negative integer test.<br />
+Expected result: 5.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Int</span>
+main<span class="fu">!</span> <span class="fu">=</span> fib <span class="dv">5</span>
+
+fib <span class="fu">:</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+fib <span class="dv">0</span> <span class="fu">=</span> <span class="dv">0</span>
+fib <span class="dv">1</span> <span class="fu">=</span> <span class="dv">1</span>
+fib <span class="dv">2</span> <span class="fu">=</span> <span class="dv">1</span>
+fib n <span class="fu">=</span> fib (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">+</span> fib (n<span class="fu">-</span><span class="dv">2</span>)
+
+minusTwoOnZero <span class="fu">:</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+minusTwoOnZero <span class="dv">0</span> <span class="fu">=</span> <span class="fu">-</span><span class="dv">2</span>
+minusTwoOnZero n <span class="fu">=</span> <span class="dv">0</span></code></pre></div>
+<p><strong>Test program 17:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/flex-ab-eq.fk&quot;.<br />
+Description: Regression for unifying effect-parametric datatype with flexible.<br />
+Expected result: unit.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Unit</span>}
+main<span class="fu">!</span> <span class="fu">=</span> boo foo<span class="fu">!</span>
+
+interface <span class="dt">Eff</span> <span class="dt">X</span> <span class="fu">=</span> bang <span class="fu">:</span> <span class="dt">Unit</span>
+
+<span class="kw">data</span> <span class="dt">Bar</span> <span class="fu">=</span> bar {<span class="dt">Unit</span>}
+
+foo <span class="fu">:</span> [<span class="dt">Eff</span> <span class="dt">Bar</span>]<span class="dt">Unit</span>
+foo<span class="fu">!</span> <span class="fu">=</span> unit
+
+boo <span class="fu">:</span> <span class="fu">&lt;</span><span class="dt">Eff</span> <span class="dt">S</span><span class="fu">&gt;</span><span class="dt">Unit</span> <span class="ot">-&gt;</span> <span class="dt">Unit</span>
+boo   <span class="fu">&lt;</span>bang <span class="ot">-&gt;</span> k<span class="fu">&gt;</span> <span class="fu">=</span> boo k<span class="fu">!</span>
+boo   unit        <span class="fu">=</span> unit</code></pre></div>
+<p><strong>Test program 18:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/listMap.fk&quot;.<br />
+Description: map a pure (addition) function over a list.<br />
+Expected result: [[2], [3], [4]].<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">List</span> (<span class="dt">List</span> <span class="dt">Int</span>)
+main<span class="fu">!</span> <span class="fu">=</span> map {x <span class="ot">-&gt;</span> cons (x<span class="fu">+</span><span class="dv">1</span>) nil} (cons <span class="dv">1</span> (cons <span class="dv">2</span> (cons <span class="dv">3</span> nil)))
+
+interface <span class="dt">State</span> <span class="dt">X</span> <span class="fu">=</span> get <span class="fu">:</span> <span class="dt">X</span>
+              <span class="fu">|</span> put <span class="fu">:</span> <span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">Unit</span>
+
+map <span class="fu">:</span> {a <span class="ot">-&gt;</span> b} <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b
+map f nil <span class="fu">=</span> nil
+map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></div>
+<p><strong>Test program 19:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/paper.fk&quot;.<br />
+Description: examples from the paper<br />
+Expected result: &quot;do be &quot;.<br />
+<em>Test program is too long to show, check provided path for the code.</em></p>
+<p><strong>Test program 20:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/r3.fk&quot;.<br />
+Description: compiler Nontermination Issue No. 3.<br />
+Expected result: 1.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Int</span>
+main<span class="fu">!</span> <span class="fu">=</span> iffy <span class="dt">True</span> {<span class="dv">1</span>} {<span class="dv">2</span>}
+
+<span class="kw">data</span> <span class="dt">Bool</span> <span class="fu">=</span> <span class="dt">True</span> <span class="fu">|</span> <span class="dt">False</span>
+
+iffy <span class="fu">:</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> {<span class="dt">X</span>} <span class="ot">-&gt;</span> {<span class="dt">X</span>} <span class="ot">-&gt;</span> <span class="dt">X</span>
+iffy <span class="dt">True</span> t _  <span class="fu">=</span> t<span class="fu">!</span>
+iffy <span class="dt">False</span> _ f <span class="fu">=</span> f<span class="fu">!</span></code></pre></div>
+<p><strong>Test program 21:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/r4.fk&quot;.<br />
+Description: problem with unifying abilities identified by Jack Williams (No. 4).<br />
+Expected result: 42.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> [<span class="dt">Console</span>]<span class="dt">Int</span>
+main<span class="fu">!</span> <span class="fu">=</span> apply foo<span class="fu">!</span>
+
+<span class="kw">data</span> <span class="dt">Bar</span> <span class="fu">=</span> <span class="dt">One</span> {<span class="dt">Int</span>}
+
+apply <span class="fu">:</span> <span class="dt">Bar</span> [<span class="dt">Console</span>] <span class="ot">-&gt;</span> [<span class="dt">Console</span>]<span class="dt">Int</span>
+apply (<span class="dt">One</span> f) <span class="fu">=</span> f<span class="fu">!</span>
+
+foo <span class="fu">:</span> {<span class="dt">Bar</span> [<span class="dt">Console</span>]}
+foo<span class="fu">!</span> <span class="fu">=</span> <span class="dt">One</span> {<span class="dv">42</span>}</code></pre></div>
+<p><strong>Test program 22:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/r5.fk&quot;.<br />
+Description: Suspended computation datatype argument.<br />
+Expected result: unit.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Unit</span>
+main<span class="fu">!</span> <span class="fu">=</span> foo (just {unit})
+
+<span class="kw">data</span> <span class="dt">Maybe</span> <span class="dt">X</span> <span class="fu">=</span> just <span class="dt">X</span> <span class="fu">|</span> nothing
+
+foo <span class="fu">:</span> <span class="dt">Maybe</span> {<span class="dt">Unit</span>} <span class="ot">-&gt;</span> <span class="dt">Unit</span>
+foo (just x) <span class="fu">=</span> x<span class="fu">!</span></code></pre></div>
+<p><strong>Test program 23:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/r7.fk&quot;.<br />
+Description: issue with recursive call in suspended comp..<br />
+Expected result: unit.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Unit</span>
+main<span class="fu">!</span> <span class="fu">=</span> unit
+
+interface <span class="dt">Receive</span> <span class="dt">X</span> <span class="fu">=</span> receive <span class="fu">:</span> <span class="dt">X</span>
+
+on <span class="fu">:</span> <span class="dt">X</span> <span class="ot">-&gt;</span> {<span class="dt">X</span> <span class="ot">-&gt;</span> <span class="dt">Y</span>} <span class="ot">-&gt;</span> <span class="dt">Y</span>
+on x f <span class="fu">=</span> f x
+
+receivePassthrough <span class="fu">:</span> <span class="fu">&lt;</span><span class="dt">Receive</span> <span class="dt">String</span><span class="fu">&gt;</span><span class="dt">X</span> <span class="ot">-&gt;</span> [<span class="dt">Receive</span> <span class="dt">String</span>]<span class="dt">X</span>
+receivePassthrough x              <span class="fu">=</span> x
+receivePassthrough <span class="fu">&lt;</span>receive <span class="ot">-&gt;</span> r<span class="fu">&gt;</span> <span class="fu">=</span>
+  on receive<span class="fu">!</span> { s <span class="ot">-&gt;</span> receivePassthrough (r s) }</code></pre></div>
+<p><strong>Test program 24:</strong></p>
+<p>path: &quot;Backend/tests/test_cases/old/str.fk&quot;.<br />
+Description: pattern matching list of strings.<br />
+Expected result: 1.<br />
+</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Int</span>
+main<span class="fu">!</span> <span class="fu">=</span> foo (cons <span class="st">&quot;abcd&quot;</span> nil)
+
+foo <span class="fu">:</span> <span class="dt">List</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+foo (cons <span class="st">&quot;ab&quot;</span> (cons <span class="st">&quot;cd&quot;</span> nil)) <span class="fu">=</span> <span class="dv">0</span>
+foo (cons <span class="st">&quot;abcd&quot;</span> nil) <span class="fu">=</span> <span class="dv">1</span>
+foo _ <span class="fu">=</span> <span class="dv">2</span></code></pre></div>
+<h1 id="appendix-4-relevant-readme-files" class="unnumbered">Appendix 4: Relevant README files</h1>
+<h2 id="run-frank-in-browser" class="unnumbered">Run Frank in Browser</h2>
+<h2 id="frankjnr-1" class="unnumbered">Frankjnr</h2>
 <p>An implementation of the Frank programming language described in the paper ``Do be do be do'' by Sam Lindley, Conor McBride, and Craig McLaughlin, to appear at POPL 2017; preprint: https://arxiv.org/abs/1611.09259</p>
 <p>Installation procedure</p>
 <p>The easiest way to install <code>frank</code> is to use stack https://www.haskellstack.org), https://github.com/commercialhaskell/stack):</p>
@@ -1324,7 +1610,7 @@ Abstract machine sections<br />
 <li><p>Only top-level mutually recursive computation bindings are supported</p></li>
 <li><p>Coverage checking is not implemented</p></li>
 </ul>
-<p><strong>Report template</strong></p>
+<h2 id="report-template" class="unnumbered">Report template</h2>
 <p>Template for writing a PhD thesis in Markdown</p>
 <p>This repository provides a framework for writing a PhD thesis in Markdown. I used the template for my PhD submission to University College London (UCL), but it should be straightforward to adapt suit other universities too.</p>
 <p>Citing the template</p>

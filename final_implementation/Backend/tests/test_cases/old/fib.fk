@@ -1,10 +1,8 @@
-main : []Int
-main! = fib 5
-
 -- #desc Fibonacci generation and negative integer test
 -- #return 5
 
---- haell
+main : []Int
+main! = fib 5
 
 -- #test fib 6 ~return 8
 fib : Int -> Int

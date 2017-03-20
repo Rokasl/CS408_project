@@ -1,8 +1,8 @@
-main : []String
-main! = evalState "Hello" (put (append get! " World!"); get!)
-
 -- #desc hello world
 -- #return "Hello World!"
+
+main : []String
+main! = evalState "Hello" (put (append get! " World!"); get!)
 
 append : List X -> List X -> List X
 append nil ys = ys

@@ -1,3 +1,6 @@
+-- #desc List test
+-- #return zero  suc zero   zero
+
 main : {List Nat}
 main! = [zero, suc zero, zero]
 

@@ -1,0 +1,11 @@
+-- #desc function call test
+-- #return suc zero
+
+main : {Nat}
+main! = plusOne(zero)
+
+plusOne : {Nat -> Nat}
+plusOne x = suc x
+
+data Nat = zero 
+         | suc Nat

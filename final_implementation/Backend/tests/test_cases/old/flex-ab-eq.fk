@@ -1,8 +1,9 @@
+-- #desc Regression for unifying effect-parametric datatype with flexible.
+-- #return unit
+
 main : {Unit}
 main! = boo foo!
 
--- #desc Regression for unifying effect-parametric datatype with flexible.
--- #return unit
 interface Eff X = bang : Unit
 
 data Bar = bar {Unit}

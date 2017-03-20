@@ -1,3 +1,6 @@
+-- #desc Int test with function call
+-- #return 3
+
 main : {Int}
 main! = plusOne(2)
 

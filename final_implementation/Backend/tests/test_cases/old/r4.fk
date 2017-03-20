@@ -1,9 +1,10 @@
-main : [Console]Int
-main! = apply foo!
-
 -- #desc Problem with unifying abilities identified by Jack Williams (No. 4)
 -- #return 42
 -- Problem identified by Jack Williams
+
+main : [Console]Int
+main! = apply foo!
+
 data Bar = One {Int}
 
 apply : Bar [Console] -> [Console]Int

@@ -26,7 +26,7 @@ Possible improvement would to be to use service similar to *Jenkins*, in order t
 even more by automatically launching them and giving back feedback. But only on certain conditions,
 for example, after every push to git or once a day regularly. 
 
-For all test cases see **Appendix 3**.
+For full list of test case expressions and programs see **Appendix 3**.
 
 
 ## Experimental testing framework

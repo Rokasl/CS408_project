@@ -1,8 +1,9 @@
+-- #desc Map a pure (addition) function over a list
+-- #return [[2], [3], [4]]
+
 main : []List (List Int)
 main! = map {x -> cons (x+1) nil} (cons 1 (cons 2 (cons 3 nil)))
 
--- #desc Map a pure (addition) function over a list
--- #return [[2], [3], [4]]
 interface State X = get : X
 	          | put : X -> Unit
 

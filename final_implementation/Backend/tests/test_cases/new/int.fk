@@ -1,2 +1,5 @@
+-- #desc Integer value test
+-- #return 1
+
 main : {Int}
 main! = 1

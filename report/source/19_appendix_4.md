@@ -1,9 +1,9 @@
-# Appendix 4: Project readme.md files
+# Appendix 4: Relevant README files {.unnumbered}
 
-**Run Frank in Browser**
+## Run Frank in Browser {.unnumbered}
 
 
-**Frankjnr**
+## Frankjnr {.unnumbered}
 
 An implementation of the Frank programming language described in the
 paper ``Do be do be do'' by Sam Lindley, Conor McBride, and Craig
@@ -56,7 +56,7 @@ Limitations with respect to the paper
  * Coverage checking is not implemented
 
 
-**Report template**
+## Report template {.unnumbered}
 
 
 Template for writing a PhD thesis in Markdown 

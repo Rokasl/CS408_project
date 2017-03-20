@@ -57,6 +57,25 @@ declare -A test8=(
     [expected]='1 2 3     '
 )
 
+
+declare -A test21=(
+    [path]='Backend/tests/test_cases/new/operator.fk'
+    [name]='Testing: operator call'
+    [expected]='suc zero   '
+)
+
+declare -A test22=(
+    [path]='Backend/tests/test_cases/new/intLocal.fk'
+    [name]='Testing: lists with integer values'
+    [expected]='pr 0 1 2     0 1 2      '
+)
+
+declare -A test23=(
+    [path]='Backend/tests/test_cases/new/intMinus.fk'
+    [name]='Testing: integer minus test'
+    [expected]='10 '
+)
+
 #Test cases OLD, lifted from Frankjnr tests
 
 declare -A test9=(
@@ -73,13 +92,13 @@ declare -A test10=(
 
 declare -A test11=(
     [path]='Backend/tests/test_cases/old/fact.fk'
-    [name]='Testing: minus not implemented'
+    [name]='Testing: factorial'
     [expected]='120 '
 )
 
 declare -A test12=(
     [path]='Backend/tests/test_cases/old/fib.fk'
-    [name]='Testing: minus not implemented'
+    [name]='Testing: fib'
     [expected]='5 '
 )
 

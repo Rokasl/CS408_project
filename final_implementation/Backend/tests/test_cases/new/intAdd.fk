@@ -1,2 +1,5 @@
+-- #desc Integer addition test
+-- #return 20
+
 main : {Int}
 main! = 10 + 10
