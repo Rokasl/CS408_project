@@ -178,13 +178,12 @@ deleted and restored, thus, making the machine's structure flexible.
 
 **Data Structure of compiled expression**
 
-Each generated data structure by the compiler is an array and its entries are functions which take in
-a stack. This way it is possible to nest them while keeping track of the stack. 
-
-Below is an example of a compiled expression ready to be used by the abstract machine. This particular
-program is simple, it adds two numbers "2 + 3", so the expected output is "5". Comments are added to 
-explain meaning of different variables. For more complicated
-examples see *main/example_programs*. 
+Each generated data structure by the compiler is an array called *resumptions*. Its entries are functions
+which take in a stack. This way it is possible to nest them while keeping track of the stack. 
+Below is an example of array of resumptions ready to be used by the abstract machine. The semantics of
+this particular structure are simple, to add two numbers "2 + 3", so the expected output is "5".
+Comments in the snippet below explain meaning of different variables in the structure.
+For more complicated examples see *main/example_programs*. 
 
 ```javascript
 var ProgramFoo = [];
@@ -211,13 +210,14 @@ ProgramFoo[1] = function (s) {
 
 #### Implementation
 
-This section will explain detailed implementation of the experimental Abstract Machine. It is defined
-as a function which takes in a compiled program as an argument.
+This section focuses on explaining detailed implementation of the experimental abstract machine. 
+It is defined as a function which takes in array of resumptions as an argument. 
 
-Initial definition of mode with starting values. Because the starting stack is empty the "stack" parameter
-is defined as "null"; the tag is an expression type and if it is equal to "go", the Machine must evaluate
-next function. Finally, the "data" parameter holds an index of next function, so the initial
-value is the index of last function in a program array.
+Modes are objects, which store current stack and computation. Below is shown initial definition of mode
+with starting values. Because the starting stack is empty the "stack" parameter
+is defined as "null"; the "tag" is an expression type and if it is equal to "go", the machine must take 
+"data" parameter, which is an index of the last element in array of resumptions, in order to retrieve
+next mode.
 
 ```javascript
 var mode = {
@@ -227,59 +227,50 @@ var mode = {
     }
 ```
 
-Mode is a function in a program array which takes in a stack as a parameter. Abstract Machine will
-operate until mode.tag is equal to "go". If it is then mode must be reinitialized by getting getting a
-next function from program array and passing stack to it, so that the mode has access to previous stack.
+Each resumption is function, which takes in a stack as a parameter and return a mode.
+Abstract machine will finish compilation if "mode.tag" is not equal to "go". However, if it is equal
+to "go" then mode must be reinitialized, because not all instructions are done, by getting creating
+the next mode from resumptions array and passing stack to it, so that the mode has access to
+previous stack.
 
 ```javascript
     while (mode.tag === "go") {
         mode = f[mode.data](mode.stack);
 ```
 
-After the mode is reinitialized mode.tag can't be equal to "go" and mode stack can't be empty. If these 
-requirements aren't met then it means that execution is over.
+After the mode is reinitialized "mode.tag" can not be equal to "go" and mode's stack can not be empty.
+If these requirements are not met, the next mode will be retrieve, however, if there are none left, the 
+abstract machine will stop executing and return the last mode.
 
 ```javascript
 while (mode.tag != "go" && mode.stack != null) {
 ```
 
 If the execution is still going then the behavior of the Abstract Machine will differ based on mode's
-tag parameter. Tag could be equal to these values:
+"tag" parameter. It could be equal to these values:
 
 * **"num"** - all of the basic evaluations of given expression: 
-    + Addition ("left" and "right") - creates a stack frame with tag "right", if the top of the stack tag
-    is equal to "right" it means that Abstract Machine can add two  of the top frames together, because all
-    of the other computations are done. 
-    + Catch - creates a stack frame with tag "catcher" and places it on the top of the stack. Its data 
+    + Addition ("left" and "right" tags) - "left" tag creates a stack frame with tag "right", thus preparing 
+    a frame for addition. If the top of the
+    stack "tag" is equal to "right" it means that abstract machine can add two of the top frames together,
+    because "left" was previously called and the values of frames are prepared to be added. 
+    + "Catch" - creates a stack frame with tag "catcher" and places it on the top of the stack. Its data 
     parameter is equal to the index of second expression which will be evaluated if first expressions
     throws an exception.
     + New reference - creates a stack frame with tag "WithRefRight", it is different from other stack
     frames because it has a "name" parameter, which is needed to identify between different references.
     It, also, holds the value of the reference in its "data" parameter.
-    + Next (:>left and :>right) - implementation is similar to addition, however the key difference is
-    that if the top stack frame tag is equal to ":>right" the Abstract Machine will take its data without
-    adding anything and it will delete the used stack frame.  
-    + Set (:=) - very similar to "Get" command, key difference is that it alters the stack frame which
-    has tag "WithRefRight" and the given name of the reference. This command utilizes linked list stack
-    saving to be able to restore the stack while saving any changes made. It could throw an exception
-    if the reference is undefined. 
+    + Next (":>left" and ":>right") - implementation is similar to addition, however the key difference is
+    that if the top stack frame tag is equal to ":>right" the abstract machine will take its data without
+    adding anything and it will delete the previous stack frame. These operations evaluate two expressions
+    but return the value of the second.
+    + Set (":=") - very similar to "Get" command (described below), key difference is that it alters the
+    value of stack frame which has tag "WithRefRight" with given name of the reference. This command
+    utilizes linked list stack saving structure to be able to restore the stack while saving any changes
+    made. Exception could be thrown if the reference is undefined. 
  
-* **"throw"** - it defines that something went wrong so the Abstract Machine will look for a "catch"
-usage in the previous stack, if it doesn't find it then it will output an exception.
-
-Machine checks if the top of the stack is equal to "catcher", if it is then it means exception was
-handled, so Abstract Machine reinitializes mode to continue executions by taking "catcher" values of
-"stack" and "data".
-
-```javascript
-mode = {
-    stack: mode.stack.prev,
-    tag: "num",
-    data: mode.stack.data
-    }
-```        
-
-Else Machine drops the top of the stack and continues to look for "catcher" until stack is empty.
+* **"throw"** - defines that something went wrong so the abstract machine will look for a "catcher"
+frame in the previous stack frames; if it does not find it then it will output an exception.
 
 ```javascript
 mode = {
@@ -289,32 +280,42 @@ mode = {
     }
 ```
 
-* **"get"** - goes through stack while looking for a reference, output's either a value of the reference
-  if it does find it or tries to throw an exception if it doesn't. It, also, utilizes linked stack saving
-  and restoring functions, in order to restore the stack if it does find a reference. 
-
-
-After the Abstract Machine finishes running it will output the final stack to the console by invoking a 
-custom printer function for the user to clearly see the stack. 
+However, 
+if it does then it means exception was handled, therefore the abstract machine will reinitialize
+mode to continue executions by taking "catcher" values of "stack" and "data" (some expression).
 
 ```javascript
-printer(mode);
-```
+mode = {
+    stack: mode.stack.prev,
+    tag: "num",
+    data: mode.stack.data
+    }
+```        
 
+
+* **"get"** - goes through the stack while looking for a reference, output's either a value of the reference
+  if it does find it, or tries to throw an exception if it does not. It, also, utilizes linked stack saving
+  and restoring structure, in order to restore the stack if it does find a reference. 
+
+After the abstract machine finishes running, the "mode.tag" is not equal to "go" and the stack is 
+empty, it will output the final mode to the console by invoking a "printer" function for the user
+to clearly see the results. 
 And finally, Abstract Machine outputs final value of the execution on the separate line for testing
-purposes, it is used by Testing framework to check for expected and actual output of a test.
+purposes, it is used by testing framework to check for expected and actual output of a test.
 
 ```javascript
 console.log(mode.data);
 ```
 
-**Linked Stack Saving and Restoring**
+#### Linked Stack Saving and Restoring
 
-Abstract Machine uses saver function in "get" and ":=" implementations. This function lets the Machine
-not only to inspect the depths of the stack but, also, to assign new values to existing frames of the
-stack. To achieve this, Abstract Machine saves each frame of the stack from top until it finds the frame
-it is looking for. Below "saveStack" function is displayed, the "m" variable represents the current stack
-frame.
+Abstract machine uses "saver" helper function in "get" and ":=" implementations. This function lets the
+machine
+to inspect the depths of the stack and to assign new values to existing frames of the
+stack by remembering changes made. To achieve this, abstract machine saves each frame of the stack
+by linking frames together, thus each newly saved frame has a link to previous frame. 
+Below "saveStack" function is displayed, the "m" variable represents the current stack
+frame and "prev" field is a link to previous saved frame.
 
 ```javascript
 save = {
@@ -326,23 +327,20 @@ save = {
 ```  
 
 The save is reverse linked list of stack frames, thus it is possible to restore the original stack including
-all the changes made. After stack is successfully restored all of the save data must be destroyed and parameters
-reseted to keep future saves unaffected.
-
-Limitations:
-
-* Only one Stack save can exist at a given time. 
+all the changes made by reverse engineering the stack. After stack is successfully restored, all of the
+save data must be destroyed and parameters reseted to keep future saves unaffected.
+Finally, current limitation is that only one instance of stack save can exist at a given time. 
  
 
 #### Final Remarks
 
-The Abstract Machine currently supports functionality for adding expressions,
-creating a reference, getting the value of a reference, setting new value of a given reference,
-throwing & catching an exception.
+The abstract machine currently supports functionality for adding expressions,
+creating a reference, getting the value of a reference, setting new value of a given reference and
+throwing & catching exceptions.
 
 Room for improvement:
 
-* Efficiency and optimization; 
+* Efficiency and optimization, for example, by removing "go" tag and calling resumptions array directly; 
 * Documentation;
 * Functionality;
 
@@ -357,10 +355,12 @@ been completed successfully. The key lessons were:
 * Haskell syntax; 
 * Language creation and its syntax development;
 * Compiler - parsing the input and generating valid JavaScript code; 
-* Machine - executing given program, and managing its resources, such as mode, stack and saved stack. 
+* Machine - executing compiled expression array and managing its resources, such as mode,
+  stack and saved stack. 
 
 Key things to improve are optimization & performance.
  
-The further plan is to roll out the lessons learned creating compiler and VM for more of the "Shonky"
-intermediate language that is generated by Frank compiler. This will be covered in the next chapter.
+The further plan was to roll out the lessons learned creating compiler and virtual machine for more of
+the "Shonky" intermediate language that is generated by Frank compiler. This will be covered
+in the next chapter.
 

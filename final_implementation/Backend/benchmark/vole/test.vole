@@ -1,0 +1,72 @@
+!four
+  {.($> 7 3)}
+
+!not
+  {^(true/.[false] false/.[true])}
+
+!add
+  {^(ze/\y.y su^\x/\y.[su (!add x y)])}
+
+!iter
+  {\f^(ze/\x.x su^\n/\x.(!iter f n (f x)))}
+
+!doppio
+  {^(ze/.[ze] su^\n/.[su [su (!doppio n)]])}
+
+!state
+  {\s[get\k.(!state s (k s)) put^\s\k.(!state s (k []))]\x.x}
+
+!map
+  {\f^(nil/.[nil] cons^\x^\xs/.[cons (f x) (!map f xs)])}
+
+!wrap
+  {\x.[wrap x]}
+
+!abc
+  [cons a [cons b [cons c [nil]]]]
+
+!test0
+  {.(!map !wrap [nil])}
+
+!test1
+  {.(!map !wrap !abc)}
+
+!id
+  {\x.x}
+
+!comp
+  {\f\g.{\x.(f (g x))}}
+
+!const
+  {\x/.x}
+
+!zap
+  {\a.(!const ((get) a) (put (!comp !wrap (get))))}
+
+!test2
+  {.(!state !id (!map !zap !abc))}
+
+!pipe
+  {[out^\v\k{out in}\j.(out v; !pipe (k []) (j))
+    in\k
+     [out^\u\j.(!pipe (k u) (j []))
+      in\j.?(in)\u.(!pipe (k (in)) (j u))
+     ]/.(k (in))
+   ]\x{out in}/.x}
+
+!io
+  {[out^\o\k\is.[cons o (!io (k []) is)]
+    in\k^(nil/.[nil] cons^\i^\is/.(!io (k i) is))
+   ]//.[nil]}
+
+!front
+  {.?(in)\x.?(in)\y.(out y; out x)}
+
+!back
+  {.?(in)\x.(out [wrap x]; !back)}
+
+!test3
+  {.(!io (!pipe (!front) (!back)) !abc)}
+
+!mousey
+  {.(blat (mouse); !mousey)}

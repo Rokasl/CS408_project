@@ -366,7 +366,7 @@ Table x.x Short title of the figure . . . </p>
 <p>Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local machine. Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs on the web, there are few working examples in the Git repository of Vole. It, also, has some support for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and application front-end on run-time.</p>
 <p>In the context of this project - Vole is a useful resource, because it essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of Compilers and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
 <h2 id="conclusion"><span class="header-section-number">2.4</span> Conclusion</h2>
-<p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's interpreter with new Compiler and Abstract Machine which would support web development while keeping Shonky's syntax data structures. Other related work were used as examples of different solutions to overcome similar obstacles.</p>
+<p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's interpreter for executing Frank programs. Therefore, the idea was to take existing Frankjnr and replace the Shonky's interpreter with new compiler and abstract machine which would support web development while keeping Shonky's syntax data structures.</p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
 <p>This section discusses the project problem, challenges, requirements and involved risks.</p>
 <h2 id="problem-overview"><span class="header-section-number">3.1</span> Problem overview</h2>
@@ -379,8 +379,8 @@ Table x.x Short title of the figure . . . </p>
 <ul>
 <li>Dependence on Frank implementation (Frankjnr). Instances of Frank code will be tested to make sure it behaves as expected;</li>
 <li>Estimating and scheduling development time. Due to authors inexperience with the subject of the project, correctly estimating and scheduling time is difficult. However, meetings with supervisor are organized regularly, to make sure the project is on track;</li>
-<li>Lack of resources, supervisor Conor McBride is the only resource of relevant and accurate information;</li>
-<li>Authors lack of experience with languages being used and overall analyzed concepts (compiler and virtual machines).</li>
+<li>Lack of available resources;</li>
+<li>Authors lack of experience with languages being used and analyzed concepts (compiler and virtual machines).</li>
 </ul>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
 <p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel Wrigh 2004)</span>, to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
@@ -414,17 +414,17 @@ https://www.haskell.org/-->
 <li>Develop Compiler which uses Shonky's language (Syntax file) and outputs a sensible and correct JavaScript code structure;</li>
 <li>Develop Abstract Machine which can run previously compiled JavaScript code in the browser;</li>
 </ul></li>
-<li>To facilitate client-side communication of events and DOM updates between Frank code and the browser;</li>
+<li>To facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
 </ul>
 <h3 id="non-functional-requirements"><span class="header-section-number">3.3.2</span> Non-functional requirements</h3>
 <ul>
 <li>To create set of tests which should always pass, before each new release of the system. Test cases should be increased after every iteration to validate new features and ensure the previous features are not broken;</li>
 <li>To develop testing framework, which tests the system using the list of predetermine test cases;</li>
 <li>To measure performance (in comparison with the existing back end and with other kinds of generated JavaScript);</li>
-<li>Client-side programming should become possible (example, complex parser of a text field);</li>
+<li>Client-side programming should become possible (example, complex parser of a text field).</li>
 </ul>
 <h3 id="use-cases"><span class="header-section-number">3.3.3</span> Use Cases</h3>
-<p>Use cases are not really relevant to this project, since the developed compiler and abstract machine support full Frank language, which potentially can be used in infinite number of ways. But generally, the user puts sensible Frank code into a Frank file then initiate compilation by using project's compiler, the compiler will generate a JavaScript file which user can include in their web project. Furthermore, user needs to include the machine, which utilizes previously compiled code, into their project. For mode detailed information on how to use the system, check usage instruction in the Appendix ???.</p>
+<p>Use cases are not really relevant to this project, since the developed compiler and abstract machine support full Frank language, which potentially can be used in infinite number of ways. But generally, the user puts sensible Frank code into a Frank file then initiate compilation by using project's compiler, the compiler will generate a JavaScript file which user can include in their web project. Furthermore, user needs to include the machine, which utilizes previously compiled code, into their project. For more detailed information on how to use the system, check usage instruction in <strong>Appendix 2</strong>.</p>
 <h2 id="design-methodology"><span class="header-section-number">3.4</span> Design Methodology</h2>
 <p>The implementation of the project is fully focused on back end development. The adopted design methodology was iterative and incremental development (IID). The main reasons behind it were the difficult nature of the project and author's initial lack of knowledge on the subject; this methodology allows the developer to focus on few features at a time building the system incrementally, thus making it easier to learn as you go.</p>
 <p>Iterative and incremental development (IID) is a process which grows the system incrementally, feature by feature during self-contained cycles of analysis, design, implementation and testing which end when the system is finished. Meaning, the system is improved (more functionality added) through every iteration.</p>
@@ -510,8 +510,7 @@ jsWrite (jsSetup <span class="st">&quot;Add&quot;</span> (compile xpr))</code></
 <h3 id="abstract-machine"><span class="header-section-number">4.2.3</span> Abstract machine</h3>
 <p>Purpose of the abstract machine is to take in a compiled program and provide semantics for the file to be runnable in the browser. It gradually builds a stack from a given data structure (located in &quot;generated.js&quot;), where each frame of the stack has a link to another frame. The elegant part of this structure is that, stack frames can be saved, updated, deleted and restored, thus, making the machine's structure flexible.</p>
 <p><strong>Data Structure of compiled expression</strong></p>
-<p>Each generated data structure by the compiler is an array and its entries are functions which take in a stack. This way it is possible to nest them while keeping track of the stack.</p>
-<p>Below is an example of a compiled expression ready to be used by the abstract machine. This particular program is simple, it adds two numbers &quot;2 + 3&quot;, so the expected output is &quot;5&quot;. Comments are added to explain meaning of different variables. For more complicated examples see <em>main/example_programs</em>.</p>
+<p>Each generated data structure by the compiler is an array called <em>resumptions</em>. Its entries are functions which take in a stack. This way it is possible to nest them while keeping track of the stack. Below is an example of array of resumptions ready to be used by the abstract machine. The semantics of this particular structure are simple, to add two numbers &quot;2 + 3&quot;, so the expected output is &quot;5&quot;. Comments in the snippet below explain meaning of different variables in the structure. For more complicated examples see <em>main/example_programs</em>.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> ProgramFoo <span class="op">=</span> []<span class="op">;</span>
 
 ProgramFoo[<span class="dv">0</span>] <span class="op">=</span> <span class="kw">function</span> (s) <span class="op">{</span>
@@ -533,68 +532,60 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
     <span class="op">}</span>
 <span class="op">};</span></code></pre></div>
 <h4 id="implementation"><span class="header-section-number">4.2.3.1</span> Implementation</h4>
-<p>This section will explain detailed implementation of the experimental Abstract Machine. It is defined as a function which takes in a compiled program as an argument.</p>
-<p>Initial definition of mode with starting values. Because the starting stack is empty the &quot;stack&quot; parameter is defined as &quot;null&quot;; the tag is an expression type and if it is equal to &quot;go&quot;, the Machine must evaluate next function. Finally, the &quot;data&quot; parameter holds an index of next function, so the initial value is the index of last function in a program array.</p>
+<p>This section focuses on explaining detailed implementation of the experimental abstract machine. It is defined as a function which takes in array of resumptions as an argument.</p>
+<p>Modes are objects, which store current stack and computation. Below is shown initial definition of mode with starting values. Because the starting stack is empty the &quot;stack&quot; parameter is defined as &quot;null&quot;; the &quot;tag&quot; is an expression type and if it is equal to &quot;go&quot;, the machine must take &quot;data&quot; parameter, which is an index of the last element in array of resumptions, in order to retrieve next mode.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;go&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="va">f</span>.<span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>
     <span class="op">}</span></code></pre></div>
-<p>Mode is a function in a program array which takes in a stack as a parameter. Abstract Machine will operate until mode.tag is equal to &quot;go&quot;. If it is then mode must be reinitialized by getting getting a next function from program array and passing stack to it, so that the mode has access to previous stack.</p>
+<p>Each resumption is function, which takes in a stack as a parameter and return a mode. Abstract machine will finish compilation if &quot;mode.tag&quot; is not equal to &quot;go&quot;. However, if it is equal to &quot;go&quot; then mode must be reinitialized, because not all instructions are done, by getting creating the next mode from resumptions array and passing stack to it, so that the mode has access to previous stack.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">    <span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">===</span> <span class="st">&quot;go&quot;</span>) <span class="op">{</span>
         mode <span class="op">=</span> f[<span class="va">mode</span>.<span class="at">data</span>](<span class="va">mode</span>.<span class="at">stack</span>)<span class="op">;</span></code></pre></div>
-<p>After the mode is reinitialized mode.tag can't be equal to &quot;go&quot; and mode stack can't be empty. If these requirements aren't met then it means that execution is over.</p>
+<p>After the mode is reinitialized &quot;mode.tag&quot; can not be equal to &quot;go&quot; and mode's stack can not be empty. If these requirements are not met, the next mode will be retrieve, however, if there are none left, the abstract machine will stop executing and return the last mode.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">!=</span> <span class="st">&quot;go&quot;</span> <span class="op">&amp;&amp;</span> <span class="va">mode</span>.<span class="at">stack</span> <span class="op">!=</span> <span class="kw">null</span>) <span class="op">{</span></code></pre></div>
-<p>If the execution is still going then the behavior of the Abstract Machine will differ based on mode's tag parameter. Tag could be equal to these values:</p>
+<p>If the execution is still going then the behavior of the Abstract Machine will differ based on mode's &quot;tag&quot; parameter. It could be equal to these values:</p>
 <ul>
 <li><strong>&quot;num&quot;</strong> - all of the basic evaluations of given expression:
 <ul>
-<li>Addition (&quot;left&quot; and &quot;right&quot;) - creates a stack frame with tag &quot;right&quot;, if the top of the stack tag is equal to &quot;right&quot; it means that Abstract Machine can add two of the top frames together, because all of the other computations are done.</li>
-<li>Catch - creates a stack frame with tag &quot;catcher&quot; and places it on the top of the stack. Its data parameter is equal to the index of second expression which will be evaluated if first expressions throws an exception.</li>
+<li>Addition (&quot;left&quot; and &quot;right&quot; tags) - &quot;left&quot; tag creates a stack frame with tag &quot;right&quot;, thus preparing a frame for addition. If the top of the stack &quot;tag&quot; is equal to &quot;right&quot; it means that abstract machine can add two of the top frames together, because &quot;left&quot; was previously called and the values of frames are prepared to be added.</li>
+<li>&quot;Catch&quot; - creates a stack frame with tag &quot;catcher&quot; and places it on the top of the stack. Its data parameter is equal to the index of second expression which will be evaluated if first expressions throws an exception.</li>
 <li>New reference - creates a stack frame with tag &quot;WithRefRight&quot;, it is different from other stack frames because it has a &quot;name&quot; parameter, which is needed to identify between different references. It, also, holds the value of the reference in its &quot;data&quot; parameter.</li>
-<li>Next (:&gt;left and :&gt;right) - implementation is similar to addition, however the key difference is that if the top stack frame tag is equal to &quot;:&gt;right&quot; the Abstract Machine will take its data without adding anything and it will delete the used stack frame.<br />
-</li>
-<li>Set (:=) - very similar to &quot;Get&quot; command, key difference is that it alters the stack frame which has tag &quot;WithRefRight&quot; and the given name of the reference. This command utilizes linked list stack saving to be able to restore the stack while saving any changes made. It could throw an exception if the reference is undefined.</li>
+<li>Next (&quot;:&gt;left&quot; and &quot;:&gt;right&quot;) - implementation is similar to addition, however the key difference is that if the top stack frame tag is equal to &quot;:&gt;right&quot; the abstract machine will take its data without adding anything and it will delete the previous stack frame. These operations evaluate two expressions but return the value of the second.</li>
+<li>Set (&quot;:=&quot;) - very similar to &quot;Get&quot; command (described below), key difference is that it alters the value of stack frame which has tag &quot;WithRefRight&quot; with given name of the reference. This command utilizes linked list stack saving structure to be able to restore the stack while saving any changes made. Exception could be thrown if the reference is undefined.</li>
 </ul></li>
-<li><strong>&quot;throw&quot;</strong> - it defines that something went wrong so the Abstract Machine will look for a &quot;catch&quot; usage in the previous stack, if it doesn't find it then it will output an exception.</li>
+<li><strong>&quot;throw&quot;</strong> - defines that something went wrong so the abstract machine will look for a &quot;catcher&quot; frame in the previous stack frames; if it does not find it then it will output an exception.</li>
 </ul>
-<p>Machine checks if the top of the stack is equal to &quot;catcher&quot;, if it is then it means exception was handled, so Abstract Machine reinitializes mode to continue executions by taking &quot;catcher&quot; values of &quot;stack&quot; and &quot;data&quot;.</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
-    <span class="dt">stack</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">prev</span><span class="op">,</span>
-    <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span>
-    <span class="dt">data</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">data</span>
-    <span class="op">}</span></code></pre></div>
-<p>Else Machine drops the top of the stack and continues to look for &quot;catcher&quot; until stack is empty.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">prev</span><span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;throw&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="st">&quot;Unhandled exception!&quot;</span>
     <span class="op">}</span></code></pre></div>
+<p>However, if it does then it means exception was handled, therefore the abstract machine will reinitialize mode to continue executions by taking &quot;catcher&quot; values of &quot;stack&quot; and &quot;data&quot; (some expression).</p>
+<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
+    <span class="dt">stack</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">prev</span><span class="op">,</span>
+    <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span>
+    <span class="dt">data</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">data</span>
+    <span class="op">}</span></code></pre></div>
 <ul>
-<li><strong>&quot;get&quot;</strong> - goes through stack while looking for a reference, output's either a value of the reference if it does find it or tries to throw an exception if it doesn't. It, also, utilizes linked stack saving and restoring functions, in order to restore the stack if it does find a reference.</li>
+<li><strong>&quot;get&quot;</strong> - goes through the stack while looking for a reference, output's either a value of the reference if it does find it, or tries to throw an exception if it does not. It, also, utilizes linked stack saving and restoring structure, in order to restore the stack if it does find a reference.</li>
 </ul>
-<p>After the Abstract Machine finishes running it will output the final stack to the console by invoking a custom printer function for the user to clearly see the stack.</p>
-<div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="at">printer</span>(mode)<span class="op">;</span></code></pre></div>
-<p>And finally, Abstract Machine outputs final value of the execution on the separate line for testing purposes, it is used by Testing framework to check for expected and actual output of a test.</p>
+<p>After the abstract machine finishes running, the &quot;mode.tag&quot; is not equal to &quot;go&quot; and the stack is empty, it will output the final mode to the console by invoking a &quot;printer&quot; function for the user to clearly see the results. And finally, Abstract Machine outputs final value of the execution on the separate line for testing purposes, it is used by testing framework to check for expected and actual output of a test.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">console</span>.<span class="at">log</span>(<span class="va">mode</span>.<span class="at">data</span>)<span class="op">;</span></code></pre></div>
-<p><strong>Linked Stack Saving and Restoring</strong></p>
-<p>Abstract Machine uses saver function in &quot;get&quot; and &quot;:=&quot; implementations. This function lets the Machine not only to inspect the depths of the stack but, also, to assign new values to existing frames of the stack. To achieve this, Abstract Machine saves each frame of the stack from top until it finds the frame it is looking for. Below &quot;saveStack&quot; function is displayed, the &quot;m&quot; variable represents the current stack frame.</p>
+<h4 id="linked-stack-saving-and-restoring"><span class="header-section-number">4.2.3.2</span> Linked Stack Saving and Restoring</h4>
+<p>Abstract machine uses &quot;saver&quot; helper function in &quot;get&quot; and &quot;:=&quot; implementations. This function lets the machine to inspect the depths of the stack and to assign new values to existing frames of the stack by remembering changes made. To achieve this, abstract machine saves each frame of the stack by linking frames together, thus each newly saved frame has a link to previous frame. Below &quot;saveStack&quot; function is displayed, the &quot;m&quot; variable represents the current stack frame and &quot;prev&quot; field is a link to previous saved frame.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">save <span class="op">=</span> <span class="op">{</span>
     <span class="dt">prev</span><span class="op">:</span> save<span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="va">m</span>.<span class="at">tag</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="va">m</span>.<span class="at">data</span><span class="op">,</span>
     <span class="dt">name</span><span class="op">:</span> <span class="va">m</span>.<span class="at">name</span>
 <span class="op">}</span></code></pre></div>
-<p>The save is reverse linked list of stack frames, thus it is possible to restore the original stack including all the changes made. After stack is successfully restored all of the save data must be destroyed and parameters reseted to keep future saves unaffected.</p>
-<p>Limitations:</p>
-<ul>
-<li>Only one Stack save can exist at a given time.</li>
-</ul>
-<h4 id="final-remarks"><span class="header-section-number">4.2.3.2</span> Final Remarks</h4>
-<p>The Abstract Machine currently supports functionality for adding expressions, creating a reference, getting the value of a reference, setting new value of a given reference, throwing &amp; catching an exception.</p>
+<p>The save is reverse linked list of stack frames, thus it is possible to restore the original stack including all the changes made by reverse engineering the stack. After stack is successfully restored, all of the save data must be destroyed and parameters reseted to keep future saves unaffected. Finally, current limitation is that only one instance of stack save can exist at a given time.</p>
+<h4 id="final-remarks"><span class="header-section-number">4.2.3.3</span> Final Remarks</h4>
+<p>The abstract machine currently supports functionality for adding expressions, creating a reference, getting the value of a reference, setting new value of a given reference and throwing &amp; catching exceptions.</p>
 <p>Room for improvement:</p>
 <ul>
-<li>Efficiency and optimization;</li>
+<li>Efficiency and optimization, for example, by removing &quot;go&quot; tag and calling resumptions array directly;</li>
 <li>Documentation;</li>
 <li>Functionality;</li>
 </ul>
@@ -605,10 +596,10 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <li>Haskell syntax;</li>
 <li>Language creation and its syntax development;</li>
 <li>Compiler - parsing the input and generating valid JavaScript code;</li>
-<li>Machine - executing given program, and managing its resources, such as mode, stack and saved stack.</li>
+<li>Machine - executing compiled expression array and managing its resources, such as mode, stack and saved stack.</li>
 </ul>
 <p>Key things to improve are optimization &amp; performance.</p>
-<p>The further plan is to roll out the lessons learned creating compiler and VM for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
+<p>The further plan was to roll out the lessons learned creating compiler and virtual machine for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
 <h1 id="detailed-design-and-implementation-of-the-final-system"><span class="header-section-number">5</span> Detailed Design and Implementation of the final system</h1>
 <p>Chapter focuses on implementation, design of the final compiler and abstract machine, as well as, any topics connected to them.</p>
 <h2 id="introduction-2"><span class="header-section-number">5.1</span> Introduction</h2>
@@ -1025,6 +1016,11 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <li>Improve performance by not trying to launch programs which fail to compile by &quot;Frankjnr&quot; compiler.</li>
 </ul>
 <h1 id="results-and-evaluation"><span class="header-section-number">7</span> Results and Evaluation</h1>
+<p>•what you are evaluating •how you evaluated •any challenges in evaluation •what you learnt from evaluation</p>
+<p>: performence, functionly</p>
+<p>javascript string concat benchmark</p>
+<p>experimental evaluations (compare systems) automatic evaluations (speed, acuracy)</p>
+<p>limitations</p>
 <h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
 <h2 id="summary"><span class="header-section-number">8.1</span> Summary</h2>
 <h2 id="future-work"><span class="header-section-number">8.2</span> Future work</h2>

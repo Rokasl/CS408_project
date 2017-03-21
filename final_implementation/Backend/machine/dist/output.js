@@ -47,9 +47,12 @@
 	Machine = __webpack_require__(1);
 	Printer = __webpack_require__(2);
 	gen = __webpack_require__(3);
-
+	var start = new Date().getTime();
 	var mode = new Machine(gen[0], gen[1]);
+	var end = new Date().getTime();
 	console.log(mode.comp.value);
+	console.log('Execution took (ms):');
+	console.log(end - start);
 	console.log(Printer(mode.comp.value));
 
 

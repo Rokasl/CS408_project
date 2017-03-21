@@ -49,8 +49,8 @@ or testing framework.
   correctly
   estimating and scheduling time is difficult. However, meetings with supervisor are organized
   regularly, to make sure the project is on track;
-* Lack of resources, supervisor Conor McBride is the only resource of relevant and accurate information;
-* Authors lack of experience with languages being used and overall analyzed concepts 
+* Lack of available resources;
+* Authors lack of experience with languages being used and analyzed concepts 
   (compiler and virtual machines).
 
 
@@ -135,7 +135,7 @@ file with compiler powered by *npm*.
     + Develop Compiler which uses Shonky's language (Syntax file) and outputs a sensible and correct
       JavaScript code structure;
     + Develop Abstract Machine which can run previously compiled JavaScript code in the browser;
-* To facilitate client-side communication of events and DOM updates between Frank code and the browser;
+* To facilitate client-side communication of events and DOM updates between Frank code and the browser.
 
 
 ### Non-functional requirements
@@ -146,7 +146,7 @@ file with compiler powered by *npm*.
 * To develop testing framework, which tests the system using the list of predetermine test cases;
 * To measure performance (in comparison with the existing back end and with other kinds of generated 
   JavaScript);
-* Client-side programming should become possible (example, complex parser of a text field);
+* Client-side programming should become possible (example, complex parser of a text field).
 
 ### Use Cases
 
@@ -155,7 +155,7 @@ support full Frank language, which potentially can be used in infinite number of
 the user puts sensible Frank code into a Frank file then initiate compilation by using project's compiler,
 the compiler will generate a JavaScript file which user can include in their web project. Furthermore,
 user needs to include the machine, which utilizes previously compiled code, into their project.
-For mode detailed information on how to use the system, check usage instruction in the Appendix ???. 
+For more detailed information on how to use the system, check usage instruction in **Appendix 2**. 
 
 ## Design Methodology
 

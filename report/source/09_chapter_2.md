@@ -47,8 +47,6 @@ and Abstract Machines. Lastly, Vole is used for evaluation purposes as another b
 Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution
 for similar problem, which got author thinking of different ways to approach the problem. Shonky and
 Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses
-Shonky's Abstract Machine (interpreter). So the idea was to take existing Frankjnr and replace the Shonky's
-interpreter with new Compiler and Abstract Machine which would support web development while keeping
-Shonky's syntax data structures. Other related work were used as examples of different solutions to 
-overcome similar obstacles. 
-
+Shonky's interpreter for executing Frank programs. Therefore, the idea was to take existing Frankjnr
+and replace the Shonky's interpreter with new compiler and abstract machine which would support web
+development while keeping Shonky's syntax data structures.

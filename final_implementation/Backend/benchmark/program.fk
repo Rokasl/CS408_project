@@ -1,0 +1,8 @@
+main : []List (List Num)
+main! = map {x -> cons (wrap x) nil} (cons Num (cons Num (cons Num nil)))
+
+data Num = Num | wrap Num
+
+map : {a -> b} -> List a -> List b
+map f nil = nil
+map f (cons x xs) = cons (f x) (map f xs)
