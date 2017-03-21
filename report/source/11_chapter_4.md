@@ -18,7 +18,7 @@ Thus, simpler language was developed with matching compiler and abstract machine
 and the machine were developed while keeping in mind that their key parts will be reused for the final
 system. So efficiency, reliability, structure were all important factors.
 
-## Simple system
+## Experimental system
 
 System consists of:
 

@@ -198,8 +198,7 @@
                 <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
                 <li><a href="#background"><span class="toc-section-number">1.1</span> Background</a></li>
                 <li><a href="#objectives"><span class="toc-section-number">1.2</span> Objectives</a></li>
-                <li><a href="#project-outcome"><span class="toc-section-number">1.3</span> Project Outcome</a></li>
-                <li><a href="#summary-of-chapters"><span class="toc-section-number">1.4</span> Summary of chapters</a></li>
+                <li><a href="#summary-of-chapters"><span class="toc-section-number">1.3</span> Summary of chapters</a></li>
                 </ul></li>
                 <li><a href="#related-work"><span class="toc-section-number">2</span> Related Work</a><ul>
                 <li><a href="#shonky"><span class="toc-section-number">2.1</span> Shonky</a></li>
@@ -230,7 +229,7 @@
                 </ul></li>
                 <li><a href="#initial-development-experimental-system"><span class="toc-section-number">4</span> Initial development &amp; experimental system</a><ul>
                 <li><a href="#introduction-1"><span class="toc-section-number">4.1</span> Introduction</a></li>
-                <li><a href="#simple-system"><span class="toc-section-number">4.2</span> Simple system</a><ul>
+                <li><a href="#experimental-system"><span class="toc-section-number">4.2</span> Experimental system</a><ul>
                 <li><a href="#language"><span class="toc-section-number">4.2.1</span> Language</a></li>
                 <li><a href="#compiler"><span class="toc-section-number">4.2.2</span> Compiler</a></li>
                 <li><a href="#abstract-machine"><span class="toc-section-number">4.2.3</span> Abstract machine</a></li>
@@ -264,15 +263,24 @@
                 <li><a href="#possible-improvements-2"><span class="toc-section-number">6.2.2</span> Possible improvements</a></li>
                 </ul></li>
                 </ul></li>
-                <li><a href="#results-and-evaluation"><span class="toc-section-number">7</span> Results and Evaluation</a></li>
+                <li><a href="#results-and-evaluation"><span class="toc-section-number">7</span> Results and Evaluation</a><ul>
+                <li><a href="#outcome"><span class="toc-section-number">7.1</span> Outcome</a><ul>
+                <li><a href="#experimental-system-1"><span class="toc-section-number">7.1.1</span> Experimental system</a></li>
+                <li><a href="#final-system"><span class="toc-section-number">7.1.2</span> Final system</a></li>
+                </ul></li>
+                <li><a href="#evaluation"><span class="toc-section-number">7.2</span> Evaluation</a><ul>
+                <li><a href="#benchmark"><span class="toc-section-number">7.2.1</span> Benchmark</a></li>
+                <li><a href="#functionality-comparison"><span class="toc-section-number">7.2.2</span> Functionality comparison</a></li>
+                </ul></li>
+                </ul></li>
                 <li><a href="#summary-conclusion"><span class="toc-section-number">8</span> Summary &amp; Conclusion</a><ul>
                 <li><a href="#summary"><span class="toc-section-number">8.1</span> Summary</a></li>
                 <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
                 <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a><ul>
-                <li><a href="#experimental-system">Experimental system</a></li>
-                <li><a href="#final-system">Final system</a><ul>
+                <li><a href="#experimental-system-2">Experimental system</a></li>
+                <li><a href="#final-system-1">Final system</a><ul>
                 <li><a href="#new-test-programs">New test programs</a></li>
                 <li><a href="#old-test-programs">Old test programs</a></li>
                 </ul></li>
@@ -321,7 +329,7 @@ Table x.x Short title of the figure . . . </p>
 
 <p> </p>
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
-<p>This chapter focuses on explaining the project motivation, objectives and outcome. Also, in the last section, the report structure is displayed.</p>
+<p>This chapter focuses on explaining the project motivation and objectives. Also, in the last section, the report structure is displayed.</p>
 <h2 id="background"><span class="header-section-number">1.1</span> Background</h2>
 <p>Functional languages are evolving and constantly changing in order to adapt to innovations and the ever-changing needs of software engineering. Stemming from this, the concept of Frank language was created by Prof. Conor McBride and Prof. Sam Lindley, followed by its implementation named “Frank” and the more recent release - “Frankjnr”.</p>
 <p>“Frank”is a strongly typed, strict functional programming language designed around Plotkin and Pretnar’s effect handler abstraction, strongly influenced by <span class="citation">(B. C. Pierce and D. N. Turner 2000)</span>, <span class="citation">(G. D. Plotkin and J. Power 2001b)</span>, <span class="citation">(G. D. Plotkin and J. Power 2001a)</span>, <span class="citation">(G. D. Plotkin and J. Power 2002)</span>, <span class="citation">(G. D. Plotkin and J. Power 2003)</span>, <span class="citation">(G. D. Plotkin and J. Power 2009)</span>, <span class="citation">(G. D. Plotkin and M. Pretnar 2013)</span> papers on algebraic effects and handlers for algebraic effects. It is also influenced by Paul Blain Levy’s call-by-push-value calculus. Frank features a bidirectional effect type system, effect polymorphism, and effect handlers; Frank thus supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when a command is complete, depending on the handler, the system could resume from the point it was suspended. Handlers are very similar to typical functions, but their argument processes can communicate in more advanced ways.</p>
@@ -336,9 +344,7 @@ Table x.x Short title of the figure . . . </p>
 <li>Develop an abstract machine implementation which supports the output of the compiler;</li>
 <li>The completed system must facilitate client-side communication of events and DOM updates between Frank code and the browser.</li>
 </ul>
-<h2 id="project-outcome"><span class="header-section-number">1.3</span> Project Outcome</h2>
-<p>During the initial development stages, an experimental system was developed with its own language, compiler, virtual machine and testing framework in order to expand the author’s insight of the subject. Lessons learned, along with the code style and a few functions of experimental system, were adapted in creation of the final system. Having done this, the author was successful in implementing a new abstract machine and compiler for Frankjnr, which were in turn integrated into the Frankjnr project. However, the newly developed components are very much in the prototype stage as some of Frank's features are still not implemented and there are no new web functions added to the machine, which could potentially handle HTTP requests and similar web operations. Moreover, the project can still improve on a variety of concerns, such as performance and building procedures as they were not initial goals of the project.</p>
-<h2 id="summary-of-chapters"><span class="header-section-number">1.4</span> Summary of chapters</h2>
+<h2 id="summary-of-chapters"><span class="header-section-number">1.3</span> Summary of chapters</h2>
 <p><strong>Chapter 2 - Related Work</strong></p>
 <p>The aim of this chapter is to highlight work done by others that in some fashion ties in with this project. This includes work which the author directly uses as a bouncing-off point, work that shows other attempts to solve similar problems, as well as connected projects which have been partially used in the final implementation of the project.</p>
 <p><strong>Chapter 3 - Problem Description and Specification</strong></p>
@@ -447,7 +453,7 @@ https://www.haskell.org/-->
 <li>Complexity of abstract machines and their implementation;</li>
 </ul>
 <p>Thus, simpler language was developed with matching compiler and abstract machine. Both, the compiler and the machine were developed while keeping in mind that their key parts will be reused for the final system. So efficiency, reliability, structure were all important factors.</p>
-<h2 id="simple-system"><span class="header-section-number">4.2</span> Simple system</h2>
+<h2 id="experimental-system"><span class="header-section-number">4.2</span> Experimental system</h2>
 <p>System consists of:</p>
 <ul>
 <li>Compiler - written in Haskell;</li>
@@ -1016,6 +1022,114 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <li>Improve performance by not trying to launch programs which fail to compile by &quot;Frankjnr&quot; compiler.</li>
 </ul>
 <h1 id="results-and-evaluation"><span class="header-section-number">7</span> Results and Evaluation</h1>
+<h2 id="outcome"><span class="header-section-number">7.1</span> Outcome</h2>
+<h3 id="experimental-system-1"><span class="header-section-number">7.1.1</span> Experimental system</h3>
+<p>During the initial development stages, an experimental system was developed with its own language, compiler, virtual machine and testing framework in order to expand the author’s insight of the subject. Experimental system is able to compile and run in the browser specific list of operations, in particular sum of two expressions, &quot;Throw&quot; and &quot;Catch&quot;, &quot;Set&quot;, &quot;Next&quot;, &quot;Get&quot; and to create new reference. These operations were chosen because they each have significantly different implementation, thus offering broader learning experience for the author. Moreover, abstract machine is written in JavaScript, therefore it is able to communicate with compiled expressions on run-time. Defining quality of the abstract machine is that it utilizes stack as its core data structure, with support for interrupts. They have connected handlers who when initiated start going through the stack, in order to execute some operation; when they are done, handlers restore the stack to its original position and give back control.</p>
+<p>Here is an example of an expression with many of the available operations in action. Initially variable &quot;x&quot; is created with value of &quot;22&quot;, then it is assigned a new meaning of sum of previous &quot;x&quot; value and value &quot;11&quot;. Moving on &quot;Next&quot; (&quot;:&gt;&quot;) operation is used to initiate last expression, where the new value &quot;x&quot; is taken and added to value &quot;30&quot;. Virtual machine will return &quot;63&quot; in the browser for this expression.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">WithRef</span> <span class="st">&quot;x&quot;</span> (<span class="dt">Val</span> <span class="dv">22</span>) (
+    <span class="st">&quot;x&quot;</span> <span class="fu">:=</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span> <span class="fu">:+:</span> <span class="dt">Val</span> <span class="dv">11</span>)
+        <span class="fu">:&gt;</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span> <span class="fu">:+:</span> <span class="dt">Val</span> <span class="dv">30</span>))</code></pre></div>
+<p>Lastly, computation is interrupted on &quot;:=&quot; and &quot;Get&quot; commands to search through the stack and retrieve or update reference of &quot;x&quot;.</p>
+<h3 id="final-system"><span class="header-section-number">7.1.2</span> Final system</h3>
+<p>Lessons learned, along with the code style and a few functions of experimental system, were adapted in creation of the final system. Having done this, the author was successful in implementing a new abstract machine and compiler for &quot;Shonky&quot; data structures, which were in turn integrated into the Frankjnr project. Final system supports variables, integer values, atoms, pairs, function application, local functions, commands, thunk patterns, top level functions and contains built in semantics for addition and subtraction. All these features combined offer close to full development package, thus almost any current Frank program could be compiled by the new compiler and successfully executed by the abstract machine in the browser.</p>
+<p>Quick example of how the compiler and abstract machine work together and how user may use it. User is able to execute Frank programs in four steps. First step is to write a program in Frank with file ending of &quot;.fk&quot;, such as:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Int</span>
+main<span class="fu">!</span> <span class="fu">=</span> fib <span class="dv">5</span>
+
+fib <span class="fu">:</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+fib <span class="dv">0</span> <span class="fu">=</span> <span class="dv">0</span>
+fib <span class="dv">1</span> <span class="fu">=</span> <span class="dv">1</span>
+fib <span class="dv">2</span> <span class="fu">=</span> <span class="dv">1</span>
+fib n <span class="fu">=</span> fib (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">+</span> fib (n<span class="fu">-</span><span class="dv">2</span>)</code></pre></div>
+<p>Second step is to compile it with flag &quot;output-js&quot; to initiate new compiler. This will generate &quot;gen.js&quot; file in <em>Backend/machine/dist</em> directory with resumptions and operators arrays, which may be used by the virtual machine.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> fib.fk --output-js</code></pre></div>
+<p>Third step is to recompile the machine's code (in <em>machine</em> folder), to include newly generated file, with <em>webpack</em> command. And finally user needs to include &quot;output.js&quot; form <em>dist</em> folder, in his project's HTML file. In this example user would see 5 as the computation result in the browser.</p>
+<h4 id="limitations"><span class="header-section-number">7.1.2.1</span> Limitations</h4>
+<p>All of the limitations are possible improvements and they are present because of time constrains.</p>
+<ul>
+<li>Compilation of Frank programs with new compiler can be initiated only from the base <em>final_implementation</em> folder, because the file generation path is fixed for testing purposes;</li>
+<li>To be compiled successfully Frank program must have a &quot;main&quot; function and it must be the first one in the file;</li>
+<li>Lack of web functionality. Even though Frank language can be used to code in web context, current implementation does not have any web features implemented because of time constrains;</li>
+<li>Some features are still in prototype stages and very small amount of them are still not implemented.</li>
+</ul>
+<p>Moreover, the system can still improve on a variety of concerns, such as performance and building procedures as they were not initial goals of the project.</p>
+<h2 id="evaluation"><span class="header-section-number">7.2</span> Evaluation</h2>
+<p>Experimental evaluation was chosen for this project and it was done in two parts. First part was benchmarking performance of developed system against two other similar systems. Second part was comparison of functionality between developed system and Frankjnr original components.</p>
+<h3 id="benchmark"><span class="header-section-number">7.2.1</span> Benchmark</h3>
+<p>Benchmarking framework can be found in <em>final_implementation/Backend/benchmark</em> folder. Tests can be initiated in a terminal window by typing <em>./evalNewBackend.sh</em>, <em>./evalVole.sh</em> or <em>./evalFrankjnr.sh</em>. Requirements for launching the benchmark tests are the same as for the final system, in addition the scripts must have permissions.</p>
+<p>This benchmark was solely focused on the performance of the systems. Two type of times were taken into account: compilation time and execution time. Compilation time is how fast given program is parsed and compiled; execution time is how fast virtual machine returns the final result. Vagrant (Virtual Box) environment was used for running the tests with two gigabytes of allocated memory. These environments are known to be considerably slower than real ones, therefore chosen systems might perform faster in real world, however in this case systems were only compared between each other. The following systems were benchmarked:</p>
+<ul>
+<li>Final system (developed by the author of this project);</li>
+<li>Frankjnr original system;</li>
+<li>Vole system.</li>
+</ul>
+<p>Single test included compilation and execution of a given program hundred times and each system were taken 5 times. The program, which was executed had same semantics for all systems. Below the program is shown which was used to benchmark Fraknjr original and new system.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">List</span> (<span class="dt">List</span> <span class="dt">Num</span>)
+main<span class="fu">!</span> <span class="fu">=</span> map {x <span class="ot">-&gt;</span> cons (wrap x) nil} (cons <span class="dt">Num</span> (cons <span class="dt">Num</span> (cons <span class="dt">Num</span> nil)))
+
+<span class="kw">data</span> <span class="dt">Num</span> <span class="fu">=</span> <span class="dt">Num</span> <span class="fu">|</span> wrap <span class="dt">Num</span>
+
+map <span class="fu">:</span> {a <span class="ot">-&gt;</span> b} <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b
+map f nil <span class="fu">=</span> nil
+map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></div>
+<table>
+<caption>Benchmark result table</caption>
+<thead>
+<tr class="header">
+<th>Test Nr.</th>
+<th>Final system</th>
+<th>Original system</th>
+<th>Vole</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Test 1</td>
+<td>2.787 sec.</td>
+<td>0.754 sec.</td>
+<td>1.261 sec.</td>
+</tr>
+<tr class="even">
+<td>Test 2</td>
+<td>2.847 sec.</td>
+<td>0.882 sec.</td>
+<td>1.293 sec.</td>
+</tr>
+<tr class="odd">
+<td>Test 3</td>
+<td>3.005 sec.</td>
+<td>0.993 sec.</td>
+<td>1.226 sec.</td>
+</tr>
+<tr class="even">
+<td>Test 4</td>
+<td>2.962 sec.</td>
+<td>1.046 sec.</td>
+<td>1.248 sec.</td>
+</tr>
+<tr class="odd">
+<td>Test 5</td>
+<td>2.976 sec.</td>
+<td>1.029 sec.</td>
+<td>1.227 sec.</td>
+</tr>
+<tr class="even">
+<td>Average</td>
+<td>2.915 sec.</td>
+<td>0.941 sec.</td>
+<td>1.251 sec.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Concerns and challenges were:</p>
+<ul>
+<li>Vole uses different compiler which has its own terminal, thus expect script was used. This might have affected performance.</li>
+<li>Final system is dependent on Frankjnr compiler.</li>
+<li>Final system uses JavaScript powered machine compared to other which use Haskell for abstract machine.</li>
+</ul>
+<p>This benchmark gives a clear idea of the state of the system in terms of performance. However, these results were expected, since the performance was not one of the core goals of the project. Moreover, due to developed benchmark framework, it could be easily used again after further development to quickly check for changes in performance.</p>
+<h3 id="functionality-comparison"><span class="header-section-number">7.2.2</span> Functionality comparison</h3>
 <p>•what you are evaluating •how you evaluated •any challenges in evaluation •what you learnt from evaluation</p>
 <p>: performence, functionly</p>
 <p>javascript string concat benchmark</p>
@@ -1218,6 +1332,8 @@ Abstract machine sections<br />
 March 20:<br />
 Report:<br />
 Testing and validation sections<br />
+March 21:<br />
+Benchmarking and evaluation sections<br />
 # Appendix 2: Usage &amp; installation instructions {.unnumbered}</p>
 <p><strong>Experimental test framework</strong></p>
 <p><em>Pre-requirements</em></p>
@@ -1253,7 +1369,7 @@ Testing and validation sections<br />
 <p>If <em>tester.sh</em> have issues with permission, do:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh</code></pre></div>
 <h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
-<h2 id="experimental-system" class="unnumbered">Experimental system</h2>
+<h2 id="experimental-system-2" class="unnumbered">Experimental system</h2>
 <p>This is a full list of experimental system's test cases. &quot;expr&quot; - is expression to be tested, &quot;name&quot; - the name of the test and &quot;expected&quot; is expected output.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span> <span class="co">#value</span>
     [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
@@ -1319,7 +1435,7 @@ Testing and validation sections<br />
     [<span class="ex">name</span>]=<span class="st">&#39;test_next&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;23&#39;</span>
 )</code></pre></div>
-<h2 id="final-system" class="unnumbered">Final system</h2>
+<h2 id="final-system-1" class="unnumbered">Final system</h2>
 <p>Below is a list of all test programs for the final system:</p>
 <h3 id="new-test-programs" class="unnumbered">New test programs</h3>
 <p><strong>Test program 1:</strong></p>

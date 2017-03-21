@@ -1,6 +1,6 @@
 # Introduction
 
-This chapter focuses on explaining the project motivation, objectives and outcome. Also, in the last section,
+This chapter focuses on explaining the project motivation and objectives. Also, in the last section,
 the report structure is displayed.
 
 
@@ -47,22 +47,6 @@ learning experience.
 * Develop an abstract machine implementation which supports the output of the compiler;
 * The completed system must facilitate client-side communication of events and DOM updates between Frank code
   and the browser.
-
-## Project Outcome
-
-During the initial development stages, an experimental system was developed with its own language,
-compiler, virtual machine and
-testing framework in order to expand the author’s insight of the subject.
-Lessons learned, along with the code style and a few functions of experimental system, were adapted in
-creation of the final system.
-Having done this, the author was successful in implementing a new abstract machine and compiler for Frankjnr,
-which were in turn integrated into the Frankjnr project.
-However, the newly developed components are very much in the prototype stage as some of Frank's features
-are still not implemented and there are no new web functions added to the machine, which could potentially
-handle HTTP requests and similar web operations.
-Moreover, the project can still improve on a variety of concerns, such as performance and
-building procedures as they were not initial goals of the project.
-   
 
 ## Summary of chapters
 
