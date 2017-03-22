@@ -278,6 +278,7 @@
                 <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
+                <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a></li>
                 <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a><ul>
                 <li><a href="#experimental-system-2">Experimental system</a></li>
                 <li><a href="#final-system-1">Final system</a><ul>
@@ -356,7 +357,9 @@ Table x.x Short title of the figure . . . </p>
 <p><strong>Chapter 6 - Verification and Validation</strong></p>
 <p>This chapter explains how the outcome of the project was validated and what testing procedures were followed during and after the project.</p>
 <p><strong>Chapter 7 - Results and Evaluation</strong></p>
-<p>The principal intention of the chapter is to summarize the outcome of the project, describing how it was evaluated and to propose relevant future work.</p>
+<p>The principal intention of the chapter is to summarize the outcome of the project and to describing how it was evaluated.</p>
+<p><strong>Chapter 8 - Summary &amp; Conclusion</strong></p>
+<p>This chapter summarizes the project while highlighting valuable lessons learned by the author and proposes relevant future work.</p>
 <h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
 <h2 id="shonky"><span class="header-section-number">2.1</span> Shonky</h2>
 <p>Shonky is untyped and impure functional programming language. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
@@ -376,17 +379,17 @@ Table x.x Short title of the figure . . . </p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
 <p>This section discusses the project problem, challenges, requirements and involved risks.</p>
 <h2 id="problem-overview"><span class="header-section-number">3.1</span> Problem overview</h2>
-<p>The main aim of the project was to develop new Compiler and corresponding Abstract Machine for existing functional language Frank implementation called Frankjnr. The difference from the old ones was that new Compiler and Abstract Machine would support web development. Many different challenges follow from that. First one being authors initial lack of knowledge on Frank language. Frank being full and complex language author had to study it and overcome any difficulties regarding the language by researching the paper on Frank &quot;<em>Do be do be do</em>&quot; <span class="citation">(Sam Lindley, Conor McBride &amp; Craig McLaughlin 2016)</span>.</p>
-<p>A second challenge was overcoming the complexity of existing systems. Because this project is not standalone, it strictly depends on the Shonky Syntax implementation as well as Frankjnr handling Frank's code. Author had to take time and carefully research existing systems, to understand how everything fits together and how efficiently replace exiting Shonky interpreter with new Compiler and Abstract Machine.</p>
-<p>Another challenge was the difficult nature of compilers and abstract machines. This was the most difficult challenge to overcome due to the depth and the amount of detail each of them have. Thus, the incremental approach was adapted, in order to for the author to learn step by step, starting with simpler things. Author started the project by developing experimental system with its own language,compiler and virtual machine to understand the crucial concepts of compiler and abstract machines.</p>
-<p>Fourth challenge was testing and validation. Because the project is focused on developing completely new system without any usage of frameworks, testing framework had to be developed which could run test cases and check their correctness without any interaction of the user. Testing framework was developed by utilizing Bash Script, Expect Script languages and Node, Webpack, Ghci commands. It was firstly, created for experimental system and then based on observation and testing, altered and improved for the final system. In the end, it dramatically improved development time by constantly locating bugs and validating the correctness of the outputs.</p>
-<p>The project was extremely broad and involved great deal of initial research as well as constant analysis of next steps, thus development was slow but effective. However, due to time constrains development time had to be planned very carefully, because of this some acknowledged directions of development had to be ignored to finish the prototype in time. For example, one of those directions was Haskell enforced type checker. Haskell compiler could have had a type checker which would prevent any bugs regarding generated JavaScript programs by enforcing its types. Now such bugs are spotted by the console window of the browser or testing framework.</p>
+<p>The main aim of the project was to develop new compiler and corresponding abstract machine for existing functional language Frank implementation called Frankjnr. The difference from the old ones was that new compiler and abstract machine would support web development. Many different challenges follow from that. First one being authors initial lack of knowledge on Frank language, since it is full and complex language author had to invest time into studying it and overcoming any difficulties by researching the paper on Frank &quot;<em>Do be do be do</em>&quot; <span class="citation">(Sam Lindley, Conor McBride &amp; Craig McLaughlin 2016)</span>.</p>
+<p>A second challenge was overcoming the complexity of existing systems. Because this project is not standalone, it strictly depends on the Shonky syntax implementation as well as Frankjnr handling Frank's code. Author had to take time and carefully research existing systems, to understand how everything fits together and how efficiently replace exiting Shonky interpreter with new compiler and abstract machine.</p>
+<p>Another challenge was the difficult nature of compilers and abstract machines. This was the most difficult challenge to overcome due to the depth and the amount of detail each of them contain. Thus, the incremental approach was adapted, in order for the author to learn step by step, starting from less sophisticated concepts. Therefore, author started the project by developing experimental system with its own language, compiler and virtual machine to understand the crucial concepts of compiler and abstract machines. Moreover, author discussed any difficulties regarding the compilers and abstract machines with his supervisor, Conor McBride, on regular basis.</p>
+<p>Fourth challenge was testing and validation. Because the project is focused on developing completely new system without any usage of frameworks, testing framework had to be developed which could run test cases and validate their correctness without any interaction of the user. Testing framework was developed by utilizing Bash script, Expect script languages and Node, webpack, ghci commands. It was firstly, created for experimental system and then based on observation and testing, altered and improved for the final system. In the end, it dramatically improved development time by constantly locating bugs, since the utilization of targeted test cases.</p>
+<p>The project was extremely broad and involved great deal of initial research as well as constant analysis of next steps, thus development was slow but effective. However, due to time constrains development time had to be planned very carefully, because of this some acknowledged directions of development had to be ignored to finish the prototype in time. For example, one of those directions was Haskell enforced type checker. Haskell compiler could have had a type checker which would prevent any bugs regarding generated JavaScript programs by enforcing its types. Now such bugs are spotted by the console window of the browser or testing framework. Thus, this would be one of key future developments.</p>
 <h3 id="project-risks"><span class="header-section-number">3.1.1</span> Project risks</h3>
 <ul>
-<li>Dependence on Frank implementation (Frankjnr). Instances of Frank code will be tested to make sure it behaves as expected;</li>
+<li>Dependence on Frank implementation (Frankjnr);</li>
 <li>Estimating and scheduling development time. Due to authors inexperience with the subject of the project, correctly estimating and scheduling time is difficult. However, meetings with supervisor are organized regularly, to make sure the project is on track;</li>
 <li>Lack of available resources;</li>
-<li>Authors lack of experience with languages being used and analyzed concepts (compiler and virtual machines).</li>
+<li>Authors initial lack of experience with languages being used and analyzed concepts (compiler and virtual machines).</li>
 </ul>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
 <p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel Wrigh 2004)</span>, to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
@@ -394,15 +397,20 @@ Table x.x Short title of the figure . . . </p>
 <p>This section will briefly explain used tools and languages and reasoning behind each of them.</p>
 <h3 id="vagrant"><span class="header-section-number">3.2.2</span> Vagrant</h3>
 <!--https://www.vagrantup.com/-->
-<p>Vagrant is an optional tool to create separate development environment for the project. It runs on Virtual Box and it is essentially a server on your local computer which you can boot up and work on. Furthermore, Vagrant comes with up to date relevant libraries out of the box. Author used it to avoid installing software and managing libraries on local machine, thus speeding up development.</p>
+<p>Vagrant is an optional tool to create separate development environment for the project. It runs on Virtual Box and it is essentially a server on your local computer which you can boot up and work on. Furthermore, Vagrant comes with up to date relevant libraries out of the box. Therefore, author used it to have clean environment and to avoid installation of software and library management on local machine, thus speeding up development.</p>
 <h3 id="webpack"><span class="header-section-number">3.2.3</span> Webpack</h3>
 <!--https://webpack.github.io/-->
-<p>Webpack is a module builder and it is available as npm package. In this project it is used for Abstract Machine development as it adds some wanted features to plain JavaScript, and in the end everything is compiled to a single light JavaScript file. The most important is an ability to create and export different modules, for example, module could be a function or a variable. This lets for improved project structure as you are able to keep JavaScript components in separate files, thus making it easer to develop and navigate through code.</p>
+<p>Webpack is a module builder and it is available as npm package. In this project it is used for abstract machine development as it adds wanted flexibility to plain JavaScript, and it compiles everything to a single light JavaScript file. The most important feature of <em>webpack</em> is an ability to create and export different modules, for example, module could be a function or a variable. This allows for improved project structure as user is able to keep JavaScript components in separate files, thus making it easer to develop, maintain and navigate through code.</p>
 <h3 id="javascript"><span class="header-section-number">3.2.4</span> JavaScript</h3>
-<p>JavaScript is a client side scripting language. In this project output of the compiler is generated in JavaScript, which is then used by Virtual Machine which is, also, written in JavaScript so that both could cooperate on run time without any further compilations.</p>
-<p>JavaScript is used because of its key features. Firstly, it has support for functional programming by letting function arguments be other functions. Secondly, it is supported by all popular browsers. And finally, there are lots of libraries and features to support web development.</p>
-<h4 id="alternative---coffescript"><span class="header-section-number">3.2.4.1</span> Alternative - CoffeScript</h4>
-<p>CoffeScript is much newer language and it improves upon JavaScript syntax, allowing for neater declarations, introduces new features and reinforces the structure of the code. CoffeScript can run in any environment where JavaScript can run, because in the end it is compiled to JavaScript. It is available as npm package. However, it wasn't used because author didn't want another layer of compilation going on in the background.</p>
+<p>JavaScript is a client side scripting language. In this project output of the compiler is generated in JavaScript, which is then used by virtual machine which is, also, written in JavaScript so that both could cooperate on run time without any further compilations.</p>
+<p>JavaScript is used because of its key features. Firstly, it has support for functional programming by letting function arguments be other functions. Secondly, it is supported by all popular browsers. And finally, JavaScript has lots of libraries and features which support web development.</p>
+<!--#### Alternative - CoffeScript
+
+CoffeScript is much newer language and it improves upon JavaScript syntax, allowing for neater declarations,
+introduces new features and reinforces the structure of the code.
+CoffeScript can run in any environment where JavaScript can run, because in the end it is compiled to
+JavaScript. It is available as npm package. However, it wasn't used because author didn't want another 
+layer of compilation going on in the background. -->
 <h3 id="haskell"><span class="header-section-number">3.2.5</span> Haskell</h3>
 <!--https://wiki.haskell.org
 https://www.haskell.org/-->
@@ -430,18 +438,18 @@ https://www.haskell.org/-->
 <li>Client-side programming should become possible (example, complex parser of a text field).</li>
 </ul>
 <h3 id="use-cases"><span class="header-section-number">3.3.3</span> Use Cases</h3>
-<p>Use cases are not really relevant to this project, since the developed compiler and abstract machine support full Frank language, which potentially can be used in infinite number of ways. But generally, the user puts sensible Frank code into a Frank file then initiate compilation by using project's compiler, the compiler will generate a JavaScript file which user can include in their web project. Furthermore, user needs to include the machine, which utilizes previously compiled code, into their project. For more detailed information on how to use the system, check usage instruction in <strong>Appendix 2</strong>.</p>
+<p>Use cases are not relevant to this project, since the developed compiler and abstract machine support Frank language, which potentially can be used in infinite number of ways. But generally, the user puts sensible Frank code into a Frank file then initiate compilation by using project's compiler, the compiler will generate a JavaScript file. Furthermore, user needs to include the recompiled machine, which utilizes previously compiled code, into their project. For more detailed information on how to use the system, check usage instruction in <strong>Appendix 2</strong>.</p>
 <h2 id="design-methodology"><span class="header-section-number">3.4</span> Design Methodology</h2>
-<p>The implementation of the project is fully focused on back end development. The adopted design methodology was iterative and incremental development (IID). The main reasons behind it were the difficult nature of the project and author's initial lack of knowledge on the subject; this methodology allows the developer to focus on few features at a time building the system incrementally, thus making it easier to learn as you go.</p>
+<p>The implementation of the project is fully focused on back-end development. The adopted design methodology was iterative and incremental development (IID). The main reasons behind it were the difficult nature of the project and author's initial lack of knowledge on the subject; this methodology allows the developer to focus on few features at a time building the system incrementally, making it possible to learn as you go.</p>
 <p>Iterative and incremental development (IID) is a process which grows the system incrementally, feature by feature during self-contained cycles of analysis, design, implementation and testing which end when the system is finished. Meaning, the system is improved (more functionality added) through every iteration.</p>
 <p>The core benefits of this methodology are:</p>
 <ul>
 <li>Regression testing is conducted after each iteration, where only few changes are made through single iteration, because of this faulty elements of the software are easily identified and fixed before starting the next iteration;</li>
-<li>Testing of systems features is a bit easier, because this methodology allows for targeted testing of each element within the system;</li>
+<li>Testing of systems features is easier, because this methodology allows for targeted testing of each element within the system;</li>
 <li>System could easily shift directions of development after each iteration;</li>
 <li>Learning curve is much flatter than usual, because developer is focusing on few features at a given time.</li>
 </ul>
-<p>Another big decision was to start with simpler system, an experimental throughout which the author could learn the basics and adapt gained knowledge in the development of the final system. The experiment took about four weeks and used the same methodology - iterative and incremental development.</p>
+<p>Another big decision was to start with a different system, an experiment throughout which the author could learn the basics and adapt gained knowledge in the development of the final system. The experiment took around four weeks and used the same methodology - iterative and incremental development.</p>
 <h1 id="initial-development-experimental-system"><span class="header-section-number">4</span> Initial development &amp; experimental system</h1>
 <h2 id="introduction-1"><span class="header-section-number">4.1</span> Introduction</h2>
 <p>Because of the complexity of the project and the lack of initial author knowledge in the field, the most optimal plan was to start with small, less demanding development and expand gradually. The intricacies consist of:</p>
@@ -1223,7 +1231,7 @@ map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></
 <h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
 <h2 id="summary"><span class="header-section-number">8.1</span> Summary</h2>
 <p>Overall, the outcome of the project was successful. Author developed two systems with their own matching compilers and virtual machines. Initial system was developed as an experiment, to provide the author with valuable knowledge on the subject, witch then he applied into development of the final system. The system is able to compile Frank code and run it in the browser, furthermore, almost all of current Frank programs can be compiled and executed successfully by the system. Therefore, the main goal of the project was obtained. However, due to time constrains, final system is very much in prototype stages as it still does not support all of Frank's features and contains few fixable limitations, highlighted in <strong>Future work</strong> section.</p>
-<p>By completing the project author was able to learn variety of concepts. Firstly, he expanded his knowledge on functional programming by coding the compiler with Haskell while utilizing various data types, such as monads. Secondly, the author was able to learn infrastructure, functionality and implementation of compilers and abstract machines by researching and participating in numerous discussions with the supervisor, Conor McBride. Author, also, gained greater insight on Bash script while creating testing frameworks for the systems and working on project evaluation. And, finally, author learned the language of Frank and implementation of its defining qualities.</p>
+<p>By completing the project author was able to learn variety of concepts. Firstly, he expanded his knowledge on functional programming by coding the compiler with Haskell while utilizing various data types, such as monads. Secondly, the author was able to learn infrastructure, functionality and implementation of compilers and abstract machines by researching and participating in numerous discussions with the supervisor, Conor McBride. Author, also, gained greater insight on Bash script while creating testing frameworks for both systems and working on project evaluation. And, finally, author learned the language of Frank and implementation of its defining qualities.</p>
 <h2 id="future-work"><span class="header-section-number">8.2</span> Future work</h2>
 <ul>
 <li>Implement missing features, such as string concatenation;</li>
@@ -1233,7 +1241,8 @@ map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></
 <li>Enforce JavaScript type definitions with Haskell structures, to decrease the risk of bugs;</li>
 <li>Increase compiler efficiency by updating pattern matching procedures to building a tree of switches described in &quot;Functional Programming and Computer Architecture&quot; <span class="citation">(Lennart Augustsson 1985)</span>;</li>
 <li>Improve building procedures;</li>
-<li>Further optimize compiler and abstract machine.</li>
+<li>Further optimize compiler and abstract machine;</li>
+<li>Improve abstract machine's component for printing the output.</li>
 </ul>
 <h1 id="appendix-1-progress-log" class="unnumbered">Appendix 1: Progress log</h1>
 <p><strong>JANUARY</strong></p>
@@ -1433,7 +1442,8 @@ March 21:<br />
 Benchmarking and evaluation sections<br />
 March 22:<br />
 Evaluation and conclusion<br />
-# Appendix 2: Usage &amp; installation instructions {.unnumbered}</p>
+</p>
+<h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
 <p><strong>Experimental test framework</strong></p>
 <p><em>Pre-requirements</em></p>
 <ul>
@@ -1540,7 +1550,7 @@ Evaluation and conclusion<br />
 <p><strong>Test program 1:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/add.fk&quot;.<br />
 Description: Peano number addition.<br />
-Expected result: suc suc zero.</p>
+Expected result: [suc[suc[zero]]].</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Nat</span>}
 main<span class="fu">!</span> <span class="fu">=</span> add (suc zero) (suc zero) 
 
@@ -1552,7 +1562,7 @@ add (suc a) b <span class="fu">=</span> suc (add a b)   </code></pre></div>
 <p><strong>Test program 2:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/command.fk&quot;.<br />
 Description: command test.<br />
-Expected result: pr zero (suc zero).<br />
+Expected result: [pr[zero][suc[zero]]].<br />
 <em>Test program is too long to show, check provided path for the code.</em></p>
 <p><strong>Test program 3:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/int.fk&quot;.<br />
@@ -1578,20 +1588,20 @@ main<span class="fu">!</span> <span class="fu">=</span> <span class="dv">20</spa
 <p><strong>Test program 6:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/intCommand.fk&quot;.<br />
 Description: integer values with commands.<br />
-Expected result: pr 0 1.<br />
+Expected result: [pr01].<br />
 <em>Test program is too long to show, check provided path for the code.</em></p>
 <p><strong>Test program 7:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/intList.fk&quot;.<br />
 Description: list with integer values.<br />
-Expected result: 1 2 3.<br />
+Expected result: [cons1[cons2[cons3[nil]]]].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">List</span> <span class="dt">Int</span>}
 main<span class="fu">!</span> <span class="fu">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
 <p><strong>Test program 8:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/intLocal.fk&quot;.<br />
 Description: local functions with integer values.<br />
-Expected result: pr [0, 1, 2] [0, 1, 2].<br />
-<em>Test program is too long to show, check provided path for the code.</em></p>
+Expected result: [pr[cons0[cons1[cons2[nil]]]][cons0[cons1[cons2[nil]]]]].</p>
+<p><em>Test program is too long to show, check provided path for the code.</em></p>
 <p><strong>Test program 9:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/intOperator.fk&quot;.<br />
 Description: operator call with integer value.<br />
@@ -1605,7 +1615,7 @@ plusOne x <span class="fu">=</span> x <span class="fu">+</span> <span class="dv"
 <p><strong>Test program 10:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/lists.fk&quot;.<br />
 Description: list test.<br />
-Expected result: zero, suc zero, suc suc zero.<br />
+Expected result: [cons[zero][cons[suc[zero]][cons[zero][nil]]]].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">List</span> <span class="dt">Nat</span>}
 main<span class="fu">!</span> <span class="fu">=</span> [zero, suc zero, zero]
@@ -1616,12 +1626,13 @@ main<span class="fu">!</span> <span class="fu">=</span> [zero, suc zero, zero]
 <p>path: &quot;Backend/tests/test_cases/new/local.fk&quot;.<br />
 Description: local function test.<br />
 Expected result:<br />
-pr [zero, suc zero, suc suc zero] [zero, suc zero, suc suc zero].<br />
-<em>Test program is too long to show, check provided path for the code.</em></p>
+[pr[cons[zero][cons[suc[zero]][cons[suc[suc[zero]]][nil]]]]<br />
+[cons[zero][cons[suc[zero]][cons[suc[suc[zero]]][nil]]]]].</p>
+<p><em>Test program is too long to show, check provided path for the code.</em></p>
 <p><strong>Test program 12:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/new/operator.fk&quot;.<br />
 Description: list test.<br />
-Expected result: suc zero.<br />
+Expected result: [suc[zero]].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Nat</span>}
 main<span class="fu">!</span> <span class="fu">=</span> plusOne(zero)
@@ -1697,7 +1708,7 @@ minusTwoOnZero n <span class="fu">=</span> <span class="dv">0</span></code></pre
 <p><strong>Test program 17:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/old/flex-ab-eq.fk&quot;.<br />
 Description: Regression for unifying effect-parametric datatype with flexible.<br />
-Expected result: unit.<br />
+Expected result: [unit].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> {<span class="dt">Unit</span>}
 main<span class="fu">!</span> <span class="fu">=</span> boo foo<span class="fu">!</span>
@@ -1715,7 +1726,8 @@ boo   unit        <span class="fu">=</span> unit</code></pre></div>
 <p><strong>Test program 18:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/old/listMap.fk&quot;.<br />
 Description: map a pure (addition) function over a list.<br />
-Expected result: [[2], [3], [4]].<br />
+Expected result:<br />
+[cons[cons2[nil]][cons[cons3[nil]][cons[cons4[nil]][nil]]]].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">List</span> (<span class="dt">List</span> <span class="dt">Int</span>)
 main<span class="fu">!</span> <span class="fu">=</span> map {x <span class="ot">-&gt;</span> cons (x<span class="fu">+</span><span class="dv">1</span>) nil} (cons <span class="dv">1</span> (cons <span class="dv">2</span> (cons <span class="dv">3</span> nil)))
@@ -1762,7 +1774,7 @@ foo<span class="fu">!</span> <span class="fu">=</span> <span class="dt">One</spa
 <p><strong>Test program 22:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/old/r5.fk&quot;.<br />
 Description: Suspended computation datatype argument.<br />
-Expected result: unit.<br />
+Expected result: [unit].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Unit</span>
 main<span class="fu">!</span> <span class="fu">=</span> foo (just {unit})
@@ -1774,7 +1786,7 @@ foo (just x) <span class="fu">=</span> x<span class="fu">!</span></code></pre></
 <p><strong>Test program 23:</strong></p>
 <p>path: &quot;Backend/tests/test_cases/old/r7.fk&quot;.<br />
 Description: issue with recursive call in suspended comp..<br />
-Expected result: unit.<br />
+Expected result: [unit].<br />
 </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Unit</span>
 main<span class="fu">!</span> <span class="fu">=</span> unit

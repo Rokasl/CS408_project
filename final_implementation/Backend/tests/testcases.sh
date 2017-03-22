@@ -6,74 +6,74 @@
 declare -A test0=(
     [path]='Backend/tests/test_cases/new/add.fk'
     [name]='Testing: addition with Peano numbers'
-    [expected]='suc suc zero    '
+    [expected]='[suc[suc[zero]]]'
 )
 
 declare -A test1=(
     [path]='Backend/tests/test_cases/new/command.fk'
     [name]='Testing: simple commands'
-    [expected]='pr zero  suc zero    '
+    [expected]='[pr[zero][suc[zero]]]'
 )
 
 declare -A test2=(
     [path]='Backend/tests/test_cases/new/int.fk'
     [name]='Testing: integer values'
-    [expected]='1 '
+    [expected]='1'
 )
 
 declare -A test3=(
     [path]='Backend/tests/test_cases/new/intCommand.fk'
     [name]='Testing: integer values with commands'
-    [expected]='pr 0 1  '
+    [expected]='[pr01]'
 )
 
 declare -A test4=(
     [path]='Backend/tests/test_cases/new/local.fk'
     [name]='Testing: local functions'
-    [expected]='pr zero  suc zero   suc suc zero        zero  suc zero   suc suc zero         '
+    [expected]='[pr[cons[zero][cons[suc[zero]][cons[suc[suc[zero]]][nil]]]][cons[zero][cons[suc[zero]][cons[suc[suc[zero]]][nil]]]]]'
 )
 
 declare -A test5=(
     [path]='Backend/tests/test_cases/new/intAdd.fk'
     [name]='Testing: integer addition'
-    [expected]='20 '
+    [expected]='20'
 )
 
 declare -A test6=(
     [path]='Backend/tests/test_cases/new/intOperator.fk'
     [name]='Testing: call other operators with integer value'
-    [expected]='3 '
+    [expected]='3'
 )
 
 declare -A test7=(
     [path]='Backend/tests/test_cases/new/lists.fk'
     [name]='Testing: lists'
-    [expected]='zero  suc zero   zero      '
+    [expected]='[cons[zero][cons[suc[zero]][cons[zero][nil]]]]'
 )
 
 declare -A test8=(
     [path]='Backend/tests/test_cases/new/intList.fk'
     [name]='Testing: lists with integer values'
-    [expected]='1 2 3     '
+    [expected]='[cons1[cons2[cons3[nil]]]]'
 )
 
 
 declare -A test21=(
     [path]='Backend/tests/test_cases/new/operator.fk'
     [name]='Testing: operator call'
-    [expected]='suc zero   '
+    [expected]='[suc[zero]]'
 )
 
 declare -A test22=(
     [path]='Backend/tests/test_cases/new/intLocal.fk'
     [name]='Testing: lists with integer values'
-    [expected]='pr 0 1 2     0 1 2      '
+    [expected]='[pr[cons0[cons1[cons2[nil]]]][cons0[cons1[cons2[nil]]]]]'
 )
 
 declare -A test23=(
     [path]='Backend/tests/test_cases/new/intMinus.fk'
     [name]='Testing: integer minus test'
-    [expected]='10 '
+    [expected]='10'
 )
 
 #Test cases OLD, lifted from Frankjnr tests
@@ -81,7 +81,7 @@ declare -A test23=(
 declare -A test9=(
     [path]='Backend/tests/test_cases/old/app.fk'
     [name]='Testing: app test'
-    [expected]='42 '
+    [expected]='42'
 )
 
 declare -A test10=(
@@ -93,25 +93,25 @@ declare -A test10=(
 declare -A test11=(
     [path]='Backend/tests/test_cases/old/fact.fk'
     [name]='Testing: factorial'
-    [expected]='120 '
+    [expected]='120'
 )
 
 declare -A test12=(
     [path]='Backend/tests/test_cases/old/fib.fk'
     [name]='Testing: fib'
-    [expected]='5 '
+    [expected]='5'
 )
 
 declare -A test13=(
     [path]='Backend/tests/test_cases/old/flex-ab-eq.fk'
     [name]='Testing: unit test'
-    [expected]='unit  '
+    [expected]='[unit]'
 )
 
 declare -A test14=(
     [path]='Backend/tests/test_cases/old/listMap.fk'
     [name]='Testing: lists with integer values'
-    [expected]='2   3   4       '
+    [expected]='[cons[cons2[nil]][cons[cons3[nil]][cons[cons4[nil]][nil]]]]'
 )
 
 declare -A test15=(
@@ -123,25 +123,25 @@ declare -A test15=(
 declare -A test16=(
     [path]='Backend/tests/test_cases/old/r3.fk'
     [name]='Testing: Compiler Nontermination Issue'
-    [expected]='1 '
+    [expected]='1'
 )
 
 declare -A test17=(
     [path]='Backend/tests/test_cases/old/r4.fk'
     [name]='Testing: Problem with unifying abilities'
-    [expected]='42 '
+    [expected]='42'
 )
 
 declare -A test18=(
     [path]='Backend/tests/test_cases/old/r5.fk'
     [name]='Testing: Suspended computation datatype argument'
-    [expected]='unit  '
+    [expected]='[unit]'
 )
 
 declare -A test19=(
     [path]='Backend/tests/test_cases/old/r7.fk'
     [name]='Testing: Issue with recursive call in suspended comp'
-    [expected]='unit'
+    [expected]='[unit]'
 )
 
 declare -A test20=(

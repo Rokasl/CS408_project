@@ -113,7 +113,7 @@ Below is a list of all test programs for the final system:
 
 path: "Backend/tests/test_cases/new/add.fk".\
 Description: Peano number addition.\
-Expected result: suc suc zero.
+Expected result: [suc[suc[zero]]].
 
 ```haskell 
 main : {Nat}
@@ -130,7 +130,7 @@ add (suc a) b = suc (add a b)
 
 path: "Backend/tests/test_cases/new/command.fk".\
 Description: command test.\
-Expected result: pr zero   (suc zero).\
+Expected result: [pr[zero][suc[zero]]].\
 
 *Test program is too long to show, check provided path for the code.*
 
@@ -171,7 +171,7 @@ main! = 20 - 10
 
 path: "Backend/tests/test_cases/new/intCommand.fk".\
 Description: integer values with commands.\
-Expected result: pr 0 1.\
+Expected result: [pr01].\
 
 *Test program is too long to show, check provided path for the code.*
 
@@ -180,7 +180,7 @@ Expected result: pr 0 1.\
 
 path: "Backend/tests/test_cases/new/intList.fk".\
 Description: list with integer values.\
-Expected result: 1 2 3.\
+Expected result: [cons1[cons2[cons3[nil]]]].\
 
 ```haskell 
 main : {List Int}
@@ -191,7 +191,7 @@ main! = [1, 2, 3]
 
 path: "Backend/tests/test_cases/new/intLocal.fk".\
 Description: local functions with integer values.\
-Expected result: pr [0, 1, 2]  [0, 1, 2].\
+Expected result: [pr[cons0[cons1[cons2[nil]]]][cons0[cons1[cons2[nil]]]]].
 
 *Test program is too long to show, check provided path for the code.*
 
@@ -214,7 +214,7 @@ plusOne x = x + 1
 
 path: "Backend/tests/test_cases/new/lists.fk".\
 Description: list test.\
-Expected result: zero,  suc zero,  suc suc zero.\
+Expected result: [cons[zero][cons[suc[zero]][cons[zero][nil]]]].\
 
 ```haskell 
 main : {List Nat}
@@ -229,7 +229,9 @@ data Nat = zero
 path: "Backend/tests/test_cases/new/local.fk".\
 Description: local function test.\
 Expected result:\
-pr \[zero, suc zero, suc suc zero] [zero, suc zero, suc suc zero].\
+[pr[cons[zero][cons[suc[zero]][cons[suc[suc[zero]]][nil]]]]\
+[cons[zero][cons[suc[zero]][cons[suc[suc[zero]]][nil]]]]].
+
 
 *Test program is too long to show, check provided path for the code.*
 
@@ -238,7 +240,7 @@ pr \[zero, suc zero, suc suc zero] [zero, suc zero, suc suc zero].\
 
 path: "Backend/tests/test_cases/new/operator.fk".\
 Description: list test.\
-Expected result: suc zero.\
+Expected result: [suc[zero]].\
 
 ```haskell 
 main : {Nat}
@@ -336,7 +338,7 @@ minusTwoOnZero n = 0
 
 path: "Backend/tests/test_cases/old/flex-ab-eq.fk".\
 Description: Regression for unifying effect-parametric datatype with flexible.\
-Expected result: unit.\
+Expected result: [unit].\
 
 ```haskell 
 main : {Unit}
@@ -359,7 +361,8 @@ boo   unit        = unit
 
 path: "Backend/tests/test_cases/old/listMap.fk".\
 Description: map a pure (addition) function over a list.\
-Expected result: [[2], [3], [4]].\
+Expected result:\
+[cons[cons2[nil]][cons[cons3[nil]][cons[cons4[nil]][nil]]]].\
 
 ```haskell 
 main : []List (List Int)
@@ -421,7 +424,7 @@ foo! = One {42}
 
 path: "Backend/tests/test_cases/old/r5.fk".\
 Description: Suspended computation datatype argument.\
-Expected result: unit.\
+Expected result: [unit].\
 
 ```haskell 
 main : []Unit
@@ -437,7 +440,7 @@ foo (just x) = x!
 
 path: "Backend/tests/test_cases/old/r7.fk".\
 Description: issue with recursive call in suspended comp..\
-Expected result: unit.\
+Expected result: [unit].\
 
 ```haskell 
 main : []Unit

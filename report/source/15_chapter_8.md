@@ -16,7 +16,7 @@ knowledge on functional programming by coding the compiler with Haskell
 while utilizing various data types, such as monads. Secondly, the author was able to learn 
 infrastructure, functionality and implementation of compilers and abstract machines by
 researching and participating in numerous discussions with the supervisor, Conor McBride. Author,
-also, gained greater insight on Bash script while creating testing frameworks for the systems and
+also, gained greater insight on Bash script while creating testing frameworks for both systems and
 working on project evaluation. And, finally, author learned the language of Frank and implementation of
 its defining qualities. 
  
@@ -33,6 +33,6 @@ its defining qualities.
 * Increase compiler efficiency by updating pattern matching procedures to building a tree
   of switches described in "Functional Programming and Computer Architecture" [@Tree-switching];
 * Improve building procedures;
-* Further optimize compiler and abstract machine.
-
+* Further optimize compiler and abstract machine;
+* Improve abstract machine's component for printing the output.
 

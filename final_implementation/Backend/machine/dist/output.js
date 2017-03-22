@@ -294,7 +294,7 @@
 	                return valString(v.car) + cdrString(v.cdr);
 	            case "atom":
 	                if (v.atom === "") {
-	                    return " "
+	                    return ""
 	                };
 	        }
 	        return "|" + valString(v);
@@ -304,15 +304,12 @@
 	    function valString(v, cons, nil) {
 	        switch (v.tag) {
 	            case "atom":
-	                if (!v.atom || v.atom === "nil" || v.atom === "cons") {
-	                    return "";
-	                }
-	                return v.atom + " ";
+	                return v.atom;
 	            case "int":
-	                return v.int + " ";
+	                return v.int;
 	                break;
 	            case "pair":
-	                return valString(v.car) + cdrString(v.cdr);
+	                return "[" + valString(v.car) + cdrString(v.cdr) + "]";
 	        }
 	    };
 	}

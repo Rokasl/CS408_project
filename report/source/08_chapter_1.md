@@ -83,6 +83,11 @@ followed during and after the project.
 
 **Chapter 7 - Results and Evaluation**
 
-The principal intention of the chapter is to summarize the outcome of the project, describing how it was 
-evaluated and to propose relevant future work. 
+The principal intention of the chapter is to summarize the outcome of the project and to 
+describing how it was evaluated. 
+
+**Chapter 8 - Summary & Conclusion**
+
+This chapter summarizes the project while highlighting valuable lessons learned by the author and 
+proposes relevant future work.
 
