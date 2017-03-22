@@ -155,7 +155,7 @@ Concerns and challenges were:
 * Final system is dependent on Frankjnr compiler.
 * Final system uses JavaScript powered machine compared to other which use Haskell for abstract machine.
 
-This evaluation gives a clear idea of the state of the system in terms of performance capered to other
+This evaluation gives a clear idea of the state of the system in terms of performance compared to other
 similar systems. However, these 
 results were expected, since the performance was not one of the core goals of the project. Moreover,
 due to developed benchmark framework, it could be easily used again after further development
@@ -197,8 +197,8 @@ were connected to functionality, witch was not implemented by the final system a
 for example, string concatenation. 
 For more detailed overview of testing, see **chapter 6**. 
 
-
-This evaluation evidently shows that developed system can directly compete with the original system and
-that most goals of the project were reached. 
+This evaluation evidently shows that
+developed system can directly compete with the original system and that most goals of the project
+were reached. 
 
 

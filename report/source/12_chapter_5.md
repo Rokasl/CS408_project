@@ -65,6 +65,8 @@ Table's starting folder is *"/final_implementation"*.
 | */Backend/tests/test_cases*  |                   | Actual programs to test                                   |
 | */Backend/tests/test_cases/old* |                 | Test programs lifted from Frankjnr                        |
 | */Backend/tests/test_cases/new* |                 | New test programs                                         |
+|                              |                   |                                                           |
+| */Backend/benchmark*         |                   | Benchmarking scripts                                      |
 
 Table: Project folder structure
 

@@ -785,6 +785,16 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <td></td>
 <td>New test programs</td>
 </tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>/Backend/benchmark</em></td>
+<td></td>
+<td>Benchmarking scripts</td>
+</tr>
 </tbody>
 </table>
 <h2 id="compiler-1"><span class="header-section-number">5.3</span> Compiler</h2>
@@ -1128,7 +1138,7 @@ map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></
 <li>Final system is dependent on Frankjnr compiler.</li>
 <li>Final system uses JavaScript powered machine compared to other which use Haskell for abstract machine.</li>
 </ul>
-<p>This evaluation gives a clear idea of the state of the system in terms of performance capered to other similar systems. However, these results were expected, since the performance was not one of the core goals of the project. Moreover, due to developed benchmark framework, it could be easily used again after further development to quickly check for changes in performance.</p>
+<p>This evaluation gives a clear idea of the state of the system in terms of performance compared to other similar systems. However, these results were expected, since the performance was not one of the core goals of the project. Moreover, due to developed benchmark framework, it could be easily used again after further development to quickly check for changes in performance.</p>
 <h3 id="functionality-comparison"><span class="header-section-number">7.2.2</span> Functionality comparison</h3>
 <p>One of the main goals of the final system was to support the same functionality as Frankjnr original components do and implement addition web development features on top. Known main features of both systems were extracted and compared. The table below shows the results of the comparison.</p>
 <table>
@@ -1212,7 +1222,19 @@ map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></
 <p>This evaluation evidently shows that developed system can directly compete with the original system and that most goals of the project were reached.</p>
 <h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
 <h2 id="summary"><span class="header-section-number">8.1</span> Summary</h2>
+<p>Overall, the outcome of the project was successful. Author developed two systems with their own matching compilers and virtual machines. Initial system was developed as an experiment, to provide the author with valuable knowledge on the subject, witch then he applied into development of the final system. The system is able to compile Frank code and run it in the browser, furthermore, almost all of current Frank programs can be compiled and executed successfully by the system. Therefore, the main goal of the project was obtained. However, due to time constrains, final system is very much in prototype stages as it still does not support all of Frank's features and contains few fixable limitations, highlighted in <strong>Future work</strong> section.</p>
+<p>By completing the project author was able to learn variety of concepts. Firstly, he expanded his knowledge on functional programming by coding the compiler with Haskell while utilizing various data types, such as monads. Secondly, the author was able to learn infrastructure, functionality and implementation of compilers and abstract machines by researching and participating in numerous discussions with the supervisor, Conor McBride. Author, also, gained greater insight on Bash script while creating testing frameworks for the systems and working on project evaluation. And, finally, author learned the language of Frank and implementation of its defining qualities.</p>
 <h2 id="future-work"><span class="header-section-number">8.2</span> Future work</h2>
+<ul>
+<li>Implement missing features, such as string concatenation;</li>
+<li>Improve testing framework to show more statistics and use timestamps;</li>
+<li>Expand support for web features, such as HTTP request handling support;</li>
+<li>To improve abstract machine's performance by storing stack frames in chunks. This would speed up searching and restoring;</li>
+<li>Enforce JavaScript type definitions with Haskell structures, to decrease the risk of bugs;</li>
+<li>Increase compiler efficiency by updating pattern matching procedures to building a tree of switches described in &quot;Functional Programming and Computer Architecture&quot; <span class="citation">(Lennart Augustsson 1985)</span>;</li>
+<li>Improve building procedures;</li>
+<li>Further optimize compiler and abstract machine.</li>
+</ul>
 <h1 id="appendix-1-progress-log" class="unnumbered">Appendix 1: Progress log</h1>
 <p><strong>JANUARY</strong></p>
 <p>January 4th:<br />
@@ -1409,6 +1431,8 @@ Report:<br />
 Testing and validation sections<br />
 March 21:<br />
 Benchmarking and evaluation sections<br />
+March 22:<br />
+Evaluation and conclusion<br />
 # Appendix 2: Usage &amp; installation instructions {.unnumbered}</p>
 <p><strong>Experimental test framework</strong></p>
 <p><em>Pre-requirements</em></p>
