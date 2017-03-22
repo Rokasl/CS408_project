@@ -1,0 +1,5 @@
+-- #desc String concatenation 
+-- #return should fail! this functionality is not implemented yet.
+
+main : {String}
+main! = "hello world!"

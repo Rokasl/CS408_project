@@ -81,7 +81,8 @@ All of the limitations are possible improvements and they are present because of
   in the file;
 * Lack of web functionality. Even though Frank language can be used to code in web context, current 
   implementation does not have any web features implemented because of time constrains;
-* Some features are still in prototype stages and very small amount of them are still not implemented.     
+* Some features are still in prototype stages and very small amount of them are still not implemented, 
+  such as string concatenation.     
 
 Moreover, the system can still improve on a variety of concerns, such as performance and
 building procedures as they were not initial goals of the project.
@@ -89,7 +90,7 @@ building procedures as they were not initial goals of the project.
 ## Evaluation
 
 Experimental evaluation was chosen for this project and it was done in two parts. First part was 
-benchmarking performance of developed system against two other similar systems.
+benchmarking performance of developed system against two other similar systems (automatic evaluation).
 Second part was comparison of functionality between developed system and Frankjnr original components.
 
 ### Benchmark
@@ -154,7 +155,8 @@ Concerns and challenges were:
 * Final system is dependent on Frankjnr compiler.
 * Final system uses JavaScript powered machine compared to other which use Haskell for abstract machine.
 
-This benchmark gives a clear idea of the state of the system in terms of performance. However, these 
+This evaluation gives a clear idea of the state of the system in terms of performance capered to other
+similar systems. However, these 
 results were expected, since the performance was not one of the core goals of the project. Moreover,
 due to developed benchmark framework, it could be easily used again after further development
 to quickly check for changes in performance.
@@ -162,20 +164,41 @@ to quickly check for changes in performance.
 
 ### Functionality comparison
 
+One of the main goals of the final system was to support the same functionality as Frankjnr original 
+components do and implement addition web development features on top. Known main features of both
+systems were extracted and compared. The table below shows the results of the comparison. 
 
-•what you are evaluating
-•how you evaluated
-•any challenges in evaluation
-•what you learnt from evaluation
+| Feature                | Final system | Original system |
+|------------------------|--------------|-----------------|
+| Integer support        |      Yes     |       Yes       |
+| String concatenation   |      No      |       Yes       |
+| Local functions        |      Yes     |       Yes       |
+| Functions              |      Yes     |       Yes       |
+| Commands               |      Yes     |       Yes       |
+| Variables              |      Yes     |       Yes       |
+| Atoms                  |      Yes     |       Yes       |
+| Pairs                  |      Yes     |       Yes       |
+| Application            |      Yes     |       Yes       |
+| Composition            |      No      |       Yes       |
+| Built-in functions     |      Yes     |       Yes       |
+| Parse Shonky files     |      Yes     |       No        |
+| Web development support |      Yes     |        No       |
 
-: performence, functionly
+Table: Supported functionality
 
-javascript string concat benchmark
+New test program was created and executed by both systems to collect the results for each feature. If
+the program would throw an exception or the output was not as expected, the tested feature is not
+supported by the system.
+Furthermore, author has taken 
+Frankjnr original test cases from *tests* folder and initiated them against the final system, in order
+to see the results from different perspective. Out of
+twelve original tests, four have not passed on the final system. However, all of them
+were connected to functionality, witch was not implemented by the final system at the time,
+for example, string concatenation. 
+For more detailed overview of testing, see **chapter 6**. 
 
 
-experimental evaluations (compare systems) automatic evaluations (speed, acuracy)
-
-
-limitations
+This evaluation evidently shows that developed system can directly compete with the original system and
+that most goals of the project were reached. 
 
 

@@ -1050,11 +1050,11 @@ fib n <span class="fu">=</span> fib (n<span class="fu">-</span><span class="dv">
 <li>Compilation of Frank programs with new compiler can be initiated only from the base <em>final_implementation</em> folder, because the file generation path is fixed for testing purposes;</li>
 <li>To be compiled successfully Frank program must have a &quot;main&quot; function and it must be the first one in the file;</li>
 <li>Lack of web functionality. Even though Frank language can be used to code in web context, current implementation does not have any web features implemented because of time constrains;</li>
-<li>Some features are still in prototype stages and very small amount of them are still not implemented.</li>
+<li>Some features are still in prototype stages and very small amount of them are still not implemented, such as string concatenation.</li>
 </ul>
 <p>Moreover, the system can still improve on a variety of concerns, such as performance and building procedures as they were not initial goals of the project.</p>
 <h2 id="evaluation"><span class="header-section-number">7.2</span> Evaluation</h2>
-<p>Experimental evaluation was chosen for this project and it was done in two parts. First part was benchmarking performance of developed system against two other similar systems. Second part was comparison of functionality between developed system and Frankjnr original components.</p>
+<p>Experimental evaluation was chosen for this project and it was done in two parts. First part was benchmarking performance of developed system against two other similar systems (automatic evaluation). Second part was comparison of functionality between developed system and Frankjnr original components.</p>
 <h3 id="benchmark"><span class="header-section-number">7.2.1</span> Benchmark</h3>
 <p>Benchmarking framework can be found in <em>final_implementation/Backend/benchmark</em> folder. Tests can be initiated in a terminal window by typing <em>./evalNewBackend.sh</em>, <em>./evalVole.sh</em> or <em>./evalFrankjnr.sh</em>. Requirements for launching the benchmark tests are the same as for the final system, in addition the scripts must have permissions.</p>
 <p>This benchmark was solely focused on the performance of the systems. Two type of times were taken into account: compilation time and execution time. Compilation time is how fast given program is parsed and compiled; execution time is how fast virtual machine returns the final result. Vagrant (Virtual Box) environment was used for running the tests with two gigabytes of allocated memory. These environments are known to be considerably slower than real ones, therefore chosen systems might perform faster in real world, however in this case systems were only compared between each other. The following systems were benchmarked:</p>
@@ -1128,13 +1128,88 @@ map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></
 <li>Final system is dependent on Frankjnr compiler.</li>
 <li>Final system uses JavaScript powered machine compared to other which use Haskell for abstract machine.</li>
 </ul>
-<p>This benchmark gives a clear idea of the state of the system in terms of performance. However, these results were expected, since the performance was not one of the core goals of the project. Moreover, due to developed benchmark framework, it could be easily used again after further development to quickly check for changes in performance.</p>
+<p>This evaluation gives a clear idea of the state of the system in terms of performance capered to other similar systems. However, these results were expected, since the performance was not one of the core goals of the project. Moreover, due to developed benchmark framework, it could be easily used again after further development to quickly check for changes in performance.</p>
 <h3 id="functionality-comparison"><span class="header-section-number">7.2.2</span> Functionality comparison</h3>
-<p>•what you are evaluating •how you evaluated •any challenges in evaluation •what you learnt from evaluation</p>
-<p>: performence, functionly</p>
-<p>javascript string concat benchmark</p>
-<p>experimental evaluations (compare systems) automatic evaluations (speed, acuracy)</p>
-<p>limitations</p>
+<p>One of the main goals of the final system was to support the same functionality as Frankjnr original components do and implement addition web development features on top. Known main features of both systems were extracted and compared. The table below shows the results of the comparison.</p>
+<table>
+<caption>Supported functionality</caption>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Final system</th>
+<th>Original system</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Integer support</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>String concatenation</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Local functions</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Functions</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Commands</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Variables</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Atoms</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Pairs</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Application</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Composition</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>Built-in functions</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Parse Shonky files</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Web development support</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>New test program was created and executed by both systems to collect the results for each feature. If the program would throw an exception or the output was not as expected, the tested feature is not supported by the system. Furthermore, author has taken Frankjnr original test cases from <em>tests</em> folder and initiated them against the final system, in order to see the results from different perspective. Out of twelve original tests, four have not passed on the final system. However, all of them were connected to functionality, witch was not implemented by the final system at the time, for example, string concatenation. For more detailed overview of testing, see <strong>chapter 6</strong>.</p>
+<p>This evaluation evidently shows that developed system can directly compete with the original system and that most goals of the project were reached.</p>
 <h1 id="summary-conclusion"><span class="header-section-number">8</span> Summary &amp; Conclusion</h1>
 <h2 id="summary"><span class="header-section-number">8.1</span> Summary</h2>
 <h2 id="future-work"><span class="header-section-number">8.2</span> Future work</h2>
