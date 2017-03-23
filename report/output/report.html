@@ -201,25 +201,24 @@
                 <li><a href="#summary-of-chapters"><span class="toc-section-number">1.3</span> Summary of chapters</a></li>
                 </ul></li>
                 <li><a href="#related-work"><span class="toc-section-number">2</span> Related Work</a><ul>
-                <li><a href="#shonky"><span class="toc-section-number">2.1</span> Shonky</a></li>
-                <li><a href="#frankjnr"><span class="toc-section-number">2.2</span> Frankjnr</a><ul>
-                <li><a href="#frankjnr-limitations"><span class="toc-section-number">2.2.1</span> Frankjnr limitations</a></li>
+                <li><a href="#shonky"><span class="toc-section-number">2.1</span> <a href="https://github.com/pigworker/shonky">Shonky</a></a></li>
+                <li><a href="#frankjnr"><span class="toc-section-number">2.2</span> <a href="https://github.com/cmcl/frankjnr">Frankjnr</a></a></li>
+                <li><a href="#vole"><span class="toc-section-number">2.3</span> <a href="https://github.com/pigworker/Vole">Vole</a></a><ul>
+                <li><a href="#development-tools-and-languages"><span class="toc-section-number">2.3.1</span> Development Tools and Languages</a></li>
+                <li><a href="#vagrant"><span class="toc-section-number">2.3.2</span> <a href="https://www.vagrantup.com/">Vagrant</a></a></li>
+                <li><a href="#webpack"><span class="toc-section-number">2.3.3</span> <a href="https://webpack.github.io/">Webpack</a></a></li>
+                <li><a href="#javascript"><span class="toc-section-number">2.3.4</span> JavaScript</a></li>
+                <li><a href="#haskell"><span class="toc-section-number">2.3.5</span> <a href="https://wiki.haskell.org">Haskell</a></a></li>
+                <li><a href="#report-markdown"><span class="toc-section-number">2.3.6</span> <a href="https://github.com/tompollard/phd_thesis_markdown">Report Markdown</a></a></li>
+                <li><a href="#bash-script"><span class="toc-section-number">2.3.7</span> Bash script</a></li>
                 </ul></li>
-                <li><a href="#vole"><span class="toc-section-number">2.3</span> Vole</a></li>
                 <li><a href="#conclusion"><span class="toc-section-number">2.4</span> Conclusion</a></li>
                 </ul></li>
                 <li><a href="#problem-description-and-specification"><span class="toc-section-number">3</span> Problem Description and Specification</a><ul>
                 <li><a href="#problem-overview"><span class="toc-section-number">3.1</span> Problem overview</a><ul>
                 <li><a href="#project-risks"><span class="toc-section-number">3.1.1</span> Project risks</a></li>
                 </ul></li>
-                <li><a href="#requirements-analysis"><span class="toc-section-number">3.2</span> Requirements Analysis</a><ul>
-                <li><a href="#development-tools-and-languages"><span class="toc-section-number">3.2.1</span> Development Tools and Languages</a></li>
-                <li><a href="#vagrant"><span class="toc-section-number">3.2.2</span> Vagrant</a></li>
-                <li><a href="#webpack"><span class="toc-section-number">3.2.3</span> Webpack</a></li>
-                <li><a href="#javascript"><span class="toc-section-number">3.2.4</span> JavaScript</a></li>
-                <li><a href="#haskell"><span class="toc-section-number">3.2.5</span> Haskell</a></li>
-                <li><a href="#report-markdown"><span class="toc-section-number">3.2.6</span> Report Markdown</a></li>
-                </ul></li>
+                <li><a href="#requirements-analysis"><span class="toc-section-number">3.2</span> Requirements Analysis</a></li>
                 <li><a href="#specification"><span class="toc-section-number">3.3</span> Specification</a><ul>
                 <li><a href="#functional-requirements"><span class="toc-section-number">3.3.1</span> Functional requirements</a></li>
                 <li><a href="#non-functional-requirements"><span class="toc-section-number">3.3.2</span> Non-functional requirements</a></li>
@@ -254,7 +253,7 @@
                 </ul></li>
                 <li><a href="#verification-and-validation"><span class="toc-section-number">6</span> Verification and Validation</a><ul>
                 <li><a href="#experimental-testing-framework"><span class="toc-section-number">6.1</span> Experimental testing framework</a><ul>
-                <li><a href="#bash-script"><span class="toc-section-number">6.1.1</span> Bash script</a></li>
+                <li><a href="#bash-script-1"><span class="toc-section-number">6.1.1</span> Bash script</a></li>
                 <li><a href="#expect-script"><span class="toc-section-number">6.1.2</span> Expect script</a></li>
                 <li><a href="#possible-improvements-1"><span class="toc-section-number">6.1.3</span> Possible improvements</a></li>
                 </ul></li>
@@ -310,7 +309,7 @@
                                 
 <h1 id="abstract" class="unnumbered">Abstract</h1>
 <!-- This is the abstract -->
-<p>Frank is a strongly typed, strict functional programming language invented by Sam Lindley and Conor McBride. It is influenced by Paul Blain Levy’s call-by-push-value calculus, and features a bidirectional effect type system, effect polymorphism, as well as effect handlers. This means that Frank supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when a command is complete, depending on the handler, the system could resume from the point it was suspended. Handlers are very similar to typical functions, but their argument processes can communicate in more advanced ways. The idea is to utilize this functionality in the web. Side-effects might be various events such as mouse actions, http requests, etc., and the handler would be the application in the web page.</p>
+<p>Frank is a strongly typed, strict functional programming language invented by Dr. Sam Lindley and Dr. Conor McBride. It is influenced by Paul Blain Levy’s call-by-push-value calculus, and features a bidirectional effect type system, effect polymorphism, as well as effect handlers. This means that Frank supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when a command is complete, depending on the handler, the system could resume from the point it was suspended. Handlers are very similar to typical functions, but their argument processes can communicate in more advanced ways. The idea is to utilize this functionality in the web. Side-effects might be various events such as mouse actions, http requests, etc., and the handler would be the application in the web page.</p>
 <p>The overarching goal of the project is to compile Frank to JavaScript and to run it in the browser. Users would thus be able to use Frank for web development purposes. This involves creating a Compiler and a Virtual Machine (abstract machine) which can support a compiled Frank structure.</p>
 <p> </p>
 <h1 id="acknowledgements" class="unnumbered">Acknowledgements</h1>
@@ -345,7 +344,7 @@ Table x.x Short title of the figure . . . </p>
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
 <p>This chapter focuses on explaining the project motivation and objectives. Also, in the last section, the report structure is displayed.</p>
 <h2 id="background"><span class="header-section-number">1.1</span> Background</h2>
-<p>Functional languages are evolving and constantly changing in order to adapt to innovations and the ever-changing needs of software engineering. Stemming from this, the concept of Frank language was created by Prof. Conor McBride and Prof. Sam Lindley, followed by its implementation named “Frank” and the more recent release - “Frankjnr”.</p>
+<p>Functional languages are evolving and constantly changing in order to adapt to innovations and the ever-changing needs of software engineering. Stemming from this, the concept of Frank language was created by Dr. Conor McBride and Dr. Sam Lindley, followed by its implementation named “Frank” and the more recent release - “Frankjnr”.</p>
 <p>“Frank”is a strongly typed, strict functional programming language designed around Plotkin and Pretnar’s effect handler abstraction, strongly influenced by <span class="citation">(B. C. Pierce and D. N. Turner 2000)</span>, <span class="citation">(G. D. Plotkin and J. Power 2001b)</span>, <span class="citation">(G. D. Plotkin and J. Power 2001a)</span>, <span class="citation">(G. D. Plotkin and J. Power 2002)</span>, <span class="citation">(G. D. Plotkin and J. Power 2003)</span>, <span class="citation">(G. D. Plotkin and J. Power 2009)</span>, <span class="citation">(G. D. Plotkin and M. Pretnar 2013)</span> papers on algebraic effects and handlers for algebraic effects. It is also influenced by Paul Blain Levy’s call-by-push-value calculus. Frank features a bidirectional effect type system, effect polymorphism, and effect handlers; Frank thus supports type-checked side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend the evaluation of the expression where they occur and give control to a handler which interprets the command. However, when a command is complete, depending on the handler, the system could resume from the point it was suspended. Handlers are very similar to typical functions, but their argument processes can communicate in more advanced ways.</p>
 <p>Because of the distinct features of Frank, in particular its capability to support effects and handlers, it has potential to be used in the context of web development. However, neither of Frank’s implementations currently support this. Therefore, the main intention of this project is to enable the usage of Frank for web development. Using a functional language for web development could greatly ease the process of writing parsers and form validations on the web. Essentially, Frank code would be converted into JavaScript because of its support for functional programming. Frank would potentially gain all of the JavaScript functionality and could even use JavaScript third-party libraries. For example, Frank would be able to handle different http requests, such as GET or POST; it could fire events (ex. alert boxes), and handle events (ex. mouse clicks).</p>
 <p>The most effective way to achieve this is to utilize the existing Frankjnr implementation, rewriting its Compiler and Abstract Machine (back end). The Compiler would take in parsed Frank code and output JavaScript which could be used by Abstract Machine at Run-time.</p>
@@ -360,9 +359,9 @@ Table x.x Short title of the figure . . . </p>
 </ul>
 <h2 id="summary-of-chapters"><span class="header-section-number">1.3</span> Summary of chapters</h2>
 <p><strong>Chapter 2 - Related Work</strong></p>
-<p>The aim of this chapter is to highlight work done by others that in some fashion ties in with this project. This includes work which the author directly uses as a bouncing-off point, work that shows other attempts to solve similar problems, as well as connected projects which have been partially used in the final implementation of the project.</p>
+<p>The aim of this chapter is to highlight work done by others that in some fashion ties in with this project. This includes work which the author directly uses as a bouncing-off point, work that shows other attempts to solve similar problems, as well as connected projects which have been partially used in the final implementation of the project. Moreover, chapter explains chosen development tools and languages and reasoning behind them.</p>
 <p><strong>Chapter 3 - Problem Description and Specification</strong></p>
-<p>This chapter briefly overviews the main problems and challenges of the project. It briefly explains the requirement analysis stage; the development tools and languages chosen. It also expands upon functional and non-functional requirements, followed by a detailed specification and explanation of the design methodology.</p>
+<p>This chapter briefly overviews the main problems and challenges of the project. It briefly explains the requirement analysis stage. It, also, expands upon functional and non-functional requirements, followed by a detailed specification and explanation of the design methodology.</p>
 <p><strong>Chapter 4 - Initial development &amp; experimental system</strong></p>
 <p>This chapter is focused on an initial experimental system. It highlights the reasoning behind it, the purpose of each component, their implementation, drawbacks and any potential improvements.</p>
 <p><strong>Chapter 5 - Detailed Design and Implementation of the final system</strong></p>
@@ -374,19 +373,31 @@ Table x.x Short title of the figure . . . </p>
 <p><strong>Chapter 8 - Summary &amp; Conclusion</strong></p>
 <p>This chapter summarizes the project while highlighting valuable lessons learned by the author and proposes relevant future work.</p>
 <h1 id="related-work"><span class="header-section-number">2</span> Related Work</h1>
-<h2 id="shonky"><span class="header-section-number">2.1</span> Shonky</h2>
-<p>Shonky is untyped and impure functional programming language. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
+<h2 id="shonky"><span class="header-section-number">2.1</span> <a href="https://github.com/pigworker/shonky">Shonky</a></h2>
+<p>Shonky is untyped and impure functional programming language created by Conor McBride. The key feature of Shonky is that it supports local handling of computational effect, using the regular application syntax. This means one process can coroutine many other subprocesses. In that sense it is very similar to Frank, just without type support. Its interpreter is written in Haskell, although it has potential to be ported to JavaScript or PHP to support web operations.</p>
 <p>In the context of the project Shonky language data structures are used by the Abstract Machine, in Chapter 5 it is explained in great detail of how exactly were they used and for what purpose. However, Shonky interpreter is completely scrapped and is only used as a reference in solving any Abstract Machine or Compiler difficulties.</p>
-<h2 id="frankjnr"><span class="header-section-number">2.2</span> Frankjnr</h2>
+<h2 id="frankjnr"><span class="header-section-number">2.2</span> <a href="https://github.com/cmcl/frankjnr">Frankjnr</a></h2>
 <p>Frankjnr is an newest implementation of Frank functional programming language described in &quot;<em>Do be do be do</em>&quot; <span class="citation">(Sam Lindley, Conor McBride &amp; Craig McLaughlin 2016)</span> paper. Frankjnr has a parser for Frank syntax, thus the user is able to use Frank to write expressions. After parsing Frank code it performs type check and other necessary operations followed by compilation to Shonky supported data structures which are then used by Shonky interpreter to run Frank.</p>
-<h3 id="frankjnr-limitations"><span class="header-section-number">2.2.1</span> Frankjnr limitations</h3>
-<ul>
-<li>Only top-level mutually recursive computation bindings are supported;</li>
-<li>Coverage checking is not implemented;</li>
-</ul>
-<h2 id="vole"><span class="header-section-number">2.3</span> Vole</h2>
-<p>Vole is lightweight functional programming language with its own Compiler and two Abstract Machines. One Machine is written in Haskell and provides opportunity to run compiled Vole programs on the local machine. Other Virtual Machine is written in JavaScript, because of this it is possible to run Vole programs on the web, there are few working examples in the Git repository of Vole. It, also, has some support for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and application front-end on run-time.</p>
-<p>In the context of this project - Vole is a useful resource, because it essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of Compilers and Abstract Machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
+<h2 id="vole"><span class="header-section-number">2.3</span> <a href="https://github.com/pigworker/Vole">Vole</a></h2>
+<p>Vole is lightweight functional programming language implemented by Conor McBride. It has its own compiler and matching two interpreters.<br />
+One abstract machine is written in Haskell and provides opportunity to run compiled Vole programs on the local environment. Other machine is written in JavaScript, therefore it is possible to run Vole programs on the web, there are few working examples in the git repository of Vole. It, also, has some support for effects and handlers, so it utilizes the ability to communicate between compiled Vole programs and application front-end on run-time.</p>
+<p>In the context of this project - Vole is a useful resource, because it essentially tries to solve the same problem but for a different language. Author had to study Vole, to understand its technical implementation, usage of resources and to expand his knowledge of compilers and abstract machines. Lastly, Vole is used for evaluation purposes as another benchmark comparison.</p>
+<h3 id="development-tools-and-languages"><span class="header-section-number">2.3.1</span> Development Tools and Languages</h3>
+<p>This section will briefly explain used tools and languages and reasoning behind each of them.</p>
+<h3 id="vagrant"><span class="header-section-number">2.3.2</span> <a href="https://www.vagrantup.com/">Vagrant</a></h3>
+<p>Vagrant is an optional tool to create separate development environment for the project. It runs on Virtual Box and it is essentially a server on your local computer which you can boot up and work on. Furthermore, Vagrant comes with up to date relevant libraries out of the box. Therefore, author used it to have clean environment and to avoid installation of software and library management on local machine, thus speeding up development.</p>
+<h3 id="webpack"><span class="header-section-number">2.3.3</span> <a href="https://webpack.github.io/">Webpack</a></h3>
+<p>Webpack is a module builder and it is available as npm package. In this project it is used for abstract machine development as it adds wanted flexibility to plain JavaScript, and it compiles everything to a single light JavaScript file. The most important feature of <em>webpack</em> is an ability to create and export different modules, for example, module could be a function or a variable. This allows for improved project structure as user is able to keep JavaScript components in separate files, thus making it easer to develop, maintain and navigate through code.</p>
+<h3 id="javascript"><span class="header-section-number">2.3.4</span> JavaScript</h3>
+<p>JavaScript is a client side scripting language. In this project output of the compiler is generated in JavaScript, which is then used by virtual machine which is, also, written in JavaScript so that both could cooperate on run time without any further compilations.</p>
+<p>JavaScript is used because of its key features. Firstly, it has support for functional programming by letting function arguments be other functions. Secondly, it is supported by all popular browsers. And finally, JavaScript has lots of libraries and features which support web development.</p>
+<h3 id="haskell"><span class="header-section-number">2.3.5</span> <a href="https://wiki.haskell.org">Haskell</a></h3>
+<p>Haskell is a statically, implicitly typed, lazy, standardized functional programming language with non-strict semantics. Haskell features include support for recursive functions, data types, pattern matching, and list comprehensions.</p>
+<p>Haskell was chosen for compiler development because of its functional language features, like pattern-matching, efficient recursion, support for monadic structures. Moreover, &quot;Frankjnr&quot; and &quot;Shonky&quot; are written in Haskell as well, thus, using Haskell would provide easier compatibility with those projects.</p>
+<h3 id="report-markdown"><span class="header-section-number">2.3.6</span> <a href="https://github.com/tompollard/phd_thesis_markdown">Report Markdown</a></h3>
+<p>This report adapted the template of markdown developed by Tom Pollard, because of its flexible structure and features, such as support for Pandoc markdown and latex expressions. Report is divided into separate source files, which creates strong project structure and every source file is compiled to a single pdf file with compiler powered by <em>npm</em>.</p>
+<h3 id="bash-script"><span class="header-section-number">2.3.7</span> Bash script</h3>
+<p>Bash script is a series of command line instructions placed into a single file. It is generally used for automation and its being used to build automated test cases in the context of this project.</p>
 <h2 id="conclusion"><span class="header-section-number">2.4</span> Conclusion</h2>
 <p>Three main related projects are Vole, Shonky and Frankjnr. Vole was used as an working example of a solution for similar problem, which got author thinking of different ways to approach the problem. Shonky and Frankjnr were used directly, because Frankjnr is the newest implementation of Frank language and it uses Shonky's interpreter for executing Frank programs. Therefore, the idea was to take existing Frankjnr and replace the Shonky's interpreter with new compiler and abstract machine which would support web development while keeping Shonky's syntax data structures.</p>
 <h1 id="problem-description-and-specification"><span class="header-section-number">3</span> Problem Description and Specification</h1>
@@ -405,34 +416,7 @@ Table x.x Short title of the figure . . . </p>
 <li>Authors initial lack of experience with languages being used and analyzed concepts (compiler and virtual machines).</li>
 </ul>
 <h2 id="requirements-analysis"><span class="header-section-number">3.2</span> Requirements Analysis</h2>
-<p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel Wrigh 2004)</span>, to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
-<h3 id="development-tools-and-languages"><span class="header-section-number">3.2.1</span> Development Tools and Languages</h3>
-<p>This section will briefly explain used tools and languages and reasoning behind each of them.</p>
-<h3 id="vagrant"><span class="header-section-number">3.2.2</span> Vagrant</h3>
-<!--https://www.vagrantup.com/-->
-<p>Vagrant is an optional tool to create separate development environment for the project. It runs on Virtual Box and it is essentially a server on your local computer which you can boot up and work on. Furthermore, Vagrant comes with up to date relevant libraries out of the box. Therefore, author used it to have clean environment and to avoid installation of software and library management on local machine, thus speeding up development.</p>
-<h3 id="webpack"><span class="header-section-number">3.2.3</span> Webpack</h3>
-<!--https://webpack.github.io/-->
-<p>Webpack is a module builder and it is available as npm package. In this project it is used for abstract machine development as it adds wanted flexibility to plain JavaScript, and it compiles everything to a single light JavaScript file. The most important feature of <em>webpack</em> is an ability to create and export different modules, for example, module could be a function or a variable. This allows for improved project structure as user is able to keep JavaScript components in separate files, thus making it easer to develop, maintain and navigate through code.</p>
-<h3 id="javascript"><span class="header-section-number">3.2.4</span> JavaScript</h3>
-<p>JavaScript is a client side scripting language. In this project output of the compiler is generated in JavaScript, which is then used by virtual machine which is, also, written in JavaScript so that both could cooperate on run time without any further compilations.</p>
-<p>JavaScript is used because of its key features. Firstly, it has support for functional programming by letting function arguments be other functions. Secondly, it is supported by all popular browsers. And finally, JavaScript has lots of libraries and features which support web development.</p>
-<!--#### Alternative - CoffeScript
-
-CoffeScript is much newer language and it improves upon JavaScript syntax, allowing for neater declarations,
-introduces new features and reinforces the structure of the code.
-CoffeScript can run in any environment where JavaScript can run, because in the end it is compiled to
-JavaScript. It is available as npm package. However, it wasn't used because author didn't want another 
-layer of compilation going on in the background. -->
-<h3 id="haskell"><span class="header-section-number">3.2.5</span> Haskell</h3>
-<!--https://wiki.haskell.org
-https://www.haskell.org/-->
-<p>Haskell is a statically, implicitly typed, lazy, standardized functional programming language with non-strict semantics. Haskell features include support for recursive functions, data types, pattern matching, and list comprehensions.</p>
-<p>Haskell was chosen for compiler development because of its functional language features, like pattern-matching, efficient recursion, support for monadic structures. Moreover, &quot;Frankjnr&quot; and &quot;Shonky&quot; are written in Haskell as well, thus, using Haskell would provide easier compatibility with those projects.</p>
-<h3 id="report-markdown"><span class="header-section-number">3.2.6</span> Report Markdown</h3>
-<!--https://github.com/tompollard/phd_thesis_markdown-->
-<!--http://pandoc.org/-->
-<p>This report adapted the template of markdown developed by Tom Pollard, because of its flexible structure and features, such as support for Pandoc markdown and latex expressions. Report is divided into separate source files, which creates strong project structure and every source file is compiled to a single pdf file with compiler powered by <em>npm</em>.</p>
+<p>Before any development could begin requirements needed to be gathered, author did this by discussing how the system should behave and what technologies it should utilize with the supervisor. He, also, attended programming languages seminar where Frank language was discussed, gaining different perspective on the whole project. Lastly, author read papers on relevant topics, such as &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Graham Hutton and Joel J. Wright 2004)</span>, to expand his knowledge and gain more insight in what to do. Further research was made to ensure the appropriateness of chosen languages and technologies.</p>
 <h2 id="specification"><span class="header-section-number">3.3</span> Specification</h2>
 <h3 id="functional-requirements"><span class="header-section-number">3.3.1</span> Functional requirements</h3>
 <ul>
@@ -473,14 +457,14 @@ https://www.haskell.org/-->
 <li>Complexity of the compilers and their implementation;</li>
 <li>Complexity of abstract machines and their implementation;</li>
 </ul>
-<p>Thus, simpler language was developed with matching compiler and abstract machine. Both, the compiler and the machine were developed while keeping in mind that their key parts will be reused for the final system. So efficiency, reliability, structure were all important factors.</p>
+<p>Thus, experimental language was developed with matching compiler and abstract machine. Both, the compiler and the machine were developed while keeping in mind that their key parts will be reused for the final system. So efficiency, reliability, structure were all important factors. Furthermore, experimental system was vastly influenced on concepts described in &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Dexter Kozen and Carron Shankland 2004)</span> and &quot;Mathematics of Program Construction&quot; <span class="citation">(Graham Hutton and Joel J. Wright 2004)</span>.</p>
 <h2 id="experimental-system"><span class="header-section-number">4.2</span> Experimental system</h2>
 <p>System consists of:</p>
 <ul>
 <li>Compiler - written in Haskell;</li>
 <li>Language - written in Haskell;</li>
 <li>Machine - written in JavaScript, compiled with <em>webpack</em>;</li>
-<li>Testing Framework - written in Bash and Expect scripts, overview of the framework can be found in <strong>Chapter 6</strong>;</li>
+<li>Testing Framework - written in Bash and Expect scripts, overview of the framework can be found in <strong>Chapter 6</strong>.</li>
 </ul>
 <h3 id="language"><span class="header-section-number">4.2.1</span> Language</h3>
 <p>A simple language written in Haskell, which syntax supports few specific operations, such as, sum of two expressions, Throw &amp; Catch, Set, Next, Get, new reference. Each of the operations were carefully selected, where their implementation in the abstract machine varies significantly. Thus, offering broad and important learning experience.</p>
@@ -569,7 +553,7 @@ ProgramFoo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw"
 <p>Each resumption is function, which takes in a stack as a parameter and return a mode. Abstract machine will finish compilation if &quot;mode.tag&quot; is not equal to &quot;go&quot;. However, if it is equal to &quot;go&quot; then mode must be reinitialized, because not all instructions are done, by getting creating the next mode from resumptions array and passing stack to it, so that the mode has access to previous stack.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">    <span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">===</span> <span class="st">&quot;go&quot;</span>) <span class="op">{</span>
         mode <span class="op">=</span> f[<span class="va">mode</span>.<span class="at">data</span>](<span class="va">mode</span>.<span class="at">stack</span>)<span class="op">;</span></code></pre></div>
-<p>After the mode is reinitialized &quot;mode.tag&quot; can not be equal to &quot;go&quot; and mode's stack can not be empty. If these requirements are not met, the next mode will be retrieve, however, if there are none left, the abstract machine will stop executing and return the last mode.</p>
+<p>Abstract machine will continue executing while reinitializing mode's value every time &quot;mode.tag&quot; changes to &quot;go&quot; until the &quot;mode.tag&quot; becomes not equal to &quot;go&quot; and the stack is empty. It means that mode is a value and that the machine is done computing.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">!=</span> <span class="st">&quot;go&quot;</span> <span class="op">&amp;&amp;</span> <span class="va">mode</span>.<span class="at">stack</span> <span class="op">!=</span> <span class="kw">null</span>) <span class="op">{</span></code></pre></div>
 <p>If the execution is still going then the behavior of the Abstract Machine will differ based on mode's &quot;tag&quot; parameter. It could be equal to these values:</p>
 <ul>
@@ -994,7 +978,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <p>For full list of test case expressions and programs see <strong>Appendix 3</strong>.</p>
 <h2 id="experimental-testing-framework"><span class="header-section-number">6.1</span> Experimental testing framework</h2>
 <p>This section will describe the implementation of the experimental testing framework. It consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
-<h3 id="bash-script"><span class="header-section-number">6.1.1</span> Bash script</h3>
+<h3 id="bash-script-1"><span class="header-section-number">6.1.1</span> Bash script</h3>
 <p>Bash script is the main script in the testing framework which stores all test cases, then goes through them one by one. To launch it simply type <em>./tester.sh</em> in the terminal window. For full guide on installation and usage see <strong>Appendix 2</strong>.</p>
 <p>Test cases are arrays which store free values: expression to be tested, the name of the test and expected output. Below sample test case is displayed:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
@@ -1967,6 +1951,9 @@ References are automatically generated from the BibTex file (References.bib)
 <div id="ref-Plotkin5">
 <p>B. C. Pierce and D. N. Turner, 2000. <em>Local type inference</em>,</p>
 </div>
+<div id="ref-MathsProgContruction">
+<p>Dexter Kozen and Carron Shankland, 2004. <em>Mathematics of Program Construction</em>,</p>
+</div>
 <div id="ref-Match-bust">
 <p>F.V. McBride, 1970. <em>Computer Aided Manipulation of Symbols</em>,</p>
 </div>
@@ -1989,7 +1976,7 @@ References are automatically generated from the BibTex file (References.bib)
 <p>G. D. Plotkin and M. Pretnar, 2013. <em>Handling algebraic effects</em>,</p>
 </div>
 <div id="ref-CompilingCorrectly">
-<p>Graham Hutton and Joel Wrigh, 2004. <em>Compiling Exceptions Correctly</em>,</p>
+<p>Graham Hutton and Joel J. Wright, 2004. <em>Compiling Exceptions Correctly</em>,</p>
 </div>
 <div id="ref-Tree-switching">
 <p>Lennart Augustsson, 1985. <em>Functional Programming and Computer Architecture</em>,</p>

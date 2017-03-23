@@ -9,7 +9,7 @@
         \vspace*{2.5cm}
         
         \huge
-        Run Frank in Browser
+        Run Frank in a Browser
         
         \vspace{1.5cm}
         
@@ -32,7 +32,7 @@
         
         \normalsize
         Supervised by:\\
-        Professor Conor McBride
+        Dr. Conor McBride
 
         \vspace{0.8cm}
         

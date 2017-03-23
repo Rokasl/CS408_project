@@ -1,7 +1,7 @@
-# CS408 - Run Frank in Browser
+# CS408 - Run Frank in a Browser
 Final 4th year project.
 
-Supervisor: Prof. Conor McBride
+Supervisor: Dr. Conor McBride
 
 Student: Rokas Labeikis
 

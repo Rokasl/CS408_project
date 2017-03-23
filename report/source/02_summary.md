@@ -2,7 +2,8 @@
 
 <!-- This is the abstract -->
 
-Frank is a strongly typed, strict functional programming language invented by Sam Lindley and Conor McBride.
+Frank is a strongly typed, strict functional programming language invented by Dr. Sam Lindley and Dr. 
+Conor McBride.
 It is influenced by Paul Blain Levy’s call-by-push-value calculus, and features a bidirectional effect
 type system, effect polymorphism, as well as effect handlers. This means that Frank supports type-checked
 side-effects which only occur where permitted. Side-effects are comparable to exceptions which suspend

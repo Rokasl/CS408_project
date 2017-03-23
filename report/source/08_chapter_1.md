@@ -7,8 +7,8 @@ the report structure is displayed.
 ## Background
 
 Functional languages are evolving and constantly changing in order to adapt to innovations and the ever-changing 
-needs of software engineering. Stemming from this, the concept of Frank language was created by Prof. Conor McBride and 
-Prof. Sam Lindley, followed by its implementation named “Frank” and the more recent release - “Frankjnr”.
+needs of software engineering. Stemming from this, the concept of Frank language was created by Dr. Conor McBride and 
+Dr. Sam Lindley, followed by its implementation named “Frank” and the more recent release - “Frankjnr”.
 
 “Frank”is a strongly typed, strict functional programming language 
 designed around Plotkin and Pretnar’s effect handler abstraction, strongly influenced by [@Plotkin5],
@@ -55,12 +55,13 @@ learning experience.
 The aim of this chapter is to highlight work done by others that in some fashion ties in with this project.
 This includes work which the author directly uses as a bouncing-off point, work that shows other attempts to
 solve similar problems, as well as connected projects which have been partially used in the final implementation
-of the project.
+of the project. Moreover, chapter explains chosen development tools and languages and reasoning behind 
+them.
 
 **Chapter 3 - Problem Description and Specification**
 
 This chapter briefly overviews the main problems and challenges of the project. It briefly explains
-the requirement analysis stage; the development tools and languages chosen. It also expands upon
+the requirement analysis stage. It, also, expands upon
 functional and non-functional requirements, followed by a detailed specification and explanation
 of the design methodology.
 

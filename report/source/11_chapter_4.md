@@ -14,9 +14,11 @@ The intricacies consist of:
 * Complexity of the compilers and their implementation;
 * Complexity of abstract machines and their implementation;
 
-Thus, simpler language was developed with matching compiler and abstract machine. Both, the compiler
+Thus, experimental language was developed with matching compiler and abstract machine. Both, the compiler
 and the machine were developed while keeping in mind that their key parts will be reused for the final
-system. So efficiency, reliability, structure were all important factors.
+system. So efficiency, reliability, structure were all important factors. Furthermore, experimental 
+system was vastly influenced on concepts described in "Compiling Exceptions Correctly"
+[@MathsProgContruction] and "Mathematics of Program Construction" [@CompilingCorrectly].
 
 ## Experimental system
 
@@ -26,7 +28,7 @@ System consists of:
 * Language - written in Haskell;
 * Machine - written in JavaScript, compiled with *webpack*;
 * Testing Framework - written in Bash and Expect scripts, overview of the framework can be found in
-  **Chapter 6**;
+  **Chapter 6**.
 
 ### Language
 
@@ -238,9 +240,10 @@ previous stack.
         mode = f[mode.data](mode.stack);
 ```
 
-After the mode is reinitialized "mode.tag" can not be equal to "go" and mode's stack can not be empty.
-If these requirements are not met, the next mode will be retrieve, however, if there are none left, the 
-abstract machine will stop executing and return the last mode.
+Abstract machine will
+continue executing while reinitializing mode's value every time "mode.tag" changes to "go" until the
+"mode.tag" becomes not equal to "go" and the stack is empty. It means that mode is a value and that 
+the machine is done computing.
 
 ```javascript
 while (mode.tag != "go" && mode.stack != null) {
