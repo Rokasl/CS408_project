@@ -278,10 +278,23 @@
                 <li><a href="#future-work"><span class="toc-section-number">8.2</span> Future work</a></li>
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
-                <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a></li>
-                <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a><ul>
-                <li><a href="#experimental-system-2">Experimental system</a></li>
+                <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a><ul>
                 <li><a href="#final-system-1">Final system</a><ul>
+                <li><a href="#requirements">Requirements</a></li>
+                <li><a href="#setup-frank">Setup Frank</a></li>
+                <li><a href="#compiling-and-executing-programs">Compiling and executing programs</a></li>
+                <li><a href="#tests">Tests</a></li>
+                <li><a href="#benchmark-1">Benchmark</a></li>
+                </ul></li>
+                <li><a href="#experimental-system-2">Experimental system</a><ul>
+                <li><a href="#requirements-1">Requirements</a></li>
+                <li><a href="#usage-1">Usage</a></li>
+                <li><a href="#tests-1">Tests</a></li>
+                </ul></li>
+                </ul></li>
+                <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a><ul>
+                <li><a href="#experimental-system-3">Experimental system</a></li>
+                <li><a href="#final-system-2">Final system</a><ul>
                 <li><a href="#new-test-programs">New test programs</a></li>
                 <li><a href="#old-test-programs">Old test programs</a></li>
                 </ul></li>
@@ -1047,7 +1060,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">WithRef</span> <span class="st">&quot;x&quot;</span> (<span class="dt">Val</span> <span class="dv">22</span>) (
     <span class="st">&quot;x&quot;</span> <span class="fu">:=</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span> <span class="fu">:+:</span> <span class="dt">Val</span> <span class="dv">11</span>)
         <span class="fu">:&gt;</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span> <span class="fu">:+:</span> <span class="dt">Val</span> <span class="dv">30</span>))</code></pre></div>
-<p>Lastly, computation is interrupted on &quot;:=&quot; and &quot;Get&quot; commands to search through the stack and retrieve or update reference of &quot;x&quot;.</p>
+<p>Lastly, computation is interrupted on &quot;:=&quot; and &quot;Get&quot; commands and control is given to the handler, in order to search through the stack and retrieve or update reference of &quot;x&quot;.</p>
 <h3 id="final-system"><span class="header-section-number">7.1.2</span> Final system</h3>
 <p>Lessons learned, along with the code style and a few functions of experimental system, were adapted in creation of the final system. Having done this, the author was successful in implementing a new abstract machine and compiler for &quot;Shonky&quot; data structures, which were in turn integrated into the Frankjnr project. Final system supports variables, integer values, atoms, pairs, function application, local functions, commands, thunk patterns, top level functions and contains built in semantics for addition and subtraction. All these features combined offer close to full development package, thus almost any current Frank program could be compiled by the new compiler and successfully executed by the abstract machine in the browser.</p>
 <p>Quick example of how the compiler and abstract machine work together and how user may use it. User is able to execute Frank programs in four steps. First step is to write a program in Frank with file ending of &quot;.fk&quot;, such as:</p>
@@ -1061,7 +1074,7 @@ fib <span class="dv">2</span> <span class="fu">=</span> <span class="dv">1</span
 fib n <span class="fu">=</span> fib (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">+</span> fib (n<span class="fu">-</span><span class="dv">2</span>)</code></pre></div>
 <p>Second step is to compile it with flag &quot;output-js&quot; to initiate new compiler. This will generate &quot;gen.js&quot; file in <em>Backend/machine/dist</em> directory with resumptions and operators arrays, which may be used by the virtual machine.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> fib.fk --output-js</code></pre></div>
-<p>Third step is to recompile the machine's code (in <em>machine</em> folder), to include newly generated file, with <em>webpack</em> command. And finally user needs to include &quot;output.js&quot; form <em>dist</em> folder, in his project's HTML file. In this example user would see 5 as the computation result in the browser.</p>
+<p>Third step is to recompile the machine's code (in <em>machine</em> folder), to include newly generated file, with <em>webpack</em> command. And finally user needs to include &quot;output.js&quot; form <em>dist</em> folder, in theirs project's HTML file. In this example user would see &quot;5&quot; as the computation result in the browser.</p>
 <h4 id="limitations"><span class="header-section-number">7.1.2.1</span> Limitations</h4>
 <p>All of the limitations are possible improvements and they are present because of time constrains.</p>
 <ul>
@@ -1444,41 +1457,65 @@ March 22:<br />
 Evaluation and conclusion<br />
 </p>
 <h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
-<p><strong>Experimental test framework</strong></p>
-<p><em>Pre-requirements</em></p>
+<h2 id="final-system-1" class="unnumbered">Final system</h2>
+<h3 id="requirements" class="unnumbered">Requirements</h3>
 <ul>
-<li>Node;</li>
-<li>npm;</li>
-<li>Webpack;</li>
-<li>GHC;</li>
-<li>Expect Script - install by typing this command:</li>
+<li>Node (https://nodejs.org/en/)</li>
+<li>npm (https://www.npmjs.com/)</li>
+<li>webpack (https://webpack.github.io/)</li>
+<li>ghc (https://www.haskell.org/ghc/)</li>
+<li>Frank</li>
+</ul>
+<h3 id="setup-frank" class="unnumbered">Setup Frank</h3>
+<p>After installing <em>Node, </em>npm<em>, </em>webpack* and <em>ghc</em> to your environment. Navigate to <em>final_implementation</em> folder and install Frank by typing:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">stack</span> setup
+<span class="ex">stack</span> install</code></pre></div>
+<p>You might need to edit your machine's environment path, to include Frank.</p>
+<h3 id="compiling-and-executing-programs" class="unnumbered">Compiling and executing programs</h3>
+<p>Navigate to <em>final_implementation</em> and compile any frank program from current directory or sub directories with flag &quot;output-js&quot;. Example:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> examples/foo.fk --output-js</code></pre></div>
+<p>This will generate &quot;gen.js&quot; in <em>final_implementation/Backend/machine/dist</em> directory. Now you have to recompile the machine's code. You can do this by navigating to <em>/final_implementation/Backend/machine</em> and executing command:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span></code></pre></div>
+<p>&quot;output.js&quot; will be generated in the same folder as &quot;gen.js&quot; was, you can place it in HTML file to initiate execution and see results of the compiled program.</p>
+<h3 id="tests" class="unnumbered">Tests</h3>
+<p>Script initiates test cases and outputs the result in the terminal window.</p>
+<h4 id="usage" class="unnumbered">Usage</h4>
+<p>Folder: <em>final_implementation/Backend/tests</em>.</p>
+<p>To run tests execute command:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
+<h4 id="troubleshooting" class="unnumbered">Troubleshooting</h4>
+<p>If <em>tester.sh</em> have issues with permissions, do:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
+<span class="fu">chmod</span> +x testcases.sh</code></pre></div>
+<h3 id="benchmark-1" class="unnumbered">Benchmark</h3>
+<p>Navigate to <em>final_implementation/Backend/benchamrk</em> directory and initiate any of the tests by executing the Bash script. Example:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./evalFrankjnr.sh</span></code></pre></div>
+<h2 id="experimental-system-2" class="unnumbered">Experimental system</h2>
+<h3 id="requirements-1" class="unnumbered">Requirements</h3>
+<ul>
+<li>Node (https://nodejs.org/en/)</li>
+<li>npm (https://www.npmjs.com/)</li>
+<li>webpack (https://webpack.github.io/)</li>
+<li>ghc (https://www.haskell.org/ghc/)</li>
+<li>Expect script - required for testing, install by typing this command:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">apt-get</span> install expect</code></pre></div>
-<p><em>Usage</em></p>
-<p>To run simply type in the terminal window:</p>
+<h3 id="usage-1" class="unnumbered">Usage</h3>
+<p>Initiate the compiler in the <em>simple_implementation</em> directory:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">ghci</span> Compiler.hs</code></pre></div>
+<p>Define and compile valid expression, providing the name of the expression to &quot;jsSetup&quot; function in the process. Example:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> xpr <span class="fu">=</span> <span class="dt">WithRef</span> <span class="st">&quot;x&quot;</span> (<span class="dt">Val</span> <span class="dv">2</span>) (<span class="dt">Val</span> <span class="dv">5</span> <span class="fu">:+:</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span>))
+jsWrite (jsSetup <span class="st">&quot;example_program&quot;</span> (compile xpr))</code></pre></div>
+<p>This will generate &quot;generated.js&quot; file in <em>simple_implementation/dist&quot; directory. Now you need to recompile the abstract machine for it to include newly generated file. You can do this by executing </em>webpack* command in the <em>simple_implementation</em> folder. Finally, &quot;output.js&quot; will be generated in *simple_implementation/dist&quot; directory, which you can include in your web project to see results of you compilation.</p>
+<h3 id="tests-1" class="unnumbered">Tests</h3>
+<p>Navigate to <em>simple_implementation/tests</em> and type:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
-<p><em>Troubleshooting</em></p>
-<p>If files don't have permission, do:</p>
+<h4 id="troubleshooting-1" class="unnumbered">Troubleshooting</h4>
+<p>If files have issues with permissions, type:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
 <span class="fu">chmod</span> +x helper.sh</code></pre></div>
-<p><strong>Final test framework</strong></p>
-<p><em>Pre-requirements</em></p>
-<ul>
-<li>Node;</li>
-<li>npm;</li>
-<li>Webpack;</li>
-<li>GHC;</li>
-<li>Frank - instructions how to setup are on Frankjnr Github <em>readme.md</em> fie or in the Appendix 4 of this report.</li>
-</ul>
-<p><em>Usage</em></p>
-<p>To run simply type in the terminal window:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
-<p>You should be able to see tests going through with some feedback.</p>
-<p><em>Troubleshooting</em></p>
-<p>If <em>tester.sh</em> have issues with permission, do:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh</code></pre></div>
 <h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
-<h2 id="experimental-system-2" class="unnumbered">Experimental system</h2>
+<h2 id="experimental-system-3" class="unnumbered">Experimental system</h2>
 <p>This is a full list of experimental system's test cases. &quot;expr&quot; - is expression to be tested, &quot;name&quot; - the name of the test and &quot;expected&quot; is expected output.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span> <span class="co">#value</span>
     [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
@@ -1544,7 +1581,7 @@ Evaluation and conclusion<br />
     [<span class="ex">name</span>]=<span class="st">&#39;test_next&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;23&#39;</span>
 )</code></pre></div>
-<h2 id="final-system-1" class="unnumbered">Final system</h2>
+<h2 id="final-system-2" class="unnumbered">Final system</h2>
 <p>Below is a list of all test programs for the final system:</p>
 <h3 id="new-test-programs" class="unnumbered">New test programs</h3>
 <p><strong>Test program 1:</strong></p>

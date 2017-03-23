@@ -27,8 +27,8 @@ WithRef "x" (Val 22) (
         :> (Get "x" :+: Val 30))
 ```
 
-Lastly, computation is interrupted on ":=" and "Get" commands to search through the stack and retrieve
-or update reference of "x". 
+Lastly, computation is interrupted on ":=" and "Get" commands and control is given to the handler,
+in order to search through the stack and retrieve or update reference of "x". 
 
 
 ### Final system
@@ -68,7 +68,8 @@ frank fib.fk --output-js
 
 Third step is to recompile the machine's code (in *machine* folder), to include newly generated file,
 with *webpack* command. And finally user needs to include "output.js" form *dist* folder,
-in his project's HTML file. In this example user would see 5 as the computation result in the browser. 
+in theirs project's HTML file. In this example user would see "5" as the computation result in the
+browser. 
 
 
 #### Limitations
