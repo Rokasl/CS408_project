@@ -5,9 +5,9 @@ any topics connected to them.
 
 ## Introduction
 
-Final system started to develop on week six of the second semester after the end of experimental system
-development. Some parts of the code were lifted from the earlier experiment and main concepts of how
-virtual machines and compilers should work are reused.
+The development of the final system started on week six of the second semester, after the
+end of experimental system's development. Some parts of the code were lifted from the earlier experiment
+and main concepts of how virtual machines and compilers should work were reused.
 
 ### Disclaimer
 
@@ -16,18 +16,18 @@ the author of this project. Author's code will be clearly indicated. Two project
 system are:
 
 * **Frankjnr** - developed by Sam Lindley, Craig McLaughlin and Conor McBride. Final system is
-  essentially new back end for Frankjnr. So the whole
-  Frankjnr project was used and new back end was placing in *Backend* folder. Parts of Frankjnr code were
+  essentially new back end for Frankjnr. Thus, the whole
+  Frankjnr project was used and new back end was placed in *Backend* folder. Parts of Frankjnr code were
   slightly updated to let the user choose between the old back end and the new one. Updated files were:
-  Compile.hs and Frank.hs; updates are clearly indicated with comments;
+  Compile.hs and Frank.hs; updated functions are clearly indicated with comments;
 * **Shonky** - developed by Conor McBride. Final compiler uses Shonky's syntax file for its supported
-  data structures and parse functions. However, developed system does not use *semantics* module because
+  data structures and parse functions. However, developed system does not use *semantics* module, since
   it is replacing it.
 
-More detailed descriptions can be found at **Related work** section of the report or at their
-respective git pages.
+More detailed descriptions the projects can be found at **Related work** section of the report or at
+their respective git pages.
 
-## Project folder structure
+## Project's folder structure
 
 Final system is located in *final_implementation* folder. And all of the code for new 
 compiler and abstract machine is located in "Backend" folder.
@@ -81,11 +81,11 @@ named "foo.fk":
 frank foo.fk --output-js
 ```
 
-Developed compiler constatly uses Shonky data sctructures, located in *Syntax.hs* file, because it
+Developed compiler uses Shonky data sctructures, located in *Syntax.hs* file, because it
 receives a list of program definitions from Frankjnr compiler in a form of Shonky
 syntax data structure, in particular - "[Def Exp]".  "Def Exp" can be either ":=" or "DF", however
 Frank compiler always gives back list of "DF", thus this compiler will only support them as well. 
-"DF" means functions definitions and they consist of:
+"DF" tanslates to definitions of functions (operators) and it consist of:
 
 ```haskell
 DF String   -- name of operator being defined
@@ -93,25 +93,26 @@ DF String   -- name of operator being defined
   [([Pat], Exp)]  -- list of pattern matching rules
 ```
 
-Goal for the compiler is to compile data type "Exp" (type of expression, such as atom or application) to 
-working JavaScript, generating functions that do intermediate steps. The code for compiling "Exp" will
-expect a lookup table which maps the "environment" array (stores values of pattern values) to 
+The core goal of the compiler is to compile data types "Exp" (type of expression, such as atom or application) 
+to JavaScript structures (arrays of operators and resumptions). The code for compiling "Exp" will
+expect a lookup table which maps the "environment" (stores pattern values) to 
 array indices. In order to find out if certain values are in scope, otherwise compilation will fail.
 
 ```haskell
 type EnvTable = [(String, Int)]
 ```
 
-Furthermore, there are two types of patterns. Pattern for computation - "Pat" and pattern
-for value - "VPat". Patterns for computation can be thunk, command type or "VPat", such as variable "VPV",
+Furthermore, there are two types of patterns. Patterns for computation - "Pat" and patterns
+for value - "VPat". Patterns for computation can be thunk, command or "VPat" type, such as variable "VPV",
 pair "VPat :&: VPat" and so on. Compiler has to build an "EnvTable" from these patterns, hence
-these two functions: "patCompile" and "vpatCompile". They have been implemented using counter monad
+these two functions: "patCompile" and "vpatCompile" to build it. They have been implemented
+using counter monad
 "Counter", which is there to count each patern and is used for "environment" lookup table.
 And the core pattern maching priciple
 used was "match-this-or-bust" described in PhD thesis "Computer Aided Manipulation of Symbols" 
 [@Match-bust]. Therefore, these functions will generate series of checks for each individual pattern and
-if everything is fine and the pattern is a variable and not, for example, an atom or integer,
-add them to the "environment", else it will throw an expection. In the code snippet below the patern
+if everything is fine and the pattern is what its suppose to be, then
+add it to the "environment", else it will throw an expection. In the code snippet below the patern
 is an integer so we don't need to add them to the environemnt, but it still has to pass these tests
 in order to match. Value "next" is just a counter to arange correct indeces for "environment"
 lookup table:
@@ -128,14 +129,17 @@ vpatCompile v (VPI x) = do -- integer value
 ```
 
 After "environment" lookup table is compiled and ready to go, compiler now needs to use it to 
-compile expressions - "Exp". This is achieved in "expCompile" function, which takes in an 
+compile expressions - "Exp" into computations (JavaScript objects). This is achieved in "expCompile"
+function, which takes in an 
 "environment" lookup table, function lookup table, stack (string data structure), expression and 
 outputs an JavaScript data structure encapsulated in monad "CodeGen". This monad is lifted from earlier
 experiment and it is used here for the same reason, to construct function definitions and track their 
 indeces in "funCompile" function. The compilation process will differ for each type of expression,
-because each of them have to follow different rules to be compiled correctly, for
-instance "EA" (atoms) type is straightforward, because atoms are simple and compiler only needs to compile
-the actual atom. It looks like this:
+because each of them have to follow different rules to be compiled correctly. For
+instance "EA" (atoms) type compilation returns an object, which contains a stack and a computation
+object. Computation object ("comp") has a "tag" field equal to "value" and a "value" field equal to 
+another object. And the "value" object is the point where the meaning of "atom" is defined,
+thus it contains "atom" tag and an "atom" field for its value.  
 
 ```haskell
 return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\"," ++
@@ -144,8 +148,8 @@ return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\"," ++
 
 However, for example, "pair" type of expressions are more complicated, because the "pair" contains
 two expressions, so the compiler has to evaluate them both separately. The proccess is similar to
-experimental's systems addition, since the it makes a resumption for the second compoenent and keeps
-computing the first one:
+experimental's systems addition, since the compiler makes a resumption for the second compoenent
+and keeps computing the first one:
 
 ```haskell
 expCompile xis ftable stk (ecar :& ecdr) = do
@@ -158,25 +162,25 @@ expCompile xis ftable stk (ecar :& ecdr) = do
 
 Another interesting and crucial type of expression compilation is function application. Here,
 because the function is applied to list of arguments, compiler has to compile each of the arguments
-by forming a linked list data structure. And to do this it utilizes the helper function named
+by forming a linked list data structure. And to form it compiler utilizes the helper function named
 "tailCompile", which recursivly builds a linked list. 
 
 
-However, before any of individual expression compilation or "environement" building can begin,
+However, before all of individual expression compilation or "environement" building can begin,
 compiler needs to 
 combine everything into one JavaScript data structure, forming resumptions and operators arrays in the
-process. The function for this is "operatorCompile",
-which initiates chain reaction of function calls for each function definision and concatines the 
+process. The function "operatorCompile"
+initiates chain reaction of function calls for each function definision ("DF") and concatines the 
 results into one data structure. This chain reaction of function calls consist of 
 "oneCompile", which starts to compile single fuction definition and forms an "operators" array entry.
 Then it calls
 "makeOperator", which sets the "interface" (all available commands for given operator) by calling
 "availableCommands" and "implementation" (JavaScript function definision) by calling "funCompile".
 "funCompile" is responsible for 
-forming the actual function definition of the operator and it procedes to initiate "linesCompile",
+forming the actual function implementation of the operator and it procedes to initiate "linesCompile",
 which forms a "try" and "catch" blocks and calls the final function "lineCompile", who fills the lines
-with compiled expression data by actually calling "patCompile" and "expCompile" functions with 
-data on functions patterns and expressions; finally, "lineCompile" forms a return statement of the
+with compiled expressions by actually calling "patCompile" and "expCompile" functions with 
+data on functions patterns and expressions. Finally, "lineCompile" forms a return statement of the
 function. To see how these expressions and paterns look compiled, see "gen.js" file.
 
 
@@ -184,7 +188,7 @@ function. To see how these expressions and paterns look compiled, see "gen.js" f
 
 This section will briefly explain functionality of few helper functions. 
 
-**parseShonky** - is used for testing purposes, it takes Shonky syntax file (ending with "uf"), reads it,
+**parseShonky** - is used for testing purposes, it takes Shonky syntax files (ending with "uf"), reads it,
 parses it utilizing the parse function located in *Syntax.hs* and runs the compiler on the result. Thus,
 generating new "gen.js" file.
 
@@ -196,13 +200,13 @@ it and writes the result of the compilation to the "gen.js" file.
 
 Purpose of the abstract machine is to take in generated output of the compiler and run it in the 
 web, thus completing the task of running Frank code in a browser.
-For full usage & installation instructions see Appendix 2.
+For full usage and installation instructions see **Appendix 2**.
 
 Abstract machine modules are located in\
 *final_implementation/Backend/machine* folder. They are written in
 JavaScript and are compiled to a single file\
 *final_implementation/Backend/machine/dist/output.js*
-by utilizing webpack.
+by utilizing *webpack* library.
 
 ### JavaScript type definitions
 
@@ -214,8 +218,8 @@ is an array of "JSVal" values described below.
 JSEnv = JSVal[]
 ```
 
-"JSRun" is an operator, who always returns a mode. They are located in operators array in the generated
-program ("gen.js"). Mode has a stack and current computation; top stack frame and current computation
+"JSRun" is an operator, who always returns a mode. They are located in "operators" array in the generated
+program ("gen.js"). Mode contains a stack and current computation. Top stack frame and current computation
 both determine what to do next. 
 
 ```javascript
@@ -225,7 +229,7 @@ jstype JSMode = {stack: JSStack, comp: JSComp}
 
 Stack could be empty or consist of a frame and a link to previous frame. The idea of these links 
 are applied from linked list data structure, where each element of the list has a link to the next 
-element. This structure is used regularly throughout the project.
+element. Linked lists are used regularly throughout the project.
 
 ```javascript
 jstype JSStack 
@@ -233,8 +237,8 @@ jstype JSStack
   | {prev: JSStack, frame: JSFrame }
 ```
 
-Stacks frame type, which determines the operation that needs to be done when current computation is 
-equal to "value". The next operation is determined by the "tag" value, so if the "tag" is equal to 
+Stack's frame type, which determines the operation that needs to be done when current computation is 
+equal to "value". The operation is decided depending on the value of the "tag", so if the "tag" is equal to 
 "car", the machine will expect that "env" and "cdr" values are defined as well.
 
 ```javascript
@@ -248,7 +252,8 @@ jstype JSFrame
      headles: Int, waitingHandles: JSList Int }
 ```
 
-List data structure, where it could be empty or have an current element and tailing list of elements. 
+Linked list data structure, where it could be empty or have an current element and tailing 
+list of elements. 
 
 ```javascript
 jstype JSList x
@@ -266,9 +271,9 @@ jstype JSComp
      args: JSVal[], callback:JSCallBack}
 ```
 
-Below linked list data structure is used again to form a call back structure. It is used when 
-machine starts to search for command's handler in the stack while building a "JSCallBack" by adding
-checked stack frames to it. After a handler is found and command is done executing, the machine uses
+The linked list data structure is used again to form a call back structure. This structure is used when 
+the machine begins to search for command's handler in the stack while building a "JSCallBack" by adding
+checked stack frames to it. After the handler is found and command is done executing, the machine uses
 "JSCallBack" to rebuild the stack to its original state.
 
 ```javascript
@@ -277,16 +282,16 @@ jstype JSCallBack
   | {frame: JSFrame, callback:JSCallBack}
 ```
 
-Types of values are displayed below, its type determined by the "tag" value. "atom" is just an value
+Possible value types are displayed below, their type is determined by the "tag" value. "atom" is just an value
 that cannot be deconstructed 
-any further, however in a case when "atom" is applied to a list of arguments a command is initiated, which 
-is based on "atom" value.
+any further, however in a special case when "atom" is applied to a list of arguments
+a command is initiated, which is based on "atom" value.
 "int" represents an integer value. "pair" is a pair of two values, one is held in 
 "car" object and the other is in "cdr". "operator" is a top level function. "callback" holds a 
-"callback" object which has stack frames waiting to be restored after machine finds definition of
-command that it was looking for. "thunk" represents a suspended computation. And "local" means local function, 
-which do to procedure called "Lambda Lifting" [@LambdaLifting], abstract machine will turn it into a top
-level function and execute. 
+"callback" object which has stack frames waiting to be restored after machine finds a hadler of a
+command that it was looking for. "thunk" represents a suspended computation. And "local"
+represents local functions, which do to procedure called "Lambda Lifting" [@LambdaLifting],
+abstract machine will turn them into a top level functions and execute. 
  
 
 ```javascript
