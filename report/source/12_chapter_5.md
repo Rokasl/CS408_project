@@ -17,21 +17,22 @@ system are:
 
 * **Frankjnr** - developed by Sam Lindley, Craig McLaughlin and Conor McBride. Final system is
   essentially new back end for Frankjnr. So the whole
-  Frankjnr project was used and new back end was placing in 'Backend' folder. Parts of Frankjnr code were
+  Frankjnr project was used and new back end was placing in *Backend* folder. Parts of Frankjnr code were
   slightly updated to let the user choose between the old back end and the new one. Updated files were:
-  Compile.hs and Frank.hs, updates are clearly indicated with comments;
+  Compile.hs and Frank.hs; updates are clearly indicated with comments;
 * **Shonky** - developed by Conor McBride. Final compiler uses Shonky's syntax file for its supported
-  data structures and parse functions;
+  data structures and parse functions. However, developed system does not use *semantics* module because
+  it is replacing it.
 
-More detailed descriptions can be found at 'Related work' section of the report or at their
-respective Github pages.
+More detailed descriptions can be found at **Related work** section of the report or at their
+respective git pages.
 
 ## Project folder structure
 
-Final system is located in "final_implementation" folder. And all of the code for new 
+Final system is located in *final_implementation* folder. And all of the code for new 
 compiler and abstract machine is located in "Backend" folder.
 
-Table's starting folder is *"/final_implementation"*.
+Table's starting folder is */final_implementation*.
 
 | Paths and Files              |                   | Summary                                                   |
 |------------------------------|-------------------|-----------------------------------------------------------|
@@ -102,7 +103,7 @@ type EnvTable = [(String, Int)]
 ```
 
 Furthermore, there are two types of patterns. Pattern for computation - "Pat" and pattern
-for value - "VPat". Patterns for computation can be thunk, command or "VPat", such as variable "VPV",
+for value - "VPat". Patterns for computation can be thunk, command type or "VPat", such as variable "VPV",
 pair "VPat :&: VPat" and so on. Compiler has to build an "EnvTable" from these patterns, hence
 these two functions: "patCompile" and "vpatCompile". They have been implemented using counter monad
 "Counter", which is there to count each patern and is used for "environment" lookup table.
@@ -141,8 +142,10 @@ return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\"," ++
            "value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
 ``` 
 
-However, for example "pair" type of expressions are more complicated, because the "pair" contains
-two expressions, so the compiler has to compile them both separately:
+However, for example, "pair" type of expressions are more complicated, because the "pair" contains
+two expressions, so the compiler has to evaluate them both separately. The proccess is similar to
+experimental's systems addition, since the it makes a resumption for the second compoenent and keeps
+computing the first one:
 
 ```haskell
 expCompile xis ftable stk (ecar :& ecdr) = do
@@ -192,7 +195,7 @@ it and writes the result of the compilation to the "gen.js" file.
 ## Abstract machine
 
 Purpose of the abstract machine is to take in generated output of the compiler and run it in the 
-web, thus completing the task of running Frank code in the browser.
+web, thus completing the task of running Frank code in a browser.
 For full usage & installation instructions see Appendix 2.
 
 Abstract machine modules are located in\
@@ -200,6 +203,104 @@ Abstract machine modules are located in\
 JavaScript and are compiled to a single file\
 *final_implementation/Backend/machine/dist/output.js*
 by utilizing webpack.
+
+### JavaScript type definitions
+
+This section explains the JavaScript types used to enforce the data structure of compiled Frank
+programs, which are used by the abstract machine. Firtly, "JSEnv" represents an environemnt, which
+is an array of "JSVal" values described below.
+
+```javascript
+JSEnv = JSVal[]
+```
+
+"JSRun" is an operator, who always returns a mode. They are located in operators array in the generated
+program ("gen.js"). Mode has a stack and current computation; top stack frame and current computation
+both determine what to do next. 
+
+```javascript
+jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
+jstype JSMode = {stack: JSStack, comp: JSComp}     
+```
+
+Stack could be empty or consist of a frame and a link to previous frame. The idea of these links 
+are applied from linked list data structure, where each element of the list has a link to the next 
+element. This structure is used regularly throughout the project.
+
+```javascript
+jstype JSStack 
+  = null
+  | {prev: JSStack, frame: JSFrame }
+```
+
+Stacks frame type, which determines the operation that needs to be done when current computation is 
+equal to "value". The next operation is determined by the "tag" value, so if the "tag" is equal to 
+"car", the machine will expect that "env" and "cdr" values are defined as well.
+
+```javascript
+jstype JSFrame 
+  = null
+  | {tag:"car", env: JSEnv, cdr: Int }
+  | {tag:"cdr", car: JSVal }
+  | {tag:"fun", env: JSEnv, args: JSList Int }
+  | {tag:"arg", fun: JSVal, ready: JSComp[],
+     env: JSEnv, waiting: JSList Int,
+     headles: Int, waitingHandles: JSList Int }
+```
+
+List data structure, where it could be empty or have an current element and tailing list of elements. 
+
+```javascript
+jstype JSList x
+  = null
+  | {head : x, tail : JSList x}    
+```
+
+Computation could either be a "value" or a "command", machine will know which one it is by checking 
+its "tag" field and proceeding acordingly.
+
+```javascript
+jstype JSComp
+  = {tag:"value", value: JSVal}
+  | {tag:"command", command: String,
+     args: JSVal[], callback:JSCallBack}
+```
+
+Below linked list data structure is used again to form a call back structure. It is used when 
+machine starts to search for command's handler in the stack while building a "JSCallBack" by adding
+checked stack frames to it. After a handler is found and command is done executing, the machine uses
+"JSCallBack" to rebuild the stack to its original state.
+
+```javascript
+jstype JSCallBack
+  = null
+  | {frame: JSFrame, callback:JSCallBack}
+```
+
+Types of values are displayed below, its type determined by the "tag" value. "atom" is just an value
+that cannot be deconstructed 
+any further, however in a case when "atom" is applied to a list of arguments a command is initiated, which 
+is based on "atom" value.
+"int" represents an integer value. "pair" is a pair of two values, one is held in 
+"car" object and the other is in "cdr". "operator" is a top level function. "callback" holds a 
+"callback" object which has stack frames waiting to be restored after machine finds definition of
+command that it was looking for. "thunk" represents a suspended computation. And "local" means local function, 
+which do to procedure called "Lambda Lifting" [@LambdaLifting], abstract machine will turn it into a top
+level function and execute. 
+ 
+
+```javascript
+jstype JSVal
+  = {tag:"atom", atom: String}
+  | {tag:"int", int: Int}
+  | {tag:"pair", car: JSVal, cdr: JSVal}
+  | {tag:"operator", operator: Int, env:JSEnv}
+  | {tag:"callback", callback: JSCallBack}
+  | {tag:"thunk", thunk:JSComp}
+  | {tag:"local", env:JSEnv, operator: JSVal}
+```
+
+
 
 ### Implementation
 
@@ -324,7 +425,7 @@ to "argRight" function without having any in "fun" case, improving code reuse an
 execution. "fun" computation could be one of the following:
 
 * **"int"** - Applying int to an argument is not really sensible, however in this case it is possible 
-because of built in operations (see *Built in functions* section). This custom functionality lets machine
+because of built-in operations (see *Built-in functions* section). This custom functionality lets machine
 add and subtract integer values.
 
 * **"local"** - Means a local function, and the machine is turning it into top level operator, concept
@@ -370,89 +471,9 @@ first argument.
 **printer** - takes the mode of finished execution, parses it to make it readable and displays it on 
 the screen.
 
-### JavaScript type definitions
+## Built-in functions
 
-This section explains the JavaScript types used to enforce the data structure of programs.
-
-"JSRun" is an operator, who always return mode. They are located in operators array in the generated
-program ("gen.js"). Mode has a stack and current computation; top stack frame and current computation
-both determine what to do next. 
-
-```javascript
-jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
-jstype JSMode = {stack: JSStack, comp: JSComp}     
-```
-
-Stack could be empty or consist of a frame and a link to previous frame. The idea of these links 
-are applied from linked list data structure, where each element of the list has a link to the next 
-element. This structure is used regularly throughout the project.
-
-```javascript
-jstype JSStack 
-  = null
-  | {prev: JSStack, frame: JSFrame }
-```
-
-Stacks frame type, which determines the operation that needs to be done when current computation is 
-equal to "value". 
-
-```javascript
-jstype JSFrame 
-  = null
-  | {tag:"car", env: JSEnv, cdr: Int }
-  | {tag:"cdr", car: JSVal }
-  | {tag:"fun", env: JSEnv, args: JSList Int }
-  | {tag:"arg", fun: JSVal, ready: JSComp[],
-     env: JSEnv, waiting: JSList Int,
-     headles: Int, waitingHandles: JSList Int }
-```
-
-List data structure, where it could be empty or have an current element and tailing list of elements. 
-
-```javascript
-jstype JSList x
-  = null
-  | {head : x, tail : JSList x}    
-```
-
-Computation could either be a "value" or a "command". 
-
-```javascript
-jstype JSComp
-  = {tag:"value", value: JSVal}
-  | {tag:"command", command: String,
-     args: JSVal[], callback:JSCallBack}
-```
-
-```javascript
-jstype JSCallBack
-  = null
-  | {frame: JSFrame, callback:JSCallBack}
-```
-
-These are the types of what value can be. "atom" is just an value that cannot be deconstructed 
-any further. "int" represents an integer value. "pair" is a pair of two values, one is held in 
-"car" object and the other is in "cdr". "operator" is a top level function. "callback" holds a 
-"callback" object which has stack frames waiting to be restored after machine finds definition of
-command that it was looking for. "thunk" represents a suspended computation. And "local" means local function, 
-which do to procedure called "Lambda Lifting" [@LambdaLifting], abstract machine will turn it into a top
-level function and execute. 
- 
-
-```javascript
-jstype JSVal
-  = {tag:"atom", atom: String}
-  | {tag:"int", int: Int}
-  | {tag:"pair", car: JSVal, cdr: JSVal}
-  | {tag:"operator", operator: Int, env:JSEnv}
-  | {tag:"callback", callback: JSCallBack}
-  | {tag:"thunk", thunk:JSComp}
-  | {tag:"local", env:JSEnv, operator: JSVal}
-```
-
-## Built in functions
-
-Current built in functions are "plus" and "minus", in order to make integer manipulation possible. 
+Current built-in functions are "plus" and "minus", in order to make integer manipulation possible. 
 They are defined before the top-level function compilation begins in function *operatorCompile*
 and then just initialized together with them, like this:
 
@@ -486,7 +507,7 @@ if (args.length === 2) { // minus
 }
 ```
 
-Those were special cases when compiler is not able to deal with them, however other built in functions,
+Those were special cases when compiler is not able to deal with them, however other built-in functions,
 which do not require arithmetic operations can easily be added without machine knowing about them.
 Such as, pairing two elements or getting first element out of a pair.
 
@@ -496,17 +517,23 @@ Such as, pairing two elements or getting first element out of a pair.
 **Abstract machine**
 
 * To store stack frames in chunks of frames, where only the top frame of a given chunk could potentially
-handle a command. This would skip checking all frames, which tags are not equal to "arg",
-therefore improving performance.  
+handle a command. When searching for a command's handler this method would allow to jump through frames,
+which tags are not equal to "arg", therefore improving performance and efficiency. This improvement
+is based on concepts described in "Proceedings of the 1st International Workshop on Type-Driven Development"
+[@Chunks1];
+
+* Add string concatenation and built-in web feature support. 
 
 **Compiler**
 
 * Current state of JavaScript type definitions are not enforced by the compiler; so compiler trusts 
 the programmer to encode them correctly. The improvement would be to enforce types with Haskell
-data structures, thus minimizing the risk of bugs in production. 
+data structures, thus minimizing the risk of bugs in production; 
 
 * To change pattern matching procedures from "match-this-or-bust" [@Match-bust] to building a tree of 
 switches described in "Functional Programming and Computer Architecture" [@Tree-switching], in order
-to increase efficiency. 
+to increase efficiency;
+
+* Implement string concatenation support. 
 
   

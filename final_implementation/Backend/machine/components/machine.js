@@ -42,7 +42,6 @@ var Machine = function Machine(resumptions, operators) {
         } else { // ready to apply the fucntion
             mode = apply(stack, fun, ready);
         }
-
         return mode;
     }
 

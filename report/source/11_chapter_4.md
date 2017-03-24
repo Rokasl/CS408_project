@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Because of the complexity of the project and the lack of initial author knowledge in the field,
+Because of the complexity of the project and the lack of initial author knowledge of the field,
 the most optimal plan was to start with small, less demanding development and expand gradually.
 The intricacies consist of:
 
@@ -27,14 +27,14 @@ System consists of:
 * Compiler - written in Haskell;
 * Language - written in Haskell;
 * Machine - written in JavaScript, compiled with *webpack*;
-* Testing Framework - written in Bash and Expect scripts, overview of the framework can be found in
+* Testing framework - written in Bash and Expect scripts, overview of the framework can be found in
   **Chapter 6**.
 
 ### Language
 
 A simple language written in Haskell, which syntax supports few specific operations, such as, sum of two
-expressions, Throw & Catch, Set, Next, Get, new reference. Each of the operations were carefully selected,
-where their implementation in the abstract machine
+expressions, "Throw" & "Catch", "Set", "Next", "Get", new reference. Each of the operations were
+carefully selected, where their implementation in the abstract machine
 varies significantly. Thus, offering broad and important learning experience.
 
 **Full language definition**
@@ -55,7 +55,8 @@ Definition of sum of two expressions.
 ```
 
 Syntax definition of a "Throw" and "Catch" commands. If the first expression of Catch is equal to Throw,
-meaning an exception was raised (something went wrong), then the second expression will be evaluated. 
+meaning an exception was raised (something went wrong), then the second expression will be evaluated,
+otherwise it will be left unchecked. 
 
 ```haskell         
         | Throw
@@ -65,7 +66,9 @@ meaning an exception was raised (something went wrong), then the second expressi
 Syntax definition of "WithRef" command. It creates new reference with a given value. First string variable
 of the command defines name of new reference, second value is an expression which defines how to compute
 initial value of new reference and the third value is the context in which the reference is valid. 
-"WithRef" stack frame is the handler for "Get" and ":=" commands.
+"WithRef" stack frame is the handler for "Get" and ":=" commands. Example expression would be: 
+*WithRef "x" (Val 2) (Val 5 :+: Get "x")*. From the example we can see that "x" is a new reference with
+initial value of "Val 2" and its valid in a context *Val 5 :+: Get "x"*, which would return "7".
 
 ```haskell
         | WithRef String Expr Expr
@@ -92,14 +95,14 @@ programming languages it is defined as ";".
 
 ### Compiler
 
-Purpose of the Compiler is to take in an formatted expression of the experimental language described
-above and output a JavaScript compiling data structure (array of functions), which could be used by
-the abstract machine.
+Purpose of the compiler is to take in an formatted expression of the experimental language described
+above and output a JavaScript compiled data structure (array of functions, called resumptions), which
+could be used by the abstract machine.
 
 Below is a definition of code generation monad. It contains a constructor "MkCodeGen" and a 
 deconstructor "codeGen". It takes in an next available integer value and outputs a data structure
-which holds a list of integer which map to JavaScript code (string), next available number after
-the compilation and result of the compilation "val". Usually the list of definitions will start with
+which holds a list of integers which map to JavaScript code of string type, next available number after
+the compilation and result of the compilation "val". Usually, the list of definitions will start with
 the input "next number" and go up to just before the output "next number". 
 
 ```haskell
@@ -126,23 +129,36 @@ compile :: Expr -> CodeGen Int
 ```
 
 "compile" function is either used to create new function definitions 
-or to compile expressions to JavaScript depending on the type of "Expr". 
+or to compile expressions to JavaScript depending on the type of "Expr". For example, if "compile" takes
+initial expression of *Val 2 :+: (Val 4 :+: Val 8)*, through pattern matching the case for ":+:" will 
+be executed and through recursion it will be executed again for the right side (*Val 4 :+: Val 8*)
+as well. Below definition of the ":+:" case is shown.
+
 
 ```haskell
-help s (Val n) = genDef $
-        "function(s){return{stack:"++ s ++ ",
-                     tag:\"num\", data:"++ show n ++"}}"
-
 help s (e1 :+: e2) = do 
     f2 <- compile e2
     help ("{prev:" ++ s ++ ", tag:\"left\",
                      data:"++ show f2 ++"}") e1
 ```
 
+Furthermore, for each value of the expression ("Val 2", "Val 4" and "Val 8") the function definition
+will be generated, because "compile" function has a case for that.
+
+```haskell
+help s (Val n) = genDef $
+        "function(s){return{stack:"++ s ++ ",
+                     tag:\"num\", data:"++ show n ++"}}"
+```
+
+After "compile" function is done executing the structure is compiled and ready to be outputted to 
+the file.
+
+
 #### Formating and outputting to file
 
 Output formating is done by "jsSetup" function.
-It takes the name of the array, the output of "compile" function and outputs a JavaScript formatted
+It takes the name of the array, the result of "compile" function and outputs a JavaScript formatted
 string. 
 
 ```haskell
@@ -153,8 +169,8 @@ jsSetup  ::  String       -- array name
              )
 ```
 
-"jsWrite" takes an output of "jsSetup" and writes everything to a file - "generated.js", which can
-be safely used by the abstract machine.
+"jsWrite" takes an output of "jsSetup" and writes everything to a file - "generated.js", which is ready
+to be used by the abstract machine.
 
 ```haskell
 jsWrite :: (String, x) -> IO()
@@ -182,22 +198,22 @@ deleted and restored, thus, making the machine's structure flexible.
 
 Each generated data structure by the compiler is an array called *resumptions*. Its entries are functions
 which take in a stack. This way it is possible to nest them while keeping track of the stack. 
-Below is an example of array of resumptions ready to be used by the abstract machine. The semantics of
+Below is an example of array of resumptions ready to be used by the abstract machine; it was constructed
+from the expression *Val 3 :+: Val 2*. The semantics of
 this particular structure are simple, to add two numbers "2 + 3", so the expected output is "5".
-Comments in the snippet below explain meaning of different variables in the structure.
-For more complicated examples see *main/example_programs*. 
+Comments in the code snippet below explain meaning of different variables in the structure.
+For more complicated examples see *main/example_programs* or test cases. 
 
 ```javascript
-var ProgramFoo = [];
-
-ProgramFoo[0] = function (s) {
+var foo = [];
+foo[0] = function (s) {
     return {
         stack: s, // stack
         tag: "num", //expression type
         data: 3 // expression value
     }
 };
-ProgramFoo[1] = function (s) {
+foo[1] = function (s) {
     return {
         stack: { // stack 
             prev: s, // link to previous frame 
@@ -213,10 +229,11 @@ ProgramFoo[1] = function (s) {
 #### Implementation
 
 This section focuses on explaining detailed implementation of the experimental abstract machine. 
-It is defined as a function which takes in array of resumptions as an argument. 
+It is defined as a function which takes in array of resumptions as an argument. The array "foo", 
+described above will be used as a reference throughout this section.  
 
-Modes are objects, which store current stack and computation. Below is shown initial definition of mode
-with starting values. Because the starting stack is empty the "stack" parameter
+Modes are objects, which store current stack and computation. Below initial definition of mode is shown 
+with pre-set starting values. Because the starting stack is empty the "stack" parameter
 is defined as "null"; the "tag" is an expression type and if it is equal to "go", the machine must take 
 "data" parameter, which is an index of the last element in array of resumptions, in order to retrieve
 next mode.
@@ -229,15 +246,31 @@ var mode = {
     }
 ```
 
-Each resumption is function, which takes in a stack as a parameter and return a mode.
+
+Each resumption is a function, which takes in a stack as a parameter and return a mode.
 Abstract machine will finish compilation if "mode.tag" is not equal to "go". However, if it is equal
-to "go" then mode must be reinitialized, because not all instructions are done, by getting creating
-the next mode from resumptions array and passing stack to it, so that the mode has access to
-previous stack.
+to "go" then mode must be reinitialized, because the current mode is not a final value. Therefore,
+machine retrieves the next mode from resumptions array and passes stack to it, so that the mode
+has access to previous stack frames.
 
 ```javascript
     while (mode.tag === "go") {
         mode = f[mode.data](mode.stack);
+```
+
+"f" represents an resumptions array, thus, considering example of "foo" array, the code above would 
+create the following mode.
+
+```javascript
+mode = {
+        stack: { 
+            prev: null, 
+            tag: "left", 
+            data: 0 
+        },
+        tag: "num", 
+        data: 2 
+    }
 ```
 
 Abstract machine will
@@ -249,49 +282,86 @@ the machine is done computing.
 while (mode.tag != "go" && mode.stack != null) {
 ```
 
-If the execution is still going then the behavior of the Abstract Machine will differ based on mode's
-"tag" parameter. It could be equal to these values:
+If the execution is still going then the behavior of the abstract machine will differ based on mode's
+"tag" parameter. In example of "foo" computation, the "mode.tag" is equal to "num". 
+Overall, "mode.tag" could be equal to these values:
 
-* **"num"** - all of the basic evaluations of given expression: 
-    + Addition ("left" and "right" tags) - "left" tag creates a stack frame with tag "right", thus preparing 
-    a frame for addition. If the top of the
-    stack "tag" is equal to "right" it means that abstract machine can add two of the top frames together,
-    because "left" was previously called and the values of frames are prepared to be added. 
-    + "Catch" - creates a stack frame with tag "catcher" and places it on the top of the stack. Its data 
+* **"num"** - all of the basic evaluations of given expression. Further machine's actions depend
+    on the value of "mode.stack.tag". In the case of the example "foo" its value would be "left". 
+    + Addition ("**left**" and "**right**" tags) - "left" tag creates a stack frame with tag "right", thus preparing 
+    a frame for addition by placing the current value on the top of the stack and preparing to evaluate
+    other expression. If the top of the
+    stack "tag" is equal to "right" the abstract machine can add two of the top frames together,
+    therefore creating new "num" mode (contains the answer of the addition) and deleting the top frame
+    of the stack. In the case of "foo" example, the "left" case would change its mode to:
+    ```javascript
+        mode = {
+            stack: {
+                prev: null,
+                tag: "right",
+                data: 2
+                },
+            tag: "go",
+            data: 0
+        }
+    ```
+    Then it would be reinitialized to:
+    ```javascript
+        mode = {
+            stack: {
+                prev: null,
+                tag: "right",
+                data: 2
+                },
+            tag: "num",
+            data: 3
+        }
+    ```
+    And because the "mode.stack.tag" is equal to "right", the "mode.data" and "mode.stack.data"
+    would be added together and a new mode created:
+    ```javascript
+        mode = {
+            stack: null,
+            tag: "num",
+            data: 3 + 2
+        }
+    ```
+    This would be a final mode, because the stack is empty and the "tag" is not equal to "go", so the
+    machine would return "5" as the result of the computation. Other instructions manipulate mode's data
+    in similar fashion, building or destroying stack in the process.
+
+    + "**Catch**" - creates a stack frame with tag "catcher" and places it on the top of the stack. Its data 
     parameter is equal to the index of second expression which will be evaluated if first expressions
     throws an exception.
-    + New reference - creates a stack frame with tag "WithRefRight", it is different from other stack
+    + New reference - creates a stack frame with tag "**WithRefRight**", it is different from other stack
     frames because it has a "name" parameter, which is needed to identify between different references.
     It, also, holds the value of the reference in its "data" parameter.
-    + Next (":>left" and ":>right") - implementation is similar to addition, however the key difference is
+    + Next ("**:>left**" and "**:>right**") - implementation is similar to addition, however the key difference is
     that if the top stack frame tag is equal to ":>right" the abstract machine will take its data without
     adding anything and it will delete the previous stack frame. These operations evaluate two expressions
     but return the value of the second.
-    + Set (":=") - very similar to "Get" command (described below), key difference is that it alters the
+    + Set ("**:=**") - very similar to "Get" command (described below), key difference is that it alters the
     value of stack frame which has tag "WithRefRight" with given name of the reference. This command
     utilizes linked list stack saving structure to be able to restore the stack while saving any changes
     made. Exception could be thrown if the reference is undefined. 
  
 * **"throw"** - defines that something went wrong so the abstract machine will look for a "catcher"
 frame in the previous stack frames; if it does not find it then it will output an exception.
-
 ```javascript
-mode = {
-    stack: mode.stack.prev,
-    tag: "throw",
-    data: "Unhandled exception!"
+    mode = {
+        stack: mode.stack.prev,
+        tag: "throw",
+        data: "Unhandled exception!"
     }
 ```
-
 However, 
 if it does then it means exception was handled, therefore the abstract machine will reinitialize
 mode to continue executions by taking "catcher" values of "stack" and "data" (some expression).
-
 ```javascript
-mode = {
-    stack: mode.stack.prev,
-    tag: "num",
-    data: mode.stack.data
+    mode = {
+        stack: mode.stack.prev,
+        tag: "num",
+        data: mode.stack.data
     }
 ```        
 
@@ -303,7 +373,7 @@ mode = {
 After the abstract machine finishes running, the "mode.tag" is not equal to "go" and the stack is 
 empty, it will output the final mode to the console by invoking a "printer" function for the user
 to clearly see the results. 
-And finally, Abstract Machine outputs final value of the execution on the separate line for testing
+And finally, abstract machine outputs final value of the execution on the separate line for testing
 purposes, it is used by testing framework to check for expected and actual output of a test.
 
 ```javascript
@@ -316,7 +386,7 @@ Abstract machine uses "saver" helper function in "get" and ":=" implementations.
 machine
 to inspect the depths of the stack and to assign new values to existing frames of the
 stack by remembering changes made. To achieve this, abstract machine saves each frame of the stack
-by linking frames together, thus each newly saved frame has a link to previous frame. 
+by linking frames together, thus each newly saved frame has a link to previous saved frame. 
 Below "saveStack" function is displayed, the "m" variable represents the current stack
 frame and "prev" field is a link to previous saved frame.
 
@@ -332,7 +402,8 @@ save = {
 The save is reverse linked list of stack frames, thus it is possible to restore the original stack including
 all the changes made by reverse engineering the stack. After stack is successfully restored, all of the
 save data must be destroyed and parameters reseted to keep future saves unaffected.
-Finally, current limitation is that only one instance of stack save can exist at a given time. 
+Finally, current limitation is that only one instance of stack save can exist at a given time, however
+this is addressed in the final system.
  
 
 #### Final Remarks

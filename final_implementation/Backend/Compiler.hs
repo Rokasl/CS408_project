@@ -312,6 +312,8 @@ parser contents = case (parse pProg contents) of
 -- Type definitions!!! 
 -- Possible improvement - code them into haskell, so that the haskell would enforce these types
 
+-- JSEnv = JSVal[]
+
 -- jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
 -- jstype JSMode = {stack: JSStack, comp: JSComp}     
 

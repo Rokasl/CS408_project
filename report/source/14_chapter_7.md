@@ -41,9 +41,9 @@ variables, integer values, atoms, pairs, function application, local functions, 
 top level functions and contains built in semantics for addition and subtraction. All these features
 combined offer close to full development package,
 thus almost any current Frank program could be compiled by the new compiler and successfully executed
-by the abstract machine in the browser. 
+by the abstract machine in a browser. 
 
-Quick example of how the compiler and abstract machine work together and how user may use it.
+Quick example of how the compiler and abstract machine would work together and how user may use it.
 User is able to execute Frank programs in four steps. First step is to write a program in Frank with
 file ending of ".fk", such as:
 
@@ -80,9 +80,10 @@ All of the limitations are possible improvements and they are present because of
   *final_implementation* folder, because the file generation path is fixed for testing purposes;
 * To be compiled successfully Frank program must have a "main" function and it must be the first one
   in the file;
-* Lack of web functionality. Even though Frank language can be used to code in web context, current 
-  implementation does not have any web features implemented because of time constrains;
-* Some features are still in prototype stages and very small amount of them are still not implemented, 
+* Lack of current web functionality support. However, because of Frank's ability to suspend current
+  computation, handle commands and restart the machine after, Frank's code has a potential to query
+  or initiate DOM updates and this functionality could be achieved in a near future; 
+* Some features are still in prototype stages and small amount are still not implemented, 
   such as string concatenation.     
 
 Moreover, the system can still improve on a variety of concerns, such as performance and
@@ -96,27 +97,28 @@ Second part was comparison of functionality between developed system and Frankjn
 
 ### Benchmark
 
-Benchmarking framework can be found in *final_implementation/Backend/benchmark* folder. Tests can be
+Benchmarking framework can be found in\
+*final_implementation/Backend/benchmark* folder. Benchmark tests can be
 initiated in a terminal window by typing *./evalNewBackend.sh*, *./evalVole.sh* or *./evalFrankjnr.sh*.
-Requirements for launching the benchmark tests are the same as for the final system, in addition the
-scripts must have permissions. 
+Requirements for launching the benchmark tests are the same as for the final system, however the
+scripts must have valid permissions. 
 
 This benchmark was solely focused on the performance of the systems. Two type of times were taken
 into account: compilation time and execution time. Compilation time is how fast given program is parsed
 and compiled; execution time is how fast virtual machine returns the final result. Vagrant (Virtual Box)
 environment was used for running the tests with two gigabytes of allocated memory. These environments
 are known to be considerably slower than real ones, therefore chosen systems might perform faster in
-real world, however in this case systems were only compared between each other. The following systems
-were benchmarked:
+the real world, however in this case systems were only compared between each other. The following
+systems were benchmarked:
 
 * Final system (developed by the author of this project);
 * Frankjnr original system;
 * Vole system.
 
-Single test included compilation and execution of a given program hundred times and each system were
-taken 5 times.
+Single test included compilation and execution of a given program hundred times and it was repeated
+five times for each system.
 The program, which was executed had same semantics for all systems. 
-Below the program is shown which was used to benchmark Fraknjr original and new system. 
+Below the program is shown which was used to benchmark Fraknjr and new back-end. 
 
 ```haskell
 main : []List (List Num)
@@ -153,20 +155,20 @@ Concerns and challenges were:
 
 * Vole uses different compiler which has its own terminal, thus expect script was used. This might have
   affected performance.
-* Final system is dependent on Frankjnr compiler.
-* Final system uses JavaScript powered machine compared to other which use Haskell for abstract machine.
+* Final system is dependent on the Frankjnr compiler.
+* Final system uses JavaScript powered machine compared to others which use Haskell abstract machines.
 
 This evaluation gives a clear idea of the state of the system in terms of performance compared to other
 similar systems. However, these 
 results were expected, since the performance was not one of the core goals of the project. Moreover,
 due to developed benchmark framework, it could be easily used again after further development
-to quickly check for changes in performance.
+to efficiently check for changes in performance.
 
 
 ### Functionality comparison
 
 One of the main goals of the final system was to support the same functionality as Frankjnr original 
-components do and implement addition web development features on top. Known main features of both
+components do and add addition web development feature support. Known main features of both
 systems were extracted and compared. The table below shows the results of the comparison. 
 
 | Feature                | Final system | Original system |
@@ -199,7 +201,7 @@ for example, string concatenation.
 For more detailed overview of testing, see **chapter 6**. 
 
 This evaluation evidently shows that
-developed system can directly compete with the original system and that most goals of the project
-were reached. 
+developed system can directly compete with the original Frankjnr back-end in terms of functionality
+and that most goals of the project were reached. 
 
 

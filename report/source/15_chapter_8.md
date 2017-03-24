@@ -26,7 +26,7 @@ its defining qualities.
 
 * Implement missing features, such as string concatenation;
 * Improve testing framework to show more statistics and use timestamps;
-* Expand support for web features, such as HTTP request handling support;
+* Expand support for web features, such as HTTP request handling support or handling DOM updates;
 * To improve abstract machine's performance by storing stack frames in chunks. This would speed up
   searching and restoring;
 * Enforce JavaScript type definitions with Haskell structures, to decrease the risk of bugs;
