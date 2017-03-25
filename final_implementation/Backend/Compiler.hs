@@ -15,7 +15,7 @@ type FTable = [(String, Int)] -- operator lookup table
 --   vpatCompile :: .. -- whatever JSVal we're matching
 --      -> VPat -> Counter (EnvTable, ..JS code to make a JSVal[])
 
-
+-- monadic counter definition
 newtype Counter x = MkCounter {
     runCounter :: Int -> (x, Int)
     }
@@ -40,7 +40,8 @@ type JSStmt = String
 type JSMode = String
 
 matchFail :: JSStmt
-matchFail = "throw(\"no match\");" -- FIXME!
+matchFail = "throw(\"no match\");" 
+
 
 patCompile  :: JSExp -- representing the scrutinee of the match
             -> Pat   -- the Shonky computation pattern
@@ -48,17 +49,17 @@ patCompile  :: JSExp -- representing the scrutinee of the match
                        ,  JSStmt    -- the code that builds the environment
                        )
 
-
+-- value pattern
 patCompile c (PV p) = do
   (e,m) <- vpatCompile (c ++ ".value") p
   return (e, "if (" ++ c ++ ".tag!==\"value\") {" ++ matchFail ++"};\n" ++ m)
 
-
+-- thunk pattern
 patCompile c (PT x) = do
   i <- next
   return ([(x, i)], "env[" ++ show i ++ "]={tag:\"thunk\", thunk:"++ c ++"};\n")
 
-
+-- command pattern
 patCompile c (PC command vpats var) = do
   (t1,e1) <- listOf vpatCompile (c ++ ".args") vpats
   i <- next
@@ -92,7 +93,7 @@ vpatCompile v (VPA a) = do -- atom value
     "if (" ++ v ++ ".atom!==\"" ++ a ++ "\") {" ++ matchFail ++"};\n"
     )
 
-vpatCompile v (p1 :&: p2) = do
+vpatCompile v (p1 :&: p2) = do -- pair
   (t1, e1) <- vpatCompile (v ++ ".car") p1
   (t2, e2) <- vpatCompile (v ++ ".cdr") p2
   return (t1 ++ t2,
@@ -196,6 +197,7 @@ expCompile xis ftable stk (EF h pse) = do
   return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\","
              ++ "value:{tag:\"local\", env:env, operator:" ++ op  ++ "}}}"
 
+-- helper function, for application pattern (:$)
 tailCompile :: EnvTable -> FTable -> Exp -> CodeGen JSExp
 tailCompile xis ftable (ef :$ []) = do
   return $ "null"
@@ -204,7 +206,7 @@ tailCompile xis ftable (ef :$ exs) = do
   ftail <- tailCompile xis ftable (ef :$ tail exs)
   return $ "{head:"++ show fexs ++", tail: "++ ftail ++"}"
 
-
+-- initiates pattern matching of a single line
 lineCompile :: Int -> ([Pat], Exp) -> FTable -> CodeGen JSStmt
 lineCompile count (ps, e) ftable = do
   let ((xis, patJS), _) = runCounter (listOf patCompile "args" ps) count
@@ -220,6 +222,7 @@ linesCompile count (l : ls) ftable = do
   ccatch <- linesCompile count ls ftable
   return $ "try " ++ ctry ++ " catch (err) {" ++ ccatch ++ "}"
 
+-- creates operator's implementation function definition
 funCompile :: Int -> [([Pat], Exp)] -> FTable -> CodeGen JSStmt
 funCompile count ls ftable = do
   c <- linesCompile count ls ftable
@@ -231,7 +234,7 @@ funCompile count ls ftable = do
 
 -- codeGen (operatorCompile ([DF "fib" [[]] [([PV (VPV "x"), PV (VPV "y")], EV "y" :& EV "x")] ])) 0
 
--- helper function for operatorCompile
+-- helper function for operatorCompile, forms operator definitions
 oneCompile :: FTable -> (String, ([[String]],[([Pat], Exp)])) -> CodeGen JSStmt
 oneCompile ftable (f,(h, pse)) = case lookup f ftable of
     Nothing -> error "Bug! - Something is not right with operator lookup table"
@@ -239,12 +242,13 @@ oneCompile ftable (f,(h, pse)) = case lookup f ftable of
       ocomp <- makeOperator 0 ftable (h, pse)
       return $ "operator["++ show n ++"]=" ++ ocomp
 
+-- defines operator's interface and implementation
 makeOperator :: Int -> FTable -> ([[String]],[([Pat], Exp)]) -> CodeGen JSStmt
 makeOperator count ftable (h, pse) = do                      
   jsf <- funCompile count pse ftable
   return $ "{interface: "++ availableCommands h ++", implementation:" ++ jsf ++ "}\n"
 
-
+-- compile available commands for an operator
 availableCommands :: [[String]] -> String
 availableCommands [] = "null"
 availableCommands ([] : []) = "null"
@@ -292,6 +296,7 @@ jsSetup arr comp =   "var operator = [];\n"
 jsWrite :: String -> IO()
 jsWrite code = writeFile "Backend/machine/dist/gen.js" code
 
+-- Takes the output of "operatorCompile" and writes to file
 jsComplete :: String -> CodeGen (FTable, JSStmt) -> IO()
 jsComplete  arr comp = jsWrite (jsSetup arr comp)
 

@@ -223,10 +223,11 @@ Requirement analysis section\
 Frankjnr now uses new back end
 
 March 15:\
-
+Project structure updates\
+Report work
 
 March 16:\
-
+Local functions development
 
 March 17:\
 Test framework development\
@@ -238,15 +239,24 @@ Report work - Final implementation section and appendixes
 
 March 19:\
 Report:\
-Abstract machine sections\
+Abstract machine section
 
 March 20:\
 Report:\
-Testing and validation sections\
+Testing and validation sections
 
 March 21:\
-Benchmarking and evaluation sections\
+Benchmarking and evaluation sections
 
 March 22:\
-Evaluation and conclusion\
+Evaluation and conclusion
+
+March 23:\
+User guide and report work
+
+March 24:\
+Report work
+
+March 25:\
+Report work
 

@@ -2,13 +2,14 @@ var Machine = function Machine(resumptions, operators) {
 
     // Helper functions
 
-    function interfaceF(val) {
+    function interfaceF(val) { // returns operator's interface
         if (val.tag === "operator") {
             return operators[val.operator].interface;
         }
         return null;
     }
 
+    // head of linked list (available commands)
     function headHandles(intf) {
         if (intf != null) {
             return intf.head;
@@ -16,6 +17,7 @@ var Machine = function Machine(resumptions, operators) {
         return [];
     }
 
+    // tail of linked list (available commands)
     function tailHandles(intf) {
         if (intf != null) {
             return intf.tail;
@@ -23,6 +25,7 @@ var Machine = function Machine(resumptions, operators) {
         return null;
     }
 
+    // parse an "arg", otherwise apply 
     function argRight(stack, fun, ready, env, waiting, waitingHandles) {
         if (waiting != null) {
             var waitingH = tailHandles(waitingHandles);
@@ -46,6 +49,8 @@ var Machine = function Machine(resumptions, operators) {
     }
 
 
+
+    // applies a fun to a list of args
     function apply(stk, fun, args) { //returns a mode
         switch (fun.tag) {
             case ("int"):
@@ -56,10 +61,10 @@ var Machine = function Machine(resumptions, operators) {
                     answ = fun.int + args[0].value.int;
                 }
                 return {
-                    stack:stk,
+                    stack: stk,
                     comp: {
                         tag: "value",
-                        value:{
+                        value: {
                             tag: "int",
                             int: answ
                         }
@@ -117,11 +122,11 @@ var Machine = function Machine(resumptions, operators) {
     }
 
     // Starting point of the machine
-
-    var mode = operators[0].implementation(null, [], []); // starting mode first found operator with no args
+    // starting mode (first one in the file)
+    var mode = operators[0].implementation(null, [], []);
 
     console.log(mode);
-    
+
     while (mode.stack != null) {
 
         switch (mode.comp.tag) {

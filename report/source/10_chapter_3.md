@@ -67,7 +67,7 @@ with the supervisor regarding how the system should behave and what technologies
 In addition, the author attended a programming languages seminar where Frank language was discussed,
 thus gaining a practical
 perspective on the entire project. The author also read papers on relevant
-topics, such as “Compiling Exceptions Correctly” [@CompilingCorrectly] in order to broaden his subject
+topics, such as "Compiling Exceptions Correctly" [@CompilingCorrectly] in order to broaden his subject
 knowledge, which assisted in mapping out the
 direction of the project. Further research was done to ensure the appropriateness of chosen
 languages and technologies.

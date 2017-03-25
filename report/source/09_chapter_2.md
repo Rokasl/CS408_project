@@ -17,7 +17,7 @@ scrapped and is only used as a reference in solving any Abstract Machine or Comp
 ## [Frankjnr](https://github.com/cmcl/frankjnr)
 
 Frankjnr is the newest implementation of Frank functional programming language described
-in “*Do be do be do*” [@FrankPaper] paper. Frankjnr
+in "*Do be do be do*" [@FrankPaper] paper. Frankjnr
 has a parser for Frank syntax, thus allowing the user to utilize Frank in writing expressions.
 After parsing Frank code it performs a type check and other necessary operations followed by a
 compilation to Shonky-supported data structures, which are then used by Shonky interpreter to
@@ -78,7 +78,7 @@ Haskell is a static, implicitly-typed, and standardized functional programming l
 semantics. Haskell’s features include support for recursive functions, data types, pattern matching,
 and list comprehensions. Haskell was chosen for compiler development because of its functional language
 features, such as pattern-matching, efficient recursion, and support for monadic structures.
-“Frankjnr” and “Shonky” are written in Haskell as well; so using Haskell provides an easier
+Frankjnr and Shonky are written in Haskell as well; so using Haskell provides an easier
 compatibility with those projects.  
 
 ### [Report Markdown](https://github.com/tompollard/phd_thesis_markdown) 
