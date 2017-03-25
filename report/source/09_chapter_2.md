@@ -39,7 +39,7 @@ to understand its technical implementation, along with its usage of resources, w
 his knowledge of compilers and abstract machines. Lastly, Vole is used for evaluation purposes
 as another benchmark comparison. 
 
-### Development Tools and Languages
+## Development Tools and Languages
 
 This section will briefly explain tools and languages used, and the reasoning behind each of them. 
 

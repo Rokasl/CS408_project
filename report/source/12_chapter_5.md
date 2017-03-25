@@ -73,19 +73,18 @@ Table: Project folder structure
 
 ## Compiler
 
-Compiler is located in *final_implementation/Backend/Compiler.hs* and it is written in Haskell. 
-It is initiated when frank program compilation is called with flag "output-js". Example with program
+The compiler is located in *final_implementation/Backend/Compiler.hs* and it is written in Haskell. 
+It is initiated when Frank program compilation is called with a flag "output-js". Example with program
 named "foo.fk": 
 
 ```bash
 frank foo.fk --output-js
 ```
 
-Developed compiler uses Shonky data sctructures, located in *Syntax.hs* file, because it
+Developed compiler uses Shonky data structures, located in *Syntax.hs* file, because it
 receives a list of program definitions from Frankjnr compiler in a form of Shonky
-syntax data structure, in particular - "[Def Exp]".  "Def Exp" can be either ":=" or "DF", however
-Frank compiler always gives back list of "DF", thus this compiler will only support them as well. 
-"DF" tanslates to definitions of functions (operators) and it consist of:
+syntax, in particular - "[Def Exp]".  "Def Exp" is a "DF" data structure shown 
+below. And it essentially means definition of function (operator).
 
 ```haskell
 DF String   -- name of operator being defined
@@ -93,29 +92,82 @@ DF String   -- name of operator being defined
   [([Pat], Exp)]  -- list of pattern matching rules
 ```
 
-The core goal of the compiler is to compile data types "Exp" (type of expression, such as atom or application) 
-to JavaScript structures (arrays of operators and resumptions). The code for compiling "Exp" will
-expect a lookup table which maps the "environment" (stores pattern values) to 
-array indices. In order to find out if certain values are in scope, otherwise compilation will fail.
+
+
+The core goal of the compiler is to compile data types "Exp" to JavaScript structures
+(arrays of operators and resumptions). "Exp" is defined in Shonky's *Syntax.hs*. 
 
 ```haskell
-type EnvTable = [(String, Int)]
+data Exp
+  = EV String                    -- variable
+  | EI Integer                   -- integer
+  | EA String                    -- atom
+  | Exp :& Exp                   -- pair
+  | Exp :$ [Exp]                 -- application
+  | Exp :! Exp                   -- composition (;)
+  | Exp :// Exp                  -- composition (o)
+  | EF [[String]] [([Pat], Exp)] -- operator
+  | EX [Either Char Exp]  -- string concatenation expression
 ```
 
+
+The compilation results of each "DF" are combined 
+into one JavaScript data structure, forming "resumptions" and "operators" arrays 
+in the process. Top level function for this is "operatorCompile".
+It
+initiates chain reaction of function calls for each function definition ("DF") and concatenates the 
+results into one data structure. This chain reaction of function calls consist of 
+"oneCompile", which starts to compile single function definition and forms an "operators" array entry.
+Then it calls
+"makeOperator", which sets the "interface" (all available commands for given operator) 
+and "implementation" (JavaScript function definition) by calling "funCompile".
+"funCompile" is responsible for 
+forming the actual function implementation of the operator and it proceeds to initiate "linesCompile",
+which forms a "try" and "catch" blocks and calls the final function "lineCompile", who fills the lines
+with compiled expressions by calling "patCompile" and "expCompile" functions with 
+data on function's patterns and expressions. Finally, "lineCompile" forms a return statement.
+To see how these expressions and patterns look compiled, see "gen.js" file. A figure 5.1 
+shows a lifecycle of a single compilation. In the example, the code compiles the 
+*[DF "main" [] [([],EI 1)]* definition, which evaluates to a single integer equal to 1.
+
+
+
+\begin{figure}[!htb]
+  \includegraphics[width=.9\textwidth, center]{source/images/compile.png}
+  \caption{High level representation of compile fuctions}
+  \label{fig:compile}
+\end{figure}
+
+
+"lineCompile" will compile expressions "Exp", however before it can do that, it must build an
+environment look-up table. The table is used to retrieve defined values.  
+
+```haskell
+type EnvTable = [(String, Int)] -- environment look-up table
+```
+
+The compiler builds the lookup table by compiling list of patterns "Pat" with "patCompile"
+and "vpatCompile"
+functions. "Pat" values are retrieved from initial "DF" expression. 
 Furthermore, there are two types of patterns. Patterns for computation - "Pat" and patterns
-for value - "VPat". Patterns for computation can be thunk, command or "VPat" type, such as variable "VPV",
-pair "VPat :&: VPat" and so on. Compiler has to build an "EnvTable" from these patterns, hence
-these two functions: "patCompile" and "vpatCompile" to build it. They have been implemented
-using counter monad
-"Counter", which is there to count each patern and is used for "environment" lookup table.
-And the core pattern maching priciple
+for value - "VPat". Patterns for computation can be thunk, command or "VPat" type. 
+Functions "patCompile" and "vpatCompile" have been implemented using counter monad
+"Counter", which is there to incrementally count each pattern and is used for indices of the
+environment lookup table.
+
+In order to form the environment's lookup table entries compiler must match patterns.
+The core pattern matching principle
 used was "match-this-or-bust" described in PhD thesis "Computer Aided Manipulation of Symbols" 
-[@Match-bust]. Therefore, these functions will generate series of checks for each individual pattern and
-if everything is fine and the pattern is what its suppose to be, then
-add it to the "environment", else it will throw an expection. In the code snippet below the patern
-is an integer so we don't need to add them to the environemnt, but it still has to pass these tests
-in order to match. Value "next" is just a counter to arange correct indeces for "environment"
-lookup table:
+[@Match-bust]. "patCompile" and "vpatCompile" functions, therefore, will generate series
+of checks for each individual
+pattern. If there is none failing tests, then patterns will be added to the environement,
+else it will throw an exception with "match failed!" message. As a consequence, the environment
+look-up table ("EnvTable") will be formed with correspoding JavaScript matching tests, which will 
+be later placed into a generated file.
+The code snippet below represents a case for matching "VPat" integer values. First element of the 
+return statement is an empty environment, second is series of matching checks. In this case, the
+environment is empty because integers are not defined variables, so they can not be referenced
+anywhere else. 
 
 ```haskell
 vpatCompile v (VPI x) = do -- integer value
@@ -128,60 +180,85 @@ vpatCompile v (VPI x) = do -- integer value
     )
 ```
 
-After "environment" lookup table is compiled and ready to go, compiler now needs to use it to 
-compile expressions - "Exp" into computations (JavaScript objects). This is achieved in "expCompile"
+After the environment look-up table is ready, "lineCompile" function can now use it to 
+compile expressions - "Exp" into computations (JavaScript objects), thus forming a "return"
+statement in JavaScript. This is achieved in "expCompile"
 function, which takes in an 
-"environment" lookup table, function lookup table, stack (string data structure), expression and 
-outputs an JavaScript data structure encapsulated in monad "CodeGen". This monad is lifted from earlier
-experiment and it is used here for the same reason, to construct function definitions and track their 
-indeces in "funCompile" function. The compilation process will differ for each type of expression,
-because each of them have to follow different rules to be compiled correctly. For
-instance "EA" (atoms) type compilation returns an object, which contains a stack and a computation
-object. Computation object ("comp") has a "tag" field equal to "value" and a "value" field equal to 
-another object. And the "value" object is the point where the meaning of "atom" is defined,
-thus it contains "atom" tag and an "atom" field for its value.  
+environment look-up table, function lookup table, stack (string data structure), expression ("Exp")
+and outputs an JavaScript data structure encapsulated in monad "CodeGen". This monad is lifted
+from earlier experiment and it is used here for the same reason, to construct function definitions
+and track their indices in "funCompile" function. The compilation process will differ for each type
+of expression, because each of them have to follow different rules to be compiled correctly.
+For example, atoms are compiled as shown below. A JavaScript object is returned, which contains a 
+stack and a computation with atom's values.
 
 ```haskell
 return $ "{stack:" ++ stk ++ ", comp:{tag:\"value\"," ++
            "value:{tag:\"atom\", atom:\"" ++ a ++ "\"}}}"
 ``` 
 
-However, for example, "pair" type of expressions are more complicated, because the "pair" contains
-two expressions, so the compiler has to evaluate them both separately. The proccess is similar to
-experimental's systems addition, since the compiler makes a resumption for the second compoenent
-and keeps computing the first one:
+On the other hand, for example, "pair" type of expressions are slightly more complicated,
+because the "pair" contains
+two expressions, so the compiler has to evaluate them both separately. The process is similar to
+experimental systems addition, since the compiler makes a resumption for the second component
+and keeps computing the first one.
 
 ```haskell
 expCompile xis ftable stk (ecar :& ecdr) = do
-  fcdr <- expFun xis ftable ecdr
-  expCompile xis ftable 
+  fcdr <- expFun xis ftable ecdr -- resumption
+  expCompile xis ftable  -- compute first component
     ("{prev: " ++ stk ++ ", frame:{ tag:\"car\", env:env, cdr:"
      ++ show fcdr ++ "}}")
-    ecar
+    ecar 
 ```
 
 Another interesting and crucial type of expression compilation is function application. Here,
 because the function is applied to list of arguments, compiler has to compile each of the arguments
-by forming a linked list data structure. And to form it compiler utilizes the helper function named
-"tailCompile", which recursivly builds a linked list. 
+by forming a linked list data structure. And to form it the compiler utilizes a helper function, named
+"tailCompile", which recursively builds a linked list. To look at all of the "expCompile" cases, see 
+*Compiler.hs* file. 
 
+### Full compilation example
 
-However, before all of individual expression compilation or "environement" building can begin,
-compiler needs to 
-combine everything into one JavaScript data structure, forming resumptions and operators arrays in the
-process. The function "operatorCompile"
-initiates chain reaction of function calls for each function definision ("DF") and concatines the 
-results into one data structure. This chain reaction of function calls consist of 
-"oneCompile", which starts to compile single fuction definition and forms an "operators" array entry.
-Then it calls
-"makeOperator", which sets the "interface" (all available commands for given operator) by calling
-"availableCommands" and "implementation" (JavaScript function definision) by calling "funCompile".
-"funCompile" is responsible for 
-forming the actual function implementation of the operator and it procedes to initiate "linesCompile",
-which forms a "try" and "catch" blocks and calls the final function "lineCompile", who fills the lines
-with compiled expressions by actually calling "patCompile" and "expCompile" functions with 
-data on functions patterns and expressions. Finally, "lineCompile" forms a return statement of the
-function. To see how these expressions and paterns look compiled, see "gen.js" file.
+This example will show how function definition *[DF "main" [] [([],EI 1)]* is compiled.
+Expected output is displayed below.
+
+```javascript 
+operator[0] = {
+    interface: null,
+    implementation: function (stk, env, args) {
+        try {
+            return {
+                stack: stk,
+                comp: {
+                    tag: "value",
+                    value: {
+                        tag: "int",
+                        int: 1
+                    }
+                }
+            }
+        } catch (err) {
+            throw ("undefined function")
+        }
+    }
+}
+```
+
+Compilation begins with "operatorCompile", and it immediately, initiates "oneCompile" with prepared
+function table and single "DF" expression. In the context of this example, *"main" [] [([],EI 1)]*
+will be passed to "oneCompile". As a result, "oneCompile" creates "operator[0]=" and initiates
+"makeCompile" function with counter equal to 0, in addition to previous parameters. 
+
+"makeCompile" creates two objects: "interface" and "implementation". Furthermore, it adds all 
+available commands to the interface object and initiates "funCompile" inside the "implementation" 
+object. "funCompile" takes 0 (counter) and *[([],EI 1)]* as its parameters and adds 
+"function(stk,env,args){", before calling "linesCompile" function to form a "try" and "catch" blocks.
+And "linesCompile" call "lineCompile" inside "try" block, in order to form a return statement.
+Finally, "lineCompile" initiates "patCompile", to form an environment look-up table, followed
+by "expCompile" in order to compile expression *EI 1*. At this point compilation is done, because
+there are no more "DF"'s in the list, thus "operatorCompile" is done.
+
 
 
 ### Helper functions
@@ -192,8 +269,8 @@ This section will briefly explain functionality of few helper functions.
 parses it utilizing the parse function located in *Syntax.hs* and runs the compiler on the result. Thus,
 generating new "gen.js" file.
 
-**jsComplete** - wraps everything into one function, it takes the output of "operatorCompile", formats
-it and writes the result of the compilation to the "gen.js" file.
+**jsComplete** - Takes the output of "operatorCompile". Wraps compiled list of "DF"
+into one structure , formats it and writes the result of the compilation to the "gen.js" file.
 
 
 ## Abstract machine
