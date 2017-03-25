@@ -74,7 +74,7 @@ Table: Project folder structure
 ## Compiler
 
 The compiler is located in *final_implementation/Backend/Compiler.hs* and it is written in Haskell. 
-It is initiated when Frank program compilation is called with a flag "output-js". Example with program
+It is initiated when Frank program is called with a flag "output-js". Example with program
 named "foo.fk": 
 
 ```bash
@@ -140,7 +140,7 @@ shows a lifecycle of a single compilation. In the example, the code compiles the
 
 
 "lineCompile" will compile expressions "Exp", however before it can do that, it must build an
-environment look-up table. The table is used to retrieve defined values.  
+environment look-up table. The table is used to retrieve defined values, shown below.  
 
 ```haskell
 type EnvTable = [(String, Int)] -- environment look-up table
@@ -275,8 +275,8 @@ into one structure , formats it and writes the result of the compilation to the 
 
 ## Abstract machine
 
-Purpose of the abstract machine is to take in generated output of the compiler and run it in the 
-web, thus completing the task of running Frank code in a browser.
+The purpose of the abstract machine is to take in generated output of the compiler and run it on a 
+browser, thus completing the main goal of the project.
 For full usage and installation instructions see **Appendix 2**.
 
 Abstract machine modules are located in\
@@ -287,17 +287,17 @@ by utilizing *webpack* library.
 
 ### JavaScript type definitions
 
-This section explains the JavaScript types used to enforce the data structure of compiled Frank
-programs, which are used by the abstract machine. Firtly, "JSEnv" represents an environemnt, which
+This section explains the JavaScript types used by abstract machine to enforce the data structure
+of the compiled Frank programs. Firtly, "JSEnv" represents an environemnt, which
 is an array of "JSVal" values described below.
 
 ```javascript
 JSEnv = JSVal[]
 ```
 
-"JSRun" is an operator, who always returns a mode. They are located in "operators" array in the generated
-program ("gen.js"). Mode contains a stack and current computation. Top stack frame and current computation
-both determine what to do next. 
+"JSRun" is an operator and it always returns a mode. Operators are located in "operators" array (in "gen.js").
+Mode contains a stack and current computation. Top stack frame and current computation
+both determine what to do next in the machine's lifecycle. 
 
 ```javascript
 jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
@@ -314,7 +314,8 @@ jstype JSStack
   | {prev: JSStack, frame: JSFrame }
 ```
 
-Stack's frame type, which determines the operation that needs to be done when current computation is 
+Below is a stack's frame type, which determines the operation that needs to be done when
+current computation is 
 equal to "value". The operation is decided depending on the value of the "tag", so if the "tag" is equal to 
 "car", the machine will expect that "env" and "cdr" values are defined as well.
 
@@ -329,7 +330,7 @@ jstype JSFrame
      headles: Int, waitingHandles: JSList Int }
 ```
 
-Linked list data structure, where it could be empty or have an current element and tailing 
+Linked list data structure, where it could be empty or have a head element and tailing 
 list of elements. 
 
 ```javascript
@@ -367,7 +368,7 @@ a command is initiated, which is based on "atom" value.
 "car" object and the other is in "cdr". "operator" is a top level function. "callback" holds a 
 "callback" object which has stack frames waiting to be restored after machine finds a hadler of a
 command that it was looking for. "thunk" represents a suspended computation. And "local"
-represents local functions, which do to procedure called "Lambda Lifting" [@LambdaLifting],
+represents local functions, which due to procedure called "Lambda Lifting" [@LambdaLifting],
 abstract machine will turn them into a top level functions and execute. 
  
 
@@ -386,11 +387,14 @@ jstype JSVal
 
 ### Implementation
 
-Abstract machine takes contents of gen.js as an input, which contains two different arrays: 
-operators and resumptions. Operators are equivalent to functions in Haskell, resumptions are computations
-waiting to be executed. In current implementation starting operator is always the first function, so
-main method should be at the top of file. And they return modes which are computation who store stack,
-here the machine defines initial mode with initial empty stack, no arguments and no environment: 
+Abstract machine takes contents of "gen.js" as an input, which contains two different arrays: 
+"operators" and "resumptions". The operators are equivalent to top level functions in Frank, the
+resumptions are computations
+waiting to be executed. In current machine's implementation starting operator is always the
+first function; 
+main method, thus, must be at the top of Frank's file. Operators return modes which are computation
+which keep track of stack.
+Below the machine defines initial mode with initial empty stack, no arguments and no environment. 
 
 ```javascript
 var mode = operators[0].implementation(null, [], []);
@@ -398,35 +402,41 @@ var mode = operators[0].implementation(null, [], []);
 
 The machine will keep executing in a while loop until stack becomes empty; before halting
 it will return the final mode and call printer helper function to display the output. In each while cycle
-machine check the current computation tag, it can either be a "value" or a "command" and depending on 
-which one it is, machine will act accordingly.
+the machine checks the current computation tag, it can either be a "value" or a "command" and depending on 
+which one it is, the machine will act accordingly.
 
 #### Computation - "value" 
 
-If the "mode.comp.tag" is equal to "value" then machine will look at the first frame of the stack
+If the "mode.comp.tag" is equal to "value" then the machine will look at the first frame of the stack
 to receive information on what to do next. There are four options depending on the frame tags, each
-of them will construct new mode building or reducing the stack in the process (look at *JavaScript type
-definitions* section to see their structure):
+of them will construct a new mode while altering the stack in the process (look at *JavaScript type
+definitions* section to see structure):
 
 * **"car"** - will construct mode out of calling a resumption based on "mode.stack.frame.cdr" value.
-  For resumption to construct a new mode they need two values, stack and an environment. Therefore, 
+  For resumption to construct a new mode it needs two values, stack and an environment. Therefore, 
   machine will pass in the stack and the environment as well. Although, it will alter the stack by
-  removing top stack frame and creating a new one with a "cdr" tag and a car value.
+  removing top stack frame and creating a new one with a "cdr" tag and a car value. This procedure
+  is similar to experimental system's addition operation.
 ```javascript
-     frame: {
-       tag: "cdr",
-       car: mode.comp.value
-     },
+    mode = resumptions[mode.stack.frame.cdr]( 
+        stack = { // new stack
+          prev: mode.stack.prev, 
+          frame: {
+            tag: "cdr",
+            car: mode.comp.value
+          },
+        }, mode.stack.frame.env); // environment
 ```
 
-* **"cdr"** - will reduce the stack and return a pair of *car* and *cdr* as its computation. It will take
-  *car* value from the current stack frame and cdr from current computation value.
+* **"cdr"** - will reduce the stack and return a pair of *car* and *cdr* as its computation. 
+  It will take *car* value from the current stack frame and *cdr* from current computation value.
 
-* **"fun"** - means application, so some function needs to be applied to a list of arguments,
+* **"fun"** - means application, so some pattern needs to be applied to a list of arguments,
   which is essentially list of resumptions. If the
   list of arguments is empty that means the machine is ready
   to initiate the function application by calling helper "apply" function without any arguments.
-  If, however, the argument list is not empty machine needs to construct new mode with frame tag "arg".
+  If, however, the waiting argument list is not empty the machine needs to construct a new mode with
+  frame tag equal to "arg".
   It creates new mode out of first argument resumption "resumptions[mode.stack.frame.args.head]" and 
   passes all the needed information in the new stack frame:
 ```javascript
@@ -440,13 +450,14 @@ definitions* section to see their structure):
        waitingHandles: tailHandles(intf)
      },
 ``` 
-  "fun" field to keep the function that will be applied when the arguments "waiting" list is empty.
-  "env" to keep the environment, "ready" list to know which arguments have been parsed, initially it
-  is empty. "waiting" to keep track of list of arguments that are left unchecked. And, lastly,
-  "handles" with "waitingHandles" to keep track which argument handle what commands, so if handles
+  "fun" field is used to keep the pattern that will be applied when the arguments "waiting" list is empty.
+  "env" is held to keep the environment. "ready" list is used to know which arguments have been parsed, initially it
+  is empty. "waiting" is used to keep track of list of arguments that are left unchecked. And, lastly,
+  "handles" with "waitingHandles" are used to keep track which argument handle what commands, so if handles
   list is empty it means that this argument doesn't handle any commands. It gets these values by 
-  applying helper functions, which return head and tail of the list. And the initial handle list is 
-  extracted from operators interface with helper function "interfaceF", which simply returns given 
+  applying helper functions, which return head and tail of the "waitingHandles" list. And the initial
+  handle list is 
+  extracted from the operator's interface by utilizing helper function "interfaceF", which simply returns given 
   operators interface (list of commands that it can handle).  
 
 * **"arg"** - simply adds current head of arguments to the ready list and initiates helper function 
@@ -455,23 +466,23 @@ definitions* section to see their structure):
 
 #### Computation - "command"
 
-Because of "command" type of computations Frank is different from other functional languages. When command
-computation appears the current execution is interrupted and the control is given to the handler,
+Because of command type computations, Frank is different from other functional languages. When command
+computation happens the current execution is interrupted and the control is given to the handler,
 which looks for
 the requested command in the stack while building a callback (checked stack frames) to restore the stack
 when the command is found and finished executing.
 
-In this implementation, computations with tag equal to "command" are created in a case when an atom
+In this implementation, computations with a tag equal to "command" are created in a case when an atom
 is applied to a list arguments. Then the abstract machine goes down the stack while looking for the
-command. Each time it doesn't find it, it will place top frame in the callback and move down by
-one frame:
+command's handler. Each time it does not find it, the machine will place top frame in the callback
+and move down by one frame:
 
 ```javascript
 mode.comp.callback = {
-  frame: mode.stack.frame,
-  callback: mode.comp.callback
+  frame: mode.stack.frame, // current frame
+  callback: mode.comp.callback 
 }
-mode.stack = mode.stack.prev
+mode.stack = mode.stack.prev // new frame
 ```  
 
 For the machine to find a command in a frame, it must be an "arg" frame. And it must contain the command 
@@ -494,32 +505,33 @@ function, which in turn will call "apply" helper function if there are no waitin
 
 This section will describe the functionality of two main helper functions. 
 
-**argRight** - takes in stack tail, function to be applied, list of arguments that are ready, 
+**argRight** - takes in stack tail, function to be applied, list of arguments which are ready, 
 environment, list of arguments which are still waiting to be checked and list of handled commands.
 List of handled commands is kept for the machine to know what commands does the resumption handle.
-Same as in the "fun" case if the waiting list of resumptions (arguments) is empty then the machine is
-ready to apply the function, thus call apply function, if it is not then create new "arg" frame in the
-same fashion as in "fun" option. The key difference is that "fun" could be instantly applied if it didn't
-have any arguments, thus not creating any "arg" frames. Moreover, there is potential to move all logic
+Same as in the "fun" case, if the "waiting" list of resumptions (arguments) is empty then the machine is
+ready to apply the function, thus it will call apply function. If the "waiting" list not empty
+then the machine will create new "arg" frame in the
+same fashion as in "fun" option. The key difference is that "fun" could be instantly applied if it did not
+have any arguments, thus not creating any "arg" frames. However, there is a potential to move all logic
 to "argRight" function without having any in "fun" case, improving code reuse and optimization.  
 
 **apply** - Depending on a "fun" computation value, constructs a mode from which to continue 
 execution. "fun" computation could be one of the following:
 
-* **"int"** - Applying int to an argument is not really sensible, however in this case it is possible 
+* **"int"** - Applying "int" to an argument is not really sensible, however in this case it is possible 
 because of built-in operations (see *Built-in functions* section). This custom functionality lets machine
 add and subtract integer values.
 
-* **"local"** - Means a local function, and the machine is turning it into top level operator, concept
-introduced by [@LambdaLifting] and it is named "Lambda Lifting". Therefore, mode is constructed out of 
-an operator variable.
+* **"local"** - Means a local function. The machine is turning a local function into top level operator,
+concept introduced by [@LambdaLifting] and it is named "Lambda Lifting". Mode is
+constructed out of an "operator" variable, which contains full function definition.
 
-* **"operator"** - Means top level function, mode is constructed from an operator depending on 
+* **"operator"** - Means top level function, mode is constructed from an 
 "fun.operator" value which is an index for operators array. 
 
-* **"atom"** - Applications of atoms mean a command is initiated; mode with command tag and command
+* **"atom"** - Applications of atoms mean a command is initiated; mode with "command" tag and command
 value should be created. It, also keeps the arguments and creates a "callback" value to be able to restore
-the stack successfully after finding required command in the stack. Thus new mode looks like this:
+the stack successfully after finding required command in the stack. Definition of new mode is displayed below.
 
 ```javascript
       stack: stk,
@@ -541,9 +553,9 @@ New mode is equal to:
 ```
 
 * **"callback"** - This means command has been found and executed and now the machine has to restore
-the stack to its original position. It does this looping through the "callback" while building the stack
-with callback's frames. When it is done, machine returns a mode constructed of the restored stack and 
-first argument. 
+the stack to its original position. It does this by looping through the "callback" while building the stack
+with callbacks frames. When it is done, machine returns a mode constructed of the restored stack and 
+first element of arguments list. 
 
 ```javascript
       stack: stack,
@@ -551,11 +563,11 @@ first argument.
 ```
 
 **printer** - takes the mode of finished execution, parses it to make it readable and displays it on 
-the screen.
+the browser's console.
 
 ## Built-in functions
 
-Current built-in functions are "plus" and "minus", in order to make integer manipulation possible. 
+Current built-in functions include "plus" and "minus", in order to make integer manipulation possible. 
 They are defined before the top-level function compilation begins in function *operatorCompile*
 and then just initialized together with them, like this:
 
@@ -563,23 +575,23 @@ and then just initialized together with them, like this:
 let fs = [(f, (h, pse)) | DF f h pse <- ds] ++ builtins
 ```
 
-However their current definitions are a bit different compared to others which are generated. 
-Compiler is not able to 
-give them meaning because he does not know how to manipulate two integer expressions; instead compiler
+However their current definitions are a bit different. 
+The compiler is not able to 
+give them meaning because it does not know how to manipulate two integer expressions; instead compiler
 must pass this functionality 
 to the abstract machine, which can interpret those expressions and apply wanted arithmetic operation.
-Compiler codes wanted arithmetic operation into the function definition, like this:
+The compiler codes wanted arithmetic operation into the function definition, like this:
 
 ```haskell
 DF "minus" [] [...], EV "x" :$ [EV "y", EV "y"]
 ```
 
-":$" means application, compiler tries to apply integer variable "x" to list of integer variables "y",
-which initially does not make any sense. However, machine has encoded semantics for this situation,
-therefore if integer is applied to a list of arguments that could only mean one of 
-two things, either that integer needs to be added to first element of the list or substracted from it.
-Machine determinse this by looking how many elements are in the list and applies the correct opperation
-accordingly.
+":$" means application, compiler tries to apply integer variable "x" to a list of integer variables "y",
+which initially does not make any sense. However, machine has encoded semantics for this situation.
+If integer, therefore, is applied to a list of arguments that could only mean one of 
+two things, either that integer needs to be added to the first element of the list or subtracted  from it.
+The machine determines the arithmetic operation by looking how many elements are in the argument list and 
+applies the correct operation accordingly.
 
 ```javascript
 if (args.length === 2) { // minus
