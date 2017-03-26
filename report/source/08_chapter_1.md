@@ -45,8 +45,8 @@ learning experience.
 * Utilize Shonky data structures;
 * Develop a compiler which compiles Shonky's data structures to JavaScript data types;
 * Develop an abstract machine implementation which supports the output of the compiler;
-* The completed system must facilitate client-side communication of events and DOM updates between Frank code
-  and the browser.
+* The completed system must facilitate client-side communication of events and DOM updates
+  between Frank code and the browser.
 
 ## Summary of chapters
 

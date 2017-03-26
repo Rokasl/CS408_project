@@ -35,7 +35,7 @@ sudo npm install webpack -g
 stack setup
 stack install
 ```
-  You might need to edit your machine's environment path, to include Frank. 
+You might need to edit your machine's environment path, to include Frank. 
 * Expect script
 ```bash 
 apt-get install expect

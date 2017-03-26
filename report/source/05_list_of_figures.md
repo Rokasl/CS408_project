@@ -1,12 +1,10 @@
 # List of figures {.unnumbered}
 
-<!--
-For me, this was the only drawback of writing in Markdown: it is not possible to add a short caption to figures and tables. This means that the \listoftables and \listoffigures commands will generate lists using the full titles, which is probably isn't what you want. For now, the solution is to create the lists manually, when everything else is finished.
+Figure 5.1  A high level representation of the compile functions      \hfill{31}  
+Figure 5.2  A high level representation of the virtual machine        \hfill{39}   
+Figure 7.1  A complete life cycle       \hfill{54}   
+Figure 7.2  Benchmark result graph       \hfill{58}     
 
-
-Figure 4.1  This is an example figure . . .              \hfill{pp}  
-Figure x.x  Short title of the figure . . .              \hfill{pp}  
--->
 \pagenumbering{roman}
 \setcounter{page}{3}
 

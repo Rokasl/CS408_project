@@ -194,7 +194,6 @@
                 <li><a href="#acknowledgements">Acknowledgements</a></li>
                 <li><a href="#list-of-figures">List of figures</a></li>
                 <li><a href="#list-of-tables">List of tables</a></li>
-                <li><a href="#abbreviations">Abbreviations</a></li>
                 <li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
                 <li><a href="#background"><span class="toc-section-number">1.1</span> Background</a></li>
                 <li><a href="#objectives"><span class="toc-section-number">1.2</span> Objectives</a></li>
@@ -299,7 +298,6 @@
                 </ul></li>
                 </ul></li>
                 <li><a href="#appendix-4-relevant-readme-files">Appendix 4: Relevant README files</a><ul>
-                <li><a href="#run-frank-in-browser">Run Frank in Browser</a></li>
                 <li><a href="#frankjnr-1">Frankjnr</a></li>
                 <li><a href="#report-template">Report template</a></li>
                 </ul></li>
@@ -330,23 +328,16 @@
 
 
 <h1 id="list-of-figures" class="unnumbered">List of figures</h1>
-<!--
-For me, this was the only drawback of writing in Markdown: it is not possible to add a short caption to figures and tables. This means that the \listoftables and \listoffigures commands will generate lists using the full titles, which is probably isn't what you want. For now, the solution is to create the lists manually, when everything else is finished.
-
-
-Figure 4.1  This is an example figure . . .              \hfill{pp}  
-Figure x.x  Short title of the figure . . .              \hfill{pp}  
--->
+<p>Figure 5.1 A high level representation of the compile functions <br />
+Figure 5.2 A high level representation of the virtual machine <br />
+Figure 7.1 A complete life cycle <br />
+Figure 7.2 Benchmark result graph </p>
 <p> </p>
 
 <h1 id="list-of-tables" class="unnumbered">List of tables</h1>
-<!-- 
-For me, this was the only drawback of writing in Markdown: it is not possible to add a short caption to figures and tables. This means that the \listoftables and \listoffigures commands will generate lists using the full titles, which is probably isn't what you want. For now, the solution is to create the lists manually, when everything else is finished.
--->
-<p>Table 5.1 This is an example table . . . <br />
-Table x.x Short title of the figure . . . </p>
-<h1 id="abbreviations" class="unnumbered">Abbreviations</h1>
-
+<p>Table 5.1 Folder structure <br />
+Table 7.1 Benchmark result table <br />
+Table 7.2 Supported functionality </p>
 
 <p> </p>
 <h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
@@ -455,17 +446,17 @@ Table x.x Short title of the figure . . . </p>
 <p>One of the other principal decisions was to start with a different system, an experiment throughout which the author could learn the fundamental concepts related to compilers and virtual machines and later on adapt the knowledge gained during the development of the final system. The experiment was conducted over approximately four weeks and used the same methodology - iterative and incremental development.</p>
 <h1 id="initial-development-experimental-system"><span class="header-section-number">4</span> Initial development &amp; experimental system</h1>
 <h2 id="introduction-1"><span class="header-section-number">4.1</span> Introduction</h2>
-<p>Because of the complexity of the project and the lack of initial author knowledge of the field, the most optimal plan was to start with small, less demanding development and expand gradually. The intricacies consist of:</p>
+<p>Because of the complexity of the project and the lack of the author’s initial knowledge of the field, the most optimal plan was to start with small, less demanding development and to expand gradually. The intricacies included:</p>
 <ul>
 <li>Frank is a complex functional language;</li>
-<li>&quot;Frankjnr&quot; adds another layer of complexity, since author needs to be aware of the implementation and compilation process;</li>
+<li>Frankjnr adds another layer of complexity, since the author needs to be aware of the implementation and the compilation process;</li>
 <li>Dependence on Shonky's language, because the final implementation of the Compiler must be able to understand and compile Shonky's data structures;</li>
-<li>Complexity of the compilers and their implementation;</li>
-<li>Complexity of abstract machines and their implementation;</li>
+<li>The complexity of the compilers and their implementation;</li>
+<li>The complexity of abstract machines and their implementation;</li>
 </ul>
-<p>Thus, experimental language was developed with matching compiler and abstract machine. Both, the compiler and the machine were developed while keeping in mind that their key parts will be reused for the final system. So efficiency, reliability, structure were all important factors. Furthermore, experimental system was vastly influenced on concepts described in &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Dexter Kozen and Carron Shankland 2004)</span> and &quot;Mathematics of Program Construction&quot; <span class="citation">(Graham Hutton and Joel J. Wright 2004)</span>.</p>
+<p>Thus, an experimental language was developed with a matching compiler and abstract machine. Both the compiler and the machine were developed while keeping in mind that their key components will be reused for the final system; therefore efficiency, reliability, and structure were all important factors. Furthermore, the experimental system was vastly influenced by concepts described in &quot;Compiling Exceptions Correctly&quot; <span class="citation">(Dexter Kozen and Carron Shankland 2004)</span> and &quot;Mathematics of Program Construction&quot; <span class="citation">(Graham Hutton and Joel J. Wright 2004)</span>.</p>
 <h2 id="experimental-system"><span class="header-section-number">4.2</span> Experimental system</h2>
-<p>System consists of:</p>
+<p>The system consists of:</p>
 <ul>
 <li>Compiler - written in Haskell;</li>
 <li>Language - written in Haskell;</li>
@@ -473,62 +464,62 @@ Table x.x Short title of the figure . . . </p>
 <li>Testing framework - written in Bash and Expect scripts, overview of the framework can be found in <strong>Chapter 6</strong>.</li>
 </ul>
 <h3 id="language"><span class="header-section-number">4.2.1</span> Language</h3>
-<p>A simple language written in Haskell, which syntax supports few specific operations, such as, sum of two expressions, &quot;Throw&quot; &amp; &quot;Catch&quot;, &quot;Set&quot;, &quot;Next&quot;, &quot;Get&quot;, new reference. Each of the operations were carefully selected, where their implementation in the abstract machine varies significantly. Thus, offering broad and important learning experience.</p>
+<p>A simple language written in Haskell, whose syntax supports a few specific operations, such as the sum of two expressions, &quot;Throw&quot; &amp; &quot;Catch&quot;, &quot;Set&quot;, &quot;Next&quot;, &quot;Get&quot; and a new reference. Each of the operations were carefully selected; their implementation in the abstract machine varied significantly, which offered a broad and valuable learning experience.</p>
 <p><strong>Full language definition</strong></p>
-<p>Language is defined as Haskell data type &quot;Expr&quot;. In this case it supports only different types of expressions. Experimental language is focused on Integer manipulation, thus it only supports integer values. Here is a definition of a Integer value.</p>
+<p>Language is defined as Haskell data type &quot;Expr&quot;. In this case, it supports only different types of expressions. An experimental language is focused on Integer manipulation; it, thus, only supports integer values. Here is a definition of an Integer value.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Val</span> <span class="dt">Int</span></code></pre></div>
-<p>Definition of sum of two expressions.</p>
+<p>Definition of the sum of two expressions.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:+:</span> <span class="dt">Expr</span></code></pre></div>
-<p>Syntax definition of a &quot;Throw&quot; and &quot;Catch&quot; commands. If the first expression of Catch is equal to Throw, meaning an exception was raised (something went wrong), then the second expression will be evaluated, otherwise it will be left unchecked.</p>
+<p>Syntax definition of a &quot;Throw&quot; and &quot;Catch&quot; commands. If the first expression of &quot;Catch&quot; is equal to &quot;Throw&quot;, meaning an exception is raised (something goes wrong), then the second expression will be evaluated; otherwise it will be left unchecked.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Throw</span>
         <span class="fu">|</span> <span class="dt">Catch</span> <span class="dt">Expr</span> <span class="dt">Expr</span></code></pre></div>
-<p>Syntax definition of &quot;WithRef&quot; command. It creates new reference with a given value. First string variable of the command defines name of new reference, second value is an expression which defines how to compute initial value of new reference and the third value is the context in which the reference is valid. &quot;WithRef&quot; stack frame is the handler for &quot;Get&quot; and &quot;:=&quot; commands. Example expression would be: <em>WithRef &quot;x&quot; (Val 2) (Val 5 :+: Get &quot;x&quot;)</em>. From the example we can see that &quot;x&quot; is a new reference with initial value of &quot;Val 2&quot; and its valid in a context <em>Val 5 :+: Get &quot;x&quot;</em>, which would return &quot;7&quot;.</p>
+<p>Syntax definition of &quot;WithRef&quot; command. It creates a new reference with a given value. The first string variable of the command defines the name of new reference, the second value is an expression which describes how to compute the initial value of the new reference and the third value is the context in which the reference is valid. &quot;WithRef&quot; stack frame is the handler for &quot;Get&quot; and &quot;:=&quot; commands. An example expression would be: WithRef &quot;x&quot; (Val 2) (Val 5 :+: Get &quot;x&quot;). From the example, we can see that &quot;x&quot; is a new reference with an initial value of &quot;Val 2&quot; and it is valid in a context Val 5 :+: Get &quot;x&quot;, which would return &quot;7&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">WithRef</span> <span class="dt">String</span> <span class="dt">Expr</span> <span class="dt">Expr</span></code></pre></div>
 <p>Syntax definition of getting the value of a defined reference.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Get</span> <span class="dt">String</span> </code></pre></div>
-<p>Syntax definition of setting defined reference value to be equal to some new expression.</p>
+<p>Syntax definition of setting the defined reference value to be equal to some new expression.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">String</span> <span class="fu">:=</span> <span class="dt">Expr</span> </code></pre></div>
-<p>Syntax definition for evaluating two expressions one by one and taking value of the second. In most programming languages it is defined as &quot;;&quot;.</p>
+<p>Syntax definition for evaluating two expressions one by one and taking the value of the second. In most programming languages it is defined as &quot;;&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">        <span class="fu">|</span> <span class="dt">Expr</span> <span class="fu">:&gt;</span> <span class="dt">Expr</span></code></pre></div>
 <h3 id="compiler"><span class="header-section-number">4.2.2</span> Compiler</h3>
-<p>Purpose of the compiler is to take in an formatted expression of the experimental language described above and output a JavaScript compiled data structure (array of functions, called resumptions), which could be used by the abstract machine.</p>
-<p>Below is a definition of code generation monad. It contains a constructor &quot;MkCodeGen&quot; and a deconstructor &quot;codeGen&quot;. It takes in an next available integer value and outputs a data structure which holds a list of integers which map to JavaScript code of string type, next available number after the compilation and result of the compilation &quot;val&quot;. Usually, the list of definitions will start with the input &quot;next number&quot; and go up to just before the output &quot;next number&quot;.</p>
+<p>The purpose of the compiler is to take in a formatted expression of the experimental language described above and to output a JavaScript compiled data structure (array of functions, called resumptions) which can be used by the abstract machine.</p>
+<p>Below is a definition of code generation monad. It contains a constructor &quot;MkCodeGen&quot; and a deconstructor &quot;codeGen&quot;. The monad takes in next available integer value and outputs a data structure which holds a list of integers, which map to the JavaScript code of the string type, the next available number after the compilation, and the result of the compilation &quot;val&quot;. Usually, the list of definitions will start with the input &quot;next number&quot; and go up to just before the output &quot;next number&quot;.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">CodeGen</span> val <span class="fu">=</span> <span class="dt">MkCodeGen</span> {
 <span class="ot">            codeGen ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> ([(<span class="dt">Int</span>, <span class="dt">String</span>)], <span class="dt">Int</span>, val) 
         }                </code></pre></div>
-<p>&quot;MkCodeGen&quot; is used to construct a definition in &quot;genDef&quot; function displayed below. &quot;genDef&quot; returns the definition number and it is used by compile function to make new function definitions.</p>
+<p>&quot;MkCodeGen&quot; is used to construct a definition in &quot;genDef&quot; function displayed below. &quot;genDef&quot; returns the definition number and is used by compile function to generate new function definitions.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">genDef ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span> 
 genDef code <span class="fu">=</span> <span class="dt">MkCodeGen</span> <span class="fu">$</span> \ next <span class="ot">-&gt;</span> ([(next, code)]
                             , next <span class="fu">+</span> <span class="dv">1</span>, next)</code></pre></div>
-<p>Below the type of &quot;compile&quot; function is shown. &quot;compile&quot; function takes in a valid language expression and outputs entry point of the compilation as well as compilation process which can be separated into chucks of generated JavaScript code.</p>
+<p>The type of &quot;compile&quot; function is shown below. The &quot;compile&quot; function takes in a valid language expression and outputs the entry point of the compilation as well as the compilation process which can be separated into chunks of generated JavaScript code.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">compile ::</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">CodeGen</span> <span class="dt">Int</span></code></pre></div>
-<p>&quot;compile&quot; function is either used to create new function definitions or to compile expressions to JavaScript depending on the type of &quot;Expr&quot;. For example, if &quot;compile&quot; takes initial expression of <em>Val 2 :+: (Val 4 :+: Val 8)</em>, through pattern matching the case for &quot;:+:&quot; will be executed and through recursion it will be executed again for the right side (<em>Val 4 :+: Val 8</em>) as well. Below definition of the &quot;:+:&quot; case is shown.</p>
+<p>&quot;Compile&quot; function is either used to create new function definitions or to compile expressions into JavaScript, depending on the type of &quot;Expr&quot;. For example, if &quot;compile&quot; takes an initial expression of Val 2 :+: (Val 4 :+: Val 8), through pattern-matching the case for &quot;:+:&quot; will be executed, and through recursion it will be executed again for the right side (Val 4 :+: Val 8) as well. The definition of the &quot;:+:&quot; case is shown below.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">help s (e1 <span class="fu">:+:</span> e2) <span class="fu">=</span> <span class="kw">do</span> 
     f2 <span class="ot">&lt;-</span> compile e2
     help (<span class="st">&quot;{prev:&quot;</span> <span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;, tag:\&quot;left\&quot;,</span>
 <span class="st">                     data:&quot;</span><span class="fu">++</span> show f2 <span class="fu">++</span><span class="st">&quot;}&quot;</span>) e1</code></pre></div>
-<p>Furthermore, for each value of the expression (&quot;Val 2&quot;, &quot;Val 4&quot; and &quot;Val 8&quot;) the function definition will be generated, because &quot;compile&quot; function has a case for that.</p>
+<p>Furthermore, for each value of the expression (&quot;Val 2&quot;, &quot;Val 4&quot; and &quot;Val 8&quot;), the function definition will be generated, because &quot;compile&quot; function has a case for that.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">help s (<span class="dt">Val</span> n) <span class="fu">=</span> genDef <span class="fu">$</span>
         <span class="st">&quot;function(s){return{stack:&quot;</span><span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot;,</span>
 <span class="st">                     tag:\&quot;num\&quot;, data:&quot;</span><span class="fu">++</span> show n <span class="fu">++</span><span class="st">&quot;}}&quot;</span></code></pre></div>
-<p>After &quot;compile&quot; function is done executing the structure is compiled and ready to be outputted to the file.</p>
+<p>After the &quot;compile&quot; function is done executing the structure is compiled and ready to be outputted to the file.</p>
 <h4 id="formating-and-outputting-to-file"><span class="header-section-number">4.2.2.1</span> Formating and outputting to file</h4>
-<p>Output formating is done by &quot;jsSetup&quot; function. It takes the name of the array, the result of &quot;compile&quot; function and outputs a JavaScript formatted string.</p>
+<p>Output formating is done by &quot;jsSetup&quot; function. It takes the name of the array, the result of the &quot;compile&quot; function and outputs a JavaScript formatted string.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">jsSetup  ::</span>  <span class="dt">String</span>       <span class="co">-- array name</span>
          <span class="ot">-&gt;</span>  <span class="dt">CodeGen</span> x    <span class="co">-- compilation process</span>
          <span class="ot">-&gt;</span>  (  <span class="dt">String</span>    <span class="co">-- JavaScript code</span>
              ,  x         <span class="co">-- result</span>
              )</code></pre></div>
-<p>&quot;jsWrite&quot; takes an output of &quot;jsSetup&quot; and writes everything to a file - &quot;generated.js&quot;, which is ready to be used by the abstract machine.</p>
+<p>&quot;jsWrite&quot; takes an output of &quot;jsSetup&quot; and writes up everything into a file - &quot;generated.js&quot;, which is ready to be used by the abstract machine.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">jsWrite ::</span> (<span class="dt">String</span>, x) <span class="ot">-&gt;</span> <span class="dt">IO</span>()
 jsWrite (code, x) <span class="fu">=</span> writeFile <span class="st">&quot;dist/generated.js&quot;</span> code</code></pre></div>
 <p>Example usage:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> xpr <span class="fu">=</span> <span class="dt">Val</span> <span class="dv">2</span> <span class="fu">:+:</span> (<span class="dt">Val</span> <span class="dv">4</span> <span class="fu">:+:</span> <span class="dt">Val</span> <span class="dv">8</span>)
 jsWrite (jsSetup <span class="st">&quot;Add&quot;</span> (compile xpr))</code></pre></div>
 <h3 id="abstract-machine"><span class="header-section-number">4.2.3</span> Abstract machine</h3>
-<p>Purpose of the abstract machine is to take in a compiled program and provide semantics for the file to be runnable in the browser. It gradually builds a stack from a given data structure (located in &quot;generated.js&quot;), where each frame of the stack has a link to another frame. The elegant part of this structure is that, stack frames can be saved, updated, deleted and restored, thus, making the machine's structure flexible.</p>
+<p>The purpose of the abstract machine is to take in a compiled program and to provide semantics for the file, so that it is runnable on the browser. It gradually builds a stack from a given data structure (located in &quot;generated.js&quot;), where each frame of the stack has a link to another frame. The elegant aspect of this structure is that stack frames can be saved, updated, deleted and restored, thus making the machine's structure flexible.</p>
 <p><strong>Data Structure of compiled expression</strong></p>
-<p>Each generated data structure by the compiler is an array called <em>resumptions</em>. Its entries are functions which take in a stack. This way it is possible to nest them while keeping track of the stack. Below is an example of array of resumptions ready to be used by the abstract machine; it was constructed from the expression <em>Val 3 :+: Val 2</em>. The semantics of this particular structure are simple, to add two numbers &quot;2 + 3&quot;, so the expected output is &quot;5&quot;. Comments in the code snippet below explain meaning of different variables in the structure. For more complicated examples see <em>main/example_programs</em> or test cases.</p>
+<p>The data structure of the compiled expression Each data structure generated by the compiler is an array called <em>resumptions</em>. Its entries are functions which take in a stack. This way, it is possible to nest them while keeping track of the stack. Below is an example of an array of resumptions ready to be used by the abstract machine; it was constructed from the expression Val 3 :+: Val 2. The semantics of this particular structure are simple - to add two numbers &quot;2 + 3&quot;, so the expected output is &quot;5&quot;. Comments in the code snippet below explain the meaning of the different variables in the structure. For more complex examples, see <em>main/example_programs</em> or test cases.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> foo <span class="op">=</span> []<span class="op">;</span>
 foo[<span class="dv">0</span>] <span class="op">=</span> <span class="kw">function</span> (s) <span class="op">{</span>
     <span class="cf">return</span> <span class="op">{</span>
@@ -549,17 +540,17 @@ foo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw">functi
     <span class="op">}</span>
 <span class="op">};</span></code></pre></div>
 <h4 id="implementation"><span class="header-section-number">4.2.3.1</span> Implementation</h4>
-<p>This section focuses on explaining detailed implementation of the experimental abstract machine. It is defined as a function which takes in array of resumptions as an argument. The array &quot;foo&quot;, described above will be used as a reference throughout this section.</p>
-<p>Modes are objects, which store current stack and computation. Below initial definition of mode is shown with pre-set starting values. Because the starting stack is empty the &quot;stack&quot; parameter is defined as &quot;null&quot;; the &quot;tag&quot; is an expression type and if it is equal to &quot;go&quot;, the machine must take &quot;data&quot; parameter, which is an index of the last element in array of resumptions, in order to retrieve next mode.</p>
+<p>This section focuses on explaining the detailed implementation of the experimental abstract machine. It is defined as a function which takes in an array of resumptions as an argument. The array &quot;foo&quot;, described above, will be used as a reference throughout this section.</p>
+<p>Modes are objects which store current stack and computation. The initial definition of mode with pre-set starting values is shown below. Because the starting stack is empty, the &quot;stack&quot; parameter is defined as &quot;null&quot;; the &quot;tag&quot; is an expression type; if it is equal to &quot;go&quot;, the machine must take the &quot;data&quot; parameter, which is an index of the last element in the array of resumptions, in order to retrieve the next mode.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;go&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="va">f</span>.<span class="at">length</span> <span class="op">-</span> <span class="dv">1</span>
     <span class="op">}</span></code></pre></div>
-<p>Each resumption is a function, which takes in a stack as a parameter and return a mode. Abstract machine will finish compilation if &quot;mode.tag&quot; is not equal to &quot;go&quot;. However, if it is equal to &quot;go&quot; then mode must be reinitialized, because the current mode is not a final value. Therefore, machine retrieves the next mode from resumptions array and passes stack to it, so that the mode has access to previous stack frames.</p>
+<p>Each resumption is a function, which takes in a stack as a parameter and returns a mode. The abstract machine will finish the compilation if &quot;mode.tag&quot; is not equal to &quot;go&quot;. However, if it is equal to &quot;go&quot;, then mode must be reinitialized, because the current mode is not a final value. The machine therefore retrieves the next mode from the resumptions array and passes stack to it, so that the mode has access to previous stack frames.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">    <span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">===</span> <span class="st">&quot;go&quot;</span>) <span class="op">{</span>
         mode <span class="op">=</span> f[<span class="va">mode</span>.<span class="at">data</span>](<span class="va">mode</span>.<span class="at">stack</span>)<span class="op">;</span></code></pre></div>
-<p>&quot;f&quot; represents an resumptions array, thus, considering example of &quot;foo&quot; array, the code above would create the following mode.</p>
+<p>&quot;f&quot; represents a resumptions array. Considering the example &quot;foo&quot; array, the code above would create the following mode.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
         <span class="dt">stack</span><span class="op">:</span> <span class="op">{</span> 
             <span class="dt">prev</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span> 
@@ -569,13 +560,13 @@ foo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw">functi
         <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span> 
         <span class="dt">data</span><span class="op">:</span> <span class="dv">2</span> 
     <span class="op">}</span></code></pre></div>
-<p>Abstract machine will continue executing while reinitializing mode's value every time &quot;mode.tag&quot; changes to &quot;go&quot; until the &quot;mode.tag&quot; becomes not equal to &quot;go&quot; and the stack is empty. It means that mode is a value and that the machine is done computing.</p>
+<p>The abstract machine will continue executing while reinitializing the mode's value every time &quot;mode.tag&quot; changes to &quot;go&quot; until the &quot;mode.tag&quot; becomes not equal to &quot;go&quot; and the stack is empty. This means that the mode is a value and that the machine is done computing.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="cf">while</span> (<span class="va">mode</span>.<span class="at">tag</span> <span class="op">!=</span> <span class="st">&quot;go&quot;</span> <span class="op">&amp;&amp;</span> <span class="va">mode</span>.<span class="at">stack</span> <span class="op">!=</span> <span class="kw">null</span>) <span class="op">{</span></code></pre></div>
-<p>If the execution is still going then the behavior of the abstract machine will differ based on mode's &quot;tag&quot; parameter. In example of &quot;foo&quot; computation, the &quot;mode.tag&quot; is equal to &quot;num&quot;. Overall, &quot;mode.tag&quot; could be equal to these values:</p>
+<p>If the execution continues, then the behavior of the abstract machine will differ based on the mode's &quot;tag&quot; parameter. In example &quot;foo&quot; computation, the &quot;mode.tag&quot; is equal to &quot;num&quot;. Overall, &quot;mode.tag&quot; could be equal to these values:</p>
 <ul>
-<li><strong>&quot;num&quot;</strong> - all of the basic evaluations of given expression. Further machine's actions depend on the value of &quot;mode.stack.tag&quot;. In the case of the example &quot;foo&quot; its value would be &quot;left&quot;.
+<li><strong>&quot;num&quot;</strong> - all of the basic evaluations of the given expression. The machine's further actions depend on the value of &quot;mode.stack.tag&quot;. In the case of the example &quot;foo&quot;, its value would be &quot;left&quot;.
 <ul>
-<li><p>Addition (&quot;<strong>left</strong>&quot; and &quot;<strong>right</strong>&quot; tags) - &quot;left&quot; tag creates a stack frame with tag &quot;right&quot;, thus preparing a frame for addition by placing the current value on the top of the stack and preparing to evaluate other expression. If the top of the stack &quot;tag&quot; is equal to &quot;right&quot; the abstract machine can add two of the top frames together, therefore creating new &quot;num&quot; mode (contains the answer of the addition) and deleting the top frame of the stack. In the case of &quot;foo&quot; example, the &quot;left&quot; case would change its mode to:</p>
+<li><p>Addition (&quot;<strong>left</strong>&quot; and &quot;<strong>right</strong>&quot; tags) - &quot;left&quot; tag creates a stack frame with tag &quot;right&quot;, thus preparing a frame for addition by placing the current value on the top of the stack and preparing to evaluate the other expression. If the top of the stack &quot;tag&quot; is equal to &quot;right&quot;, the abstract machine can add two of the top frames together, therefore creating a new &quot;num&quot; mode (contains the answer of the addition) and deleting the top frame of the stack. In the case of example &quot;foo&quot;, the &quot;left&quot; case would change its mode to:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="op">{</span>
         <span class="dt">prev</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span>
@@ -595,62 +586,62 @@ foo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw">functi
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="dv">3</span>
 <span class="op">}</span></code></pre></div>
-<p>And because the &quot;mode.stack.tag&quot; is equal to &quot;right&quot;, the &quot;mode.data&quot; and &quot;mode.stack.data&quot; would be added together and a new mode created:</p>
+<p>And because the &quot;mode.stack.tag&quot; is equal to &quot;right&quot;, the &quot;mode.data&quot; would be added with &quot;mode.stack.data&quot; to create a new mode:</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="kw">null</span><span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="dv">3</span> <span class="op">+</span> <span class="dv">2</span>
 <span class="op">}</span></code></pre></div>
-<p>This would be a final mode, because the stack is empty and the &quot;tag&quot; is not equal to &quot;go&quot;, so the machine would return &quot;5&quot; as the result of the computation. Other instructions manipulate mode's data in similar fashion, building or destroying stack in the process.</p></li>
-<li>&quot;<strong>Catch</strong>&quot; - creates a stack frame with tag &quot;catcher&quot; and places it on the top of the stack. Its data parameter is equal to the index of second expression which will be evaluated if first expressions throws an exception.</li>
-<li>New reference - creates a stack frame with tag &quot;<strong>WithRefRight</strong>&quot;, it is different from other stack frames because it has a &quot;name&quot; parameter, which is needed to identify between different references. It, also, holds the value of the reference in its &quot;data&quot; parameter.</li>
-<li>Next (&quot;<strong>:&gt;left</strong>&quot; and &quot;<strong>:&gt;right</strong>&quot;) - implementation is similar to addition, however the key difference is that if the top stack frame tag is equal to &quot;:&gt;right&quot; the abstract machine will take its data without adding anything and it will delete the previous stack frame. These operations evaluate two expressions but return the value of the second.</li>
-<li><p>Set (&quot;<strong>:=</strong>&quot;) - very similar to &quot;Get&quot; command (described below), key difference is that it alters the value of stack frame which has tag &quot;WithRefRight&quot; with given name of the reference. This command utilizes linked list stack saving structure to be able to restore the stack while saving any changes made. Exception could be thrown if the reference is undefined.</p></li>
+This would be the final mode, because the stack would be empty and the &quot;tag&quot; would not equal &quot;go&quot;; so the machine would return &quot;5&quot; as the result of the computation. Other instructions manipulate the mode's data in a similar fashion, building or destroying the stack in the process.</li>
+<li>&quot;<strong>Catch</strong>&quot; - creates a stack frame with the tag &quot;catcher&quot; and places it on the top of the stack. Its data parameter is equal to the index of second expression which will be evaluated if first expressions throws an exception.</li>
+<li>New reference - creates a stack frame with a tag &quot;<strong>WithRefRight</strong>&quot;. It is different from the other stack frames because it has a &quot;name&quot; parameter, which is needed to distinguish between different references. It also holds the value of the reference in its &quot;data&quot; parameter.</li>
+<li>Next (&quot;<strong>:&gt;left</strong>&quot; and &quot;<strong>:&gt;right</strong>&quot;) - implementation is similar to addition; however, the key difference is that if the top stack frame tag is equal to the &quot;:&gt;right&quot;, the abstract machine will take its data without adding anything and delete the previous stack frame. These operations evaluate two expressions but return the value of the second.</li>
+<li><p>Set (&quot;<strong>:=</strong>&quot;) - very similar to the &quot;Get&quot; command (described below); the key difference is that it alters the value of the stack frame which has a tag &quot;WithRefRight&quot; with the given name of the reference. This command utilizes a linked list stack saving structure to restore the stack while saving any changes made. An exception could be thrown if the reference is undefined.</p></li>
 </ul></li>
-<li><p><strong>&quot;throw&quot;</strong> - defines that something went wrong so the abstract machine will look for a &quot;catcher&quot; frame in the previous stack frames; if it does not find it then it will output an exception.</p>
+<li><p><strong>&quot;throw&quot;</strong> - defines that something went wrong; so the abstract machine will look for a &quot;catcher&quot; frame in the previous stack frames, and if it does not find it then it will output an exception.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">prev</span><span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;throw&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="st">&quot;Unhandled exception!&quot;</span>
 <span class="op">}</span></code></pre></div>
-<p>However, if it does then it means exception was handled, therefore the abstract machine will reinitialize mode to continue executions by taking &quot;catcher&quot; values of &quot;stack&quot; and &quot;data&quot; (some expression).</p>
+<p>However, if it does, then this means that the exception was handled; therefore, the abstract machine will reinitialize the mode to continue executions by taking the &quot;catcher&quot; values of &quot;stack&quot; and &quot;data&quot; (some expression).</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">mode <span class="op">=</span> <span class="op">{</span>
     <span class="dt">stack</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">prev</span><span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="st">&quot;num&quot;</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="va">mode</span>.<span class="va">stack</span>.<span class="at">data</span>
 <span class="op">}</span></code></pre></div></li>
-<li><p><strong>&quot;get&quot;</strong> - goes through the stack while looking for a reference, output's either a value of the reference if it does find it, or tries to throw an exception if it does not. It, also, utilizes linked stack saving and restoring structure, in order to restore the stack if it does find a reference.</p></li>
+<li><p><strong>&quot;get&quot;</strong> - goes through the stack while looking for a reference, outputs either a value of the reference if it finds it, or tries to throw an exception if it does not. It also utilizes a linked stack saving and restoring structure in order to restore the stack if it does find a reference.</p></li>
 </ul>
-<p>After the abstract machine finishes running, the &quot;mode.tag&quot; is not equal to &quot;go&quot; and the stack is empty, it will output the final mode to the console by invoking a &quot;printer&quot; function for the user to clearly see the results. And finally, abstract machine outputs final value of the execution on the separate line for testing purposes, it is used by testing framework to check for expected and actual output of a test.</p>
+<p>After the abstract machine finishes running, the &quot;mode.tag&quot; is not equal to &quot;go&quot; and the stack is empty, it will output the final mode to the console by invoking a &quot;printer&quot; function for the user to clearly see the results. Finally, the abstract machine outputs the final value of the execution on the separate line for testing purposes, which is used by the testing framework to compare the expected and the actual output of a test.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="va">console</span>.<span class="at">log</span>(<span class="va">mode</span>.<span class="at">data</span>)<span class="op">;</span></code></pre></div>
 <h4 id="linked-stack-saving-and-restoring"><span class="header-section-number">4.2.3.2</span> Linked Stack Saving and Restoring</h4>
-<p>Abstract machine uses &quot;saver&quot; helper function in &quot;get&quot; and &quot;:=&quot; implementations. This function lets the machine to inspect the depths of the stack and to assign new values to existing frames of the stack by remembering changes made. To achieve this, abstract machine saves each frame of the stack by linking frames together, thus each newly saved frame has a link to previous saved frame. Below &quot;saveStack&quot; function is displayed, the &quot;m&quot; variable represents the current stack frame and &quot;prev&quot; field is a link to previous saved frame.</p>
+<p>The abstract machine uses the &quot;saver&quot; helper function in &quot;get&quot; and &quot;:=&quot; implementations. This function allows the machine to inspect the depths of the stack and to assign new values to the existing frames of the stack by remembering changes made. To achieve this, the abstract machine saves each frame of the stack by linking frames together; each newly saved frame thus has a link to the previous saved frame. Below, the &quot;saveStack&quot; function is displayed, where the &quot;m&quot; variable represents the current stack frame and &quot;prev&quot; field is a link to the previous saved frame.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript">save <span class="op">=</span> <span class="op">{</span>
     <span class="dt">prev</span><span class="op">:</span> save<span class="op">,</span>
     <span class="dt">tag</span><span class="op">:</span> <span class="va">m</span>.<span class="at">tag</span><span class="op">,</span>
     <span class="dt">data</span><span class="op">:</span> <span class="va">m</span>.<span class="at">data</span><span class="op">,</span>
     <span class="dt">name</span><span class="op">:</span> <span class="va">m</span>.<span class="at">name</span>
 <span class="op">}</span></code></pre></div>
-<p>The save is reverse linked list of stack frames, thus it is possible to restore the original stack including all the changes made by reverse engineering the stack. After stack is successfully restored, all of the save data must be destroyed and parameters reseted to keep future saves unaffected. Finally, current limitation is that only one instance of stack save can exist at a given time, however this is addressed in the final system.</p>
+<p>The save is a reverse linked list of stack frames; thus it is possible to restore the original stack including all the changes made by reverse-engineering the stack. After the stack is successfully restored, all of the save data must be destroyed and parameters reset to keep future saves unaffected. A current limitation is that only one instance of a stack save can exist at a given time; however, this is addressed in the final system.</p>
 <h4 id="final-remarks"><span class="header-section-number">4.2.3.3</span> Final Remarks</h4>
-<p>The abstract machine currently supports functionality for adding expressions, creating a reference, getting the value of a reference, setting new value of a given reference and throwing &amp; catching exceptions.</p>
+<p>The abstract machine currently supports functionality for adding expressions, creating a reference, obtaining the value of a reference, setting the new value of a given reference and throwing &amp; catching exceptions.</p>
 <p>Room for improvement:</p>
 <ul>
-<li>Efficiency and optimization, for example, by removing &quot;go&quot; tag and calling resumptions array directly;</li>
+<li>Efficiency and optimization. An example would be removing the &quot;go&quot; tag and calling resumptions array directly;</li>
 <li>Documentation;</li>
 <li>Functionality;</li>
 </ul>
 <p>All of these points are addressed in the final implementation.</p>
 <h2 id="conclusion-1"><span class="header-section-number">4.3</span> Conclusion</h2>
-<p>A preliminary experiment, implementing the essence of Frank-like execution for much simpler language, has been completed successfully. The key lessons were:</p>
+<p>A preliminary experiment, implementing the essence of Frank-like execution for a much simpler language, has been completed successfully. The key lessons were:</p>
 <ul>
 <li>Haskell syntax;</li>
 <li>Language creation and its syntax development;</li>
 <li>Compiler - parsing the input and generating valid JavaScript code;</li>
-<li>Machine - executing compiled expression array and managing its resources, such as mode, stack and saved stack.</li>
+<li>Machine - executing the compiled expression array and managing its resources, such as the mode, the stack and the saved stack.</li>
 </ul>
-<p>Key things to improve are optimization &amp; performance.</p>
-<p>The further plan was to roll out the lessons learned creating compiler and virtual machine for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
+<p>Key things to improve include optimization &amp; performance.</p>
+<p>The further plan was to roll out the lessons learned creating a compiler and a virtual machine for more of the &quot;Shonky&quot; intermediate language that is generated by Frank compiler. This will be covered in the next chapter.</p>
 <h1 id="detailed-design-and-implementation-of-the-final-system"><span class="header-section-number">5</span> Detailed Design and Implementation of the final system</h1>
 <p>Chapter focuses on implementation, design of the final compiler and abstract machine, as well as, any topics connected to them.</p>
 <h2 id="introduction-2"><span class="header-section-number">5.1</span> Introduction</h2>
@@ -666,7 +657,7 @@ foo[<span class="dv">1</span>] <span class="op">=</span> <span class="kw">functi
 <p>Final system is located in <em>final_implementation</em> folder. And all of the code for new compiler and abstract machine is located in &quot;Backend&quot; folder.</p>
 <p>Table's starting folder is <em>/final_implementation</em>.</p>
 <table>
-<caption>Project folder structure</caption>
+<caption>Folder structure</caption>
 <colgroup>
 <col width="27%" />
 <col width="18%" />
@@ -962,6 +953,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <p>Abstract machine takes contents of &quot;gen.js&quot; as an input, which contains two different arrays: &quot;operators&quot; and &quot;resumptions&quot;. The operators are equivalent to top level functions in Frank, the resumptions are computations waiting to be executed. In current machine's implementation starting operator is always the first function; main method, thus, must be at the top of Frank's file. Operators return modes which are computation which keep track of stack. Below the machine defines initial mode with initial empty stack, no arguments and no environment.</p>
 <div class="sourceCode"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> mode <span class="op">=</span> operators[<span class="dv">0</span>].<span class="at">implementation</span>(<span class="kw">null</span><span class="op">,</span> []<span class="op">,</span> [])<span class="op">;</span></code></pre></div>
 <p>The machine will keep executing in a while loop until stack becomes empty; before halting it will return the final mode and call printer helper function to display the output. In each while cycle the machine checks the current computation tag, it can either be a &quot;value&quot; or a &quot;command&quot; and depending on which one it is, the machine will act accordingly.</p>
+
 <h4 id="computation---value"><span class="header-section-number">5.4.2.1</span> Computation - &quot;value&quot;</h4>
 <p>If the &quot;mode.comp.tag&quot; is equal to &quot;value&quot; then the machine will look at the first frame of the stack to receive information on what to do next. There are four options depending on the frame tags, each of them will construct a new mode while altering the stack in the process (look at <em>JavaScript type definitions</em> section to see structure):</p>
 <ul>
@@ -1055,44 +1047,44 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <li><p>Implement string concatenation support.</p></li>
 </ul>
 <h1 id="verification-and-validation"><span class="header-section-number">6</span> Verification and Validation</h1>
-<p>This project's verification and validation were done strictly throughout testing. Development was done in two parts, development of experimental system (for learning purposes) and development of the final system. Initial testing started at early stages of the project, by testing experimental system's abstract machine behavior without the interaction of the compiler. At that point it was done manually, by the author typing in expressions and looking through the output, however as development went on it quickly became too inefficient. An experimental testing framework, thus, was developed (February 10th, 2017), which would go through pre-set test cases one by one without any human interaction while giving feedback for the user in the process. Author then adapted the system and applied lessons learned to create improved framework for the final system.</p>
-<p>During the implementation of both systems test cases were added regularly, after each newly developed component. Moreover, on the account of iterative and incremental development methodology (IDD) author was able to write targeted test cases for every component of the system. As a consequence, new bugs were identified and tracked faster, thus leading for faster software development. Test cases were initiated before every content push to git as well as during the development to check for any broken parts of the system.</p>
-<p>After the implementation has ended, test framework was initiated again to see if all tests still pass, as well as some manual testing was done by the author to verify the state of the system. Furthermore, test programs from &quot;Frankjnr&quot; implementation were lifted and used to verify the behavior of the final system by confirming that the output of the tests are the same in both systems. More on this in <strong>Chapter 7</strong>.</p>
-<p>Possible improvement would to be to use service similar to <em>Jenkins</em>, in order to automate tests by automatically launching them and giving back feedback after every push to git and once a day regularly.</p>
-<p>For full list of test case expressions and programs see <strong>Appendix 3</strong>.</p>
+<p>This project's verification and validation were done strictly throughout testing. Development was done in two parts, firstly developing the experimental system (for learning purposes) and then the final system. Initial testing began at the early stages of the project, by testing the experimental system’s abstract machine’s behavior without the interaction of the compiler. At that point, it was done manually, the author typing in expressions and assessing the output; however, as development went on, this quickly became inefficient. An experimental testing framework was thus developed (February 10th, 2017), which went through pre-set test cases one by one without any human interaction whilst providing feedback for the user during the process. The author then adapted the system and applied his acquired experience to create an improved framework for the final system.</p>
+<p>During the implementation of both systems, test cases were added regularly after each newly developed component. On the account of iterative and incremental development methodology (IDD), the author was able to write targeted test cases for each component of the system. Consequently, new bugs were identified and tracked faster, which allowed for more efficiency in software development. Test cases were initiated before every content push to git, as well as during the development, in order to check for any broken parts of the system.</p>
+<p>Following the implementation, test framework was initiated again in order to check whether all tests still passed; some manual testing was also performed to verify the state of the system. Furthermore, test programs from <em>Frankjnr</em> implementation were lifted and used to verify the behavior of the final system by confirming that the output of the tests were the same in both systems. See more on this in <strong>Chapter 7</strong>.</p>
+<p>A possible improvement would to be to use a service similar to <em>Jenkins</em> in order to automate the tests after every push to git and once a day, regularly.</p>
+<p>For a full list of test case expressions and programs, see <strong>Appendix 3</strong>.</p>
 <h2 id="experimental-testing-framework"><span class="header-section-number">6.1</span> Experimental testing framework</h2>
-<p>This section will describe the implementation of the experimental testing framework. It consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
+<p>This section will describe the implementation of the experimental testing framework. It consists of two files utilizing two different scripts: a Bash script and an Expect script. Its purpose is to automate the testing process. Each of these scripts will be reviewed below.</p>
 <h3 id="bash-script-1"><span class="header-section-number">6.1.1</span> Bash script</h3>
-<p>Bash script is the main script in the testing framework which stores test cases, then goes through them one by one. To launch the script user has to input <em>./tester.sh</em> in the terminal window. For full guide on installation and usage see <strong>Appendix 2</strong>.</p>
-<p>Test cases are arrays which store free values: expression to be tested, the name of the test and expected output. Below sample test case is displayed:</p>
+<p>Bash script is the main script in the testing framework which stores test cases; then assesses them one by one. To launch the script, the user has to input <em>./tester.sh</em> in the terminal window. For a full guide on installation and usage, see <strong>Appendix 2</strong>.</p>
+<p>Test cases are arrays which store free values: the expression to be tested, the name of the test and the expected output. A sample test case is displayed below:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
     [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
     [<span class="ex">name</span>]=<span class="st">&#39;test_num&#39;</span>
     [<span class="ex">expected</span>]=<span class="st">&#39;10&#39;</span>
 )</code></pre></div>
-<p>For each test case Bash script launches Expect script and passes test case parameters to it, in particular it passes the expression to be tested and the name of the test:</p>
+<p>For each test case, Bash script launches Expect script and passes on to it the test case parameters - the expression to be tested and the name of the test:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]</span></code></pre></div>
-<p>After, Expect script &quot;helper.sh&quot; finishes computing new program is generated, system must recompile abstract machine's code to use newly generated program. <em>Webpack</em> is used to compile JavaScript files to one and to manage their structure.</p>
+<p>After Expect script &quot;helper.sh&quot; finishes computing, a new program is generated. The system must then recompile the abstract machine's code to use the newly generated program. <em>Webpack</em> is used to compile JavaScript files into a single unit and to manage their structure.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules <span class="co">#recompile to output.js </span></code></pre></div>
-<p>After successful compilation of JavaScript Bash script has to retrieve the output of the program by getting the last line of the console output, it does this by utilizing <em>Node</em> library and some string manipulation.</p>
+<p>After a successful compilation of JavaScript, Bash script has to retrieve the output of the program by acquiring the last line of the console output; it does this by utilizing the Node library and some string manipulation.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
 <span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span></code></pre></div>
-<p>Finally, Bash script just compares the expected output with actual output and gives back the result for the user to see.</p>
+<p>Finally, Bash script simply compares the expected output with the actual output and displays the resulting conclusion for the user.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$output</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">${test[expected]}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span>
     <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${GREEN}</span><span class="st">Test passed</span><span class="va">${NC}</span><span class="st">&quot;</span>
 <span class="kw">else</span> 
     <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">${RED}</span><span class="st">Test failed</span><span class="va">${NC}</span><span class="st">&quot;</span>
 <span class="kw">fi</span></code></pre></div>
 <h3 id="expect-script"><span class="header-section-number">6.1.2</span> Expect script</h3>
-<p>Expect script is used because of its ability to send and receive commands to systems which have their own terminal, in this case <em>GHCI</em>. Developed script takes the name of the test and the expression to be tested. Since it is only possible to pass one array to Expect script, the script performs some array manipulation to retrieve the name and the expression which was passed by the Bash script.</p>
+<p>Expect script is used because of its ability to send and receive commands to systems which have their own terminal, which in this case is <em>GHCI</em>. The developed script takes the name of the test and the expression to be tested. Since it is only possible to pass one array to Expect script, the script performs some array manipulation to retrieve the name and the expression passed by the Bash script.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">set</span> <span class="fu">expr</span> [lrange <span class="va">$argv</span> 0 end-1]
 <span class="kw">set</span> <span class="ex">name</span> [lindex <span class="va">$argv</span> end 0]</code></pre></div>
-<p>After that it launches <em>GHCI</em> terminal.</p>
+<p>After that, it launches the <em>GHCI</em> terminal.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">spawn</span> ghci</code></pre></div>
-<p>Then scripts waits for &quot;&gt;&quot; character before sending the command to load the &quot;Compiler.hs&quot; file, which is experimental system's compiler.</p>
+<p>Then, the script waits for the character &quot;&gt;&quot; before sending the command to load the &quot;Compiler.hs&quot; file, the experimental system's compiler.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;&gt;&quot;</span>
 <span class="ex">send</span> <span class="st">&quot;:load Compiler.hs\r&quot;</span></code></pre></div>
-<p>Finally, Expect script sends the two following commands with some variables (taken form the array) to generate the output of the compiler and quits to resume the Bash script execution.</p>
+<p>Finally, the Expect script sends the two following commands along with some variables taken from the array to generate the output of the compiler, and quits to resume the Bash script execution.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;Main&gt;&quot;</span>
 <span class="ex">send</span> <span class="st">&quot;</span><span class="va">$b</span><span class="st">\r&quot;</span>
 
@@ -1102,22 +1094,22 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <ul>
 <li>Speed and efficiency;</li>
 <li>Move test cases into separate file to improve structure;</li>
-<li>More useful statistics at the end of test framework computation;</li>
+<li>More useful statistics at the end of the test framework computation;</li>
 </ul>
 <h2 id="final-testing-framework"><span class="header-section-number">6.2</span> Final testing framework</h2>
-<p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is designed to launch number of programs, located in <em>test_cases</em> folder, and give back feedback to the user on which test programs succeeded and which ones failed. This framework eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. It is, also, fully written in Bash script, unlike experimental testing framework. Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect script (previously located in &quot;helper.sh&quot; file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs. This, therefore, provides an ability to launch complete programs and check their outputs.</p>
-<p>For all test case programs see <strong>Appendix 3</strong>. For usage and installation instructions see <strong>Appendix 2</strong>.</p>
+<p>Contained in <em>final_implementation/Backend/tests</em> folder. The framework is designed to launch a number of programs located in test_cases folder, and to provide feedback to the user regarding the successes and failures of the test programmes. This framework eliminates manual testing; allows for a quicker bug identification, thus speeding up the development process and easing maintenance. It is also fully written in Bash script, unlike the experimental testing framework. Some parts of the test framework were lifted from an earlier experiment; however, the key difference is that it does not use the GHC compiler directly; so it eliminates the need for Expect script (previously located in &quot;helper.sh&quot; file), which improves the performance of the framework. Another change is that test cases no longer take in expressions; instead, they take in paths to actual programs. This provides the ability to launch complete programs and to check their outputs.</p>
+<p>For all test case programs, see <strong>Appendix 3</strong>. For usage and installation instructions, see <strong>Appendix 2</strong>.</p>
 <h3 id="implementation-2"><span class="header-section-number">6.2.1</span> Implementation</h3>
-<p>Similarly like in experimental system's testing framework, test cases are stored in an array. Each of the test cases are objects which store three values: path of the test program, name of the test and expected output. They are looped through one by one, displaying the name of the test to the user and recompiling the test with:</p>
+<p>Similarly to the experimental system's testing framework, test cases are stored in an array. Each of the test cases are objects which store three values: the path of the test program, the name of the test and the expected output. They are looped through one by one, displaying the name of the test to the user and recompiling the test with:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
-<p>It generates the &quot;gen.js&quot; in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be compiled again to include new &quot;gen.js&quot; file.</p>
+<p>It generates the &quot;gen.js&quot; in <em>Backend/machine/dist</em> folder. At this point, <em>Backend/machine/dist/output.js</em> needs to be compiled again to include the new &quot;gen.js&quot; file.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules</code></pre></div>
-<p>The script, then, just retrieves the output with <em>Node</em> and checks if it as expected or not while letting the user know if test failed or passed (same way as in experimental testing framework). Finally, some statistics are shown on how many tests in total have passed and failed with corresponding percentage values.</p>
+<p>The script then simply retrieves the output with <em>Node</em> and checks whether it matches the expectation, while letting the user know if the test passed or failed (same as in the experimental testing framework). Finally, some statistics are shown on how many tests have passed or failed in total, with the corresponding percentage values.</p>
 <h3 id="possible-improvements-2"><span class="header-section-number">6.2.2</span> Possible improvements</h3>
 <ul>
-<li>Providing more statistics when all tests are executed;</li>
-<li>Timestamp tests, letting the user know how much time it took to run individual tests and all of them together;</li>
-<li>Improve performance by not trying to launch programs which fail to compile by &quot;Frankjnr&quot; compiler.</li>
+<li>Providing more statistics when all of the tests are executed;</li>
+<li>Timestamp tests, letting the user know both the individual test times and also the total time for all tests;</li>
+<li>Improve performance by adjusting the testing framework so that it does not attempt to launch programs failed to compile by Frankjnr compiler in the first place.</li>
 </ul>
 <h1 id="results-and-evaluation"><span class="header-section-number">7</span> Results and Evaluation</h1>
 <h2 id="outcome"><span class="header-section-number">7.1</span> Outcome</h2>
@@ -1130,6 +1122,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <p>Lastly, the computation is interrupted on &quot;:=&quot; and &quot;Get&quot; commands and control is given to the handler, in order to search through the stack and retrieve or update the reference of &quot;x&quot;.</p>
 <h3 id="final-system"><span class="header-section-number">7.1.2</span> Final system</h3>
 <p>The style of the code and a few functions of the experimental system were adapted in creating the final system. The author was successful in implementing a new abstract machine and compiler for &quot;Shonky&quot; data structures, which were in turn integrated into the Frankjnr project. The final system supports variables, integer values, atoms, pairs, function application, local functions, commands, thunk patterns, top level functions, and also contains built-in semantics for addition and subtraction. All of these features together offer a nearly complete development package, allowing virtually any current Frank program to be compiled by the new compiler and successfully executed by the abstract machine in a browser.</p>
+
 <p>Here is a quick example of how the compiler and abstract machine would work together and how user may use it. The user is able to execute Frank programs in four steps. The first step is to write a program in Frank with file ending in &quot;.fk&quot;, such as:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">:</span> []<span class="dt">Int</span>
 main<span class="fu">!</span> <span class="fu">=</span> fib <span class="dv">5</span>
@@ -1219,6 +1212,7 @@ map f (cons x xs) <span class="fu">=</span> cons (f x) (map f xs)</code></pre></
 </tr>
 </tbody>
 </table>
+
 
 <p>The concerns and challenges included:</p>
 <ul>
@@ -1527,6 +1521,8 @@ User guide and report work</p>
 <p>March 24:<br />
 Report work</p>
 <p>March 25:<br />
+Report work</p>
+<p>March 26:<br />
 Report work</p>
 <h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
 <h2 id="requirements" class="unnumbered">Requirements</h2>
@@ -1925,7 +1921,6 @@ foo (cons <span class="st">&quot;ab&quot;</span> (cons <span class="st">&quot;cd
 foo (cons <span class="st">&quot;abcd&quot;</span> nil) <span class="fu">=</span> <span class="dv">1</span>
 foo _ <span class="fu">=</span> <span class="dv">2</span></code></pre></div>
 <h1 id="appendix-4-relevant-readme-files" class="unnumbered">Appendix 4: Relevant README files</h1>
-<h2 id="run-frank-in-browser" class="unnumbered">Run Frank in Browser</h2>
 <h2 id="frankjnr-1" class="unnumbered">Frankjnr</h2>
 <p>An implementation of the Frank programming language described in the paper ``Do be do be do'' by Sam Lindley, Conor McBride, and Craig McLaughlin, to appear at POPL 2017; preprint: https://arxiv.org/abs/1611.09259</p>
 <p>Installation procedure</p>

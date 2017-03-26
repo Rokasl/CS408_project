@@ -69,7 +69,7 @@ Table's starting folder is */final_implementation*.
 |                              |                   |                                                           |
 | */Backend/benchmark*         |                   | Benchmarking scripts                                      |
 
-Table: Project folder structure
+Table: Folder structure
 
 ## Compiler
 
@@ -134,7 +134,7 @@ shows a lifecycle of a single compilation. In the example, the code compiles the
 
 \begin{figure}[!htb]
   \includegraphics[width=.9\textwidth, center]{source/images/compile.png}
-  \caption{High level representation of compile fuctions}
+  \caption{A high level representation of the compile functions}
   \label{fig:compile}
 \end{figure}
 
@@ -400,10 +400,17 @@ Below the machine defines initial mode with initial empty stack, no arguments an
 var mode = operators[0].implementation(null, [], []);
 ```
 
+
 The machine will keep executing in a while loop until stack becomes empty; before halting
 it will return the final mode and call printer helper function to display the output. In each while cycle
 the machine checks the current computation tag, it can either be a "value" or a "command" and depending on 
 which one it is, the machine will act accordingly.
+
+\begin{figure}[!htb]
+  \includegraphics[width=\textwidth, center]{source/images/machine.png}
+  \caption{A high level representation of the virtual machine}
+  \label{fig:compile}
+\end{figure}
 
 #### Computation - "value" 
 

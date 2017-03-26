@@ -43,6 +43,11 @@ and subtraction. All of these features together offer a nearly complete developm
 allowing virtually any current Frank program to be compiled by the new compiler and successfully
 executed by the abstract machine in a browser. 
 
+\begin{figure}[!htb]
+  \includegraphics[width=\textwidth, center]{source/images/fullcycle.png}
+  \caption{A complete life cycle}
+  \label{fig:compile}
+\end{figure}
 
 Here is a quick example of how the compiler and abstract machine would work together and how user
 may use it. The user is able to execute Frank programs in four steps. The first step is to write
@@ -142,6 +147,7 @@ map f (cons x xs) = cons (f x) (map f xs)
 
 Table: Benchmark result table
 
+\newpage
 
 \begin{figure}[!htb]
   \includegraphics[width=1\textwidth, center]{source/images/benchmark.png}

@@ -1,8 +1,5 @@
 # Appendix 4: Relevant README files {.unnumbered}
 
-## Run Frank in Browser {.unnumbered}
-
-
 ## Frankjnr {.unnumbered}
 
 An implementation of the Frank programming language described in the
