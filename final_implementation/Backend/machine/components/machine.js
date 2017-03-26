@@ -200,7 +200,6 @@ var Machine = function Machine(resumptions, operators) {
                                 mode.stack.frame.waiting,
                                 mode.stack.frame.waitingHandles
                             );
-                            console.log(mode);
                             break;
                         }
                     }
