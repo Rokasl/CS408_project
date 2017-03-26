@@ -1,47 +1,59 @@
 # Appendix 2: Usage & installation instructions {.unnumbered}
 
-## Final system {.unnumbered}
+## Requirements {.unnumbered}
 
-
-### Requirements {.unnumbered}
+Execute *./make.sh* file to install all dependencies, or do it manually: 
 
 * Node (https://nodejs.org/en/)
+```bash
+sudo apt-get update
+sudo apt-get install nodejs
+```
 * npm (https://www.npmjs.com/)
+```bash
+sudo apt-get install npm
+```
 * webpack (https://webpack.github.io/)
+```bash
+sudo npm install webpack -g
+```
 * ghc (https://www.haskell.org/ghc/)
-* Frank 
-
-
-### Setup Frank {.unnumbered}
-
-After installing *Node, *npm*, *webpack* and *ghc* to used environment. User needs to navigate
-to *final_implementation* folder and install Frank by typing following commands:
-
+* Frank -
+  Navigate to *final_implementation* folder and install Frank by typing:
 ```bash
 stack setup
 stack install
 ```
-User might need to edit their machine's environment path, to include Frank. 
+  You might need to edit your machine's environment path, to include Frank. 
+* Expect script
+```bash 
+apt-get install expect
+```
+
+## Final System {.unnumbered}
 
 ### Compiling and executing programs {.unnumbered}
 
-User is able to compile any Frank program from *final_implementation* directory or sub
+Navigate to *final_implementation* and compile any frank program from current directory or sub
 directories with flag "output-js". Example:
 
 ```bash
 frank examples/foo.fk --output-js
 ```
+Your current directory must be **final_implementation**!
 
-This will generate "gen.js" in *final_implementation/Backend/machine/dist* directory. Now user has
-to recompile the machine's code. In the */final_implementation/Backend/machine* folder
-execute command:
+This will generate "gen.js" in *final_implementation/Backend/machine/dist* directory. Now you have
+to recompile the machine's code. You can do this by navigating to */final_implementation/Backend/machine*
+and executing a command:
 
 ```bash
 webpack
 ```
 
-"output.js" will be generated in the same folder as "gen.js" was, user can place it in their HTML file to 
-initiate execution and see results of the compiled program. 
+You can add flag "-w" to watch for changes.
+
+"output.js" will be generated in the same folder as "gen.js" was (*dist*). Place it in your HTML
+file to initiate execution and see results of the compiled program. 
 
 ### Tests {.unnumbered}
 
@@ -51,7 +63,7 @@ Script initiates test cases and outputs the result in the terminal window.
 
 Folder: *final_implementation/Backend/tests*.
 
-Run test cases: 
+To run tests execute command: 
 
 ```bash
 ./tester.sh
@@ -59,7 +71,7 @@ Run test cases:
 
 #### Troubleshooting {.unnumbered}
 
-If *tester.sh* have issues with permissions - possible solution: 
+If *tester.sh* have issues with permissions, do: 
 
 ```bash
 chmod +x tester.sh
@@ -68,31 +80,18 @@ chmod +x testcases.sh
 
 ### Benchmark {.unnumbered}
 
-In the *final_implementation/Backend/benchamrk* directory initiate any of the benchmarks by
+Navigate to *final_implementation/Backend/benchamrk* directory and initiate any of the benchmarks by
 executing the Bash script. Example:
 
 ```bash
 ./evalFrankjnr.sh
 ```
 
-## Experimental system {.unnumbered}
-
-
-### Requirements {.unnumbered}
-
-* Node (https://nodejs.org/en/)
-* npm (https://www.npmjs.com/)
-* webpack (https://webpack.github.io/)
-* ghc (https://www.haskell.org/ghc/)
-* Expect script - required for testing, install command:
-
-```bash 
-    apt-get install expect
-```
+## Experimental System {.unnumbered}
 
 ### Usage {.unnumbered}
 
-Initiates the compiler in the *simple_implementation* directory: 
+Initiate the compiler in the *simple_implementation* directory: 
 
 ```bash
 ghci Compiler.hs
@@ -106,11 +105,11 @@ let xpr = WithRef "x" (Val 2) (Val 5 :+: (Get "x"))
 jsWrite (jsSetup "example_program" (compile xpr))
 ```
 
-This will generate "generated.js" file in *simple_implementation/dist" directory. Now user has to 
-recompile the abstract machine for it to include newly generated file. The user can do this by executing
+This will generate "generated.js" file in *simple_implementation/dist" directory. Now you have to 
+recompile the abstract machine for it to include newly generated file. You can do that by executing
 *webpack* command in the *simple_implementation* folder. Finally, "output.js" will be generated in
-*simple_implementation/dist" directory, which user can include in your their project to see results 
-of the compilation.
+*simple_implementation/dist" directory, which you can include in your project in order to see the
+results of the compilation.
 
 
 ### Tests {.unnumbered}
@@ -130,3 +129,13 @@ chmod +x tester.sh
 chmod +x helper.sh
 ```
 
+## Report {.unnumbered}
+
+PDF and HTML versions of the report are located in the *report/output* folder.
+
+Recompile with:
+
+    npm run watch
+
+Follow usage & installation instructions described in the readme.md file,
+located in *report* folder.

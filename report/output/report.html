@@ -279,18 +279,17 @@
                 </ul></li>
                 <li><a href="#appendix-1-progress-log">Appendix 1: Progress log</a></li>
                 <li><a href="#appendix-2-usage-installation-instructions">Appendix 2: Usage &amp; installation instructions</a><ul>
-                <li><a href="#final-system-1">Final system</a><ul>
                 <li><a href="#requirements">Requirements</a></li>
-                <li><a href="#setup-frank">Setup Frank</a></li>
+                <li><a href="#final-system-1">Final System</a><ul>
                 <li><a href="#compiling-and-executing-programs">Compiling and executing programs</a></li>
                 <li><a href="#tests">Tests</a></li>
                 <li><a href="#benchmark-1">Benchmark</a></li>
                 </ul></li>
-                <li><a href="#experimental-system-2">Experimental system</a><ul>
-                <li><a href="#requirements-1">Requirements</a></li>
+                <li><a href="#experimental-system-2">Experimental System</a><ul>
                 <li><a href="#usage-1">Usage</a></li>
                 <li><a href="#tests-1">Tests</a></li>
                 </ul></li>
+                <li><a href="#report">Report</a></li>
                 </ul></li>
                 <li><a href="#appendix-3-test-cases">Appendix 3: Test cases</a><ul>
                 <li><a href="#experimental-system-3">Experimental system</a></li>
@@ -1530,56 +1529,54 @@ Report work</p>
 <p>March 25:<br />
 Report work</p>
 <h1 id="appendix-2-usage-installation-instructions" class="unnumbered">Appendix 2: Usage &amp; installation instructions</h1>
-<h2 id="final-system-1" class="unnumbered">Final system</h2>
-<h3 id="requirements" class="unnumbered">Requirements</h3>
+<h2 id="requirements" class="unnumbered">Requirements</h2>
+<p>Execute <em>./make.sh</em> file to install all dependencies, or do it manually:</p>
 <ul>
-<li>Node (https://nodejs.org/en/)</li>
-<li>npm (https://www.npmjs.com/)</li>
-<li>webpack (https://webpack.github.io/)</li>
+<li><p>Node (https://nodejs.org/en/)</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt-get update
+<span class="fu">sudo</span> apt-get install nodejs</code></pre></div></li>
+<li><p>npm (https://www.npmjs.com/)</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt-get install npm</code></pre></div></li>
+<li><p>webpack (https://webpack.github.io/)</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> npm install webpack -g</code></pre></div></li>
 <li>ghc (https://www.haskell.org/ghc/)</li>
-<li>Frank</li>
-</ul>
-<h3 id="setup-frank" class="unnumbered">Setup Frank</h3>
-<p>After installing <em>Node, </em>npm<em>, </em>webpack* and <em>ghc</em> to used environment. User needs to navigate to <em>final_implementation</em> folder and install Frank by typing following commands:</p>
+<li><p>Frank - Navigate to <em>final_implementation</em> folder and install Frank by typing:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">stack</span> setup
 <span class="ex">stack</span> install</code></pre></div>
-<p>User might need to edit their machine's environment path, to include Frank.</p>
+You might need to edit your machine's environment path, to include Frank.</li>
+<li><p>Expect script</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">apt-get</span> install expect</code></pre></div></li>
+</ul>
+<h2 id="final-system-1" class="unnumbered">Final System</h2>
 <h3 id="compiling-and-executing-programs" class="unnumbered">Compiling and executing programs</h3>
-<p>User is able to compile any Frank program from <em>final_implementation</em> directory or sub directories with flag &quot;output-js&quot;. Example:</p>
+<p>Navigate to <em>final_implementation</em> and compile any frank program from current directory or sub directories with flag &quot;output-js&quot;. Example:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> examples/foo.fk --output-js</code></pre></div>
-<p>This will generate &quot;gen.js&quot; in <em>final_implementation/Backend/machine/dist</em> directory. Now user has to recompile the machine's code. In the <em>/final_implementation/Backend/machine</em> folder execute command:</p>
+<p>Your current directory must be <strong>final_implementation</strong>!</p>
+<p>This will generate &quot;gen.js&quot; in <em>final_implementation/Backend/machine/dist</em> directory. Now you have to recompile the machine's code. You can do this by navigating to <em>/final_implementation/Backend/machine</em> and executing a command:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span></code></pre></div>
-<p>&quot;output.js&quot; will be generated in the same folder as &quot;gen.js&quot; was, user can place it in their HTML file to initiate execution and see results of the compiled program.</p>
+<p>You can add flag &quot;-w&quot; to watch for changes.</p>
+<p>&quot;output.js&quot; will be generated in the same folder as &quot;gen.js&quot; was (<em>dist</em>). Place it in your HTML file to initiate execution and see results of the compiled program.</p>
 <h3 id="tests" class="unnumbered">Tests</h3>
 <p>Script initiates test cases and outputs the result in the terminal window.</p>
 <h4 id="usage" class="unnumbered">Usage</h4>
 <p>Folder: <em>final_implementation/Backend/tests</em>.</p>
-<p>Run test cases:</p>
+<p>To run tests execute command:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
 <h4 id="troubleshooting" class="unnumbered">Troubleshooting</h4>
-<p>If <em>tester.sh</em> have issues with permissions - possible solution:</p>
+<p>If <em>tester.sh</em> have issues with permissions, do:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
 <span class="fu">chmod</span> +x testcases.sh</code></pre></div>
 <h3 id="benchmark-1" class="unnumbered">Benchmark</h3>
-<p>In the <em>final_implementation/Backend/benchamrk</em> directory initiate any of the benchmarks by executing the Bash script. Example:</p>
+<p>Navigate to <em>final_implementation/Backend/benchamrk</em> directory and initiate any of the benchmarks by executing the Bash script. Example:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./evalFrankjnr.sh</span></code></pre></div>
-<h2 id="experimental-system-2" class="unnumbered">Experimental system</h2>
-<h3 id="requirements-1" class="unnumbered">Requirements</h3>
-<ul>
-<li>Node (https://nodejs.org/en/)</li>
-<li>npm (https://www.npmjs.com/)</li>
-<li>webpack (https://webpack.github.io/)</li>
-<li>ghc (https://www.haskell.org/ghc/)</li>
-<li>Expect script - required for testing, install command:</li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">apt-get</span> install expect</code></pre></div>
+<h2 id="experimental-system-2" class="unnumbered">Experimental System</h2>
 <h3 id="usage-1" class="unnumbered">Usage</h3>
-<p>Initiates the compiler in the <em>simple_implementation</em> directory:</p>
+<p>Initiate the compiler in the <em>simple_implementation</em> directory:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">ghci</span> Compiler.hs</code></pre></div>
 <p>Define and compile valid expression, providing the name of the expression to &quot;jsSetup&quot; function in the process. Example:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> xpr <span class="fu">=</span> <span class="dt">WithRef</span> <span class="st">&quot;x&quot;</span> (<span class="dt">Val</span> <span class="dv">2</span>) (<span class="dt">Val</span> <span class="dv">5</span> <span class="fu">:+:</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span>))
 jsWrite (jsSetup <span class="st">&quot;example_program&quot;</span> (compile xpr))</code></pre></div>
-<p>This will generate &quot;generated.js&quot; file in <em>simple_implementation/dist&quot; directory. Now user has to recompile the abstract machine for it to include newly generated file. The user can do this by executing </em>webpack* command in the <em>simple_implementation</em> folder. Finally, &quot;output.js&quot; will be generated in *simple_implementation/dist&quot; directory, which user can include in your their project to see results of the compilation.</p>
+<p>This will generate &quot;generated.js&quot; file in <em>simple_implementation/dist&quot; directory. Now you have to recompile the abstract machine for it to include newly generated file. You can do that by executing </em>webpack* command in the <em>simple_implementation</em> folder. Finally, &quot;output.js&quot; will be generated in *simple_implementation/dist&quot; directory, which you can include in your project in order to see the results of the compilation.</p>
 <h3 id="tests-1" class="unnumbered">Tests</h3>
 <p>In the <em>simple_implementation/tests</em> directory execute:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
@@ -1587,6 +1584,11 @@ jsWrite (jsSetup <span class="st">&quot;example_program&quot;</span> (compile xp
 <p>If files have issues with permissions:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
 <span class="fu">chmod</span> +x helper.sh</code></pre></div>
+<h2 id="report" class="unnumbered">Report</h2>
+<p>PDF and HTML versions of the report are located in the <em>report/output</em> folder.</p>
+<p>Recompile with:</p>
+<pre><code>npm run watch</code></pre>
+<p>Follow usage &amp; installation instructions described in the readme.md file, located in <em>report</em> folder.</p>
 <h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
 <h2 id="experimental-system-3" class="unnumbered">Experimental system</h2>
 <p>This is a full list of experimental system's test cases. &quot;expr&quot; - is expression to be tested, &quot;name&quot; - the name of the test and &quot;expected&quot; is expected output.</p>
