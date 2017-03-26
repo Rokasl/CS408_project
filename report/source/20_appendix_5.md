@@ -26,19 +26,19 @@ Haskell - main functional programming language to be used;
 
 JavaScript - main client-side language to be used;
 
-Frank - built on Haskell, targeted language by the compiler; 
+Frank - built on Haskell, targeted language by the compiler;\
 https://github.com/cmcl/frankjnr
 
-Stack - Dependency manager and build tool for Frank;
+Stack - Dependency manager and build tool for Frank;\
 https://github.com/commercialhaskell/stack
 
-Vole - Compiles functional language to JavaScript
+Vole - Compiles functional language to JavaScript;\
 https://github.com/pigworker/Vole
 
-Shonky - Current Frankjnr compiler 
+Shonky - Current Frankjnr compiler;\
 https://github.com/pigworker/shonky
 
-GHC - Haskell compiler
+GHC - Haskell compiler;\
 https://github.com/ghc/ghc
 
 

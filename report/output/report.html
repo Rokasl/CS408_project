@@ -1056,15 +1056,15 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <li><p>Implement string concatenation support.</p></li>
 </ul>
 <h1 id="verification-and-validation"><span class="header-section-number">6</span> Verification and Validation</h1>
-<p>This project's verification and validation were done strictly throughout testing. Development was done in two parts, development of experimental system (for learning purposes) and development of final system. Initial testing started at very early stage of the project, by testing experimental system's abstract machine behavior without the interaction of the compiler. At that point it was done manually, by the author typing in expressions and looking through the output, however as development went on it quickly became too inefficient. Thus a experimental testing framework was developed (February 10th, 2017), which would go through pre-set test cases one by one without any human interaction; giving feedback for the user in the process. Author then adapted the system and applied lessons learned to create similar but improved framework for the final system.</p>
-<p>During the implementation of both systems test cases were added regularly, after each newly developed component. Moreover, on account of iterative and incremental development methodology (IDD) author was able to write targeted test cases for every component of the system. Because of this, new bugs were identified and tracked faster, thus leading for faster software development. Test cases were initiated before every content push to git and during development to check for any broken parts of the system.</p>
-<p>After the implementation has ended, test framework was initiated one last time to see if all tests still pass, as well as some manual testing was done by the author to verify the state of the system. Furthermore, test programs from &quot;Frankjnr&quot; implementation were lifted and used to verify the behavior of the final system by confirming that the output of the tests are the same in both systems. More on this in <strong>Chapter 7</strong>.</p>
-<p>Possible improvement would to be to use service similar to <em>Jenkins</em>, in order to automate tests even more by automatically launching them and giving back feedback. But only on certain conditions, for example, after every push to git or once a day regularly.</p>
+<p>This project's verification and validation were done strictly throughout testing. Development was done in two parts, development of experimental system (for learning purposes) and development of the final system. Initial testing started at early stages of the project, by testing experimental system's abstract machine behavior without the interaction of the compiler. At that point it was done manually, by the author typing in expressions and looking through the output, however as development went on it quickly became too inefficient. An experimental testing framework, thus, was developed (February 10th, 2017), which would go through pre-set test cases one by one without any human interaction while giving feedback for the user in the process. Author then adapted the system and applied lessons learned to create improved framework for the final system.</p>
+<p>During the implementation of both systems test cases were added regularly, after each newly developed component. Moreover, on the account of iterative and incremental development methodology (IDD) author was able to write targeted test cases for every component of the system. As a consequence, new bugs were identified and tracked faster, thus leading for faster software development. Test cases were initiated before every content push to git as well as during the development to check for any broken parts of the system.</p>
+<p>After the implementation has ended, test framework was initiated again to see if all tests still pass, as well as some manual testing was done by the author to verify the state of the system. Furthermore, test programs from &quot;Frankjnr&quot; implementation were lifted and used to verify the behavior of the final system by confirming that the output of the tests are the same in both systems. More on this in <strong>Chapter 7</strong>.</p>
+<p>Possible improvement would to be to use service similar to <em>Jenkins</em>, in order to automate tests by automatically launching them and giving back feedback after every push to git and once a day regularly.</p>
 <p>For full list of test case expressions and programs see <strong>Appendix 3</strong>.</p>
 <h2 id="experimental-testing-framework"><span class="header-section-number">6.1</span> Experimental testing framework</h2>
 <p>This section will describe the implementation of the experimental testing framework. It consists of two files utilizing two different scripts: Bash script and Expect script. Its purpose is to automate the testing process. Below each of these scripts will be reviewed.</p>
 <h3 id="bash-script-1"><span class="header-section-number">6.1.1</span> Bash script</h3>
-<p>Bash script is the main script in the testing framework which stores all test cases, then goes through them one by one. To launch it simply type <em>./tester.sh</em> in the terminal window. For full guide on installation and usage see <strong>Appendix 2</strong>.</p>
+<p>Bash script is the main script in the testing framework which stores test cases, then goes through them one by one. To launch the script user has to input <em>./tester.sh</em> in the terminal window. For full guide on installation and usage see <strong>Appendix 2</strong>.</p>
 <p>Test cases are arrays which store free values: expression to be tested, the name of the test and expected output. Below sample test case is displayed:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">declare</span> -A <span class="va">test0=(</span>
     [<span class="ex">expr</span>]=<span class="st">&#39;let xpr = Val 10&#39;</span>
@@ -1075,7 +1075,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tests/helper.sh</span> <span class="va">${test[expr]}</span> <span class="va">${test[name]</span></code></pre></div>
 <p>After, Expect script &quot;helper.sh&quot; finishes computing new program is generated, system must recompile abstract machine's code to use newly generated program. <em>Webpack</em> is used to compile JavaScript files to one and to manage their structure.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules <span class="co">#recompile to output.js </span></code></pre></div>
-<p>After successful recompilation of JavaScript Bash script has to retrieve the output of the program by getting the last line of the console output, it does this by utilizing Node functionality and some string manipulation.</p>
+<p>After successful compilation of JavaScript Bash script has to retrieve the output of the program by getting the last line of the console output, it does this by utilizing <em>Node</em> library and some string manipulation.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">output=$(</span><span class="ex">node</span> ./dist/output.js<span class="va">)</span>; <span class="co">#get output</span>
 <span class="va">output=</span><span class="st">&quot;</span><span class="va">${output##</span>*<span class="st">$&#39;</span><span class="dt">\n</span><span class="st">&#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="co">#take only last line</span></code></pre></div>
 <p>Finally, Bash script just compares the expected output with actual output and gives back the result for the user to see.</p>
@@ -1090,7 +1090,7 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <span class="kw">set</span> <span class="ex">name</span> [lindex <span class="va">$argv</span> end 0]</code></pre></div>
 <p>After that it launches <em>GHCI</em> terminal.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">spawn</span> ghci</code></pre></div>
-<p>And waits for &quot;&gt;&quot; character before sending the command to load the &quot;Compiler.hs&quot; file, which is experimental system's compiler.</p>
+<p>Then scripts waits for &quot;&gt;&quot; character before sending the command to load the &quot;Compiler.hs&quot; file, which is experimental system's compiler.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">expect</span> <span class="st">&quot;&gt;&quot;</span>
 <span class="ex">send</span> <span class="st">&quot;:load Compiler.hs\r&quot;</span></code></pre></div>
 <p>Finally, Expect script sends the two following commands with some variables (taken form the array) to generate the output of the compiler and quits to resume the Bash script execution.</p>
@@ -1106,15 +1106,14 @@ jstype JSMode <span class="op">=</span> <span class="op">{</span><span class="dt
 <li>More useful statistics at the end of test framework computation;</li>
 </ul>
 <h2 id="final-testing-framework"><span class="header-section-number">6.2</span> Final testing framework</h2>
-<p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is designed to launch number of programs, located in <em>test_cases</em> folder, and give back feedback to the user, which test programs succeeded and which ones failed. This framework eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. And it is fully written in Bash Script.</p>
-<p>Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect script (previously located in &quot;helper.sh&quot; file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore providing ability to launch them and check their outputs.</p>
+<p>Contained in <em>final_implementation/Backend/tests</em> folder. Framework is designed to launch number of programs, located in <em>test_cases</em> folder, and give back feedback to the user on which test programs succeeded and which ones failed. This framework eliminates manual testing, lets identify bugs faster, thus speeding up development process and easing maintenance. It is, also, fully written in Bash script, unlike experimental testing framework. Some parts of the test framework were lifted from earlier experiment, however the key differences are that it is not using GHC compiler directly; so it eliminates the need for Expect script (previously located in &quot;helper.sh&quot; file),thus improving performance of the framework. Another change is that test cases don't take in expressions anymore, instead they take in paths to actual programs. This, therefore, provides an ability to launch complete programs and check their outputs.</p>
 <p>For all test case programs see <strong>Appendix 3</strong>. For usage and installation instructions see <strong>Appendix 2</strong>.</p>
 <h3 id="implementation-2"><span class="header-section-number">6.2.1</span> Implementation</h3>
-<p>Similarly like in experimental system's testing framework, test cases are stored in array. Each of them are objects which store three values: path of the test program, name of the test and expected output. They are looped through one by one, displaying the name of the test to the user and recompiling the test with:</p>
+<p>Similarly like in experimental system's testing framework, test cases are stored in an array. Each of the test cases are objects which store three values: path of the test program, name of the test and expected output. They are looped through one by one, displaying the name of the test to the user and recompiling the test with:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> <span class="va">${test[path]}</span> --output-js</code></pre></div>
-<p>It generates the &quot;gen.js&quot; in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be recompiled to include new &quot;gen.js&quot; file.</p>
+<p>It generates the &quot;gen.js&quot; in <em>Backend/machine/dist</em> folder. At this point <em>Backend/machine/dist/output.js</em> needs to be compiled again to include new &quot;gen.js&quot; file.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span> --hide-modules</code></pre></div>
-<p>Then it just retrieves the output with <em>Node</em> and checks if it as expected or not; letting the user know if test failed or passed (same way as in experimental testing framework). Finally, some statistics are shown on how many tests in total have passed and failed with corresponding percentages.</p>
+<p>The script, then, just retrieves the output with <em>Node</em> and checks if it as expected or not while letting the user know if test failed or passed (same way as in experimental testing framework). Finally, some statistics are shown on how many tests in total have passed and failed with corresponding percentage values.</p>
 <h3 id="possible-improvements-2"><span class="header-section-number">6.2.2</span> Possible improvements</h3>
 <ul>
 <li>Providing more statistics when all tests are executed;</li>
@@ -1541,28 +1540,28 @@ Report work</p>
 <li>Frank</li>
 </ul>
 <h3 id="setup-frank" class="unnumbered">Setup Frank</h3>
-<p>After installing <em>Node, </em>npm<em>, </em>webpack* and <em>ghc</em> to your environment. Navigate to <em>final_implementation</em> folder and install Frank by typing:</p>
+<p>After installing <em>Node, </em>npm<em>, </em>webpack* and <em>ghc</em> to used environment. User needs to navigate to <em>final_implementation</em> folder and install Frank by typing following commands:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">stack</span> setup
 <span class="ex">stack</span> install</code></pre></div>
-<p>You might need to edit your machine's environment path, to include Frank.</p>
+<p>User might need to edit their machine's environment path, to include Frank.</p>
 <h3 id="compiling-and-executing-programs" class="unnumbered">Compiling and executing programs</h3>
-<p>Navigate to <em>final_implementation</em> and compile any frank program from current directory or sub directories with flag &quot;output-js&quot;. Example:</p>
+<p>User is able to compile any Frank program from <em>final_implementation</em> directory or sub directories with flag &quot;output-js&quot;. Example:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">frank</span> examples/foo.fk --output-js</code></pre></div>
-<p>This will generate &quot;gen.js&quot; in <em>final_implementation/Backend/machine/dist</em> directory. Now you have to recompile the machine's code. You can do this by navigating to <em>/final_implementation/Backend/machine</em> and executing command:</p>
+<p>This will generate &quot;gen.js&quot; in <em>final_implementation/Backend/machine/dist</em> directory. Now user has to recompile the machine's code. In the <em>/final_implementation/Backend/machine</em> folder execute command:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">webpack</span></code></pre></div>
-<p>&quot;output.js&quot; will be generated in the same folder as &quot;gen.js&quot; was, you can place it in HTML file to initiate execution and see results of the compiled program.</p>
+<p>&quot;output.js&quot; will be generated in the same folder as &quot;gen.js&quot; was, user can place it in their HTML file to initiate execution and see results of the compiled program.</p>
 <h3 id="tests" class="unnumbered">Tests</h3>
 <p>Script initiates test cases and outputs the result in the terminal window.</p>
 <h4 id="usage" class="unnumbered">Usage</h4>
 <p>Folder: <em>final_implementation/Backend/tests</em>.</p>
-<p>To run tests execute command:</p>
+<p>Run test cases:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
 <h4 id="troubleshooting" class="unnumbered">Troubleshooting</h4>
-<p>If <em>tester.sh</em> have issues with permissions, do:</p>
+<p>If <em>tester.sh</em> have issues with permissions - possible solution:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
 <span class="fu">chmod</span> +x testcases.sh</code></pre></div>
 <h3 id="benchmark-1" class="unnumbered">Benchmark</h3>
-<p>Navigate to <em>final_implementation/Backend/benchamrk</em> directory and initiate any of the tests by executing the Bash script. Example:</p>
+<p>In the <em>final_implementation/Backend/benchamrk</em> directory initiate any of the benchmarks by executing the Bash script. Example:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./evalFrankjnr.sh</span></code></pre></div>
 <h2 id="experimental-system-2" class="unnumbered">Experimental system</h2>
 <h3 id="requirements-1" class="unnumbered">Requirements</h3>
@@ -1571,21 +1570,21 @@ Report work</p>
 <li>npm (https://www.npmjs.com/)</li>
 <li>webpack (https://webpack.github.io/)</li>
 <li>ghc (https://www.haskell.org/ghc/)</li>
-<li>Expect script - required for testing, install by typing this command:</li>
+<li>Expect script - required for testing, install command:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">apt-get</span> install expect</code></pre></div>
 <h3 id="usage-1" class="unnumbered">Usage</h3>
-<p>Initiate the compiler in the <em>simple_implementation</em> directory:</p>
+<p>Initiates the compiler in the <em>simple_implementation</em> directory:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">ghci</span> Compiler.hs</code></pre></div>
 <p>Define and compile valid expression, providing the name of the expression to &quot;jsSetup&quot; function in the process. Example:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> xpr <span class="fu">=</span> <span class="dt">WithRef</span> <span class="st">&quot;x&quot;</span> (<span class="dt">Val</span> <span class="dv">2</span>) (<span class="dt">Val</span> <span class="dv">5</span> <span class="fu">:+:</span> (<span class="dt">Get</span> <span class="st">&quot;x&quot;</span>))
 jsWrite (jsSetup <span class="st">&quot;example_program&quot;</span> (compile xpr))</code></pre></div>
-<p>This will generate &quot;generated.js&quot; file in <em>simple_implementation/dist&quot; directory. Now you need to recompile the abstract machine for it to include newly generated file. You can do this by executing </em>webpack* command in the <em>simple_implementation</em> folder. Finally, &quot;output.js&quot; will be generated in *simple_implementation/dist&quot; directory, which you can include in your web project to see results of you compilation.</p>
+<p>This will generate &quot;generated.js&quot; file in <em>simple_implementation/dist&quot; directory. Now user has to recompile the abstract machine for it to include newly generated file. The user can do this by executing </em>webpack* command in the <em>simple_implementation</em> folder. Finally, &quot;output.js&quot; will be generated in *simple_implementation/dist&quot; directory, which user can include in your their project to see results of the compilation.</p>
 <h3 id="tests-1" class="unnumbered">Tests</h3>
-<p>Navigate to <em>simple_implementation/tests</em> and type:</p>
+<p>In the <em>simple_implementation/tests</em> directory execute:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">./tester.sh</span></code></pre></div>
 <h4 id="troubleshooting-1" class="unnumbered">Troubleshooting</h4>
-<p>If files have issues with permissions, type:</p>
+<p>If files have issues with permissions:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">chmod</span> +x tester.sh
 <span class="fu">chmod</span> +x helper.sh</code></pre></div>
 <h1 id="appendix-3-test-cases" class="unnumbered">Appendix 3: Test cases</h1>
@@ -2045,11 +2044,16 @@ sudo tlmgr update l3experimental</code></pre></li>
 <h2 id="technologies" class="unnumbered">Technologies</h2>
 <p>Haskell - main functional programming language to be used;</p>
 <p>JavaScript - main client-side language to be used;</p>
-<p>Frank - built on Haskell, targeted language by the compiler; https://github.com/cmcl/frankjnr</p>
-<p>Stack - Dependency manager and build tool for Frank; https://github.com/commercialhaskell/stack</p>
-<p>Vole - Compiles functional language to JavaScript https://github.com/pigworker/Vole</p>
-<p>Shonky - Current Frankjnr compiler https://github.com/pigworker/shonky</p>
-<p>GHC - Haskell compiler https://github.com/ghc/ghc</p>
+<p>Frank - built on Haskell, targeted language by the compiler;<br />
+https://github.com/cmcl/frankjnr</p>
+<p>Stack - Dependency manager and build tool for Frank;<br />
+https://github.com/commercialhaskell/stack</p>
+<p>Vole - Compiles functional language to JavaScript;<br />
+https://github.com/pigworker/Vole</p>
+<p>Shonky - Current Frankjnr compiler;<br />
+https://github.com/pigworker/shonky</p>
+<p>GHC - Haskell compiler;<br />
+https://github.com/ghc/ghc</p>
 <h2 id="software-development-process" class="unnumbered">Software development process</h2>
 <ul>
 <li>Gathering requirements and working on project specification (week 1);</li>

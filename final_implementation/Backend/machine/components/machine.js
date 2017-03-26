@@ -110,7 +110,6 @@ var Machine = function Machine(resumptions, operators) {
                     }
                     cbk = cbk.callback;
                 }
-
                 return {
                     stack: stack,
                     comp: args[0]
@@ -128,7 +127,6 @@ var Machine = function Machine(resumptions, operators) {
     console.log(mode);
 
     while (mode.stack != null) {
-
         switch (mode.comp.tag) {
             case "value":
                 switch (mode.stack.frame.tag) {
@@ -202,6 +200,7 @@ var Machine = function Machine(resumptions, operators) {
                                 mode.stack.frame.waiting,
                                 mode.stack.frame.waitingHandles
                             );
+                            console.log(mode);
                             break;
                         }
                     }

@@ -2,29 +2,30 @@
 
 This project's verification and validation were done strictly throughout testing. Development was
 done in two parts, development of experimental system (for learning purposes) and development of
-final system. Initial testing started at very early stage of the project, by testing experimental 
+the final system. Initial testing started at early stages of the project, by testing experimental 
 system's abstract machine behavior without the interaction of the compiler.
 At that point it was done manually, by the author typing in expressions and looking through the output,
-however as development went on it quickly became too inefficient. Thus a experimental testing framework
+however as development went on it quickly became too inefficient. An experimental testing framework, thus,
 was developed (February 10th, 2017), which would go through pre-set test cases one by one without any
-human interaction; giving feedback for the user in the process. Author then adapted the system
-and applied lessons learned to create similar but improved framework for the final system. 
+human interaction while giving feedback for the user in the process. Author then adapted the system
+and applied lessons learned to create improved framework for the final system. 
 
 During the implementation of both systems test cases were added regularly, after each newly developed
-component. Moreover, on account of iterative and incremental development methodology (IDD) author was
-able to write targeted test cases for every component of the system. Because of this, new bugs were
+component. Moreover, on the account of iterative and incremental development methodology (IDD) author was
+able to write targeted test cases for every component of the system. As a consequence, new bugs were
 identified and tracked faster, thus leading for faster software development. Test cases were initiated
-before every content push to git and during development to check for any broken parts of the system.
+before every content push to git as well as during the development to check for any broken parts of
+the system.
 
-After the implementation has ended, test framework was initiated one last time to see if all tests
+After the implementation has ended, test framework was initiated again to see if all tests
 still pass, as well as some manual testing was done by the author to verify the state of the 
 system. Furthermore, test programs from "Frankjnr" implementation were lifted and used to verify the
 behavior of the final system by confirming that the output of the tests are the same in both systems.
 More on this in **Chapter 7**.   
 
 Possible improvement would to be to use service similar to *Jenkins*, in order to automate tests
-even more by automatically launching them and giving back feedback. But only on certain conditions,
-for example, after every push to git or once a day regularly. 
+by automatically launching them and giving back feedback after every push to git and once
+a day regularly. 
 
 For full list of test case expressions and programs see **Appendix 3**.
 
@@ -37,9 +38,9 @@ Its purpose is to automate the testing process. Below each of these scripts will
 
 ### Bash script
 
-Bash script is the main script in the testing framework which stores all test cases,
-then goes through them one by one. To launch it simply type *./tester.sh* in the terminal 
-window. For full guide on installation and usage see **Appendix 2**. 
+Bash script is the main script in the testing framework which stores test cases,
+then goes through them one by one. To launch the script user has to input *./tester.sh* in the
+terminal window. For full guide on installation and usage see **Appendix 2**. 
 
 Test cases are arrays which store free values: expression to be tested, the name of the
 test and expected output. Below sample test case is displayed:
@@ -67,8 +68,8 @@ to one and to manage their structure.
 webpack --hide-modules #recompile to output.js 
 ```
 
-After successful recompilation of JavaScript Bash script has to retrieve the output of the program by
-getting the last line of the console output, it does this by utilizing Node functionality
+After successful compilation of JavaScript Bash script has to retrieve the output of the program by
+getting the last line of the console output, it does this by utilizing *Node* library
 and some string manipulation.
 
 ```bash
@@ -105,7 +106,7 @@ After that it launches *GHCI* terminal.
 spawn ghci
 ```
 
-And waits for ">" character before sending the command to load the "Compiler.hs" file, which is
+Then scripts waits for ">" character before sending the command to load the "Compiler.hs" file, which is
 experimental system's compiler. 
 
 ```bash
@@ -134,24 +135,24 @@ send "jsWrite (jsSetup \"$name\" (compile xpr))\r"
 ## Final testing framework
 
 Contained in *final_implementation/Backend/tests* folder. Framework is designed to launch number of 
-programs, located in *test_cases* folder, and give back feedback to the user, which test programs
+programs, located in *test_cases* folder, and give back feedback to the user on which test programs
 succeeded and which ones failed. This framework eliminates manual testing, lets identify bugs faster,
 thus 
-speeding up development process and easing maintenance. And it is fully written in Bash Script.
-
+speeding up development process and easing maintenance. It is, also, fully written in Bash script, 
+unlike experimental testing framework.
 Some parts of the test framework were lifted from earlier experiment, however the key differences are 
 that it is not using GHC compiler directly; so it eliminates the need for Expect script (previously
 located in "helper.sh" file),thus improving performance of the framework. Another change is that
-test cases don't take in expressions anymore, instead they take in paths to actual programs, therefore
-providing ability to launch them and check their outputs.
+test cases don't take in expressions anymore, instead they take in paths to actual programs. This,
+therefore, provides an ability to launch complete programs and check their outputs.
 
 For all test case programs see **Appendix 3**. For usage and installation instructions
 see **Appendix 2**.
 
 ### Implementation
 
-Similarly like in experimental system's testing framework, test cases are stored in array.
-Each of them are
+Similarly like in experimental system's testing framework, test cases are stored in an array.
+Each of the test cases are
 objects which store three values: path of the test program, name of the test and expected output.
 They are looped through one by one, displaying the name of the test to the user and recompiling the
 test with:
@@ -161,15 +162,15 @@ frank ${test[path]} --output-js
 ```
 
 It generates the "gen.js" in *Backend/machine/dist* folder. At this point *Backend/machine/dist/output.js*
-needs to be recompiled to include new "gen.js" file. 
+needs to be compiled again to include new "gen.js" file. 
 
 ```bash
 webpack --hide-modules
 ```
 
-Then it just retrieves the output with *Node* and checks if it as expected or not; letting the user 
+The script, then, just retrieves the output with *Node* and checks if it as expected or not while letting the user 
 know if test failed or passed (same way as in experimental testing framework). Finally,
-some statistics are shown on how many tests in total have passed and failed with corresponding percentages.
+some statistics are shown on how many tests in total have passed and failed with corresponding percentage values.
 
 
 
