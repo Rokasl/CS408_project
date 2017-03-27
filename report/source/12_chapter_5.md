@@ -1,17 +1,17 @@
 # Detailed Design and Implementation of the final system
 
-Chapter focuses on implementation, design of the final compiler and abstract machine, as well as,
+The chapter focuses on implementation, design of the final compiler and the abstract machine, as well as,
 any topics connected to them. 
 
 ## Introduction
 
 The development of the final system started on week six of the second semester, after the
-end of experimental system's development. Some parts of the code were lifted from the earlier experiment
+end of the experimental system's development. Some parts of the code were lifted from the earlier experiment
 and main concepts of how virtual machines and compilers should work were reused.
 
 ### Disclaimer
 
-Final system uses two other systems in its code base, thus not all of the code is written by
+The final system uses two other systems in its code base, thus not all of the code is written by
 the author of this project. Author's code will be clearly indicated. Two projects connected to the 
 system are:
 
@@ -24,12 +24,12 @@ system are:
   data structures and parse functions. However, developed system does not use *semantics* module, since
   it is replacing it.
 
-More detailed descriptions the projects can be found at **Related work** section of the report or at
+More detailed descriptions of the projects can be found at **Related work** section of the report or at
 their respective git pages.
 
 ## Project's folder structure
 
-Final system is located in *final_implementation* folder. And all of the code for new 
+The final system is located in *final_implementation* folder. And all of the code for new 
 compiler and abstract machine is located in "Backend" folder.
 
 Table's starting folder is */final_implementation*.
@@ -81,7 +81,7 @@ named "foo.fk":
 frank foo.fk --output-js
 ```
 
-Developed compiler uses Shonky data structures, located in *Syntax.hs* file, because it
+The developed compiler uses Shonky data structures, located in *Syntax.hs* file. Compiler
 receives a list of program definitions from Frankjnr compiler in a form of Shonky
 syntax, in particular - "[Def Exp]".  "Def Exp" is a "DF" data structure shown 
 below. And it essentially means definition of function (operator).
@@ -245,7 +245,7 @@ operator[0] = {
 }
 ```
 
-Compilation begins with "operatorCompile", and it immediately, initiates "oneCompile" with prepared
+The compilation begins with "operatorCompile", and it immediately, initiates "oneCompile" with prepared
 function table and single "DF" expression. In the context of this example, *"main" [] [([],EI 1)]*
 will be passed to "oneCompile". As a result, "oneCompile" creates "operator[0]=" and initiates
 "makeCompile" function with counter equal to 0, in addition to previous parameters. 
@@ -263,7 +263,7 @@ there are no more "DF"'s in the list, thus "operatorCompile" is done.
 
 ### Helper functions
 
-This section will briefly explain functionality of few helper functions. 
+This section will briefly explain the functionality of few helper functions. 
 
 **parseShonky** - is used for testing purposes, it takes Shonky syntax files (ending with "uf"), reads it,
 parses it utilizing the parse function located in *Syntax.hs* and runs the compiler on the result. Thus,
@@ -304,7 +304,7 @@ jstype JSRun = (JSStack, JSEnv, JSVal[]) -> JSMode
 jstype JSMode = {stack: JSStack, comp: JSComp}     
 ```
 
-Stack could be empty or consist of a frame and a link to previous frame. The idea of these links 
+A stack could be empty or consist of a frame and a link to previous frame. The idea of these links 
 are applied from linked list data structure, where each element of the list has a link to the next 
 element. Linked lists are used regularly throughout the project.
 
@@ -339,7 +339,7 @@ jstype JSList x
   | {head : x, tail : JSList x}    
 ```
 
-Computation could either be a "value" or a "command", machine will know which one it is by checking 
+A computation could either be a "value" or a "command", machine will know which one it is by checking 
 its "tag" field and proceeding acordingly.
 
 ```javascript
@@ -387,7 +387,7 @@ jstype JSVal
 
 ### Implementation
 
-Abstract machine takes contents of "gen.js" as an input, which contains two different arrays: 
+The abstract machine takes contents of "gen.js" as an input, which contains two different arrays: 
 "operators" and "resumptions". The operators are equivalent to top level functions in Frank, the
 resumptions are computations
 waiting to be executed. In current machine's implementation starting operator is always the
