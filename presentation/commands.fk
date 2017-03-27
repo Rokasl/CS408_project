@@ -1,0 +1,17 @@
+main : {List Int}
+main! = state 0 [next!, next!, next!]
+
+interface State S = get : S
+                  | put : S -> Unit
+
+fst : X -> Y -> X
+fst x y = x
+
+next : [State Int]Int
+next! = fst get! (put (get! +1)) 
+
+state : S -> <State S>X -> X
+state _ x = x
+state s <get -> k> = state s (k s)
+state _ <put s -> k> = state s (k unit)
+

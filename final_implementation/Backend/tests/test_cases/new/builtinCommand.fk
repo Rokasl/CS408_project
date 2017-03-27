@@ -1,21 +1,12 @@
--- #desc Command test with integer values
--- #return pr 0   1
-
 main : {List Int}
-main! = initAlert alert!
+main! = initAbort alert!
 
 
-interface Alert = alerting : Int
+interface Abort = aborting : Zero
 
+abort : [Abort]X
+abort! = case aborting! {}
 
-alert : [Alert]X
-alert! = case alerting! {}
-
-
---- handler
-
-initAlert : <Alert>X -> List X
+initAlert : <Abort>X -> List X
 initAlert x               = [x]
-initAlert <alerting -> k> = []
-
--- []
+initAlert <aborting -> k> = []

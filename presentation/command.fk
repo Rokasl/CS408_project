@@ -1,0 +1,13 @@
+main : {List Int}
+main! = initAbort abort!
+
+data Zero =
+
+interface Abort = aborting : Zero
+
+abort : [Abort]X
+abort! = case aborting! {}
+
+initAbort : <Abort>X -> List X
+initAbort x               = [x]
+initAbort <aborting -> k> = []

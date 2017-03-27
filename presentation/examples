@@ -1,0 +1,5 @@
+let xpr = ((Val 5) :+: (Catch (Val 2 :+: (Val 4 :+: Throw)) (Val 2)))
+
+let xpr = WithRef "x" (Val 22) ("x" := (Get "x" :+: Val 11) :> (Get "x" :+: Val 30))
+
+jsWrite (jsSetup "test" (compile xpr))

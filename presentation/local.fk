@@ -1,0 +1,8 @@
+main : {List Int}
+main! = map {x->x+100} [1,2,3]
+
+map : {{X -> Y} -> List X -> List Y}
+map f []        = []
+map f (x :: xs) = f x :: map f xs
+
+
